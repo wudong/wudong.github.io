@@ -49,4 +49,4 @@ the website [Life UK Test](http://www.testlifeinuk.com) come to life.
 Wife is pretty much happy with it, I am pretty much happy with it, then I found
 I have hit a brick wall. Google does not want to rank me, despite all the fancy
 tricks I have put in and the fact that the website is built with AngularJs, a framework from Google!
-This simply means No One will ever to be able to dig it out and use it.
+This simply means **No One** will ever to be able to dig it out and use it.
