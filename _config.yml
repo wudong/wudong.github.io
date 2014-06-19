@@ -1,0 +1,14 @@
+name: YAPB
+description: Yet another pointless blog.
+
+meta_description: "A personal blog of Warren Liu"
+
+markdown: redcarpet
+pygments: true
+logo: false
+paginate: 15
+
+# Details for the RSS feed generator
+url:            'http://wudong.github.io'
+baseurl:        '/'
+author:         'Warren Liu'
