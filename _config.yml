@@ -10,5 +10,5 @@ paginate: 15
 
 # Details for the RSS feed generator
 url:            'http://wudong.github.io'
-baseurl:        '/'
+baseurl:        ''
 author:         'Warren Liu'
