@@ -4,6 +4,12 @@ title:  "Mock the Life in the UK Test"
 date:   2014-06-19 12:08:26
 categories: "personal"
 disqus: true
+keywords:
+- SEO
+- AngularJs
+- MEAN
+- Review
+- MongoDB
 excerpt: "This is a personal experience of taking and passing the Life in the UK Test a while back ago."
 tags:
 - life in the uk test
@@ -65,6 +71,8 @@ Not sure what that will leave me..
 What makes me happy is that the [bounce rate](http://en.wikipedia.org/wiki/Bounce_rate) is really low,
 which means people do like to use when they find it.
 
-So in the end, after all the efforts, it is more or less a failed project. But I do learn a lot.
-Next time, will I do things differently? Maybe, maybe not. I really like the way it is currently implemented.
+So in the end, after all the efforts, it is more or less a failed project. But I do learn a lot; I shall
+write more posts in the near future to summarise these hard-earned lessons.
+Next time, will I do things differently? Maybe, maybe not, Cause I really like
+the way it is currently implemented.
 Maybe next time google is smart enough to figure it is a good website :)
