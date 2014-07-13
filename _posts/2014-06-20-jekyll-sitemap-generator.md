@@ -16,6 +16,7 @@ tags:
 - website development
 ---
 
+------
 Never a fan of WordPress, I have been back and forth between
 site generators like [Jekyll](http://http://jekyllrb.com/) and
 [Docpad](http://docpad.org/) for this blog. Problem of Docpad is it is more than a blog generator,
