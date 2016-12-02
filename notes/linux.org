@@ -1,0 +1,41 @@
+* Linux Memory
+[[http://www.inmotionhosting.com/support/website/server-usage/linux-check-memory-usage]]
+
+- With ~free -m~ shows linux memory usage, displayed in MB instead of KB.
+  The *free* column besides buffers/cache is the actual free memory available
+  to linux
+
+- Difference between buffers and cache
+  A buffer is a temporary location to store data for a particular application
+  and this data is not used by any other application. Cache is a memory location
+  to store frequently used data for faster access.
+
+- A process memory layout
+
+  [[http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/]]
+
+  [[http://static.duartes.org/img/blogPosts/linuxFlexibleAddressSpaceLayout.png]]
+
+
+* Let's Encrypt
+Using the webroot method to lets encrypt to a Nginx configuration.
+
+1. With Http only on the nginx config (disable HTTPS first if necessary)
+
+   #+BEGIN_SRC
+	server {
+		    listen 80;
+		    server_name www.graceliu.uk;
+
+		    location '/.well-known/acme-challenge' {
+			default_type "text/plain";
+			root /tmp/letsencrypt-auto;
+		    }
+        }
+   #+END_SRC
+
+2. Run
+   ~./letsencrypt-auto certonly -a webroot  --webroot-path=/tmp/letsencrypt-auto
+   -d www.graceliu.uk~
+
+3. Re-enable https

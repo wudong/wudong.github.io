@@ -1,0 +1,8 @@
+* Emacs Notes
+
+- ~expend-region~: require the module to be able to expand/shrink selections.
+  - expend: C-=
+  - shrink: M-- C-= /Note/: M-- is a negative prefix argument normally means -1.
+    this allow the ~er/expand-region~ function to do a shrink.
+
+- repeat previous command: C-x z
