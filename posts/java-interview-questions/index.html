@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Interview Questions | Warren Liu</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="https://example.com/posts/java-interview-questions/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Warren Liu">
+<link rel="prev" href="../java-problems/" title="Java Problems" type="text/html">
+<link rel="next" href="../java-hotspot-gc/" title="Java HotSpot VM GC Tunning Guide" type="text/html">
+<meta property="og:site_name" content="Warren Liu">
+<meta property="og:title" content="Java Interview Questions">
+<meta property="og:url" content="https://example.com/posts/java-interview-questions/">
+<meta property="og:description" content="Java Programming Interview Exposed
+
+
+Writing core algorithm
+
+
+How would you implement a bubble sort algorithm?
+
+
+The bubble sort is extremely simple to describe and implements.
+
+public void bubblesort">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-07-14T00:00:00+01:00">
+<meta property="article:tag" content="java">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://example.com/">
+
+                <span id="blog-title">Warren Liu</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Java Interview Questions</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Warren Liu
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" itemprop="datePublished" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Java Programming Interview Exposed</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Writing core algorithm</h3>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">How would you implement a bubble sort algorithm?</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+The <b>bubble sort</b> is extremely simple to describe and implements.
+</p>
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">bubblesort</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="n">numbersSwitched</span><span class="o">;</span>
+    <span class="k">do</span> <span class="o">{</span>
+	<span class="n">numbersSwitched</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">numbers</span><span class="o">.</span><span class="na">length</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+	    <span class="k">if</span> <span class="o">(</span><span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">]&lt;</span><span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">]){</span>
+		<span class="n">swap</span><span class="o">(</span><span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">],</span> <span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+		<span class="n">numbersSwitched</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+	    <span class="o">}</span>
+	<span class="o">}</span>
+    <span class="o">}</span> <span class="k">while</span> <span class="o">(</span><span class="n">numbersSwitched</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+
+
+
+
+<p>
+The worse case, when you want to sort a list that is already sorted in
+reverse order, the performance is of \(O(n^2)\): <i>for each iteration, you
+are only switching one elements</i>. The best case is when a list is
+already sorted, which has performance of \(O(n)\).
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">How would you implement a insert sort algorithm?</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The <b>insert sort</b> is another simple algorithm to describe:
+</p>
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">insertSort</span><span class="o">(</span><span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">sortedList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+
+<span class="nl">    originalList:</span> <span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">number</span><span class="o">:</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">sortedList</span><span class="o">.</span><span class="na">size</span><span class="o">();</span><span class="n">i</span><span class="o">++){</span>
+	    <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;</span> <span class="n">sortedList</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">)){</span>
+		<span class="n">sortedList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">number</span><span class="o">);</span>
+		<span class="k">continue</span> <span class="n">originalList</span><span class="o">;</span>
+	    <span class="o">}</span>
+	<span class="o">}</span>
+	<span class="n">sortedList</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">sortedList</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">number</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>
+The worst-case performance is still \(O(n^2)\).
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">How would you implement the quicksort algorithm?</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+The performance is much more efficient than the bubble sort and insert
+sort with an average performance of \(O(n\log(n))\). The worst case is
+still \(O(n^2)\). The choice of pivot can make a difference.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">quicksort</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">numbers</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">){</span>
+	<span class="k">return</span> <span class="n">numbers</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">final</span> <span class="n">Integer</span> <span class="n">pivot</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">lower</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">higher</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span> <span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span> <span class="n">numbers</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++){</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="n">lower</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+	<span class="o">}</span><span class="k">else</span><span class="o">{</span>
+	    <span class="n">higher</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">numbers</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">sorted</span> <span class="o">=</span> <span class="n">quicksort</span><span class="o">(</span><span class="n">lower</span><span class="o">);</span>
+    <span class="n">sorted</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pivot</span><span class="o">);</span>
+    <span class="n">sorted</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">quicksort</span><span class="o">(</span><span class="n">higher</span><span class="o">));</span>
+
+    <span class="k">return</span> <span class="n">sroted</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>
+It is worth noting that each division of the list and the subsequent
+recursive call is <b>independent</b> of any other sorting necessary, and
+could be performed <b>in parallel</b>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">How would you implement the merge sort algorithm?</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+This is another divide-and-conquer algorithm: split the list into two,
+sort each sublist, and then merge the two list together.
+</p>
+
+<p>
+The main code is <b>merging the two lists efficiently</b>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">merge</span><span class="o">(</span><span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">left</span><span class="o">,</span>
+				  <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">right</span>
+    <span class="o">){</span>
+    <span class="kt">int</span> <span class="n">leftPtr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">rightPtr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">merged</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;(</span><span class="n">left</span><span class="o">.</span><span class="na">size</span><span class="o">()+</span><span class="n">right</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="n">leftPtr</span> <span class="o">&lt;</span> <span class="n">left</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&amp;&amp;</span> <span class="n">rightPtr</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">.</span><span class="na">size</span><span class="o">()){</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">left</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">leftPtr</span><span class="o">)</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">rightPtr</span><span class="o">)){</span>
+	    <span class="n">merged</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">left</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">leftPtr</span><span class="o">));</span>
+	    <span class="n">leftPtr</span><span class="o">++;</span>
+	<span class="o">}</span><span class="k">else</span><span class="o">{</span>
+	    <span class="n">merged</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">right</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">rightPtr</span><span class="o">));</span>
+	    <span class="n">rightPtr</span><span class="o">++;</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="n">leftPtr</span> <span class="o">&lt;</span> <span class="n">left</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">){</span>
+	<span class="n">merged</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">left</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">leftPtr</span><span class="o">));</span>
+	<span class="n">leftPtr</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="n">rightPtr</span> <span class="o">&lt;</span> <span class="n">right</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">){</span>
+	<span class="n">merged</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">right</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">rightPtr</span><span class="o">));</span>
+	<span class="n">rightPtr</span><span class="o">++;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">mergesort</span><span class="o">(</span><span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">values</span><span class="o">){</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">values</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="o">){</span>
+	<span class="k">return</span> <span class="n">values</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">leftHalf</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="na">subList</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">values</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">/</span><span class="mi">2</span><span class="o">);</span>
+    <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">leftHalf</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="na">subList</span><span class="o">(</span><span class="n">values</span><span class="o">.</span><span class="na">size</span><span class="o">()/</span><span class="mi">2</span><span class="o">,</span> <span class="n">values</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+
+    <span class="k">return</span> <span class="n">merge</span><span class="o">(</span><span class="n">mergesort</span><span class="o">(</span><span class="n">leftHalf</span><span class="o">),</span> <span class="n">mergesort</span><span class="o">(</span><span class="n">rightHalf</span><span class="o">));</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>
+Again, merge sort has a performance of \(O(n\log(n)\). Each merge
+operation is \(O(n)\), and each recursive call works on only half of the
+given list.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Data Structure</h3>
+<div class="outline-text-3" id="text-1-6">
+</div>
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">Some notable <b>Collections</b> methods</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<dl class="org-dl">
+<dt> <code>sort, binarySearch</code> </dt>
+<dd>with <b>Comparable</b> and <b>Comparator</b>
+</dd>
+<dt> <code>max, min</code> </dt>
+<dd>with <b>Comparable</b> and <b>Comparator</b>
+</dd>
+<dt> <code>void rotate(List list, int distance)</code> </dt>
+<dd>Rotates the elements in the
+sepcified list by the specified distance. After calling this
+method, the element at inde \(i\) will be the element previously at
+index \((i - distance) mod list.size()\)
+<ul class="org-ul">
+<li>Can be usefully be applied to a sublist: <br><code>Collections.rotate(list.subList(j, k+1), -1);</code>
+</li>
+</ul>
+</dd>
+<dt> <code>void shuffle(List list, Random rnd)</code> </dt>
+<dd>randomly permute the
+specified list.
+</dd>
+<dt> (no term) </dt>
+<dd>
+<code>void reverse(List&lt;?&gt; list)</code>
+</dd>
+<dt> <code>&lt;T&gt; Comparator&lt;T&gt; reverseOrder(Comparator&lt;T&gt; cmp)</code> </dt>
+<dd>returns a
+comparator that imposes the reverse ordering of the specified
+comparator.
+</dd>
+<dt> <code>int frequency(Collection c, Object o)</code> </dt>
+<dd>return the number of
+elements in the specified collection equal to the specified
+object.
+</dd>
+<dt> <code>boolean disjoint(Collection c1, Collection c2)</code> </dt>
+<dd>return true if
+two specified collections have no elements in common.
+</dd>
+<dt> <code>List&lt;T&gt; nCopies(int n, T o)</code> </dt>
+<dd>returns an <b>immutable</b> list
+consisting of \(n\) copies of the specified object.
+<ul class="org-ul">
+<li>The newly allocated data object is tiny, containing a single
+reference to the data object.
+</li>
+</ul>
+</dd>
+<dt> <code>singleton(T o)</code>  </dt>
+<dd>return an <b>immutable</b> set containing only the
+specified object.
+<dl class="org-dl">
+<dt> <code>singletonList(T o)</code> </dt>
+<dd>an immutable list.
+</dd>
+<dt> <code>singletonMap&lt;K key, V value&gt;</code> </dt>
+<dd>returns an <b>immutable</b> map that
+only maps the specified key to the specified value.
+</dd>
+</dl>
+</dd>
+<dt> (no term) </dt>
+<dd>Wrapper implementations
+<ul class="org-ul">
+<li>
+<code>unmodifiableXXX</code>
+</li>
+<li>
+<code>synchronizedXXX</code>
+</li>
+<li id="&lt;code&gt;checkedXXX(Collection&lt;T&gt; c, Class&lt;T&gt; type)&lt;/code&gt;">returns
+a dynamically typesafe view of the specified collection. Any
+attemp to insert an element of the wrong type will result in an
+immediate ClassCastException.
+<ul class="org-ul">
+<li>This can prevent unchecked cast.
+</li>
+<li>
+<code>checkedList</code>
+</li>
+<li>
+<code>checkedSet</code>, <code>checkedSortedSet</code>
+</li>
+<li>
+<code>checkedMap</code>, <code>checkedSortedMap</code>
+</li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2">Arrays</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<dl class="org-dl">
+<dt> <code>deepEquals(Object[] a1, Object[] a2), deepHashCode(), deepToString()</code> </dt>
+<dd>supporting
+nested sub-arrays.
+</dd>
+<dt> <code>fill</code> </dt>
+<dd>assigns the value to the specified range of the specified array.
+</dd>
+<dt> <code>parallelPrefix(double[] array, DoubleBinaryOperator op)</code> </dt>
+<dd>Cumulates,
+in parallel, each element of the given array in place, using the
+supplied function.
+</dd>
+<dt> <code>sort(T[] array, int fromIndex, int toIndex)</code> </dt>
+<dd>support sosring in a range.
+</dd>
+<dt> <code>stream(T[] array, int startInclusive, int endExclusive)</code> </dt>
+<dd>convert
+a stream with the array as its source, also support range.
+</dd>
+<dt> (no term) </dt>
+<dd>
+<b>ArrayList</b>, or <b>ArrayDeque</b> should be preferable to <b>LinkedList</b> for
+queues/dequeus due to a limited amount of garbage it generates.
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3">List</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<ul class="org-ul">
+<li>The usage of <code>subList</code> on the <code>List</code> interface:
+<ul class="org-ul">
+<li>The <b>List</b> interface now have a <b>subList(int fromIndex, int
+toIndex)</b> function, to return a view of the portion of the list,
+inclusive <code>fromIndex</code>, and exclusive <code>toIndex</code>.
+</li>
+<li>The returned list is backed by this list, so non-structural
+changes in the returned list are reflected in this list, and
+vice-versa.
+</li>
+<li>The method eliminates the need for explicit range operations. Any
+operation that expects a list can be used as a range operation by
+passing a subList view. For example, the following idiom removes a
+range of element from a list:
+<div class="highlight"><pre><span></span><span class="n">list</span><span class="o">.</span><span class="na">subList</span><span class="o">(</span><span class="n">from</span><span class="o">,</span> <span class="n">to</span><span class="o">).</span><span class="na">clear</span><span class="o">();</span>
+</pre></div>
+</li>
+<li>Some list implementations have restrictions on the elements that
+they may contain. For example, some implementations prohibit
+<code>null</code> elements, and some have restrictions on the types of their
+elements. Attempting to add an ineligible element throws an
+unchecked exception, typically <b>NullPointerException</b> or
+<b>ClassCastException</b>.
+</li>
+<li>
+<b>toArray()</b> will return a new array.
+</li>
+<li>
+<b>toArray(T[] a)</b> will also return a <b>new array</b>, <i>not the one
+specified</i>, if the size of <code>a</code> is smaller than the List; it
+otherwise return <code>a</code>, with the remaining of <code>a</code> set to <code>null</code> if <code>a</code>
+contains more elements thant the List.
+</li>
+<li>
+<b>retainAll(Collection&lt;?&gt; c)</b> will retains only the elements in
+this list that care contained in the specified collection.
+</li>
+</ul>
+</li>
+<li>ArrayList
+<ul class="org-ul">
+<li>ArrayList allows <code>null</code> elements.
+</li>
+<li>Be aware that the array size reallocation in ArrayList is
+<b>one-way</b>; it doesn't shrink if elements are removed from it. If
+you have a list that oscillates between many and a few elements,
+<b>ArrayList</b> might not be the best implementation for it.
+</li>
+<li>Increase the capacity of an <b>ArrayList</b> before adding a large
+number of elements using <b>ensureCapacity()</b> operation. This <i>could
+reduce the amount of incremental reallocation</i>.
+</li>
+</ul>
+</li>
+<li>LinkedList
+<ul class="org-ul">
+<li>It is a <b>doubly-linked</b> list implementation of the <code>List</code> and
+<code>Deque</code> interface.
+</li>
+<li>Operations that index into the list will traverse the list from
+<i>the beginning or the end</i>, whichever is closer to the specified
+index.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-4" class="outline-4">
+<h4 id="sec-1-6-4">Queue and Deque</h4>
+<div class="outline-text-4" id="text-1-6-4">
+<ul class="org-ul">
+<li>interface <b>Queue</b>
+<ul class="org-ul">
+<li>Queue implementations generally do not allow insertion of <code>null</code>
+elements, although some implementations, such as <b>LinkedList</b>, do
+not prohibit insertion of <code>null</code>.
+</li>
+<li>Even in the implementations that permit it, <code>null</code> should not be
+inserted into a <b>Queue</b>, as <code>null</code> is also used as a <span class="underline">special return</span>
+value by the <code>poll</code> method to <i>indicate that the queue contains no
+elements</i>.
+</li>
+<li>Queues provide additional insertion, extraction, and
+inspection operations; and each of these methods exists in two
+forms: <b>throw exception</b> or <b>return special value</b> when the
+operation fails.
+</li>
+<li>The latter form of the insert operation is designed specifically
+for use with <b>capacity-restricted</b> Queue implementations; in most
+implementations, insert operations cannot fail.
+</li>
+<li>The two set of methods:
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="left">
+<col class="left">
+<col class="left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="left">Operation</th>
+<th scope="col" class="left">Throws Exception</th>
+<th scope="col" class="left">Return special value</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">Insert</td>
+<td class="left">add(e)</td>
+<td class="left">offer(e)</td>
+</tr>
+<tr>
+<td class="left">Remove</td>
+<td class="left">remove()</td>
+<td class="left">poll()</td>
+</tr>
+<tr>
+<td class="left">Examine</td>
+<td class="left">element()</td>
+<td class="left">peek()</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>Order for Queue is normally <b>FIFO</b>, except for <b>priority
+queues</b>, which order according to a supplied comparator, and
+<b>LIFO</b> queue(stack).
+</li>
+</ul>
+</li>
+<li>interface <b>Deque</b>
+<ul class="org-ul">
+<li>Pronounced "deck" is an extension of Queue, and allows additon and
+removal from either end of the data structure.
+</li>
+<li>For each methods defined in <code>Queue</code>, <code>Deque</code> defines corresponding
+<b>First</b>, and <b>Last</b> methods like: <code>addFirst()</code>, <code>addLast()</code>,
+<code>offerFirst()</code> and <code>offerLast()</code>.
+</li>
+<li>
+<b>descendingIterator()</b>  from the <code>Deque</code> interface can be used to
+iterate in reverse sequential order.
+</li>
+<li>Deques can also be used as <b>LIFO (Last-In-First-Out) stacks</b>. This
+interface should be used <b>in preference to</b> the <b>legacy</b> <code>Stack</code>
+class:
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="left">
+<col class="left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="left">Stack Method</th>
+<th scope="col" class="left">Equivalent Deque Method</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">push(e)</td>
+<td class="left">addFirst(e)</td>
+</tr>
+<tr>
+<td class="left">pop()</td>
+<td class="left">removeFirst(e)</td>
+</tr>
+<tr>
+<td class="left">peed()</td>
+<td class="left">peekFirst()</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<code>removeFirstOccurrence(e)</code> and <code>removeLastOccurrence(e)</code> is
+available on <b>LinkedList</b>.
+</li>
+<li>Apart from <b>LinkedList</b>, <b>ArrayDeque</b> is a resizable-array
+implementation of the <code>Deque</code> interface.
+</li>
+</ul>
+</li>
+<li>class <b>PriorityQueue</b>
+<ul class="org-ul">
+<li>An unbounded priority queue based on a <b>priority heap</b>.
+</li>
+<li>A priority queue does not permit <code>null</code>.
+</li>
+<li>A priority queue is <b>unbounded</b>, but has an <i>internal capacity</i>
+governing the size of an array used to store the elements on the
+queue.
+</li>
+<li>The <b>Iterator</b> returned from  <code>iterator()</code> is <b>not</b> gaurantee to
+traverse the elements in any particular order. If ordered
+traversal is needed, could use : <code>Arrays.sort(pq.toArray())</code>.
+</li>
+<li>This class is not threadsafe, <b>PriorityBlockingQueue</b> is.
+</li>
+<li>Heap based priority queue provides \(O(\log(n))\) for enqueing
+dequeing methods; linear time for <code>remove()</code> and <code>contains()</code> methods
+and constant time for the retrieval methods.
+</li>
+</ul>
+</li>
+<li>interface <b>BlockingQueue</b>
+<ul class="org-ul">
+<li>A <b>Queue</b> that additionally supports operations that <b>wait</b> for the
+queue to become non-empty when retriving an element, and wait for
+space to become available in the queue when storing an element.
+</li>
+<li>BlockingQueue methods come in four forms:
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="left">
+<col class="left">
+<col class="left">
+<col class="left">
+<col class="left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="left">Operation</th>
+<th scope="col" class="left">Throw Exception</th>
+<th scope="col" class="left">Special Value</th>
+<th scope="col" class="left">Blocks</th>
+<th scope="col" class="left">Times out</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">Insert</td>
+<td class="left">add(e)</td>
+<td class="left">offer(e)</td>
+<td class="left">put(e)</td>
+<td class="left">offer(e, time, unit)</td>
+</tr>
+<tr>
+<td class="left">Remove</td>
+<td class="left">remove()</td>
+<td class="left">poll()</td>
+<td class="left">take()</td>
+<td class="left">poll(time, unit)</td>
+</tr>
+<tr>
+<td class="left">Examine</td>
+<td class="left">element()</td>
+<td class="left">peek()</td>
+<td class="left">n/a</td>
+<td class="left">n/a</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>A blockingQueue does not accept null element.
+</li>
+<li>BlockingQueue implementations are designed to be used primarily
+for <b>producer-consumer</b> queues, but additionally support the
+<b>Collection</b> interface. However, such operations are in general <b>not</b>
+<i>performed very efficiently</i>.
+</li>
+<li>
+<b>drainTo(Collection c)</b> removes all available elements from this
+queue and adds them to the given collection. This operation may be
+more efficient than repeatdly polling thes queue.
+</li>
+<li>BlockingQueue implementations are thread. However, the <b>bulk</b>
+Collection operations <code>addAll</code>, <code>containsAll</code>, <code>retainAll</code> and <code>removeAll</code>
+are <b>not</b> necessarily <i>performed atomically</i> unless specified
+otherwise in an implementation.
+</li>
+<li>
+<b>Memory consistency effects</b>: As with other concurrent collections,
+actions in a thread prior to <b>placing an object</b> into a
+BlockingQueue <b>happen-before</b> actions subsequent to the <b>access</b> or
+<b>removal</b> of that element from the BlockingQueue in another thread.
+</li>
+<li>
+<b>LinkedBlockingQueue</b> is an optionally-bounded blocking queue. The
+optional capacity serves as a way to prevent excessive queue
+expansion, which default to <code>Integer.MAX_VALUE</code>.
+</li>
+<li>
+<b>ArrayBlockingQueue</b> is a bounded blocking queue backed by an
+array. The capacity cannot be changed once created.
+<ul class="org-ul">
+<li>This class supports an optional <b>fairness policy</b> for <b>ordering</b>
+waiting producer and consumer threads. <i>By default, the ordering
+is not guaranteed</i>. When setting, the access granted in <b>FIFO</b> order.
+</li>
+<li>Fairness generally decreases <i>throughput</i> but reduces
+<i>variability</i> and avoids <i>starvation</i>.
+</li>
+</ul>
+</li>
+<li>
+<b>SynchronousQueue</b> is a blocking queue in which each insert
+operation must <b>wait for</b> a corresponding remove operation by
+another thread, and vice versa.
+<ul class="org-ul">
+<li>A SynchronousQueue doesn't have any internal capacity, not even
+a capacity of one.
+</li>
+<li>Cannot peek because element is only present when you try to
+remove it; you cannot insert an element (using any method)
+unless another thread is trying to remove it.
+</li>
+<li>its <code>isEmpty()</code> will always return <code>true</code>.
+</li>
+<li>Synchronous queue are similar to <b>rendezvous channels</b> used in
+<b>CSP</b> and <b>Ada</b>.
+</li>
+<li>They are suited for <b>handoff designs</b>, in which an object running
+in one thread must <i>sync up</i> with an object running in another
+thread in order to <span class="underline">hand it some information, event, or task</span>.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>interface <b>TransferQueue</b> extends <b>BlockingQueue</b>
+<ul class="org-ul">
+<li>A <b>BlockingQueue</b> in which producers may wait for consumer to
+receive elements.
+</li>
+<li>A <b>TransferQueue</b> may be useful for example in message passing
+applications in which producers sometimes (using method
+<b>transfer(E)</b>) await receipt of elements by consumers invoking take
+or poll, while at other times enqueue elements (via method put)
+without waiting for receipt.
+</li>
+<li>
+<b>tryTransfer</b> can be used for Non-blocking and time-out for way.
+</li>
+<li>A <b>TransferQueue</b> can also be quired, with <b>hasWaitingComsumer()</b>.
+</li>
+<li>class <b>LinkedTransferQueue</b> implements this interface.
+<ul class="org-ul">
+<li>
+<i>the size method is <b>NOT</b> a constant-time operation</i>: Because of
+the asynchronous nature of these queues, determining the current
+number of elements requires a traversal of the elements, and so
+may report inaccurate results if this collection is modified
+during traversal.
+</li>
+<li>bulk operations are <b>not</b> guaranteed to be performed atomically.
+</li>
+</ul>
+</li>
+<li>
+<b>TransferQueue</b> is more generic and useful than
+<b>SynchronousQueue</b>, allowing you to flexibly decide whether to use
+normal BlockingQueue semantics or a guaranteed hand-off.
+<ul class="org-ul">
+<li>Much better performance than <b>SynchronousQueue</b>.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>class DelayQueue&lt;E extends Delayed&gt; implements <b>BlockingQueue</b>
+<ul class="org-ul">
+<li>An unbounded blocking queue of Delayed elements, in which an
+element can only be taken when its delay has expired.
+</li>
+<li>The head of the queue is the Delayed element whose delay expired
+furthest in the past.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-5" class="outline-4">
+<h4 id="sec-1-6-5">Tree</h4>
+<div class="outline-text-4" id="text-1-6-5">
+<ul class="org-ul">
+<li>Search with <b>binary search tree</b>:
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">search</span><span class="o">(</span><span class="kd">final</span> <span class="n">E</span> <span class="n">toFind</span><span class="o">){</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">toFind</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">)){</span>
+	<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">toFind</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="n">value</span><span class="o">)&lt;</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="o">.</span><span class="na">left</span> <span class="o">!=</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="n">left</span><span class="o">.</span><span class="na">search</span><span class="o">(</span><span class="n">toFind</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="n">right</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">right</span><span class="o">.</span><span class="na">search</span><span class="o">(</span><span class="n">toFind</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Inserting value into a binary search tree:
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">insert</span><span class="o">(</span><span class="kd">final</span> <span class="n">E</span> <span class="n">toInsert</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">toInsert</span><span class="o">.</span><span class="na">compareTo</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">){</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">left</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="n">left</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="o">(</span><span class="n">toInsert</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+	<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+	    <span class="n">left</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">toInsert</span><span class="o">);</span>
+	<span class="o">}</span>
+    <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">right</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="n">right</span><span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="o">(</span><span class="n">toInsert</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+	<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+	    <span class="n">right</span><span class="o">.</span><span class="na">insert</span><span class="o">(</span><span class="n">toInsert</span><span class="o">);</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+Inserting in this manner may produce an <b>unbalanced tree</b>.
+</p>
+</li>
+<li>Removing from a binary search tree:
+<ol class="org-ol">
+<li>Search for the node;
+</li>
+<li>If the node have no child, just remove it;
+</li>
+<li>If the node have only one child, remove the node, and link the
+node's parent and child.
+</li>
+<li>If the node have two children:
+<ol class="org-ol">
+<li>Find a minimu value in the right subtree (or maximum value
+in the left three);
+</li>
+<li>Replace the value of the node to be removed with found minimum;
+</li>
+<li>Remove the minimum from its right tree; notice that the
+minimum has no left child, therefore, its removal may result
+in first or second cases only.
+</li>
+</ol>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">remove</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">,</span> <span class="n">BSTNode</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">&lt;</span> <span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">left</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+	    <span class="k">return</span> <span class="n">left</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="k">else</span>
+	    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">right</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+	    <span class="k">return</span> <span class="n">right</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">value</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="k">else</span>
+	    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">left</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">right</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">right</span><span class="o">.</span><span class="na">minValue</span><span class="o">();</span>
+	    <span class="n">right</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">value</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span>
+	<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">left</span> <span class="o">==</span> <span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="n">parent</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="o">(</span><span class="n">left</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">left</span> <span class="o">:</span> <span class="n">right</span><span class="o">;</span>
+	<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">parent</span><span class="o">.</span><span class="na">right</span> <span class="o">==</span> <span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+	    <span class="n">parent</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="o">(</span><span class="n">left</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">?</span> <span class="n">left</span> <span class="o">:</span> <span class="n">right</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">int</span> <span class="nf">minValue</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">left</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+	<span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+    <span class="k">else</span>
+	<span class="k">return</span> <span class="n">left</span><span class="o">.</span><span class="na">minValue</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>A specific implementation of binary tree is called <b><a href="http://www.geeksforgeeks.org/avl-tree-set-1-insertion/">AVL Tree</a></b>
+(self-balancing) enforces that, for any node, the <i>difference in
+depth for each child is at most one</i>.
+<ul class="org-ul">
+<li>After each insertion or deletion of a node, the tree checks if
+it is still balanced, and subsequently <b>rotates</b> the nodes of
+values where the property of the <b>AVL Tree</b> doesn't not hold.
+</li>
+</ul>
+</li>
+<li>
+<b><a href="http://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/">Red-Black Tree</a></b> is another self-balancing binary search tree with
+one extra attribute for each node: <b>the colour</b>, being either red
+or black:
+<ul class="org-ul">
+<li>Properties:
+<ul class="org-ul">
+<li>Root of the tree is always black.
+</li>
+<li>There are no two adjacent red nodes (A red node cannot have a
+red parent or red child)
+</li>
+<li>Every path from <i>root to a NULL</i> node has same number of black
+node.
+</li>
+</ul>
+</li>
+<li>The height of a Red-Black Tree is always \(O(\log(n))\), i.e. it is a
+balanced tree.
+</li>
+</ul>
+</li>
+<li>Comparison of AVL Tree and Red-Black Tree:
+<ul class="org-ul">
+<li>AVL Tree is more balanced - better for search
+</li>
+<li>AVL Tree's deletion/insertion may involved more
+roations. Red-Black tree is better for insert/deletion.
+</li>
+</ul>
+</li>
+<li>When a tree is balanced, search/insert/delete has performance of
+\(O(\log(n))\).
+</li>
+<li>Bineary trees can be used for <b>Binary Heap</b>, which is a balanced
+tree with the property that children are <b>greater than</b> their parent.
+<ul class="org-ul">
+<li>The heat property defines that the smallest element in the tree is
+at the root. Heaps are especially useful for priority queues, or
+any time you require quick access to the smallest element of a collection.
+</li>
+<li>A heap is not a sorted structure and can be regarded as
+partially ordered.
+</li>
+<li>
+<b>Insert</b>: the new element is initially appended to the right
+most leaf node. The heap property is repaired by comparing the
+added element with its parent and moving the added element up a
+level by swapping with parent. It is repeated until the parent
+is smaller or equal to the element. Performance is \((\log(n))\).
+</li>
+<li>
+<b>DeleteMin</b>: Remove the root and replace it the right most
+leaf. Then compare with its <b>smaller</b> child, and swapping until the
+heap property is satisfied. Performance is \((\log(n))\).
+</li>
+<li>
+<b>HeapSort</b>: build a heap and turn it into a sorted list by
+calling <b>deleteMin</b> repeatly. It has performance of \((n\log(n))\).
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-6" class="outline-4">
+<h4 id="sec-1-6-6">Set</h4>
+<div class="outline-text-4" id="text-1-6-6">
+<p>
+For each of the Map implementation visited ealier, there is an
+equvialent Set implementation:
+</p>
+<dl class="org-dl">
+<dt> HashSet </dt>
+<dd>implemented based on HashMap with dummy values (same
+Object is used for every value).
+</dd>
+<dt> TreeSet </dt>
+<dd>based on a TreeMap instance.
+</dd>
+<dt> (no term) </dt>
+<dd>LinkedHashSet:: based on a LinkedHashMap instance.
+</dd>
+<dt> (no term) </dt>
+<dd>
+<b>SortedSet</b> and <b>NavigableSet</b> implemented by <b>TreeSet</b>.
+</dd>
+<dt> (no term) </dt>
+<dd>
+<b>Set &lt;E&gt; Collections.newSetFromMap(Map&lt;E, Boolean&gt; map)</b> returns a
+set backed by the specified map. The resulting set displays the same
+ordering, concurrency, and performance characterstics as the backing
+map.
+<ul class="org-ul">
+<li>Useful to construct Set that doesn't have corresponding Set
+implementation of a Map, like <b>WeakHashSet</b>, or
+<b>ConcurrentHashMap</b>.
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-7" class="outline-4">
+<h4 id="sec-1-6-7">Map</h4>
+<div class="outline-text-4" id="text-1-6-7">
+<ul class="org-ul">
+<li>HashMap
+<ul class="org-ul">
+<li>The implementation permits <code>null</code> values and <code>null</code> key.
+</li>
+<li>An instance of HashMap has two parameters that affect its
+performance: <b>initial capacity</b> and <b>load factor</b>. The capacity is
+the <i>number of buckets</i> in the hash table. The load factor is a
+measure of how full the hash table is allowed to get before its
+capacity is automatically increased.
+</li>
+<li>When the number of entries in the hash table
+<code>loadFactor*currentCapacity</code>, the hash table is <b>rehashed</b> so that
+the hash table has approximately <b>twice</b> the number of buckets.
+</li>
+<li>When construct a new HashMap, a <b>load factor</b> between [0, 1] can
+be specified: <code>public HashMap(int initialCapacity, float
+    loadFactory)</code>. The default load factor is 0.75.
+</li>
+<li>If the initial capacity is greater than the maximum number of
+entries divided by the load factor, no rehash operations will ever
+occur.
+</li>
+<li>If many mappings are to be stored in a HashMap instance, creating
+it with a sufficiently large capacity will allow the mappings to
+be stored more efficiently than letting it perform automatic
+rehashing as needed to grow the table.
+</li>
+<li>
+<b>keySet()</b>, <b>values()</b> and <b>entrySet()</b> all provide <b>view</b> <i>backed</i>
+by the map. Map's changes are reflected in the set, and
+vise-verse. If elements are removed from the view, the
+corresponding mappings are <b>removed</b> from the map.
+</li>
+</ul>
+</li>
+<li>
+<b>LinkedHashMap</b> is similar to HashMap but have an added property
+that iterating over the <b>keys</b> will be in the same order as
+<b>insertion</b>. However, this is the most expensive JDK collection in
+terms of memory consumption per element.
+</li>
+<li id="interface &lt;b&gt;SortedMap&lt;/b&gt;">A map that provides a total ordering on its
+keys.
+<ul class="org-ul">
+<li>The order is reflected when iterating over the sorted map's
+collection views (returned by <code>entrySet</code>, <code>keySet</code>, and <code>values</code> methods).
+</li>
+<li>Implements by <b>TreeMap</b>
+</li>
+</ul>
+</li>
+<li id="interface &lt;b&gt;NavigableMap&lt;/b&gt;">A <b>SortedMap</b> extended with navigation
+methods returning the closest matches for given search target.
+<ul class="org-ul">
+<li>
+<code>lowEntry</code>, <code>flowEntry</code>, <code>ceilingEntry</code>, <code>higherEntry</code> returns
+<code>Map.Entry</code> objects whose key respectively <i>less then</i>, <i>less than
+or equal</i>, <i>greater than or equal</i>, <i>greater than</i> the given key.
+</li>
+<li>
+<code>headMap(until)</code>, <code>tailMap(from)</code>, and <code>subMap(from, to)</code> return
+subset of the mapping entries given the search condition.
+</li>
+</ul>
+</li>
+<li>TreeMap implements both <b>SortedMap</b> and <b>NavigableMap</b>
+<ul class="org-ul">
+<li>It uses a <b>red-black tree</b> with each node in the tree is a
+key-value pair.
+</li>
+<li>Each elements put into the TreeMap rebalanced the tree.
+</li>
+</ul>
+</li>
+<li>EnumMap - a map with enum keys
+</li>
+<li id="&lt;b&gt;IdentityHashMap&lt;/b&gt;">it a special version of map. It <b>violates</b> the
+Map general contract : it compares references using <code>==</code> instead of
+<code>Object.equals</code>.
+<ul class="org-ul">
+<li>Useful for various graph traversal algorithms: you may easily
+store already processed nodes in the <b>IdentityHashMap</b> along with
+some node-related data.
+</li>
+</ul>
+</li>
+<li id="&lt;b&gt;WeakHashMap&lt;/b&gt;">keeps its key with WeakReference, which is subject to
+GC. Values are, however, stored using strong
+reference.
+<ul class="org-ul">
+<li>Useful for data cache implementations.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6-8" class="outline-4">
+<h4 id="sec-1-6-8">Concurrent Collections</h4>
+<div class="outline-text-4" id="text-1-6-8">
+<ul class="org-ul">
+<li>
+<b>CopyOnWriteArrayList</b>: making a copy of underlying array on each
+update. Should be used when traversal seriously outnumbering
+updates.
+<ul class="org-ul">
+<li>Useful for listener/observers.
+</li>
+<li>No synchronization is necessary, even during iteration.
+</li>
+</ul>
+</li>
+<li>
+<b>CopyOnWriteArraySet</b>: based on a copy-on-write array.
+</li>
+<li id="&lt;b&gt;ConcurrentHashMap&lt;/b&gt;">
+</li>
+<li id="&lt;b&gt;ConcurrentLinkedQueue&lt;/b&gt;">A unbounded thread-safe queue based on
+linked nodes.
+</li>
+<li>
+<b>ConcurrentSkipListMap</b>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Java 8 Stream</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>The processing Order
+<ul class="org-ul">
+<li>Intermediate operations will only be executed when a terminal
+operation is present.
+</li>
+<li>Each elements in the stream moves along the chain vertically, not
+all elements processed together in each intermediate operations.
+</li>
+</ul>
+</li>
+<li>Reusing Streams.
+<ul class="org-ul">
+<li>Java 8 stream cannot be reused.
+</li>
+<li>As soon as you call any terminal operation, the stream is closed.
+</li>
+<li>We have to create a new stream chain for every terminal operation
+we want to execute.
+</li>
+</ul>
+</li>
+<li>Intermediate operations.
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="left">
+<col class="left">
+<col class="left">
+<col class="left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="left">Function</th>
+<th scope="col" class="left">Preserve count</th>
+<th scope="col" class="left">Preserve type</th>
+<th scope="col" class="left">Perserve order</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left"><code>map</code></td>
+<td class="left">Y</td>
+<td class="left">N</td>
+<td class="left">Y</td>
+</tr>
+<tr>
+<td class="left"><code>filter</code></td>
+<td class="left">N</td>
+<td class="left">Y</td>
+<td class="left">Y</td>
+</tr>
+<tr>
+<td class="left"><code>distinct</code></td>
+<td class="left">N</td>
+<td class="left">Y</td>
+<td class="left">Y</td>
+</tr>
+<tr>
+<td class="left"><code>sorted</code></td>
+<td class="left">Y</td>
+<td class="left">Y</td>
+<td class="left">N</td>
+</tr>
+<tr>
+<td class="left"><code>peek</code></td>
+<td class="left">Y</td>
+<td class="left">Y</td>
+<td class="left">Y</td>
+</tr>
+</tbody>
+</table>
+</li>
+
+<li>
+<b>Collectors</b> : transform the elements of the stream into a different
+kind of result.
+<ul class="org-ul">
+<li>
+<code>toList</code>, <code>toSet</code>, <code>toMap</code>
+</li>
+<li>
+<code>averagingInt</code>, <code>summarizingInt</code>
+</li>
+<li>
+<code>joining</code>: accepts a delimiter and optional prefix and suffix.
+</li>
+</ul>
+</li>
+<li>One important thing to note is that parallel streams achieve
+parallelism through threads using the existing common
+<b>ForkJoinPool</b>.
+<ul class="org-ul">
+<li>As a result, there are possible complications:
+<ul class="org-ul">
+<li>
+<a href="https://zeroturnaround.com/rebellabs/java-parallel-streams-are-bad-for-your-health/">https://zeroturnaround.com/rebellabs/java-parallel-streams-are-bad-for-your-health/</a>
+</li>
+<li>The common pool is upper limited (can be changed with a system
+property) with <code>Runtime.availableProcessors()</code>, it is possible
+to block all the threads in it and thus exhaust the pool.
+</li>
+<li>If you know the Job in the parallel stream is going to block for
+some time, it will be better to use a <code>interface
+      ForkJoinPool.ManagedBlocker</code>.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Parallel streams are <b>unpredictable</b> and complex to use correctly.
+<ul class="org-ul">
+<li>Almost any use of parallel streams can affect the performance of
+other <b>unrelated</b> system components in an <b>unpredictable way</b>.
+</li>
+</ul>
+</li>
+
+<li>
+<b>Starvation</b> describes a situation where a thread is unable to gain
+regular access to shared resources and is unable to make
+progress.
+<ul class="org-ul">
+<li>This happens when shared resources are made unavailable for long
+periods by "greedy" threads.
+</li>
+<li>For example, suppose an object provides a synchronized method
+that often takes a long time to return.
+</li>
+<li>If one thread invokes this method frequently, other threads that
+also need frequent synchronized access to the same object will
+often be blocked.
+</li>
+</ul>
+</li>
+<li>
+<b>Livelock</b> A thread often acts in response to the action of another
+thread. If the other thread's action is also a response to the
+action of another thread, then livelock may result.
+<ul class="org-ul">
+<li>As with deadlock, livelocked threads are unable to make further
+progress.
+</li>
+<li>However, the threads are not blocked — they are simply too busy
+responding to each other to resume work.
+</li>
+<li>This is comparable to two people attempting to pass each other
+in a corridor: Alphonse moves to his left to let Gaston pass,
+while Gaston moves to his right to let Alphonse pass. Seeing
+that they are still blocking each other, Alphone moves to his
+right, while Gaston moves to his left. They're still blocking
+each other, so…
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Design Patterns</h3>
+<div class="outline-text-3" id="text-1-8">
+<dl class="org-dl">
+<dt> Strategy Pattern </dt>
+<dd>enables you to defer decisions about which
+implementation to use until <i>run time</i>.
+<ul class="org-ul">
+<li>The Spring Framework uses an XML file to construct objects and
+their dependencies, which are read at runtime, allowing a quick
+change between implementations without any need for recompilation.
+</li>
+</ul>
+</dd>
+<dt> Template Pattern </dt>
+<dd>is used to defer to delegate some, or all steps
+of an algorithm to a subclass. Common behaviour can be defined in
+a superclass, then specific variants are written in a subclass.
+</dd>
+<dt> Decorator Pattern </dt>
+<dd>enables you to change or configure the
+functionality of a specific object.
+<ul class="org-ul">
+<li>It takes an instance of same abstract/interface type which adds
+additional behaviour.
+</li>
+<li>Java's IO class use the Decorator Pattern extensively.
+</li>
+<li>java.util.Collections, the <code>checkedXXX()</code>, <code>synchronizedXXX()</code> and
+<code>unmodifiableXXX()</code> methods.
+</li>
+</ul>
+</dd>
+<dt> Flyweight Pattern </dt>
+<dd>can be used when you have several objects, and
+many may represent the same value. In these instances, it can be
+possbile to share the values as long as the objects are immutable.
+<ul class="org-ul">
+<li>
+<b>Integer</b> class is an implementation of the flyweight pattern:
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="n">Integer</span> <span class="nf">valueOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">){</span>
+    <span class="k">assert</span> <span class="n">IntegerCache</span><span class="o">.</span><span class="na">high</span> <span class="o">&gt;=</span><span class="mi">127</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;=</span><span class="n">IntegerCache</span><span class="o">.</span><span class="na">low</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">IntegerCache</span><span class="o">.</span><span class="na">high</span><span class="o">){</span>
+	<span class="k">return</span> <span class="n">IntegerCache</span><span class="o">.</span><span class="na">cache</span><span class="o">[</span><span class="n">i</span> <span class="o">+</span> <span class="o">(-</span><span class="n">IntegerCache</span><span class="o">.</span><span class="na">low</span><span class="o">)];</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">Integer</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+The default range of the cache is -128 to 127. The cache is
+initialized in a static block and is created the first time an
+Integer is referenced.
+</p>
+</li>
+<li>Another implementation of the Flyweight Pattern is called <b>Null
+Object Pattern</b>, which uses a flyweight object to represent
+<code>null</code>. For example in tree implementation, a <b>NullObject</b> can be
+used to represent non-children.
+</li>
+</ul>
+</dd>
+<dt> Singleton </dt>
+<dd>using <b>Enum</b>, JVM will guarantee that only one
+instance will ever be created.
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">enum</span> <span class="n">SingletonEnum</span> <span class="o">{</span>
+    <span class="n">INSTANCE</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">singletonMethod</span><span class="o">{</span>
+	<span class="c1">//operation here.</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>Singletons work best in specialized applications such as GUI on
+a desktop or mobile application. Or you know you will not have
+many concurrent users.
+</li>
+<li>If you are building large, scalable server applications,
+singleton objects are often the source of many performance
+bottlenecks.
+</li>
+<li>
+<code>java.lang.Runtime#getRuntime()</code>
+</li>
+<li>
+<code>java.awt.Desktop#getDesktop()</code>
+</li>
+</ul>
+</dd>
+<dt> Abstract Factory </dt>
+<dd>creational methods returning the <b>factory
+itself</b> which in turn can be used to create other abstract types.
+<ul class="org-ul">
+<li>
+<code>javax.xml.parsers.DocumentBuilderFactory#newInstance()</code>
+</li>
+<li>
+<code>javax.xml.transform.TransformerFactory#newInstance()</code>
+</li>
+</ul>
+</dd>
+<dt> Factory Method </dt>
+<dd>Creational methods returning an implementation of
+an abstract/interface type.
+<ul class="org-ul">
+<li>
+<code>java.util.Calendar#getInstance()</code>
+</li>
+<li>
+<code>java.util.ResourceBundle#getBundle()</code>
+</li>
+<li>
+<code>java.text.NumberFormat#getInstance()</code>
+</li>
+<li>
+<code>java.nio.charset.Charset#forName()</code>
+</li>
+</ul>
+</dd>
+<dt> (no term) </dt>
+<dd>Builder
+<ul class="org-ul">
+<li>The Implementations of <b>java.lang.Appendable</b> are
+builders. <b>Appendable</b> is an object which char sequences
+(<b>java.lang.CharSequence</b>) and values can be appended. It must be
+implemented by class whose instances are intended to receive
+formatted output from a Formatter.
+</li>
+</ul>
+</dd>
+<dt> Prototype </dt>
+<dd>Creational methods returning a different instance of
+itself with same properties
+<ul class="org-ul">
+<li>
+<code>java.lang.Object#clone()</code>
+</li>
+</ul>
+</dd>
+<dt> Chain of Responsibility </dt>
+<dd>Behaviour methods which indirectly
+invokes the same method in another implementation of same
+abstract/interface type <b>in a queue</b>.
+<ul class="org-ul">
+<li>
+<code>java.util.logging.Logger#log()</code>
+</li>
+<li>
+<code>javax.servlet.Filter#doFilter()</code>
+</li>
+</ul>
+</dd>
+<dt> State </dt>
+<dd>Behaviour methods which changes its behaviour depending on
+the instance's state, which can be controlled externally.
+<ul class="org-ul">
+<li>provides behaviour to an object so that it can be changed during
+runtime.
+</li>
+<li>Very similar to <b>Bridge</b> pattern but intention is different:
+<ul class="org-ul">
+<li>Bridge is structural: hide data from client, and client only
+aware of the handle.
+</li>
+<li>State is behavioral: provides <i>flexible behavior</i> of owning object
+and client would be aware of <b>both</b> owning object and state objects.
+</li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt> Bridge </dt>
+<dd>decouples an abstraction from the implementation of its
+abstract operations, so that abstraction and its
+implementation can vary <b>independently</b>.
+<ul class="org-ul">
+<li>AWT: provides an abstract layer which maps onto the native OS.
+</li>
+<li>JDBC
+</li>
+</ul>
+</dd>
+<dt> Template method </dt>
+<dd>allows subclasses to override parts of the method
+without rewriting it; also allow you to control whichh operations
+subclasses are required to override.
+</dd>
+<dt> Adapter </dt>
+<dd>convert the interface of a class into another interface
+clients expect.
+<ul class="org-ul">
+<li>
+<code>java.io.InputStreamReader</code>, <code>java.io.OutputStreamWriter</code>
+</li>
+</ul>
+</dd>
+<dt> Memento </dt>
+<dd>capture the internal state of an object without violating
+encapsulation and thus providing a mean for restoring the
+object into initial state when needed.
+<ul class="org-ul">
+<li>
+<code>java.util.Date</code>: internally represented by a long value.
+</li>
+<li>
+<code>java.io.Serializable</code>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Datatype</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>Two's Complement representation
+<ul class="org-ul">
+<li>Storage of binary values of short, int, and long.
+</li>
+<li>The negative equivalent of possitive value is calculated by
+applying a binary NOT and then add 1.
+</li>
+<li>There is only one value for zero: there is no concept of a
+negative zero.
+</li>
+<li>Which in tun, means the system can store one extra negative value.
+</li>
+<li>The most negative number(<b>Integer.MIN<sub>VALUE</sub></b>), has the most
+significant bit of 1, and all remaining bits are zeros.
+</li>
+<li>The most negative number's abs() will fail, no corresponding
+positive value for it.
+</li>
+</ul>
+</li>
+<li id="BigInteger">Immutable <b>arbitrary-precision</b> integers.
+<ul class="org-ul">
+<li>Effectively unbounded.
+</li>
+<li>Has all the methods that can would normally applied on an Integer.
+</li>
+<li>All operations behave as if BigIntegers were represented in
+<b>two's-complement</b> notation (like Java's primitive integer types).
+</li>
+<li>
+<code>gcd(BigInteger val)</code>: return the greatest common divisor.
+</li>
+<li>
+<code>isProbablyPrime()</code> : return ture if is probably prime, false if
+it definitely composite.
+</li>
+</ul>
+</li>
+<li id="BigDecimal">Immutable <b>arbitrary-precision</b> decimal numbers.
+</li>
+<li>
+<b>AtomicLong</b> and <b>AtomicInteger</b> are also subclass of <b>Number</b>.
+</li>
+<li id="&lt;b&gt;String&lt;/b&gt;"><ul class="org-ul">
+<li>String constructor which take byte or char array, will copy the
+array for the String.
+</li>
+<li>static methods
+<ul class="org-ul">
+<li>
+<code>format(String format, Object... args)</code>
+</li>
+<li>
+<code>join(CharSequence delimiter, CharSequence... elements)</code>
+</li>
+</ul>
+</li>
+<li>String intern: When the class is loaded by the JVM, it holds all
+the literals in a constants pool. Any repettion of a String
+literal can be referenced from the same constant in the pool.
+<ul class="org-ul">
+<li>The String intern pool is not just open to compile-time String
+literals; any String instance can be added to this pool with the
+intern() method.
+</li>
+<li>When the intern method is invoked, if the pool already contains
+a string equal to this String object as determined by the
+<code>equals(Object)</code> method, then the string from the pool is
+returned. Otherwise, this String object is added to the pool and
+a reference to this String object is returned.
+</li>
+<li>It follows that for any two strings <code>s</code> and <code>t</code>, <code>s.intern() ==
+      t.intern()</code> is <code>true</code> if and only if <code>s.equals(t)</code> is <code>true</code>.
+</li>
+<li>In Java 6, interned strings were stored in the <b>PermGen</b> – the
+<b>fixed size</b> part of heap mainly used for storing loaded classes
+and string pool. using intern() might lead to out of memory in
+the <b>PermGen</b>.
+</li>
+<li>Since Java 7: the string pool was relocated to the heap.
+</li>
+<li>String pool values can be GC as well.
+</li>
+<li>String pool is implemented as a HashMap, with its key being its
+hashcode. and the map size can be set with <code>-XX:StringTableSize</code>.
+</li>
+<li>The String constant pool is an implementation of the <b>Flyweight</b>
+      pattern.
+</li>
+</ul>
+</li>
+</ul></li>
+<li>Exception
+<ul class="org-ul">
+<li>the author's opition is to favor runtime exceptions and be
+explicit in any documentation as to what exactly may be thrown to
+any clients calling that method.
+</li>
+<li>Modern languages such as <b>Scala</b> have stepped away from checked
+exceptions, and have only runtime exceptions.
+</li>
+</ul>
+</li>
+<li>Why do fields that are private also need to be marked as final to
+make them immutable?
+<ul class="org-ul">
+<li>The private field can be manipulated using the <b>Reflection
+API</b>. Reflection API has the ability to access and mutate all
+fields, regardless of their visibility.
+</li>
+<li>The final modifier instructs the JVM that no modifications are
+allowed on that field at all.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">Libraries</h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>It is advisiable to use the <b>expected</b> parameter on the <b>@Test</b>
+annotation sparingly. The most reliable tests using this parameter
+have only one line in the method body: the line that should throw
+the exception.
+</li>
+<li>How can a test fail if it does not complete quickly enough?
+<ul class="org-ul">
+<li>The @Test annotation can take a <b>timeout</b> parameter, which takes a
+value of type long.
+</li>
+<li>If the test is running for longer than the timeout specified, the
+test fails.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Functional Programming in Java</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>The <code>Iterable</code> interface has been enhanced in Java 8 with a special
+method <code>forEach()</code>, which accept a <code>Consumer</code>.
+</li>
+<li>However, once <code>forEach</code> starts, we cannot break out of the
+iteration.
+</li>
+<li>Thus this style is useful in the common case where we want to
+process each element in a collection.
+</li>
+<li>Lambda function with inferred parameters: the parameters are
+<code>non-final</code>.
+<div class="highlight"><pre><span></span><span class="n">friends</span><span class="o">.</span><span class="na">forEach</span><span class="o">((</span><span class="kd">final</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span><span class="o">));</span>
+<span class="c1">//or, with the inferred type, cannot specify final here.</span>
+<span class="n">friends</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">name</span><span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span><span class="o">));</span>
+<span class="c1">//or.</span>
+<span class="n">friends</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+</pre></div>
+</li>
+<li>In Java you can use lambdas and method references when any <b>SAM</b>
+  (single abstract method) interface is expected.
+<ul class="org-ul">
+<li>Lambdas can be freely converted to SAM Types.
+<ul class="org-ul">
+<li>Example:
+<div class="highlight"><pre><span></span><span class="kd">final</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">startsWithN</span> <span class="o">=</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"N"</span><span class="o">);</span>
+<span class="c1">//or using a Lexical scoping with closure.</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">checkIfStartsWith</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">letter</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">letter</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="c1">//or with *Function* Interface.</span>
+<span class="kd">final</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Predicate</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span> <span class="n">startsWithLetter</span> <span class="o">=</span>
+    <span class="n">letter</span> <span class="o">-&gt;</span> <span class="n">name</span> <span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">letter</span><span class="o">);</span>
+</pre></div>
+</li>
+<li>This can also help with reuse of lambda expression, if it is
+used multiple times.
+</li>
+<li>From within a lambda expression we can only access local
+variables that are <code>final</code> or <code>effectively final</code> in the
+enclosing scope.
+</li>
+<li>A lambda expression may be invoked right away, or it may be
+invoked lazily or from multiple thread.
+</li>
+<li>To avoid race conditions, the local variables we access in the
+enclosing scope are not allowed to change once initialized.
+</li>
+<li>Variables either marked as <code>final</code>.
+</li>
+<li>Or for <code>effectively final</code>
+<ul class="org-ul">
+<li>the variables have to be initialized within the enclosing
+method before the lambda expression is defined.
+</li>
+<li>the values of these variable don't change anywhere else.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>In Scala, it is only supported from version 2.12, so a scala
+function literal can be used for a <b>SAM</b>.
+<ul class="org-ul">
+<li>If a <code>trait/abstract class</code> with exactly one <code>abstract</code> method,
+then a <b>Function</b> of the same parameter and return type of the
+abstract method can be converted into the <code>trait/abstract
+      class</code>.
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">Flyable</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">fly</span><span class="o">(</span><span class="n">miles</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Unit</span>
+  <span class="k">val</span> <span class="n">name</span> <span class="k">=</span> <span class="s">"Unindentified Flyable Object"</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">ufo</span><span class="k">:</span> <span class="kt">Flyable</span> <span class="o">=</span> <span class="o">(</span><span class="n">m</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">s"</span><span class="si">${</span><span class="n">ufo</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s"> flies </span><span class="si">$m</span><span class="s"> miles"</span><span class="o">)</span>
+<span class="n">ufo</span><span class="o">.</span><span class="n">fly</span><span class="o">(</span><span class="mi">123</span><span class="o">)</span>
+<span class="c1">//Unidentified Flyable Object files 123 miles!</span>
+</pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Picking an element from collection, using <code>findFirst()</code> method,
+which return a <code>Optional</code>:
+<div class="highlight"><pre><span></span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">foundName</span> <span class="o">=</span>
+   <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+      <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span><span class="o">-&gt;</span><span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="s">"N"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">findFirst</span><span class="o">();</span>
+</pre></div>
+</li>
+<li>
+<code>reduce</code>
+<ul class="org-ul">
+<li>An <code>Optional reduce(BinaryOperator bo)</code> example, finding the name with the longest length:
+<div class="highlight"><pre><span></span><span class="kd">final</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">aLongName</span> <span class="o">=</span>
+   <span class="n">friends</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span>
+     <span class="n">reduce</span><span class="o">((</span><span class="n">name1</span><span class="o">,</span> <span class="n">name2</span><span class="o">)=&gt;</span> <span class="n">name1</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;=</span><span class="n">name2</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">?</span> <span class="n">name1</span> <span class="o">:</span> <span class="n">name2</span><span class="o">);</span>
+<span class="n">aLongName</span><span class="o">.</span><span class="na">ifPresent</span><span class="o">(</span><span class="n">name</span><span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"A long name: "</span><span class="o">+</span> <span class="n">name</span><span class="o">));</span>
+</pre></div>
+<ul class="org-ul">
+<li>As the <code>reduce()</code> method iterated through the collection, it called
+the lambda expression first with the first two elements in the
+list.
+</li>
+<li>The result is used as the <b>first</b> parameter in the following calls.
+</li>
+<li>The result from the final call is returned as the result of the
+<code>reduce()</code> method call.
+</li>
+<li>The result of <code>reduce()</code> is an <code>Optional</code> because the collection
+on which is called may be empty.
+</li>
+<li>If the list had only one element, the <code>reduce()</code> would return that
+element and the lambda expression would not be invoked.
+</li>
+</ul>
+</li>
+<li>Another form of <code>reduce</code> looks like:
+<div class="highlight"><pre><span></span><span class="kd">final</span> <span class="n">String</span> <span class="n">steveOrLonger</span> <span class="o">=</span>
+    <span class="n">friends</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="s">"steve"</span><span class="o">,</span> <span class="o">(</span><span class="n">name1</span><span class="o">,</span> <span class="n">name2</span><span class="o">)</span> <span class="o">-&gt;</span>
+	    <span class="n">name1</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;=</span><span class="n">name2</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">?</span> <span class="n">name1</span><span class="o">,</span> <span class="n">name2</span>
+	<span class="o">);</span>
+</pre></div>
+<ul class="org-ul">
+<li>It takes a base value, and not return an <code>Optional</code>.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Join elements:
+<ul class="org-ul">
+<li>
+<code>String</code> has an added convenience method <code>join()</code>:
+<div class="highlight"><pre><span></span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="s">", "</span><span class="o">,</span> <span class="n">friends</span><span class="o">));</span>
+</pre></div>
+</li>
+<li>Under the hood, the <code>join()</code> method calls upon the <code>StringJoiner</code>
+    to concatenate the values.
+</li>
+<li>We could use the <code>reduce()</code> method to concatenate elements into a
+string, but JDK has a <code>collect()</code> method, which is another form of
+<code>reduce</code> that can help collect values into a target destination:
+<div class="highlight"><pre><span></span><span class="n">String</span> <span class="n">names</span> <span class="o">=</span> <span class="n">friends</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">String</span><span class="o">::</span><span class="n">toUpperCase</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">(</span><span class="s">", "</span><span class="o">))</span>
+</pre></div>
+</li>
+<li>
+<code>StringJoiner</code> gives more control over the format of
+concatenation; we can specify a prefix, a suffix, and infix
+character sequences.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/java/" rel="tag">java</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../java-problems/" rel="prev" title="Java Problems">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../java-hotspot-gc/" rel="next" title="Java HotSpot VM GC Tunning Guide">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:n.tesla@example.com">Warren Liu</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

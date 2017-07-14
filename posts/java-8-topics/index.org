@@ -1,0 +1,542 @@
+#+BEGIN_COMMENT
+.. title: Java 8 Topics
+.. slug: java-8-topics
+.. date: 2017-07-14
+.. tags: java
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* NIO File API
+- ~java.nio.file.Path~ is part of the more modern ~java.nio.file~ lib
+  and does everything ~java.io.File~ can, but generally in a better way.
+- ~path.toFile()~ to convert to ~File~ for legacy.
+- ~file.ToPath()~ to convert to ~Path~ instance.
+- Using ~Files~ utility class, which deals with ~Path~
+  #+BEGIN_SRC java
+  Path fp = file.toPath();
+  Files.delete(fp);
+  #+END_SRC
+- Problems with ~java.io.File~:
+  - Many methods didn't throw exceptions when they failed, so it was
+    impossible to obtain a useful error message.
+  - No real support for symbolic links.
+  - More support for metadata was desired.
+  - Many of the ~File~ method didn't scale. Requesting a large
+    directory listing over a server would result in a hang.
+  - No possible to write reliable code that could recursively walk a
+    file tree when there were circular symbolic link.
+- Creating a Path
+  - ~Paths.get(String... filePath)~, which is a shorthand for:
+  - ~FileSystems.getDefault().getPath(String filePath)~
+  - Example:
+    #+BEGIN_SRC java
+    Path p = Paths.get(System.getProperty("user.home"), "logs", "foo.log");
+    #+END_SRC
+- ~Files~ consists exclusively of static methods that operate on
+  files, directories or other types of files. In most cases, these
+  methods will delegate to the associated ~file system provider~
+  - copy:
+    - ~copy(InputStream in, Path target, CopyOption...options)~
+    - ~copy(Path source, OutputStream out)~
+    - ~copy(Path source, Path target target, CopyOption... options)~
+  - create:
+    - ~createDirectoreis(Path dir, FileAttribute... attrs)~ : will
+      create nonexistent parent directories first.
+    - ~createDirectory(Path dir, FileAttribute... attrs)~
+    - ~createFile(Path path)~
+*** TODO more on the File API.
+
+* Using Method References
+- Java compiler will take either a lambda expression, or a reference
+  to a method, where an implementation of a *function interface* is
+  expected.
+- Method reference is used to *replace a single-method lambda
+  expression*.
+- Method reference for static methods and methods take parameters:
+  #+BEGIN_SRC java
+    (args)->Class.staticMethod(args)
+    (arg1, arg2)->Class.staticMethod(arg1, arg2)
+    //equals to
+    Class::staticMethod
+  #+END_SRC
+  - Any arguments, if any, taken by the method are passed automatically.
+    #+BEGIN_SRC java
+      class Numbers {
+          public static boolean isMoreThanFifty(int n1, int n2){
+              return (n1 + n2) > 50;
+          }
+          public static List<Integer> findNumbers(List<Integer> l,
+                 BiPredicate<Integer, Integer> p){
+              ...
+          }
+      }
+
+      // Using a lambda expression
+      findNumbers(list, (i1, i2) -> Numbers.isMoreThanFifty(i1, i2));
+      // Using a method reference
+      findNumbers(list, Numbers::isMoreThanFifty);
+    #+END_SRC
+- Instance method reference of an object of a particular type
+  #+BEGIN_SRC java
+    (obj, args) -> obj.instanceMethod(args)
+    //equals to
+    ObjectType::instanceMethod
+  #+END_SRC
+  - For example:
+    #+BEGIN_SRC java
+      interface TriFunction<T, U, V, R> {
+          R apply(T t, U u, V v);
+      }
+
+      class Sum {
+          Integer doSum(String s1, String s2) {
+              return Integer.parseInt(s1) + Integer.parseInt(s1);
+          }
+      }
+
+      //using lambda
+      TriFunction<Sum, String, String, Integer> lambda =
+          (Sum s, String arg1, String arg2) -> s.doSum(arg1, arg1);
+      //Using method reference
+      TriFunction<Sum, String, String, Integer> mRef = Sum::doSum;
+    #+END_SRC
+- Instance method reference of an existing object.
+  #+BEGIN_SRC java
+    (args)->obj.instanceMethod(args)
+    //equals to
+    obj::instanceMethod
+  #+END_SRC
+- Constructor method reference
+  #+BEGIN_SRC java
+    (args) -> new ClassName(args)
+    //equals to
+    ClassName::new
+  #+END_SRC
+
+
+* Collection and Stream
+- With ~forEach~, once the method starts, we can't break out of the
+  iteration.
+- Pick one element with ~findFirst/findAny~ which return an ~Optional~.
+  #+BEGIN_SRC java
+    final Optinal<String> foundName =
+        names.stream().filter(name->name.startsWith(letter))
+        .findFirst();
+    foundName.ifPresnet(name -> System.out.println("hello" + name));
+  #+END_SRC
+
+** Some of the JDK libraries that return a Stream
+- ~Stream.concat()~ lazily concatenated streams
+- ~Stream.generate(Supplier<T> s)~
+  - Get a ~Stream~ from ~Iterator~:
+    #+BEGIN_SRC java
+    static <T> Stream<T> iteratorToStream(final Iterator<T> iterator){
+       return Stream.generate(iterator::next);
+    }
+    #+END_SRC
+- ~Stream.iterate(T seed, UnaryOperator<T> f)~: return a Stream
+  consisting of ~seed~, ~f(seed)~, ~f(f(seed))~, etc.
+-
+- ~chars()~ method from the ~CharSequence~ interface, returns a
+  Stream<Int> over which we can iterate.
+  #+BEGIN_SRC java
+    str.chars().forEach(System.out.::println)
+  #+END_SRC
+- ~Stream<Path> Files.list(Path path)~ method list all filenames in a
+  directory, or ~listFiles()~ to get all the files instead of just
+  their names.
+  #+BEGIN_SRC java
+  Files.list(Paths.get("."))
+       .filter(Files::isDirectory)
+       .forEach(System.out::println)
+  #+END_SRC
+- ~Stream<String> Files.lines(Path path)~
+- ~Stream<Path> Files.find(Path start, int maxDepth, BiPredicate<Path,
+  BasicFileAttributes> matchers, FileVisitOption... options)~ :
+  Returns a Stream that is lazily populated with Path by searching for
+  files in a file tree rooted at a given starting file.
+
+** Reducing a Collection to a single value.
+- Similar method on ~Stream~ are : ~max~, ~min~,  ~average~
+  #+BEGIN_SRC java
+  int sum = friends.stream().mapToInt(name-> name.length()).sum();
+  #+END_SRC
+- ~Optional<T> reduce(BinaryOperator<T> accumulator)~ : reduction
+  using an associated accumulation function. This is equivalent to:
+  #+BEGIN_SRC java
+    boolean foundAny= false;
+    T result = null;
+    for (T element : stream) {
+        if (!foundAny){
+            foundAny = true;
+            result = element;
+        }else{
+            result = accumulator.apply(result, element);
+        }
+        return foundAny ? Optional.of(result) : Optional.emtpy();
+    }
+  #+END_SRC
+  - But it is /*not* constrained to execute sequentially/.
+  - empty stream results in Optional.empty()
+  - Single element stream result in the element returned, without
+    apply the accumulator.
+- ~T reduce(T identity, BinaryOperator<T> accumulator)~ : is
+  equivalent to:
+  #+BEGIN_SRC java
+    T result = identity;
+    for (T element: stream) {
+        result = accumulator.apply(result, element);
+    }
+    return result;
+  #+END_SRC
+  - The ~identity~ value must be an identity for the accumulator
+    function, this means that for all ~t~,
+    ~accumulator.apply(identity, t)~ is equal to ~t~
+  - The ~accumulator~ function must be an associative function:
+    - which means:
+      #+BEGIN_VERSE
+      (a op b) op c == a op (b op c)
+      #+END_VERSE
+    - Associative function is important for parallel evaluation:
+      #+BEGIN_SRC java
+        a op b op c op d == (a op b) op (c op d)
+      #+END_SRC
+- ~U reduce(U identity, BiFunction<U, T, U> accumulator,
+  BinaryOperator<U> combiner)~: The most general form of reduce.
+- Using ~StringJoiner~ class or the convenience method
+  ~String.join()~ to join collection into a string.
+  #+BEGIN_SRC java
+    System.out.println(String.join(", ", friends));
+  #+END_SRC
+- ~collect()~ method does the reduction but delegate the actual
+  implementation or target to collector.
+  #+BEGIN_SRC java
+    System.out.println(
+        friends.stream().map(String::toUpperCase).collect(joining(", ")));
+  #+END_SRC
+
+** Collectors
+- ~Stream.collect()~ method takes a ~Collector~, or three functions
+  with a signature like:
+  - ~collect(Supplier<R> supllier, BiConsumer<R,T> accumulator,
+    BiConsumer<R, R> combiner)~
+    - make the result container,
+    - add a single elements to a result container,
+    - merge one result container into another.
+  - Example:
+    #+BEGIN_SRC java
+          List<Person> olderThan20 =
+              people.stream().filter(person -> person.getAge() > 20)
+              collect(ArrayList::new, ArrayList::add, ArrayList::addAll)
+    #+END_SRC
+- The ~Collector<T, A, R>~ interface wraps the three parameters list above,
+  with an optional additional finisher for final transform on the
+  container.
+  - ~T~ The type of stream elements.
+  - ~A~ The mutable accumulation type of the reduction operation.
+  - ~R~ The result type of the reduction operation.
+- The ~Collector~ could have a list of ~Characteristics~ for inspect:
+  - ~CONCURRENt~ : indicate the result container can support the
+    accumulator function being called concurrently with same result container.
+  - ~IDENTITY_FINISH~ : finisher function is the /identity function/
+    and can be ignored.
+  - ~UNORDERED~ : the collection operation doesn't commit to
+    preserving the encounter order of input elements.
+- ~Collectors~ provides many useful ~Collector~ for reduction
+  operations.
+- ~summarizingDouble(ToDoubleFunction mapper)~ : Return summary
+  statistics for the resulting double values from the mapper.
+- ~DoubleSummaryStatistics~ have method to get ~average~, ~count~,
+  ~max~, ~min~, ~sum~ for the collection.
+- ~averagingDouble(ToDobuleFunction mapper)~ : produce the arithmetic
+  mean of a double-valued function applied to the input elements.
+- ~averagingInt~, ~averagingLong~
+- ~counting()~ : counts the number of input elements.
+- ~groupingBy(Function<T, K> classifier)~: grouping elements according
+  to a classification function. and return a Map.
+  - ~groupingByConcurrent()~ returns a concurrent Collector.
+- ~mapping(Function<T, U> mapper, Collector downstream)~ : applying
+  the mapping to each input element before accumulation. It adapts a
+  Collector accepting elements of type ~U~ to one accepting ~T~.
+- ~partioningBy(Predicate<T> predicate)~ : collector that return a
+  ~Map<Boolean, List<T>>~.
+- ~reducing(BinaryOperator<T> op)~
+- ~toMap~, ~toConcurrentMap(Function<> keyMapper, Function<>
+  valueMapper)~ : return a ~ConcurrentMap~, whose keys and values are
+  mapped from each elements.
+- If the mapped keys contains duplicates, ~IllegalStateException~
+  is thrown.
+  - It is common for either the key or the value to be the input
+    elements. In this case, the utility method ~Function.identity()~
+    may be helpful:
+    #+BEGIN_SRC java
+    Map<Student, Double> studentToGPA
+    students.stream().collect(toMap(Functions.identity(),
+                                   student -> computeGPA(student)));
+    #+END_SRC
+- ~toMap(Function keyMapper, Function valueMapper, BinaryOperator
+  mergeFunction)~: takes an additional merge function, when the maps
+  key contains duplicates, the corresponding values is merged by it.
+
+
+* Multiple and Fluent Comparisons
+- ~List.sort()~ mutate the list, to preserve the original list using
+  the Stream's ~sorted()~ method:
+  #+BEGIN_SRC java
+  List<Person> ascendingAge = people.stream().sorted(
+     (person1, person2)-> person1.ageDifference(person2))
+  ).collect(toList());
+  // or we could do with method references.
+  people.stream().sorted(Person::ageDifference)
+  #+END_SRC
+- If all we want is a reverse of the comparison, the ~Comparator~
+  method has a ~reversed()~ default method:
+  #+BEGIN_SRC java
+    Comparator<Person> compareAscending = (person1, person2) -> person1.ageDifference(person2);
+    Comparator<Person> compareDescending = compareAscending.reversed()
+  #+END_SRC
+- ~min/max~ method could also take a comparator:
+  #+BEGIN_SRC java
+    people.stream.min(Person::ageDifference).ifPresent(
+      youngest -> System.out.println("Youngest: " + youngest)
+    );
+  #+END_SRC
+- ~static Comparator<T> comparing(Function<T, U> keyExtractor>)~:
+  allowing comparing by some key:
+  #+BEGIN_SRC java
+    final Function<Person, String> byName = Person::getName;
+    people.stream().sorted(comparing(byName);
+  #+END_SRC
+- With multiple comparators,  using ~thenComparing()~:
+  #+BEGIN_SRC java
+    final Function<Person, Integer> byAge = Person::getAge;
+    final Function<Person, String> byName = Person::getName;
+    people.stream().sorted(
+        comparing(byAge).thenComparing(byName));
+  #+END_SRC
+
+** Decorator pattern with Lambda
+- Using the ~Function.andThen()~ to combine or chain two ~Function~
+  together.
+- Once we compose them, a call to ~apply()~ will hop through the
+  chained ~Function~s:
+  #+BEGIN_SRC java
+  wrapper = target.andThen(next);
+  wrapper.apply(input);
+  //same as
+  temp = target.apply(input);
+  next.apply(temp);
+  #+END_SRC
+- An example for decorator pattern:
+  #+BEGIN_SRC java
+    public void setFilters(final Function<Color, Color>... filters) {
+        this.filters = Arrays.asList(filters).stream()
+            .reduce(filter,next)-> filter.compose(next))
+            .orElse(Function::identity);
+    }
+  #+END_SRC
+
+* Automatic Resource Management (ARM)
+- Rather than using both the ~try~ and ~finally~ blocks, a special
+  form of the ~try~ block with a resource attached to it.
+- The java compiler will automatically inserting the finally block and
+  then call the ~close()~ method:
+  #+BEGIN_SRC java
+    public class FilrWriterARM implements AutoCloseable {
+        ...
+        public void close() throws IOException{
+            System.out.println("close called automatically...");
+            writer.close();
+        }
+    }
+
+    try{
+        final FileWriterARM writerARM = new FileWriterARM("somefile")
+       }{
+        writerARM.write("somsthing");
+        System.out.println("Done with the resources...");
+    }
+  #+END_SRC
+  - We can see the ~close()~ method was called as soon as we left the try
+    block.
+- Could also use lambda expressions and the *execute around method*
+  pattern to manage resources:
+  #+BEGIN_SRC java
+    public static void use(final String fileName,
+                           final UseInstance<FileWriterARM, IOException> block)
+        throws IOException {
+        final FileWriterARM writerARM = new FileWriterARM(filename);
+        try{
+            block.accept(writerARM);
+        }finally{
+            writerARM.close();
+        }
+    }
+  #+END_SRC
+
+* Dealing with Exceptions in Lambda
+- The ~apply()~ method of the ~Function~ interface does not specify
+  any checked exceptions.
+- So the lambda expression is not permitted to throw any checked exceptions.
+- Two options:
+  - handle the exception within the lambda expression, or
+  - catch and rethrow it as an unchecked exception.
+    - In a concurrent execution, an exception raised within the lambda
+      expression will be propagated automatically to the calling
+      primary thread.
+    - This will not terminate or obstruct the execution of other
+      lambda expressions running concurrently.
+    - If exceptions are thrown from multiple concurrent executions,
+      only /one of them will be reported in the catch block/.
+  - If the details of all exceptions are important, it is better to
+    capture those within the lambda expressions and pass them back to
+    the main thread as part of the result.
+- When we design our own higher-order functions based on our specific
+  need, we can more flexibly design the companion functional
+  interfaces to go with it.
+  #+BEGIN_SRC java
+      @FunctionalInterface
+      public interface UseInstance<T, X extends Throwable> {
+          void accept(T instance) throws X;
+      }
+  #+END_SRC
+
+
+* Lambda with Laziness
+** Delayed Initialization
+#+BEGIN_SRC java
+  public class Holder {
+      private Supplier<Heavy> heavy = () -> createAndCacheHeavy();
+
+      public Holder(){
+          System.outpr.println("Heavy Holder is created");
+      }
+
+      public Heavy getHeavy(){
+          this.heavy.get();
+      }
+
+      private synchronized createAndCacheHeavy(){
+          class HeavyFactory implements Supplier<Heavy> {
+              private final Heavy heavyInstance  = new Heavy();
+              public Heavy get() {
+                  return heavyInstance;
+              }
+          }
+
+          if (!HeavyFactory.class.isInstance(heavy)) {
+              heavy = new HeavyFactory();
+          }
+
+          return heavy.get();
+      }
+  }
+#+END_SRC
+- The above use an indirect ~Supplier~ to avoid synchronization on all
+  the ~get()~ which normally required when using a plain ~null~ check
+  and lazy initialization pattern.
+- Only the first call to ~heavy.get()~ is synchronized, the later ones
+  are not because the ~heavy~ instance has been changed by the first
+  call.
+
+** Creating Infinite, Lazy Collections
+- Using Stream's ~static iterate(seed, UnaryOperator)~ method.
+
+* Default methods
+[[- https://blog.codefx.org/java/everything-about-default-methods/]]
+- Syntax: just like a regular method but modified with ~default~
+  #+BEGIN_SRC java
+    default Comparator<T> thenComparing(Comparator<? super T> other) {
+        return (o1, o2) -> {
+            int res = this.compare(o1, o2);
+            return (res!=0) ? res : other.compare(o1, o2);
+        }
+    }
+  #+END_SRC
+- Explicit call to Default Methods:
+  #+BEGIN_SRC java
+    class StringComparator implements Comparator<String>{
+        //...
+        @Override
+        public Comparator<String> thenComparing(Comparator<? super String other) {
+            log("call to super");
+            return Comparator.super.thenComparing(other);
+        }
+    }
+  #+END_SRC
+  - The interface name is used to specify the following ~super~ which
+    would otherwise refer to the superclass (in this case Object).
+  - It is not possbile to call a method from an interface that is not
+    mentioned in the ~implements~ clause.
+  - When implementing two interfaces where /one extends the other/
+    *Comparator.super* causes a different compile error.
+  - Together this means that it is /not possible to explicitly call
+    *overridden* or *reabstracted* default methods/.
+- Resolution Strategy:
+  - Classes win over interfaces.
+  - More specific interfaces win over less specific ones. A default
+    from ~List~ wins over a default from ~Collection~.
+  - If there is not a unique winner according to the above rules,
+    concrete classes must disambiguate manually.
+  - Re-Abstracing methods:
+    - If an abstract class or interface declares a method as
+      /abstract/ for which a /default implementation exists/ in some
+      superinterface, the default implementation of is overridden.
+    - Hence all concrete classes which subtype it must implement the
+      method.
+    - This technique is used throughout the JDK, e.g. on ConcurrentMap
+      (link) which re-abstracts a number of methods for which Map
+      (link) provides default implementations because these are not
+      thread-safe.
+  - It is not possible for an interface to provide default
+    implementations for the methods in Object.
+- Default methods can only be ~public~, and cannot be ~final~ or
+  ~synchronized~.
+
+** Interface Evolution
+- The purpose of default method is to enable interfaces to be evolved
+  in a compatible manner after their initial publication.
+  - It was impossible to add methods to interfaces without breaking
+    all implementations before default method.
+- Ousting Utility classes. All those static methods which take an
+  instance of the interfaces as an argument can now be transformed
+  into a default method on the interface.
+  - While removing all interface-related utility classes in a code
+    base is possible,
+  - It *might not be advisable*.
+  - The usability and cohesiveness of the interface should remain the
+    main priority.
+
+** Inheritance and Class-Building
+- With inheritance a type can assume three types of characteristics of
+  another type:
+  - Type
+  - Behaviour
+  - State
+- Class subtyping inherit all three of those characteristics.
+- Interface with default methods subtyping inherit only Type and
+  Behaviour.
+- Default method vs Mixin and Traits
+  - Mixin allow to inherit their type, behaviour *and state*.
+  - As interfaces with defaults allow no inheritance of state, they
+    are clearly not mixins.
+  - Traits do not define their own state, very similar to interfaces
+    with default methods
+  - But the concepts are still different, and those differences are
+    not entirely trivial.
+- Default methods vs Abstract classes
+  - Language Differences
+    - Interfaces allow multiple inheritance
+    - Default methos are never final, cannot be synchronized and
+      cannot override ~Object~'s method and always public.
+    - Cannot define fields, so every state change has to be done via
+      the public API.
+  - Conceptual Differences
+    - Classes define /what something is/, while interfaces usually
+      define /what something can do/.
+    - Abstract classes are valid for skeletal (i.e. partial)
+      implementations of interfaces but /should not exist without a
+      matching interface/.

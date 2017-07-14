@@ -1,0 +1,110 @@
+#+BEGIN_COMMENT
+.. title: Bash Note
+.. slug: Bash-notes
+.. date: 2017-07-14 16:28:48 UTC+01:00
+.. tags: bash
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Bash array and its loop
+- declare an array
+#+BEGIN_SRC sh
+  files=( "/etc/passwd" "/etc/group" "/etc/hosts" )
+  limits=( 10, 20, 26, 39, 48)
+#+END_SRC
+- array can also be created automatically when a variable is used in
+  the format like:
+#+BEGIN_SRC sh
+  name[index]=value
+#+END_SRC
+- loop through array values
+#+BEGIN_SRC sh
+  for i in "${arrayName[@]}"
+  do
+     echo $i
+  done
+#+END_SRC
+  the syntax for array with [@] print out the whole array.
+- get the length of an array with ~${#array[@]}~
+#+BEGIN_SRC sh
+  declare -a Unix=('Debian' 'Red hat' 'Suse' 'Fedora');
+  echo ${#Unix[@]} #Number of elements in the array
+  echo ${#Unix}  #Number of characters in the first element of the array.i.e Debian
+#+END_SRC
+- get a subarray with ~${array[@]:3:2}~
+#+BEGIN_SRC sh
+  Unix=('Debian' 'Ubuntu' 'Fedora' 'UTS' 'OpenLinux');
+  echo ${Unix[@]:3:2}
+#+END_SRC
+- add an element to an existing array:
+#+BEGIN_SRC sh
+  Unix=('Debian' 'Red hat'  'Fedora' 'UTS' 'OpenLinux');
+  Unix=("${Unix[@]}" "AIX" "HP-UX")
+#+END_SRC
+- contact two arrays:
+#+BEGIN_SRC sh
+  Unix=('Debian' 'Red hat' 'Ubuntu'  'UTS' 'OpenLinux');
+  Shell=('bash' 'csh' 'jsh' 'rc' 'tcsh');
+  UnixShell=("${Unix[@]}" "${Shell[@]}")
+  # alternatively, to append the second array to the first
+  Unix+=Shell
+#+END_SRC
+- remove an element from an array using subarray and contact
+- unset can be used to delete an entire array
+- bash also support *associated arrays*:
+#+BEGIN_SRC sh
+  declare -A ARRAY # declar an associate array.
+  ARRAY[STRING]=VALUE
+#+END_SRC
+
+* Using ~trap~
+- *trap [COMMANDS] [SIGNALS]*: this instructs the *trap* command to
+  catch the listed /SIGNALS/, which my be signal names with or without
+  the /SIG/ prefix, or signal numbers.
+- 0, or /EXIT/, the commands are executed when the shell exists.
+- /DEBUG/, the list of commands is executed after every simple
+  command.
+- /ERR/, the commands is executed each time a simple command exists
+  with a non-zero status.
+- Example:
+  #+BEGIN_SRC sh
+    #!/bin/bash
+    # traptest.sh
+
+    trap "echo Booh!" SIGINT SIGTERM
+    echo "pid is $$"
+
+    while :                 # This is the same as "while true".
+    do
+            sleep 60        # This script is not really doing anything.
+    done
+  #+END_SRC
+  - In this example, Ctrl+C, or kill with the PID without specifying
+    the /KILL/ signal, will not terminate the script, cause the
+    signals is trapped.
+- *trap* can be used to clean up resource in shell script.
+
+* SIGTERM vs. SIGKILL
+- Sending signals to processes using ~kill~
+- Anytime you use ~kill~ on a process, you are actually sending the
+  process a signal.
+- The full list of signals can be found with ~kill -l~.
+- Without any parameters, ~kill pid~ would send a /SIGTERM/ signal,
+  - in which case:
+    - The process may stop immediately.
+    - The process may stop after a short delay after cleaning up resources.
+    - The process may keep running indefinitely.
+  - The application can determine what it want to do once a /SIGTERM/ is
+    received.
+  - Also, if the application is in a bad state, such as waiting for disk
+    I/O, it may not be able to act on the signal that was sent.
+- ~kill -9 pid~: will send a /SIGKILL/, which cannot be ignored by the
+  process.
+  - The process isn't made aware of the /SIGKILL/ signal since the
+    signal goes straight to ~init~, which will stop the process.
+  - The process never gets the opportunity to catch the signal and act
+    on it.
+-

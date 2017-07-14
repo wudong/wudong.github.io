@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about microservice)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/microservice.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Jul 2017 20:53:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Microservices Note</title><link>https://example.com/posts/microservices-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Challenges&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Monitoring multiple hosts
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Health Checks: List of health checks is executed on/health
+endpoint call:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Health check responsible for DB connection
+&lt;/li&gt;
+&lt;li&gt;health check for other external resources
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Configuration of services
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Use a configuration service: &lt;code&gt;GET /configuration?serviceName=payment&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;For example: Spring Cloud has a configuration service.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Log aggregation
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Microservices require centralized logging, as there is no one
+place to figure out what is going on
+&lt;/li&gt;
+&lt;li&gt;Logstash: data procession pipeline.
+&lt;/li&gt;
+&lt;li&gt;Need some type of &lt;b&gt;global request tracing&lt;/b&gt;, assigning a request ID
+to each request such that you can figure out how things flow.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Service discovery
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Asynchronous vs Thread-per-Request Processing&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;IO Intensive:
+&lt;/li&gt;
+&lt;li&gt;CPU Intensive:
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Blue Green Deployment&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;a href="https://martinfowler.com/bliki/BlueGreenDeployment.html"&gt;https://martinfowler.com/bliki/BlueGreenDeployment.html&lt;/a&gt;
+&lt;/li&gt;
+&lt;li&gt;One of the challenges with automating deployment is the cut-over
+itself, taking software from the final stage of testing to live
+production.
+&lt;/li&gt;
+&lt;li&gt;Need to do this quickly in order to minimize downtime.
+&lt;/li&gt;
+&lt;li&gt;The blue-green deployment approach does this by ensuring you have
+two production environment, as identical as possible.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+&lt;i&gt;  https://martinfowler.com/bliki/images/blueGreenDeployment/blue_green_deployments.png&lt;/i&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;At any time one of them is live, and it is switched when doing deployment.
+&lt;/li&gt;
+&lt;li&gt;Blue-green deployment also gives you a rapid way to rollback.
+&lt;/li&gt;
+&lt;li&gt;There is still issue of dealing with missed &lt;b&gt;transactions&lt;/b&gt; during
+the switch.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;keep one as backup when the other is alive, feeding transaction to
+both.
+&lt;/li&gt;
+&lt;li&gt;Or put the application in read-only mode before cut-over.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;An advantage of this approach is that it's the same basic mechanism
+as you need to get a &lt;b&gt;hot-standby&lt;/b&gt; working.
+&lt;/li&gt;
+&lt;li&gt;Hence this allows you to test your disaster-recovery procedure on
+every release.
+&lt;/li&gt;
+&lt;li&gt;Databases can often be a challenge with this technique
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Particularly when you need to change the schema to support a new
+version of the software.
+&lt;/li&gt;
+&lt;li&gt;The trick is to &lt;b&gt;separate&lt;/b&gt; the &lt;i&gt;deployment of schema changes&lt;/i&gt; from
+&lt;i&gt;application upgrades&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;First apply a database refactoring to change the schema to support
+both the new and old version of the application, deploy that,
+check everything is working fine so you have a rollback point,
+&lt;/li&gt;
+&lt;li&gt;Then deploy the new version of the application
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>microservice</category><guid>https://example.com/posts/microservices-note/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

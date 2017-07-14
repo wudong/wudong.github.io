@@ -1,0 +1,56 @@
+#+BEGIN_COMMENT
+.. slug: agile-notes
+.. date: 2017-07-14 16:28:48 UTC+01:00
+.. tags: agile study
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+#+TITLE: Agile Notes
+
+* Practices of an Agile Developer
+- In the beginning of the development, it will be good to have a hotfix
+  policy in place to make it easy to do hotfix.
+- Integration is one of the biggest risk in software development. It
+  will be best to integrate a few times a day.
+- To integrate as early and as often as possible to avoid problems of
+  integration later.
+- Automate deployment early as well. /Deploy hotfix in the production
+  environment should be made easy/.
+- Agility is all about *managing change* and the code is one of things
+  that change the most.
+- Thinking of unit test results same as compiler result. If it doesn't
+  pass the test, or even, no test at all for a piece of code, it
+  should be treated equivalent to not compiling.
+- Unit test may not be appropriate for prototyping or
+  experimenting. In the rare cases that prototypes go into production,
+  unit test need to be added for them.
+- Estimate the time needed for a task, and when finish a task, keep
+  track of how long it really took.
+- Keep a solution log, maintain a log of problems faced and solutions
+  found. _Even better than maintaining a log is sharing it with others_.
+- Warnings are really errors.
+  - If your compiler allows you to fine-tune warning reporting levels,
+    turn that all the way up so warnings are not ignored.
+  - You can usually instruct the compiler to specifically suppress
+    unavoidable warnings.
+  - Deprecated methods have been deprecated for a reason.
+- Provide useful error messages to the user. Allow user to see error
+  *details* with /additional click/ could be very useful for debug.
+- Information logged may contain not only the details about what went
+  wrong but also a snapshot of the state of the system (for example,
+  the session state in a web application)
+- Type of errors, by keeping track of what kind of error you are
+  reporting, you can provide more appropriate advice to your audience.
+  - Program defects, bugs: NullPointerException, missing key values,
+    etc. The user, or system administrator can do nothing about it.
+  - Environment problem: failure to connect to a database or remote
+    service, insufficient permissions, etc. The program can do nothing
+    about it.
+  - User error.
+- Practice collective ownership
+- Architect must write code
+
+* Restrospective

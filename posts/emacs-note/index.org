@@ -1,0 +1,45 @@
+#+BEGIN_COMMENT
+.. title: Emacs Note
+.. slug: emacs-note
+.. date: 2017-07-14
+.. tags: emacs
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Emacs Notes
+
+- ~expend-region~: require the module to be able to expand/shrink selections.
+  - expend: C-=
+  - shrink: M-- C-= /Note/: M-- is a negative prefix argument normally means -1.
+    this allow the ~er/expand-region~ function to do a shrink.
+
+- repeat previous command: C-x z
+
+- open ssh remote file:
+  #+BEGIN_VERSE
+  C-x C-f /ssh:user@192.168.1.5:/usr/share/nginx/html/index.html
+  #+END_VERSE
+  Note the leading slash before ssh.
+  It support server defined in .ssh/config.
+
+- This can also be used to Open file with sudo:
+  #+BEGIN_VERSE
+  C-x C-f /sudo::/etc/fstab
+  #+END_VERSE
+
+- Fill paragraph: with ~fill-paragraph~(M-q) to organize paragraph
+  with desired right margin.
+
+
+- indent multiple line: \\
+  Select multiply lines, then type ~C-u 8 C-x Tab~, it will indent the
+  region by 8 spaces.  ~C-u -4~ C-x Tab will /un-indent/ by 4 spaces
+
+- To input unicode characters:
+  #+BEGIN_VERSE
+  C-x 8 RET unicode
+  #+END_VERSE

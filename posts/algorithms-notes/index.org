@@ -1,0 +1,325 @@
+#+BEGIN_COMMENT
+.. title: Algorithms Note
+.. slug: algorithms-notes
+.. date: 2017-07-14
+.. tags: algorithm
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* KdTree
+[[http://pointclouds.org/documentation/tutorials/kdtree_search.php]]
+
+A k-d tree, or k-dimensional tree, is a data structure used for
+organizing some number of points in a space with k-dimensions. It is a
+*binary tree* with some other constraints. K-d trees are very useful
+for *range and nearest neighbor searches*.
+- Every node in the binary tree is a k-dimensional point.
+- Each level of a k-d tree splits all children along a specific dimension.
+- Every non-leaf node can be thought of implicily generating a
+  splitting hyperplane that divides the space into two parts.
+
+** Construction
+The pesduo code to construct a ~balanced~ k-d tree, in which each leaf
+node is approximately the same distance from the root.
+
+#+BEGIN_VERSE
+function kdtree (list pointList, int depth)
+{
+    // Select axis based on depth so that axis cycles through all valid values
+    int axis := depth mod k;
+
+    // Sort point list and choose median as pivot element
+    select median by axis from pointList;
+
+    // Create node and construct subtrees
+    var tree_node node;
+    node.location := median;
+    node.leftChild := kdtree(points in pointList before median, depth+1);
+    node.rightChild := kdtree(points in pointList after median, depth+1);
+    return node;
+}
+#+END_VERSE
+
+It is not required to select the median point for the
+construction. When not, there is no gurantee the tree will be
+balanced. To avoid a complex O(n) median-finding algorithms, on all n
+points, a popular practice is to sort a ~fixed number~ of randomly
+selected points, and use the median of those point to server as the
+splitting plane.
+
+** Adding elements
+Same way as adding element to another search tree. Traverse the tree
+to find the correct node under which to insert the node.
+
+** Removing elements
+The easiest way is to form the set of all nodes and leaves from the
+children of the target node, and recreate that part of the tree.
+
+Another way is to find a replacement for the node removed. And then
+recursively remove the replacement.
+
+** Nearest neighbour search with k-d tree
+1. With the search point, finding the node that will be the insertion
+   node if it is to insert the search point into the tree, and save
+   the node as ~current best~.
+2. Unwinds the recursion of the tree, performing the following steps
+   at each node:
+   1. If the current noe is closer than the ~current best~, it become
+      the ~current best~.
+   2. The algorithm checks whether there could be any points on the
+      other side of the splitting plane that are closer to the search
+      point than the ~current best~.
+
+* Selection algorithm
+A selection algorithm is to find the k-th smallest number in a
+list. This includes the cases of finding minimum, maxmum and median
+elements. There are O(n) selection algorithms and sublinear
+performance for structured data.
+
+The best-known selection algorithm is *quickselect*, related to
+*quicksort*. Like quicksort, _it has optimal average performance, but
+poor worst-case performance_.
+
+** Selection by sorting.
+- This method is inefficient for selecting a single element, but is
+  efficient when many selections need to be made.
+- Partial sorting only for the k.
+- Partial selection sort.
+
+** Partition based selection
+- Quickselect is a variant of quicksort: in both one chooses a pivot
+  and then partitions the data by it, but while quicksort recurses on
+  both sides of the partition, _quickselect only recurses on one side_,
+  namely the side on which the desired kth element is.
+
+* Dynamic Programming
+- Dynamic Programming is not an algorithm or data-structure. It is a
+  technique and it is applied to a certain class of problem.
+- *Divide* a problem into smaller sub-problems and if there are some
+  *overlapping* sub-problems, then it is a dynamic programming problem.
+- The core idea of DP is to /avoid repeated work/ by remembering *partial*
+  results. It is basically *recursion along with memorisation*.
+  - Recursion allows expressing the value of a function in terms of
+    other values of that function.
+  - Memorisation tells that if the recursive calls were done in
+    advanced, and stored for access, it will make the program faster.
+  - The intuition behind is to trade space for time.
+- DP is a powerful technique that allows one to solver different types
+  of problems in time $O(n^2)$ or $O(n^3)$ while a naive approach would
+  take exponential time.
+- An example for Fibonacci function.
+  - With pure recursive:
+    #+BEGIN_SRC c
+    int fib (int n) {
+      if (n < 2)
+          return 1;
+      return fib(n-1) + fib(n-2);
+    }
+    #+END_SRC
+  - Bottom-up iterative approach:
+    #+BEGIN_SRC c
+      void fib () {
+          fibresult[0] = 1;
+          fibresult[1] = 1;
+          for (int i = 2; i<n; i++)
+             fibresult[i] = fibresult[i-1] + fibresult[i-2];
+      }
+    #+END_SRC
+  - With DP, recursive approach with memorisation:
+    #+BEGIN_SRC c
+      int fib[maxn];
+      memset(fib, -1, sizeof(fib));
+      int solve(int n) {
+          if (n == 0 || n == 1) {    // base conditions
+              return fib[n] = n;
+          }
+          if (fib[n] != -1) {    // if memoized then return the value
+              return fib[n];
+          }
+          return fib[n] = solve(n - 1) + solve(n - 2);    // recursive definition
+      }
+    #+END_SRC
+- Solve ~Edit Distance~ using DP:
+  - ~Edit Distance~ is a way of quantifying how dissimilar two strings
+    are, i.e. how many operations(add, delete, or replace a single
+    character) it would take to transform one string to the other.
+  - Solving using DP, using a matrix to save the partial result:
+    #+BEGIN_SRC c
+      int editDistance(string s1, string s2) {
+          int m = s1.size();
+          int n = s2.size();
+          // for all i, j, dp[i][j] will hold the edit distance between the first
+          // i characters of source string and first j characters of target string
+          int dp[m + 1][n + 1];
+          memset(dp, 0, sizeof(dp));
+          // source can be transformed into target prefix by inserting
+          // all of the characters in the prefix
+          for (int i = 1; i <= n; i++) {
+              dp[0][i] = i;
+          }
+          // source prefixes can be transformed into empty string by
+          // by deleting all of the characters
+          for (int i = 1; i <= m; i++) {
+              dp[i][0] = i;
+          }
+          for (int i = 1; i <= m; i++) {
+              for (int j = 1; j <= n; j++) {
+                  if (s1[i - 1] == s2[j - 1]) {
+                      dp[i][j] = dp[i - 1][j - 1]; // no operation required as characters are the same
+                  }
+                  else {
+                      dp[i][j] = 1 + min(dp[i - 1][j - 1],    // substitution
+                                     min(dp[i][j - 1],     // insertion
+                                          dp[i - 1][j]));    // deletion
+                  }
+              }
+          }
+          return dp[m][n];
+      }
+    #+END_SRC
+
+* Backtracking
+- Backtracking incrementally builds candidates to the solutions, and
+  abandon each partial candidate as soon as it cannot possibly be
+  completed to a valid solution.
+- Backtracking can be applied only for problems which admit the
+  concept of a *partial candidate solution* and a relatively quick
+  test of whether it can possibly be completed to a valid solution.
+- When it applicable, it often much faster than brute force
+  enumeration of all complete candidates, since it eliminate a large
+  number of candidates with a single test.
+
+** Description of the method
+- Conceptually, the partial candidates are represented as the *nodes* of
+  a *tree* structure, /the potential search tree/.
+- Each partial candidate is the parent of the candidates that /differ
+  from it by a *single extension step*/;
+- The *leaves* of the tree are the partial candidates that cannot be
+  extended any further, i.e, a possible solution.
+- The backtracking algorithm traverses this search tree recursively,
+  from the root down, in *depth-first* order.
+
+** The algorithm:
+- [[https://www.cis.upenn.edu/~matuszek/cit594-2012/Pages/backtracking.html][The tutorial]]
+- Recursive code:
+  #+BEGIN_SRC java
+  boolean solve(Node n) {
+    if (is_leaf(n)) {
+      if (is_goal(n)) {
+        return true;
+      }
+      else return false;
+    } else {
+      for (c : child(n)) {
+          if ( solve(c) ) return true;
+      }
+      return false;
+    }
+  }
+  #+END_SRC
+  The reasoning:
+  - If any of the children of n is solvable, n is solvable
+  - If non of the children of n is solvable, n is non-solvable
+- Non-Recursive code:
+  #+BEGIN_SRC java
+    boolean solve(Node n) {
+      stack.push(n);
+      while (!stack.isEmpty()) {
+        Node node= stack.peek();
+        if (is_leaf(node)){
+            if (is_goal(node)){
+                return true;
+            }else{
+                stack.pop();
+            }
+        } else {
+            if (node.hasMoreChildToTry()){
+                Node childNode = node.nextChild();
+                stack.push(childNode);
+            }else{
+                stack.pop();
+            }
+        };
+        return false;
+    }
+  #+END_SRC
+  When the stack algorithm terminates successfully, the nodes on the
+  stack form (in reverse order) a path from the root to a goal node.
+
+* Binary Tree
+
+* Threaded Binary Tree
+- A binary tree is threaded by :
+  - all right child pointers that would normally be *null* point to
+    the *inorder* successor of the node (if it exists).
+  - all left child pointers that would normally be *null* point to
+    the inorder *predecessor* of the node.
+  - Need to know if a pointer is a link or a thread, so a boolean is
+    needed for each pointer.
+- Binary tree have a lot of wasted space. the null pointers can be
+  used to help *inorder* traversals.
+- Threaded binary tree makes tree traversal faster since no stack or
+  recursion is needed.
+
+* Tires
+
+** The Problem
+- Determine if a word appears in a large dictionary. How to store the
+  large set of words in the dictionary effectively.
+- Google auto complete can also be implemented with a trie.
+- We can use *Trie* and *Min Heap* to get the ~k~ most frequent words
+  efficiently.
+  - The idea is to use *Trie* for searching existing words
+    adding new words efficiently.
+  - Trie also stores count of occurrences of words.
+  - A *Min Heap* of size ~k~ is used to keep track of ~k~ most frequent
+    words at any point of time(Use of Min Heap is same as we used it
+    to find ~k~ largest elements in this post).
+- Can be used for many other cases for example, to store a large set
+  of *Integer*, *ByteArray*, etc.
+
+** What is a Trie
+- The trie is a tree where each vertex represents a single word or a
+  prefix.
+- The root represents an empty string (“”), the vertexes that are
+  direct sons of the root represent prefixes of length ~1~. A vertex
+  that are ~k~ edges of distance of the root have an associated prefix
+  of length ~k~.
+- Let ~v~ and ~w~ be two vertexes of the trie, and assume that ~v~ is a
+  direct father of ~w~, then ~v~ must have an associated prefix of ~w~.
+
+** Complexity
+- Insert/Finding of a word in tire can be done in ~O(L)~ time, where L
+  is the length of the word.
+- The memory used in the tries depends on the methods to store the
+  edges and how many words have prefixes in common.
+
+** Example
+- The next figure shows a trie with the words “tree”, “trie”, “algo”,
+  “assoc”, “all”, and “also.”
+  [[http://community.topcoder.com/i/education/alg_tries.png]]
+-
+
+* SkipList
+- SkipList is a data structure that allows fast search within an ordered
+  sequence of elements.
+  [[https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Skip_list.svg/400px-Skip_list.svg.png]]
+  - By maintaining a linked hierarchy of subsequences, with each
+    successive subsequences skipping over fewer elements than the
+    previous one.
+- Search/Insert/Delete average on ~O(log n)~.
+- A skip list is built in layers:
+  - The bottom layer is an ordinary ordered linked list.
+  - Each higher layer acts as an "express lane" for the lists below,
+    where an element in layer ~i~ appears in layer ~i+1~ with some fixed
+    probability ~p~ (two commonly used values for p are 1/2 or 1/4).
+- A search for a target element begins at the head element in the top
+  list, and proceeds horizontally until the current element is greater
+  than or equal to the target.
+  - if equal, it is found.
+  - if greater, or search reaches the end of the linked list, the
+    procedure is repeated after returning to the previous element and
+    dropping down vertically to the next lower list.

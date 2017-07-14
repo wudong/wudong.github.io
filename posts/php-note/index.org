@@ -1,0 +1,183 @@
+#+BEGIN_COMMENT
+.. title: PHP Note
+.. slug: php-note
+.. date: 2017-07-14
+.. tags: php
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+
+#+TITLE: PHP NOTES
+
+* Enable xdebug with hhvm/nginx on remote host
+
+In order to enable remote debug, the debug machine (developer machine)
+need to be accessible directly from the xdebug server. Xdebug, when inited from
+the browser, on the server side, will init the debug session to the
+remote/port specified in php.ini.
+
+When the developer machine resides inside the router, the remote
+machine nomally won't be able to talk directly ot it.
+
+To enable the above debug scenario:
+x- Using ssh's remote forward to forward the xdebug port to local
+  machine (developer machine)
+- in php.ini, enable xdebug:
+  #+BEGIN_VERSE
+  xdebug.enable=1
+  xdebug.remote_enable=1
+  xdebug.idekey="PHPSTORM"
+  xdebug.remote_host=127.0.0.1
+  xdebug.remote_port=9000
+  #+END_VERSE
+  where the remote_host and remote_port will be the address in the ssh
+  remote forword, xdebug will use this to communicate with the
+  developer machine.
+- in nginx config for hhvm/php fasgcgi, set:
+  #+BEGIN_VERSE
+  fastcgi_read_timeout 600;
+  #+END_VERSE
+  to prevent gateway timetout while in the debug session.
+
+
+* include/require
+  - ~include()~ will through a warning if it cannot include the file, but
+    the rest of the script will run. ~require()~ will throw an error and
+    halt the script if it cannot include the file.
+  - File are included based on the file path given, or if none is
+    given, the _include_path_ specified.
+  - If the file isn't found in the _include_path_, ~include~ will
+    finaly check the calling script's *own directory* and the *current
+    working directory* before falling.
+  - If a path is defined, either alsolute or relative, _include_path_
+    will be ignored.
+  - when a file is include, the code it contains inherits the
+    *variable scope* of the line on which the include occurs. However,
+    all functions and classes defined in the included file have the
+    *global scope*.
+  - If "URL include wrappers" are enabled in PHP, you can specify the
+    file to  be included using a URL (via HTTP or other supported
+    wrapper):
+    #+BEGIN_SRC php
+    include 'http://www.example.com/file.txt?foo=1&bar=2'
+    #+END_SRC
+    It also possbile to include a string as a filename using the
+    ~data~ wrapper:
+    #+BEGIN_SRC php
+    //get content
+    $cFile = file_get_contents('crypted.file');
+    //decrypt the content
+    $content = decrypte($cFile);
+
+    //include this
+    include("data://text/plain;base64,".base64_encode($content));
+    //or
+    include("data://text/plain,".urlencode($content));
+    #+END_SRC
+  - Using $_SERVER['DOCUMENT_ROOT']:
+    #+BEGIN_SRC php
+    include $_SERVER['DOCUMENT_ROOT']."/lib/sample.lib.php";
+    #+END_SRC
+    so the script can be move anyehere in the project without changes.
+  - If file A includes file B, and B includes file C; the include path
+    in B should take into account that A, not B, is the active working
+    directory.
+  - To avoid issues caused by the above, as a rule of thumb, never
+    include files using relative paths:
+    #+BEGIN_SRC php
+    <?php // prepend.php - autoprepended at the top of your tree
+    define('MAINDIR',dirname(__FILE__) . '/');
+    define('DL_DIR',MAINDIR . 'downloads/');
+    define('LIB_DIR',MAINDIR . 'lib/');
+
+    require_once(LIB_DIR . 'excel_functions.php');
+    #+END_SRC
+
+
+* Namespace
+  - Inside a namespace, when PHP encouters an unqualified Name in a
+    class name, function or constant context, it resolves with
+    different priorities:
+    - Class names always resolve to the current namespace name. For
+      example, to refrence ~Exception~ in a namespace, will need to
+      qualified it as ~\Exception~.
+    - Function and constants, PHP will fall back to global functions
+      or constants if a namespaced function or constant does not exist.
+
+* Anonymous functions and Clousures
+  - Anonymous functions are implemented using the ~Closure~ class. It
+    is converted into instances of the ~Closure~;
+  - Closures may also inherit variables from the parent scope. Any
+    such variables must be passed to the ~use~ language construct:
+    #+BEGIN_SRC php
+    $message = 'hello';
+    $example = function () use ($message) {
+        var_dump($message);
+    };
+    #+END_SRC
+  - Note that when use ~use~ to import variable inside closure's
+    scope, the variable is actually being *copied* into the closure's
+    scope, rather than just being make available.
+    #+BEGIN_SRC php
+      $result = 0;
+      $three = function() use (&$result){
+          var_dump($result);
+      };
+      $result++;
+      $three();
+    #+END_SRC
+  - Inheriting variables from the parent scope is not the same as
+    using global variables. Global variables exist in the global
+    scope, which is the same no matter what function is executing.
+  - When anonymous functions are declared in the context of a class,
+    the current class is automatically bound to it, making ~$this~
+    available inside of the function's scope.
+  - If automatic binding of the current class is not wanted, then
+    /static anonymous function/ may be used:
+    #+BEGIN_SRC php
+      new class {
+          function __construct()
+          {
+              (static function() {
+                  var_dump($this); //$this will be undefined here.
+              }();
+          }
+      };
+    #+END_SRC
+
+* Logging with Monolog
+  - By default, Monolog will use the ~\Monolog\Handler\StreamHandler~
+    to log to the standard error output.
+  - Multiple handler can be set with different log level.
+    #+BEGIN_SRC php
+      $browserHanlder = new \Monolog\Handler\BrowserConsoleHandler(\Monolog\Logger::INFO);
+      $streamHandler = new \Monolog\Handler\StreamHandler('php://stderr', \Monolog\Logger::ERROR);
+    #+END_SRC
+    The ~BrowserConsoleHandler~ log the messages to the browser's console.
+  - There is a bubbling option to allow handler to bubble up the log
+    messages to above handlers.
+  - Monolog provides two different ways to add /extra information/
+    along the simple textual message:
+    - *logging context*:
+      #+BEGIN_SRC php
+        $logger->info('Adding a new user', array('username' => 'Seldaek'));
+      #+END_SRC
+    - *Preprocessors*: useful for adding more details to your log. For
+        example, the ~WebProcessor~ adds more details about the request,
+        like url, ip, etc:
+        #+BEGIN_SRC php
+          $logger->pushProcessor(new \Monolog\Processor\WebProcessor);
+          $browserHanlder = new \Monolog\Handler\BrowserConsoleHandler(\Monolog\Logger::INFO);
+          $logger->pushHandler($browserHanlder);
+        #+END_SRC
+  - Using channels to identify which part of the application a log is related:
+    #+BEGIN_SRC php
+       // Create the main logger of the app
+      $logger = new Logger('my_logger');
+      // clone the first one to only change the channel
+      $securityLogger = $logger->withName('security');
+    #+END_SRC

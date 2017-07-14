@@ -1,0 +1,98 @@
+#+BEGIN_COMMENT
+.. title: Java Problems
+.. slug: java-problems
+.. date: 2017-07-14
+.. tags: java
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+#+TITLE: JAVA Problems
+
+* Unable to connect through SSL/HTTPS
+
+** The problem
+When trying to connect through a HTTPS connection, the java
+HTTPConnection through the following exception:
+#+BEGIN_VERSE
+Caused by: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+	at sun.security.ssl.Alerts.getSSLException(Alerts.java:192) ~[na:1.8.0_65]
+	at sun.security.ssl.SSLSocketImpl.fatal(SSLSocketImpl.java:1949) ~[na:1.8.0_65]
+	at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:302) ~[na:1.8.0_65]
+	at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:296) ~[na:1.8.0_65]
+	at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1509) ~[na:1.8.0_65]
+	at sun.security.ssl.ClientHandshaker.processMessage(ClientHandshaker.java:216) ~[na:1.8.0_65]
+	at sun.security.ssl.Handshaker.processLoop(Handshaker.java:979) ~[na:1.8.0_65]
+	at sun.security.ssl.Handshaker.process_record(Handshaker.java:914) ~[na:1.8.0_65]
+	at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:1062) ~[na:1.8.0_65]
+	at sun.security.ssl.SSLSocketImpl.performInitialHandshake(SSLSocketImpl.java:1375) ~[na:1.8.0_65]
+	at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1403) ~[na:1.8.0_65]
+	at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1387) ~[na:1.8.0_65]
+	at sun.net.www.protocol.https.HttpsClient.afterConnect(HttpsClient.java:559) ~[na:1.8.0_65]
+	at sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:185) ~[na:1.8.0_65]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1513) ~[na:1.8.0_65]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1441) ~[na:1.8.0_65]
+	at java.net.HttpURLConnection.getResponseCode(HttpURLConnection.java:480) ~[na:1.8.0_65]
+#+END_VERSE
+The HTTPS certficate is issued with letsencrypt.
+
+** Cause
+Whenever Java attempts to connect to another application over SSL (e.g.: HTTPS,
+IMAPS, LDAPS), it will only be able to connect to that application if
+it can trust it.
+
+The way trust is handled in the Java world is that you have a keystore
+(typically *$JAVA_HOME/lib/security/cacerts*), also known as the
+*truststore*. This contains a list of *all* known Certificate
+Authority (CA) certificates, and Java will only trust certificates
+that are signed by one of those CAs or public certificates that exist
+within that keystore.
+
+For example, if we look at the certificate for Atlassian, we can see
+that the **.atlassian.com* certificate has been signed by the
+intermediate certificates, *DigiCert High Assurance EV Root CA* and
+*DigiCert High Assurance CA-3*. These intermediate certificates have
+been signed by the root *Entrust.net Secure Server CA*.
+
+Theese three certificates combined are referred to as the certificate
+chain. As they are all within the Java keystore, Java will trust any
+certificates signed by them.
+
+Alternatively, if the *.atlassian.com* certificate had been in the
+keystore, Java would also trust that site.
+
+This problem is therefore caused by a certificate that is /self-signed/
+(a CA did not sign it) or *a certificate chain that does not exist
+within the Java truststore*. Java does not trust the certificate and
+fails to connect to the application.
+
+** Resolution
+- Make sure you have imported the public certificate of the target
+  instance into the truststore.
+- Make sure any certificates have been imported into the correct
+  truststore; you may have multiple JRE/JDKs.
+- Check to see that the correct truststore is in use. If
+  *-Djavax.net.ssl.trustStore* has been configured, it will override
+  the location of the default truststore, which will need to be
+  checked.
+
+** Specific on the Letsencrypt certificates
+Up until Java 8u101, Java don't trust Let's Encrypt certificates out
+of the box. The truststore of Oracle JDK/JRE contains neither the
+Let's Encrypt CA specifically, or the IdenTrust CA that cross signed it.
+
+For a local configuration changes:
+#+BEGIN_SRC sh
+keytool -trustcacerts \
+    -keystore $JAVA_HOME/jre/lib/security/cacerts \
+    -storepass changeit \
+    -noprompt \
+    -importcert \
+    -file /etc/letsencrypt/live/hostname.com/chain.pem
+#+END_SRC
+
+To update the java version to the latest on RaspberryPi, following:
+[[https://www.linuxbabe.com/desktop-linux/install-oracle-java-8-debian-jessie-raspbian-jessie-via-ppa]]

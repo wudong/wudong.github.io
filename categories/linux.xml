@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about Linux)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Jul 2017 20:53:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux Note</title><link>https://example.com/posts/linux-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Linux Memory&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+&lt;a href="http://www.inmotionhosting.com/support/website/server-usage/linux-check-memory-usage"&gt;http://www.inmotionhosting.com/support/website/server-usage/linux-check-memory-usage&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;With &lt;code&gt;free -m&lt;/code&gt; shows linux memory usage, displayed in MB instead of KB.
+The &lt;b&gt;free&lt;/b&gt; column besides buffers/cache is the actual free memory available
+to linux
+&lt;/li&gt;
+
+&lt;li&gt;Difference between buffers and cache
+A buffer is a temporary location to store data for a particular application
+and this data is not used by any other application. Cache is a memory location
+to store frequently used data for faster access.
+&lt;/li&gt;
+
+&lt;li&gt;A process memory layout
+
+&lt;p&gt;
+&lt;a href="http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/"&gt;http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/&lt;/a&gt;
+&lt;/p&gt;
+
+
+&lt;div class="figure"&gt;
+&lt;p&gt;&lt;img src="http://static.duartes.org/img/blogPosts/linuxFlexibleAddressSpaceLayout.png" alt="linuxFlexibleAddressSpaceLayout.png"&gt;
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Let's Encrypt&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;p&gt;
+Using the webroot method to lets encrypt to a Nginx configuration.
+&lt;/p&gt;
+
+&lt;ol class="org-ol"&gt;
+&lt;li&gt;With Http only on the nginx config (disable HTTPS first if necessary)
+
+&lt;p class="verse"&gt;
+server {&lt;br&gt;
+       listen 80;&lt;br&gt;
+       server&lt;sub&gt;name&lt;/sub&gt; www.graceliu.uk;&lt;br&gt;
+&lt;br&gt;
+       location '/.well-known/acme-challenge' {&lt;br&gt;
+         default&lt;sub&gt;type&lt;/sub&gt; "text/plain";&lt;br&gt;
+        root /tmp/letsencrypt-auto;&lt;br&gt;
+      }&lt;br&gt;
+    }&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Run
+&lt;code&gt;./letsencrypt-auto certonly -a webroot  --webroot-path=/tmp/letsencrypt-auto
+   -d www.graceliu.uk&lt;/code&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Re-enable https
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Kernel Modules: Load, Unload and Configure&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Linux allows the Kernel to be configured at runtime.
+&lt;/li&gt;
+&lt;li&gt;Modules are stored in /usr/lib/modules/kernel&lt;sub&gt;release&lt;/sub&gt;. Module names
+often use underscore (_) or dashes (-); however thoese symbols are
+interchangeable when using &lt;b&gt;modprobe&lt;/b&gt; command and in configuration
+files in &lt;span class="underline"&gt;/etc/modprobe.d&lt;/span&gt;._
+&lt;/li&gt;
+&lt;li&gt;&lt;i&gt;cli&lt;/i&gt; for manipulating the kernel:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;depmod&lt;/b&gt;: handle dependency descriptions for loadable modules
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;insmod&lt;/b&gt;: install loadable module
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;lsmod&lt;/b&gt;: list loaded modules
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;modinfo&lt;/b&gt;: display information about a kernel module
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;modprobe&lt;/b&gt;: high level handling of loadable modules
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;rmmod&lt;/b&gt;: unload loadable modules
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;to list the options that are set for a loaded module:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;systool -v -m modlue_name
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;All necessary modules loading is handled automatically by
+&lt;b&gt;udev&lt;/b&gt;, so if you do not need to use any out-of-tree kernel modules,
+there is no need to put modules that should be loaded at boot in any
+configuration file.
+&lt;/li&gt;
+&lt;li&gt;Kernel modules can be explicitly loaded during boot and are
+configured as a static list in files under
+&lt;span class="underline"&gt;/etc/modules-load.d&lt;/span&gt;. Configuration files simply contain a list of
+kernel modules names to load, separated by new newlines.
+&lt;/li&gt;
+&lt;li&gt;Manual module handling:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;To load a module:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;modprobe module_name
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To load a module by filename (i.e., one that is not installed in
+&lt;span class="underline"&gt;/lib/modules/$(uname -r)&lt;/span&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ismod filename &lt;span class="o"&gt;[&lt;/span&gt;args&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To unload a module:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;modprobe -r module_name
+&lt;span class="c1"&gt;# alternatively:&lt;/span&gt;
+rmmod module_name
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Setting module options:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Manually at load time using &lt;b&gt;modprobe&lt;/b&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;modprobe module_name &lt;span class="nv"&gt;parameter_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;parameter_value
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Using files in &lt;span class="underline"&gt;/etc/modprobe.d&lt;/span&gt;. Files in this directory can be
+used to pass module settings to &lt;b&gt;udev&lt;/b&gt;, which will use &lt;b&gt;modprobe&lt;/b&gt;
+to manage the loading of modules during system boot. File in this
+directory can have any name, given that they end with the &lt;i&gt;.conf&lt;/i&gt;
+extension. The syntax is:
+&lt;p class="verse"&gt;
+options module&lt;sub&gt;name&lt;/sub&gt; parameter&lt;sub&gt;name&lt;/sub&gt;=parameter&lt;sub&gt;value&lt;/sub&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;If the module is built into the kernel, you can pass options to
+the module using the kernel command line. For all common
+bootloaders, the following syntax is correct:
+&lt;p class="verse"&gt;
+module&lt;sub&gt;name&lt;/sub&gt;.parameter&lt;sub&gt;name&lt;/sub&gt;=parameter&lt;sub&gt;value&lt;/sub&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Blacklisting:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Using files in &lt;span class="underline"&gt;/etc/modprobe.d&lt;/span&gt;:
+&lt;p class="verse"&gt;
+blacklist module&lt;sub&gt;name&lt;/sub&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;p&gt;
+The blacklist command will blacklist a module so that it will not
+be loaded automatically, but the module may be loaded if another
+non-blacklisted module depends on it or if it is loaded manually.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Using kernel command line. &lt;span class="underline"&gt;This can be very useful if a broken
+module makes it impossible to boot your system&lt;/span&gt;.
+Simply add the following to the bootloader's kernel line:
+&lt;p class="verse"&gt;
+modprobe.blacklist=modname1,modname2,modname3&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Systemd targets&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;p&gt;
+&lt;b&gt;Systemd targets&lt;/b&gt; are represented by &lt;i&gt;target units&lt;/i&gt;. Target units end with
+the &lt;code&gt;.target&lt;/code&gt; file extension and their only purpose is to group together
+other systemd units through a chain of dependencies.
+&lt;/p&gt;
+
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; List currently loaded target units &lt;/dt&gt;&lt;dd&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;systemctl list-units --type target
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/dd&gt;
+&lt;dt&gt; Determine the current default target &lt;/dt&gt;&lt;dd&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;systemctl get-default
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/dd&gt;
+&lt;dt&gt; Change the default target &lt;/dt&gt;&lt;dd&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;systemctl set-default name.target
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/dd&gt;
+&lt;dt&gt; Change the current target &lt;/dt&gt;&lt;dd&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;systemctl isolate name.target
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/dd&gt;
+&lt;dt&gt; Changing to different mode with systemd &lt;/dt&gt;&lt;dd&gt;&lt;table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides"&gt;
+
+
+&lt;colgroup&gt;
+&lt;col class="left"&gt;
+
+&lt;col class="left"&gt;
+&lt;/colgroup&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td class="left"&gt;Command&lt;/td&gt;
+&lt;td class="left"&gt;Description&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="left"&gt;&lt;code&gt;systemctl halt&lt;/code&gt;&lt;/td&gt;
+&lt;td class="left"&gt;Halts the system&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="left"&gt;&lt;code&gt;systemctl poweroff&lt;/code&gt;&lt;/td&gt;
+&lt;td class="left"&gt;Powers off the system&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="left"&gt;&lt;code&gt;systemctl reboot&lt;/code&gt;&lt;/td&gt;
+&lt;td class="left"&gt;Restarts the system&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="left"&gt;&lt;code&gt;systemctl suspend&lt;/code&gt;&lt;/td&gt;
+&lt;td class="left"&gt;Suspends the system&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="left"&gt;&lt;code&gt;systemctl hibernate&lt;/code&gt;&lt;/td&gt;
+&lt;td class="left"&gt;Hibernates the system&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="left"&gt;&lt;code&gt;systemctl hybrid-sleep&lt;/code&gt;&lt;/td&gt;
+&lt;td class="left"&gt;Hibernates and suspends the system&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="left"&gt;&lt;code&gt;systemctl rescue&lt;/code&gt;&lt;/td&gt;
+&lt;td class="left"&gt;Enter single user no network rescue mode&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td class="left"&gt;&lt;code&gt;systemctl emergency&lt;/code&gt;&lt;/td&gt;
+&lt;td class="left"&gt;Enter a minimal emergency mode&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/dd&gt;
+&lt;dt&gt; (no term) &lt;/dt&gt;&lt;dd&gt;Reemote control with systemd directly::
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;systemctl --host user_name@host_name &lt;span class="nb"&gt;command&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;&lt;code&gt;find&lt;/code&gt; tips&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;To remove the current directory "./" to find subdirectory in.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Not only the recursion depth of find can be controlled by the
+&lt;code&gt;-maxdepth&lt;/code&gt; parameter, the depth can also be limited from “top”
+using the corresponding &lt;code&gt;-mindepth&lt;/code&gt; parameter.
+&lt;/li&gt;
+&lt;li&gt;Example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find . -mindepth &lt;span class="m"&gt;1&lt;/span&gt; -type d
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;SSH running remote command.&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It will return the exit code of the remote command.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh user@somehost today
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$?&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Output from the above command will be:
+&lt;/p&gt;
+&lt;pre class="example"&gt;
+bash: today: command not found
+127
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;However, you cannot use conditional control operator:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&amp;amp;&amp;amp; : Execute command only if command returns an exit status of zero.
+&lt;/li&gt;
+&lt;li&gt;|| : Execute command only if command returns an exit status of non zero.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;When running remote command like this:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;find . -mindepth &lt;span class="m"&gt;1&lt;/span&gt; - &lt;span class="nb"&gt;type&lt;/span&gt; d &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;read&lt;/span&gt; hostname
+&lt;span class="k"&gt;do&lt;/span&gt;
+  ssh &lt;span class="nv"&gt;$hostname&lt;/span&gt; /some/command/to/run.sh
+&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+This will not work cause the SSH will read the stdin
+before the next &lt;code&gt;read&lt;/code&gt; run.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;To run it, need to use &lt;code&gt;ssh -n&lt;/code&gt;, It will Redirects stdin from /dev/null (actually, prevents reading
+from stdin).
+&lt;/li&gt;
+&lt;li&gt;Read more:
+&lt;a href="https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/"&gt;https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/&lt;/a&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>Linux</category><guid>https://example.com/posts/linux-notes/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

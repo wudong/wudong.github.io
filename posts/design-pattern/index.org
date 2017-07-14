@@ -1,0 +1,32 @@
+#+BEGIN_COMMENT
+.. title: Design Pattern Note
+.. slug: design-pattern
+.. date: 2017-07-14
+.. tags: design pattern
+.. category: Note
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Concurrency Design Pattern
+
+** Active Object
+- The active object design pattern decouples method execution from
+  method invocation for objects that each reside in their own thread
+  of control.
+- The goal is to introduce concurrency, by using asynchronous method
+  invocation and a scheduler for handling requests.
+
+* Architectural Pattern
+** Naked objects
+
+
+* Architectural Style
+
+** Layered Architecture
+
+** Hexagonal Architecture.
+
+** Onion Architecture
+[[http://jeffreypalermo.com/blog/the-onion-architecture-part-1/]]

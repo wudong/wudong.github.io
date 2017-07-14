@@ -1,0 +1,44 @@
+#+BEGIN_COMMENT
+.. title: Reactive Streams
+.. slug: reactive-stream
+.. date: 2017-07-14
+.. tags: reactive stream
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+
+* Problem
+- Handling streams of data -- especially "live" data whose volumn is
+  not predetermined -- requires special care in an asynchronous system.
+- The most prominent issue is that *resource consumption* needs to be
+  controlled such that a /fast data source does not overwhelm the steam
+  destination/.
+- The main goal is to govern the exchange of stream data across an
+  asynchronous boundary, while ensuring that the receiving side is not
+  forced to buffer arbitrary amounts of data.
+  - Back pressure is an integral part of this modl in order to allow
+    the queue which mediate between threads to be *bounded*.
+- In summary, Reactive Streams is a standard and specification for
+  Stream-oriented libraries for the JVM that:
+  - process a potentially *unbounded number* of elements,
+  - in sequence,
+  - *asynchronously* passing elements between components,
+  - with *mandatory* /non-blocking backpressure/.
+- Publisher: a provider of a potentially unbounded number of sequenced
+  elements, publishing them according to the *demand received from its
+  Subscriber(S).
+
+* RxJava 2
+[[https://github.com/ReactiveX/RxJava]]
+- RxJava 2 implements Reactive-Streams API.
+- RxJava 2 features several base classes you can discover operators on:
+  - ~io.reactivex.Flowable~ : 0..N flows, supporting Reactive-Streams and backpressure
+  - ~io.reactivex.Observable~: 0..N flows, no backpressure
+  - ~io.reactivex.Single~: a flow of exactly 1 item or an error
+  - ~io.reactivex.Completable~: a flow without items but only a completion or error signal
+  - ~io.reactivex.Maybe~: a flow with no items, exactly one item or an
+    error.

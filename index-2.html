@@ -1,0 +1,2993 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="This is a demo site for Nikola.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Warren Liu (old posts, page 2) | Warren Liu</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="https://example.com/index-2.html">
+<link rel="prev" href="." type="text/html">
+<link rel="next" href="index-1.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://example.com/">
+
+                <span id="blog-title">Warren Liu</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="archive.html">Archive</a>
+                </li>
+<li>
+<a href="categories/">Tags</a>
+                </li>
+<li>
+<a href="rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+    
+
+
+    
+<div class="postindex">
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/java-8-topics/" class="u-url">Java 8 Topics</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/java-8-topics/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">NIO File API</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>
+<code>java.nio.file.Path</code> is part of the more modern <code>java.nio.file</code> lib
+and does everything <code>java.io.File</code> can, but generally in a better way.
+</li>
+<li>
+<code>path.toFile()</code> to convert to <code>File</code> for legacy.
+</li>
+<li>
+<code>file.ToPath()</code> to convert to <code>Path</code> instance.
+</li>
+<li>Using <code>Files</code> utility class, which deals with <code>Path</code>
+<div class="highlight"><pre><span></span><span class="n">Path</span> <span class="n">fp</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="na">toPath</span><span class="o">();</span>
+<span class="n">Files</span><span class="o">.</span><span class="na">delete</span><span class="o">(</span><span class="n">fp</span><span class="o">);</span>
+</pre></div>
+</li>
+<li>Problems with <code>java.io.File</code>:
+<ul class="org-ul">
+<li>Many methods didn't throw exceptions when they failed, so it was
+impossible to obtain a useful error message.
+</li>
+<li>No real support for symbolic links.
+</li>
+<li>More support for metadata was desired.
+</li>
+<li>Many of the <code>File</code> method didn't scale. Requesting a large
+directory listing over a server would result in a hang.
+</li>
+<li>No possible to write reliable code that could recursively walk a
+file tree when there were circular symbolic link.
+</li>
+</ul>
+</li>
+<li>Creating a Path
+<ul class="org-ul">
+<li>
+<code>Paths.get(String... filePath)</code>, which is a shorthand for:
+</li>
+<li>
+<code>FileSystems.getDefault().getPath(String filePath)</code>
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="n">Path</span> <span class="n">p</span> <span class="o">=</span> <span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">getProperty</span><span class="o">(</span><span class="s">"user.home"</span><span class="o">),</span> <span class="s">"logs"</span><span class="o">,</span> <span class="s">"foo.log"</span><span class="o">);</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>
+<code>Files</code> consists exclusively of static methods that operate on
+files, directories or other types of files. In most cases, these
+methods will delegate to the associated <code>file system provider</code>
+<ul class="org-ul">
+<li>copy:
+<ul class="org-ul">
+<li>
+<code>copy(InputStream in, Path target, CopyOption...options)</code>
+</li>
+<li>
+<code>copy(Path source, OutputStream out)</code>
+</li>
+<li>
+<code>copy(Path source, Path target target, CopyOption... options)</code>
+</li>
+</ul>
+</li>
+<li>create:
+<ul class="org-ul">
+<li>
+<code>createDirectoreis(Path dir, FileAttribute... attrs)</code> : will
+create nonexistent parent directories first.
+</li>
+<li>
+<code>createDirectory(Path dir, FileAttribute... attrs)</code>
+</li>
+<li>
+<code>createFile(Path path)</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-0-1" class="outline-4">
+<h4 id="sec-1-0-1">
+<span class="todo TODO">TODO</span> more on the File API.</h4>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Using Method References</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Java compiler will take either a lambda expression, or a reference
+to a method, where an implementation of a <b>function interface</b> is
+expected.
+</li>
+<li>Method reference is used to <b>replace a single-method lambda
+expression</b>.
+</li>
+<li>Method reference for static methods and methods take parameters:
+<div class="highlight"><pre><span></span><span class="o">(</span><span class="n">args</span><span class="o">)-&gt;</span><span class="n">Class</span><span class="o">.</span><span class="na">staticMethod</span><span class="o">(</span><span class="n">args</span><span class="o">)</span>
+<span class="o">(</span><span class="n">arg1</span><span class="o">,</span> <span class="n">arg2</span><span class="o">)-&gt;</span><span class="n">Class</span><span class="o">.</span><span class="na">staticMethod</span><span class="o">(</span><span class="n">arg1</span><span class="o">,</span> <span class="n">arg2</span><span class="o">)</span>
+<span class="c1">//equals to</span>
+<span class="nl">Class:</span><span class="o">:</span><span class="n">staticMethod</span>
+</pre></div>
+<ul class="org-ul">
+<li>Any arguments, if any, taken by the method are passed automatically.
+<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">Numbers</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">boolean</span> <span class="nf">isMoreThanFifty</span><span class="o">(</span><span class="kt">int</span> <span class="n">n1</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n2</span><span class="o">){</span>
+	<span class="k">return</span> <span class="o">(</span><span class="n">n1</span> <span class="o">+</span> <span class="n">n2</span><span class="o">)</span> <span class="o">&gt;</span> <span class="mi">50</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">findNumbers</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">l</span><span class="o">,</span>
+	   <span class="n">BiPredicate</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">p</span><span class="o">){</span>
+	<span class="o">...</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">// Using a lambda expression</span>
+<span class="n">findNumbers</span><span class="o">(</span><span class="n">list</span><span class="o">,</span> <span class="o">(</span><span class="n">i1</span><span class="o">,</span> <span class="n">i2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">Numbers</span><span class="o">.</span><span class="na">isMoreThanFifty</span><span class="o">(</span><span class="n">i1</span><span class="o">,</span> <span class="n">i2</span><span class="o">));</span>
+<span class="c1">// Using a method reference</span>
+<span class="n">findNumbers</span><span class="o">(</span><span class="n">list</span><span class="o">,</span> <span class="n">Numbers</span><span class="o">::</span><span class="n">isMoreThanFifty</span><span class="o">);</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Instance method reference of an object of a particular type
+<div class="highlight"><pre><span></span><span class="o">(</span><span class="n">obj</span><span class="o">,</span> <span class="n">args</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">obj</span><span class="o">.</span><span class="na">instanceMethod</span><span class="o">(</span><span class="n">args</span><span class="o">)</span>
+<span class="c1">//equals to</span>
+<span class="nl">ObjectType:</span><span class="o">:</span><span class="n">instanceMethod</span>
+</pre></div>
+<ul class="org-ul">
+<li>For example:
+<div class="highlight"><pre><span></span><span class="kd">interface</span> <span class="nc">TriFunction</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">U</span><span class="o">,</span> <span class="n">V</span><span class="o">,</span> <span class="n">R</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">R</span> <span class="nf">apply</span><span class="o">(</span><span class="n">T</span> <span class="n">t</span><span class="o">,</span> <span class="n">U</span> <span class="n">u</span><span class="o">,</span> <span class="n">V</span> <span class="n">v</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">Sum</span> <span class="o">{</span>
+    <span class="n">Integer</span> <span class="nf">doSum</span><span class="o">(</span><span class="n">String</span> <span class="n">s1</span><span class="o">,</span> <span class="n">String</span> <span class="n">s2</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">s1</span><span class="o">)</span> <span class="o">+</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">s1</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="c1">//using lambda</span>
+<span class="n">TriFunction</span><span class="o">&lt;</span><span class="n">Sum</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">lambda</span> <span class="o">=</span>
+    <span class="o">(</span><span class="n">Sum</span> <span class="n">s</span><span class="o">,</span> <span class="n">String</span> <span class="n">arg1</span><span class="o">,</span> <span class="n">String</span> <span class="n">arg2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">s</span><span class="o">.</span><span class="na">doSum</span><span class="o">(</span><span class="n">arg1</span><span class="o">,</span> <span class="n">arg1</span><span class="o">);</span>
+<span class="c1">//Using method reference</span>
+<span class="n">TriFunction</span><span class="o">&lt;</span><span class="n">Sum</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">mRef</span> <span class="o">=</span> <span class="n">Sum</span><span class="o">::</span><span class="n">doSum</span><span class="o">;</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Instance method reference of an existing object.
+<div class="highlight"><pre><span></span><span class="o">(</span><span class="n">args</span><span class="o">)-&gt;</span><span class="n">obj</span><span class="o">.</span><span class="na">instanceMethod</span><span class="o">(</span><span class="n">args</span><span class="o">)</span>
+<span class="c1">//equals to</span>
+<span class="nl">obj:</span><span class="o">:</span><span class="n">instanceMethod</span>
+</pre></div>
+</li>
+<li>Constructor method reference
+<div class="highlight"><pre><span></span><span class="o">(</span><span class="n">args</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">ClassName</span><span class="o">(</span><span class="n">args</span><span class="o">)</span>
+<span class="c1">//equals to</span>
+<span class="nl">ClassName:</span><span class="o">:</span><span class="k">new</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Collection and Stream</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>With <code>forEach</code>, once the method starts, we can't break out of the
+iteration.
+</li>
+<li>Pick one element with <code>findFirst/findAny</code> which return an <code>Optional</code>.
+<div class="highlight"><pre><span></span><span class="kd">final</span> <span class="n">Optinal</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">foundName</span> <span class="o">=</span>
+    <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">name</span><span class="o">-&gt;</span><span class="n">name</span><span class="o">.</span><span class="na">startsWith</span><span class="o">(</span><span class="n">letter</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">findFirst</span><span class="o">();</span>
+<span class="n">foundName</span><span class="o">.</span><span class="na">ifPresnet</span><span class="o">(</span><span class="n">name</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"hello"</span> <span class="o">+</span> <span class="n">name</span><span class="o">));</span>
+</pre></div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Some of the JDK libraries that return a Stream</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>
+<code>Stream.concat()</code> lazily concatenated streams
+</li>
+<li>
+<code>Stream.generate(Supplier&lt;T&gt; s)</code>
+<ul class="org-ul">
+<li>Get a <code>Stream</code> from <code>Iterator</code>:
+<div class="highlight"><pre><span></span><span class="kd">static</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">Stream</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">iteratorToStream</span><span class="o">(</span><span class="kd">final</span> <span class="n">Iterator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">iterator</span><span class="o">){</span>
+   <span class="k">return</span> <span class="n">Stream</span><span class="o">.</span><span class="na">generate</span><span class="o">(</span><span class="n">iterator</span><span class="o">::</span><span class="n">next</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>
+<code>Stream.iterate(T seed, UnaryOperator&lt;T&gt; f)</code>: return a Stream
+consisting of <code>seed</code>, <code>f(seed)</code>, <code>f(f(seed))</code>, etc.
+</li>
+<li>
+</li>
+<li>
+<code>chars()</code> method from the <code>CharSequence</code> interface, returns a
+Stream&lt;Int&gt; over which we can iterate.
+<div class="highlight"><pre><span></span><span class="n">str</span><span class="o">.</span><span class="na">chars</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.::</span><span class="n">println</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>
+<code>Stream&lt;Path&gt; Files.list(Path path)</code> method list all filenames in a
+directory, or <code>listFiles()</code> to get all the files instead of just
+their names.
+<div class="highlight"><pre><span></span><span class="n">Files</span><span class="o">.</span><span class="na">list</span><span class="o">(</span><span class="n">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"."</span><span class="o">))</span>
+     <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">Files</span><span class="o">::</span><span class="n">isDirectory</span><span class="o">)</span>
+     <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>
+<code>Stream&lt;String&gt; Files.lines(Path path)</code>
+</li>
+<li>
+<code>Stream&lt;Path&gt; Files.find(Path start, int maxDepth, BiPredicate&lt;Path,
+  BasicFileAttributes&gt; matchers, FileVisitOption... options)</code> :
+Returns a Stream that is lazily populated with Path by searching for
+files in a file tree rooted at a given starting file.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Reducing a Collection to a single value.</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>Similar method on <code>Stream</code> are : <code>max</code>, <code>min</code>,  <code>average</code>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">friends</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">mapToInt</span><span class="o">(</span><span class="n">name</span><span class="o">-&gt;</span> <span class="n">name</span><span class="o">.</span><span class="na">length</span><span class="o">()).</span><span class="na">sum</span><span class="o">();</span>
+</pre></div>
+</li>
+<li>
+<code>Optional&lt;T&gt; reduce(BinaryOperator&lt;T&gt; accumulator)</code> : reduction
+using an associated accumulation function. This is equivalent to:
+<div class="highlight"><pre><span></span><span class="kt">boolean</span> <span class="n">foundAny</span><span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+<span class="n">T</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">T</span> <span class="n">element</span> <span class="o">:</span> <span class="n">stream</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">foundAny</span><span class="o">){</span>
+	<span class="n">foundAny</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">element</span><span class="o">;</span>
+    <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="n">accumulator</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">element</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">foundAny</span> <span class="o">?</span> <span class="n">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">result</span><span class="o">)</span> <span class="o">:</span> <span class="n">Optional</span><span class="o">.</span><span class="na">emtpy</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>But it is <i><b>not</b> constrained to execute sequentially</i>.
+</li>
+<li>empty stream results in Optional.empty()
+</li>
+<li>Single element stream result in the element returned, without
+apply the accumulator.
+</li>
+</ul>
+</li>
+<li>
+<code>T reduce(T identity, BinaryOperator&lt;T&gt; accumulator)</code> : is
+equivalent to:
+<div class="highlight"><pre><span></span><span class="n">T</span> <span class="n">result</span> <span class="o">=</span> <span class="n">identity</span><span class="o">;</span>
+<span class="k">for</span> <span class="o">(</span><span class="n">T</span> <span class="n">element</span><span class="o">:</span> <span class="n">stream</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">accumulator</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">element</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+</pre></div>
+<ul class="org-ul">
+<li>The <code>identity</code> value must be an identity for the accumulator
+function, this means that for all <code>t</code>,
+<code>accumulator.apply(identity, t)</code> is equal to <code>t</code>
+</li>
+<li>The <code>accumulator</code> function must be an associative function:
+<ul class="org-ul">
+<li>which means:
+<p class="verse">
+(a op b) op c == a op (b op c)<br></p>
+</li>
+<li>Associative function is important for parallel evaluation:
+<div class="highlight"><pre><span></span><span class="n">a</span> <span class="n">op</span> <span class="n">b</span> <span class="n">op</span> <span class="n">c</span> <span class="n">op</span> <span class="n">d</span> <span class="o">==</span> <span class="o">(</span><span class="n">a</span> <span class="n">op</span> <span class="n">b</span><span class="o">)</span> <span class="n">op</span> <span class="o">(</span><span class="n">c</span> <span class="n">op</span> <span class="n">d</span><span class="o">)</span>
+</pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<code>U reduce(U identity, BiFunction&lt;U, T, U&gt; accumulator,
+  BinaryOperator&lt;U&gt; combiner)</code>: The most general form of reduce.
+</li>
+<li>Using <code>StringJoiner</code> class or the convenience method
+<code>String.join()</code> to join collection into a string.
+<div class="highlight"><pre><span></span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">join</span><span class="o">(</span><span class="s">", "</span><span class="o">,</span> <span class="n">friends</span><span class="o">));</span>
+</pre></div>
+</li>
+<li>
+<code>collect()</code> method does the reduction but delegate the actual
+implementation or target to collector.
+<div class="highlight"><pre><span></span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span>
+    <span class="n">friends</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">map</span><span class="o">(</span><span class="n">String</span><span class="o">::</span><span class="n">toUpperCase</span><span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">joining</span><span class="o">(</span><span class="s">", "</span><span class="o">)));</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Collectors</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>
+<code>Stream.collect()</code> method takes a <code>Collector</code>, or three functions
+with a signature like:
+<ul class="org-ul">
+<li>
+<code>collect(Supplier&lt;R&gt; supllier, BiConsumer&lt;R,T&gt; accumulator,
+    BiConsumer&lt;R, R&gt; combiner)</code>
+<ul class="org-ul">
+<li>make the result container,
+</li>
+<li>add a single elements to a result container,
+</li>
+<li>merge one result container into another.
+</li>
+</ul>
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">olderThan20</span> <span class="o">=</span>
+    <span class="n">people</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">filter</span><span class="o">(</span><span class="n">person</span> <span class="o">-&gt;</span> <span class="n">person</span><span class="o">.</span><span class="na">getAge</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="o">)</span>
+    <span class="n">collect</span><span class="o">(</span><span class="n">ArrayList</span><span class="o">::</span><span class="k">new</span><span class="o">,</span> <span class="n">ArrayList</span><span class="o">::</span><span class="n">add</span><span class="o">,</span> <span class="n">ArrayList</span><span class="o">::</span><span class="n">addAll</span><span class="o">)</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>The <code>Collector&lt;T, A, R&gt;</code> interface wraps the three parameters list above,
+with an optional additional finisher for final transform on the
+container.
+<ul class="org-ul">
+<li>
+<code>T</code> The type of stream elements.
+</li>
+<li>
+<code>A</code> The mutable accumulation type of the reduction operation.
+</li>
+<li>
+<code>R</code> The result type of the reduction operation.
+</li>
+</ul>
+</li>
+<li>The <code>Collector</code> could have a list of <code>Characteristics</code> for inspect:
+<ul class="org-ul">
+<li>
+<code>CONCURRENt</code> : indicate the result container can support the
+accumulator function being called concurrently with same result container.
+</li>
+<li>
+<code>IDENTITY_FINISH</code> : finisher function is the <i>identity function</i>
+    and can be ignored.
+</li>
+<li>
+<code>UNORDERED</code> : the collection operation doesn't commit to
+preserving the encounter order of input elements.
+</li>
+</ul>
+</li>
+<li>
+<code>Collectors</code> provides many useful <code>Collector</code> for reduction
+operations.
+</li>
+<li>
+<code>summarizingDouble(ToDoubleFunction mapper)</code> : Return summary
+statistics for the resulting double values from the mapper.
+</li>
+<li>
+<code>DoubleSummaryStatistics</code> have method to get <code>average</code>, <code>count</code>,
+<code>max</code>, <code>min</code>, <code>sum</code> for the collection.
+</li>
+<li>
+<code>averagingDouble(ToDobuleFunction mapper)</code> : produce the arithmetic
+mean of a double-valued function applied to the input elements.
+</li>
+<li>
+<code>averagingInt</code>, <code>averagingLong</code>
+</li>
+<li>
+<code>counting()</code> : counts the number of input elements.
+</li>
+<li>
+<code>groupingBy(Function&lt;T, K&gt; classifier)</code>: grouping elements according
+to a classification function. and return a Map.
+<ul class="org-ul">
+<li>
+<code>groupingByConcurrent()</code> returns a concurrent Collector.
+</li>
+</ul>
+</li>
+<li>
+<code>mapping(Function&lt;T, U&gt; mapper, Collector downstream)</code> : applying
+the mapping to each input element before accumulation. It adapts a
+Collector accepting elements of type <code>U</code> to one accepting <code>T</code>.
+</li>
+<li>
+<code>partioningBy(Predicate&lt;T&gt; predicate)</code> : collector that return a
+<code>Map&lt;Boolean, List&lt;T&gt;&gt;</code>.
+</li>
+<li>
+<code>reducing(BinaryOperator&lt;T&gt; op)</code>
+</li>
+<li>
+<code>toMap</code>, <code>toConcurrentMap(Function&lt;&gt; keyMapper, Function&lt;&gt;
+  valueMapper)</code> : return a <code>ConcurrentMap</code>, whose keys and values are
+mapped from each elements.
+</li>
+<li>If the mapped keys contains duplicates, <code>IllegalStateException</code>
+  is thrown.
+<ul class="org-ul">
+<li>It is common for either the key or the value to be the input
+elements. In this case, the utility method <code>Function.identity()</code>
+may be helpful:
+<div class="highlight"><pre><span></span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">,</span> <span class="n">Double</span><span class="o">&gt;</span> <span class="n">studentToGPA</span>
+<span class="n">students</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">collect</span><span class="o">(</span><span class="n">toMap</span><span class="o">(</span><span class="n">Functions</span><span class="o">.</span><span class="na">identity</span><span class="o">(),</span>
+			       <span class="n">student</span> <span class="o">-&gt;</span> <span class="n">computeGPA</span><span class="o">(</span><span class="n">student</span><span class="o">)));</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>
+<code>toMap(Function keyMapper, Function valueMapper, BinaryOperator
+  mergeFunction)</code>: takes an additional merge function, when the maps
+key contains duplicates, the corresponding values is merged by it.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Multiple and Fluent Comparisons</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>
+<code>List.sort()</code> mutate the list, to preserve the original list using
+the Stream's <code>sorted()</code> method:
+<div class="highlight"><pre><span></span><span class="n">List</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">ascendingAge</span> <span class="o">=</span> <span class="n">people</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">sorted</span><span class="o">(</span>
+   <span class="o">(</span><span class="n">person1</span><span class="o">,</span> <span class="n">person2</span><span class="o">)-&gt;</span> <span class="n">person1</span><span class="o">.</span><span class="na">ageDifference</span><span class="o">(</span><span class="n">person2</span><span class="o">))</span>
+<span class="o">).</span><span class="na">collect</span><span class="o">(</span><span class="n">toList</span><span class="o">());</span>
+<span class="c1">// or we could do with method references.</span>
+<span class="n">people</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">sorted</span><span class="o">(</span><span class="n">Person</span><span class="o">::</span><span class="n">ageDifference</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>If all we want is a reverse of the comparison, the <code>Comparator</code>
+  method has a <code>reversed()</code> default method:
+<div class="highlight"><pre><span></span><span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">compareAscending</span> <span class="o">=</span> <span class="o">(</span><span class="n">person1</span><span class="o">,</span> <span class="n">person2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">person1</span><span class="o">.</span><span class="na">ageDifference</span><span class="o">(</span><span class="n">person2</span><span class="o">);</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">&gt;</span> <span class="n">compareDescending</span> <span class="o">=</span> <span class="n">compareAscending</span><span class="o">.</span><span class="na">reversed</span><span class="o">()</span>
+</pre></div>
+</li>
+<li>
+<code>min/max</code> method could also take a comparator:
+<div class="highlight"><pre><span></span><span class="n">people</span><span class="o">.</span><span class="na">stream</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">Person</span><span class="o">::</span><span class="n">ageDifference</span><span class="o">).</span><span class="na">ifPresent</span><span class="o">(</span>
+  <span class="n">youngest</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Youngest: "</span> <span class="o">+</span> <span class="n">youngest</span><span class="o">)</span>
+<span class="o">);</span>
+</pre></div>
+</li>
+<li>
+<code>static Comparator&lt;T&gt; comparing(Function&lt;T, U&gt; keyExtractor&gt;)</code>:
+allowing comparing by some key:
+<div class="highlight"><pre><span></span><span class="kd">final</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">byName</span> <span class="o">=</span> <span class="n">Person</span><span class="o">::</span><span class="n">getName</span><span class="o">;</span>
+<span class="n">people</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">sorted</span><span class="o">(</span><span class="n">comparing</span><span class="o">(</span><span class="n">byName</span><span class="o">);</span>
+</pre></div>
+</li>
+<li>With multiple comparators,  using <code>thenComparing()</code>:
+<div class="highlight"><pre><span></span><span class="kd">final</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">byAge</span> <span class="o">=</span> <span class="n">Person</span><span class="o">::</span><span class="n">getAge</span><span class="o">;</span>
+<span class="kd">final</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">Person</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">byName</span> <span class="o">=</span> <span class="n">Person</span><span class="o">::</span><span class="n">getName</span><span class="o">;</span>
+<span class="n">people</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">sorted</span><span class="o">(</span>
+    <span class="n">comparing</span><span class="o">(</span><span class="n">byAge</span><span class="o">).</span><span class="na">thenComparing</span><span class="o">(</span><span class="n">byName</span><span class="o">));</span>
+</pre></div>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Decorator pattern with Lambda</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>Using the <code>Function.andThen()</code> to combine or chain two <code>Function</code>
+  together.
+</li>
+<li>Once we compose them, a call to <code>apply()</code> will hop through the
+chained ~Function~s:
+<div class="highlight"><pre><span></span><span class="n">wrapper</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="na">andThen</span><span class="o">(</span><span class="n">next</span><span class="o">);</span>
+<span class="n">wrapper</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+<span class="c1">//same as</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+<span class="n">next</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span>
+</pre></div>
+</li>
+<li>An example for decorator pattern:
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kt">void</span> <span class="nf">setFilters</span><span class="o">(</span><span class="kd">final</span> <span class="n">Function</span><span class="o">&lt;</span><span class="n">Color</span><span class="o">,</span> <span class="n">Color</span><span class="o">&gt;...</span> <span class="n">filters</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">filters</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">filters</span><span class="o">).</span><span class="na">stream</span><span class="o">()</span>
+	<span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="n">filter</span><span class="o">,</span><span class="n">next</span><span class="o">)-&gt;</span> <span class="n">filter</span><span class="o">.</span><span class="na">compose</span><span class="o">(</span><span class="n">next</span><span class="o">))</span>
+	<span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="n">Function</span><span class="o">::</span><span class="n">identity</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Automatic Resource Management (ARM)</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Rather than using both the <code>try</code> and <code>finally</code> blocks, a special
+form of the <code>try</code> block with a resource attached to it.
+</li>
+<li>The java compiler will automatically inserting the finally block and
+then call the <code>close()</code> method:
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FilrWriterARM</span> <span class="kd">implements</span> <span class="n">AutoCloseable</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">close</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">{</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"close called automatically..."</span><span class="o">);</span>
+	<span class="n">writer</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">try</span><span class="o">{</span>
+    <span class="kd">final</span> <span class="n">FileWriterARM</span> <span class="n">writerARM</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriterARM</span><span class="o">(</span><span class="s">"somefile"</span><span class="o">)</span>
+   <span class="o">}{</span>
+    <span class="n">writerARM</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="s">"somsthing"</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Done with the resources..."</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>We can see the <code>close()</code> method was called as soon as we left the try
+block.
+</li>
+</ul>
+</li>
+<li>Could also use lambda expressions and the <b>execute around method</b>
+  pattern to manage resources:
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">use</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">fileName</span><span class="o">,</span>
+		       <span class="kd">final</span> <span class="n">UseInstance</span><span class="o">&lt;</span><span class="n">FileWriterARM</span><span class="o">,</span> <span class="n">IOException</span><span class="o">&gt;</span> <span class="n">block</span><span class="o">)</span>
+    <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="n">FileWriterARM</span> <span class="n">writerARM</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileWriterARM</span><span class="o">(</span><span class="n">filename</span><span class="o">);</span>
+    <span class="k">try</span><span class="o">{</span>
+	<span class="n">block</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="n">writerARM</span><span class="o">);</span>
+    <span class="o">}</span><span class="k">finally</span><span class="o">{</span>
+	<span class="n">writerARM</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Dealing with Exceptions in Lambda</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>The <code>apply()</code> method of the <code>Function</code> interface does not specify
+any checked exceptions.
+</li>
+<li>So the lambda expression is not permitted to throw any checked exceptions.
+</li>
+<li>Two options:
+<ul class="org-ul">
+<li>handle the exception within the lambda expression, or
+</li>
+<li>catch and rethrow it as an unchecked exception.
+<ul class="org-ul">
+<li>In a concurrent execution, an exception raised within the lambda
+expression will be propagated automatically to the calling
+primary thread.
+</li>
+<li>This will not terminate or obstruct the execution of other
+lambda expressions running concurrently.
+</li>
+<li>If exceptions are thrown from multiple concurrent executions,
+only <i>one of them will be reported in the catch block</i>.
+</li>
+</ul>
+</li>
+<li>If the details of all exceptions are important, it is better to
+capture those within the lambda expressions and pass them back to
+the main thread as part of the result.
+</li>
+</ul>
+</li>
+<li>When we design our own higher-order functions based on our specific
+need, we can more flexibly design the companion functional
+interfaces to go with it.
+<div class="highlight"><pre><span></span><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UseInstance</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">X</span> <span class="kd">extends</span> <span class="n">Throwable</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="n">T</span> <span class="n">instance</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">X</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Lambda with Laziness</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">Delayed Initialization</h3>
+<div class="outline-text-3" id="text-7-1">
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Holder</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Heavy</span><span class="o">&gt;</span> <span class="n">heavy</span> <span class="o">=</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">createAndCacheHeavy</span><span class="o">();</span>
+
+    <span class="kd">public</span> <span class="nf">Holder</span><span class="o">(){</span>
+	<span class="n">System</span><span class="o">.</span><span class="na">outpr</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Heavy Holder is created"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Heavy</span> <span class="nf">getHeavy</span><span class="o">(){</span>
+	<span class="k">this</span><span class="o">.</span><span class="na">heavy</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">synchronized</span> <span class="nf">createAndCacheHeavy</span><span class="o">(){</span>
+	<span class="kd">class</span> <span class="nc">HeavyFactory</span> <span class="kd">implements</span> <span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Heavy</span><span class="o">&gt;</span> <span class="o">{</span>
+	    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Heavy</span> <span class="n">heavyInstance</span>  <span class="o">=</span> <span class="k">new</span> <span class="n">Heavy</span><span class="o">();</span>
+	    <span class="kd">public</span> <span class="n">Heavy</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">heavyInstance</span><span class="o">;</span>
+	    <span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="k">if</span> <span class="o">(!</span><span class="n">HeavyFactory</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">isInstance</span><span class="o">(</span><span class="n">heavy</span><span class="o">))</span> <span class="o">{</span>
+	    <span class="n">heavy</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HeavyFactory</span><span class="o">();</span>
+	<span class="o">}</span>
+
+	<span class="k">return</span> <span class="n">heavy</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>The above use an indirect <code>Supplier</code> to avoid synchronization on all
+the <code>get()</code> which normally required when using a plain <code>null</code> check
+and lazy initialization pattern.
+</li>
+<li>Only the first call to <code>heavy.get()</code> is synchronized, the later ones
+are not because the <code>heavy</code> instance has been changed by the first
+call.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2">Creating Infinite, Lazy Collections</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>Using Stream's <code>static iterate(seed, UnaryOperator)</code> method.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Default methods</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+<i>- https://blog.codefx.org/java/everything-about-default-methods/</i>
+</p>
+<ul class="org-ul">
+<li>Syntax: just like a regular method but modified with <code>default</code>
+<div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="nf">thenComparing</span><span class="o">(</span><span class="n">Comparator</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">T</span><span class="o">&gt;</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="o">(</span><span class="n">o1</span><span class="o">,</span> <span class="n">o2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+	<span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">o1</span><span class="o">,</span> <span class="n">o2</span><span class="o">);</span>
+	<span class="k">return</span> <span class="o">(</span><span class="n">res</span><span class="o">!=</span><span class="mi">0</span><span class="o">)</span> <span class="o">?</span> <span class="n">res</span> <span class="o">:</span> <span class="n">other</span><span class="o">.</span><span class="na">compare</span><span class="o">(</span><span class="n">o1</span><span class="o">,</span> <span class="n">o2</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Explicit call to Default Methods:
+<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">StringComparator</span> <span class="kd">implements</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;{</span>
+    <span class="c1">//...</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Comparator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">thenComparing</span><span class="o">(</span><span class="n">Comparator</span><span class="o">&lt;?</span> <span class="kd">super</span> <span class="n">String</span> <span class="n">other</span><span class="o">)</span> <span class="o">{</span>
+	<span class="n">log</span><span class="o">(</span><span class="s">"call to super"</span><span class="o">);</span>
+	<span class="k">return</span> <span class="n">Comparator</span><span class="o">.</span><span class="na">super</span><span class="o">.</span><span class="na">thenComparing</span><span class="o">(</span><span class="n">other</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>The interface name is used to specify the following <code>super</code> which
+would otherwise refer to the superclass (in this case Object).
+</li>
+<li>It is not possbile to call a method from an interface that is not
+mentioned in the <code>implements</code> clause.
+</li>
+<li>When implementing two interfaces where <i>one extends the other</i>
+    <b>Comparator.super</b> causes a different compile error.
+</li>
+<li>Together this means that it is <i>not possible to explicitly call
+<b>overridden</b> or <b>reabstracted</b> default methods</i>.
+</li>
+</ul>
+</li>
+<li>Resolution Strategy:
+<ul class="org-ul">
+<li>Classes win over interfaces.
+</li>
+<li>More specific interfaces win over less specific ones. A default
+from <code>List</code> wins over a default from <code>Collection</code>.
+</li>
+<li>If there is not a unique winner according to the above rules,
+concrete classes must disambiguate manually.
+</li>
+<li>Re-Abstracing methods:
+<ul class="org-ul">
+<li>If an abstract class or interface declares a method as
+<i>abstract</i> for which a <i>default implementation exists</i> in some
+superinterface, the default implementation of is overridden.
+</li>
+<li>Hence all concrete classes which subtype it must implement the
+method.
+</li>
+<li>This technique is used throughout the JDK, e.g. on ConcurrentMap
+(link) which re-abstracts a number of methods for which Map
+(link) provides default implementations because these are not
+thread-safe.
+</li>
+</ul>
+</li>
+<li>It is not possible for an interface to provide default
+implementations for the methods in Object.
+</li>
+</ul>
+</li>
+<li>Default methods can only be <code>public</code>, and cannot be <code>final</code> or
+<code>synchronized</code>.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1">Interface Evolution</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>The purpose of default method is to enable interfaces to be evolved
+in a compatible manner after their initial publication.
+<ul class="org-ul">
+<li>It was impossible to add methods to interfaces without breaking
+all implementations before default method.
+</li>
+</ul>
+</li>
+<li>Ousting Utility classes. All those static methods which take an
+instance of the interfaces as an argument can now be transformed
+into a default method on the interface.
+<ul class="org-ul">
+<li>While removing all interface-related utility classes in a code
+base is possible,
+</li>
+<li>It <b>might not be advisable</b>.
+</li>
+<li>The usability and cohesiveness of the interface should remain the
+main priority.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-8-2" class="outline-3">
+<h3 id="sec-8-2">Inheritance and Class-Building</h3>
+<div class="outline-text-3" id="text-8-2">
+<ul class="org-ul">
+<li>With inheritance a type can assume three types of characteristics of
+another type:
+<ul class="org-ul">
+<li>Type
+</li>
+<li>Behaviour
+</li>
+<li>State
+</li>
+</ul>
+</li>
+<li>Class subtyping inherit all three of those characteristics.
+</li>
+<li>Interface with default methods subtyping inherit only Type and
+Behaviour.
+</li>
+<li>Default method vs Mixin and Traits
+<ul class="org-ul">
+<li>Mixin allow to inherit their type, behaviour <b>and state</b>.
+</li>
+<li>As interfaces with defaults allow no inheritance of state, they
+are clearly not mixins.
+</li>
+<li>Traits do not define their own state, very similar to interfaces
+with default methods
+</li>
+<li>But the concepts are still different, and those differences are
+not entirely trivial.
+</li>
+</ul>
+</li>
+<li>Default methods vs Abstract classes
+<ul class="org-ul">
+<li>Language Differences
+<ul class="org-ul">
+<li>Interfaces allow multiple inheritance
+</li>
+<li>Default methos are never final, cannot be synchronized and
+cannot override <code>Object</code>'s method and always public.
+</li>
+<li>Cannot define fields, so every state change has to be done via
+the public API.
+</li>
+</ul>
+</li>
+<li>Conceptual Differences
+<ul class="org-ul">
+<li>Classes define <i>what something is</i>, while interfaces usually
+define <i>what something can do</i>.
+</li>
+<li>Abstract classes are valid for skeletal (i.e. partial)
+implementations of interfaces but <i>should not exist without a
+matching interface</i>.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/java-concurrency/" class="u-url">Java Concurrency</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/java-concurrency/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Java Thread/Concurrency</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Thread</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Thread's <b>Execution State</b> with the <code>Thread.getState()</code> method
+returns <code>Enum Thread.State</code>:
+<dl class="org-dl">
+<dt> NEW </dt>
+<dd>not yet started
+</dd>
+<dt> RUNNABLE </dt>
+<dd>executing
+</dd>
+<dt> BLOCKED </dt>
+<dd>A thread that is blocked <b>waiting for a monitor locks</b>
+</dd>
+<dt> WAITING </dt>
+<dd>waiting <b>indefinitely</b> for another thread to perform a
+particular action. A thread is in this state due to
+calling one of the following methods:
+<ul class="org-ul">
+<li>
+<code>Object.wait()</code>
+</li>
+<li>
+<code>Thread.join()</code>
+</li>
+<li>
+<code>LockSupport.park()</code>
+</li>
+</ul>
+</dd>
+<dt> TIMED<sub>WAITING</sub>
+</dt>
+<dd>waiting with a specified waiting time.
+<ul class="org-ul">
+<li>Apart from the timeout version of the above methods,
+<code>Thread.sleep()</code> also put thread into this state.
+</li>
+</ul>
+</dd>
+<dt> TERMINATED </dt>
+<dd>exited
+</dd>
+<dt> (no term) </dt>
+<dd>Notice the difference between <b>BLOCKED</b> and <b>WAITING</b>.
+</dd>
+<dt> (no term) </dt>
+<dd>Differenct WAITING status:
+<ul class="org-ul">
+<li>STATE: <b>BLOCKED (on object monitor)</b> : waiting for monitor entry,
+when using intrinsicLock, i.e., the <code>synchronized</code> keyword.
+</li>
+<li>STATE: <b>WAITING (parking)</b>: waiting on condition, when using locks
+from <code>java.util.concurrent</code>.
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+
+<li>Thread's priority is taken into consideration by OS's Scheduler.
+<ul class="org-ul">
+<li>
+<code>void setPriority(int priority)</code> : take value between
+<b>Thread.MIN<sub>PRIORITY</sub></b> and <b>Thread.MAX<sub>PRIORITY</sub></b>, and
+Thread.NORMAL<sub>PRIORITY</sub>* identifies the default priority.
+</li>
+<li>On Linux, the default scheduler is <b>Completely Fair Scheduler</b>
+<ul class="org-ul">
+<li>References:
+<ul class="org-ul">
+<li>
+<a href="https://en.wikipedia.org/wiki/Completely_Fair_Scheduler">https://en.wikipedia.org/wiki/Completely_Fair_Scheduler</a>
+</li>
+<li>
+<a href="http://www.informit.com/articles/article.aspx?p=101760">http://www.informit.com/articles/article.aspx?p=101760</a>
+</li>
+<li>
+<a href="http://www.linuxjournal.com/magazine/completely-fair-scheduler">http://www.linuxjournal.com/magazine/completely-fair-scheduler</a>
+</li>
+</ul>
+</li>
+<li>Use a <b>red-black tree</b> (self balanced binary tree) to sort process
+according to its <b>execution time</b>.
+</li>
+<li>Process with lowest execution time is scheduled next to run.
+</li>
+<li>Process running exceeding the max execution time is reinserted
+into the tree for further scheduling.
+</li>
+<li>If a process spends a lot of its time sleeping, then its spent
+time value is low and it automatically gets the priority boost
+when it finally needs it
+</li>
+</ul>
+</li>
+<li>On Windows, it is <b>multilevel feedback queue scheduler</b>
+</li>
+</ul>
+</li>
+<li>A <b>daemon thread</b> is a thread that acts as a helper to <b>nondaemon
+thread</b> and <b>dies</b> automatically when the application's last
+nondaemon thread dies so that the application can terminate.
+</li>
+<li>Application will not terminate when the nondaemon default main
+thread terminates until all background nondaemon threads
+terminate.
+</li>
+<li>Interrupting Threads
+<ul class="org-ul">
+<li>
+<code>void interrupt()</code>
+<ul class="org-ul">
+<li>If this thread is <b>blocked</b> because a call to <code>wait()</code>, <code>sleep()</code>
+or <code>join()</code> methods, the thread's <b>interrupted status</b> is
+cleared and <b>InterruptedException</b> is thrown.
+</li>
+<li>If this thread is <b>blocked</b> in an I/O operation on an
+<b>interruptible channel</b>, the channel will be closed, the
+interrupt status will be set and the thread will receive a
+<b>ClosedByInterruptException</b>.
+</li>
+<li>If the thread is blocked in a <b>Selector</b>, then the interrupt
+status will be set and it will return immediately from the
+selection operation. possilby with a non-zero value.
+</li>
+<li>Otherwise the interrupt status is set.
+</li>
+</ul>
+</li>
+<li>
+<code>static boolean interrupted()</code>
+<ul class="org-ul">
+<li>Test whether the <b>current</b> thread has been interrupted. The
+interrupted status of the thread is cleard by this method.
+</li>
+</ul>
+</li>
+<li>
+<code>boolean isInterrupted()</code>
+<ul class="org-ul">
+<li>Test whether this thread has been interrupted. The interrupted
+status of the thread is unaffected by this method.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Joining Threads:
+<ul class="org-ul">
+<li>
+<code>void join()</code> : The calling/current* thread will wait for <b>this</b>
+thread to die. <b>InterruptedException</b> is thrown when any thread
+interrupted the <b>current</b> thread.
+</li>
+<li>
+<code>void join(long millis), void join(long millis, int nanos)</code> :
+passing <code>0</code> to wait indefinitely.
+</li>
+<li>This implementation uses a loop of <code>this.wait</code> calls conditioned
+on <code>this.isAlive</code>. As a thread terminates the <code>this.notifyAll</code>
+method is invoked.
+</li>
+<li>
+<span class="underline">It is recommended that <b>applications</b> not use <code>wait</code>, <code>notify</code>, or
+<code>notifyAll</code> on Thread instances</span>.
+</li>
+</ul>
+</li>
+<li>
+<b>Thread.UncaughtExceptionHandler</b>
+<ul class="org-ul">
+<li>A Thread can set a handler when this thread abruptly terminates
+due to an uncaught exception.
+</li>
+<li>If the thread has not set a handler, its ThreadGroup (which
+implements the Handler interface) acts as its handler.
+</li>
+<li>
+<b>static void setDefaultUncaughtExceptionHandler()</b> to set a global
+default handler for all thread and will be called when the thread
+has no handler set, and when its thread group (including parent
+thread groups) does not specialize its <code>uncaughtException</code> method.
+</li>
+</ul>
+</li>
+<li>
+<b>ThreadGroup</b> can forms a tree like structure.
+</li>
+<li>Values stored in <b>thread-local</b> variables are not related.
+</li>
+<li>
+<b>InheritableThreadLocal</b> : When a child thread is created, the child
+receives <b>initial values</b> for all <b>inheritable thread-local
+variables</b> for which the parent has values.
+<ul class="org-ul">
+<li>
+<code>protected T childValue(T parentValue)</code>: method used to calculate the
+child's initial value as a function of the parent's value at the
+time the child thread is created. This is called from within the
+parent thread before the child is started.
+</li>
+</ul>
+</li>
+<li>
+<b>java.util.Timer</b> and <b>java.util.TimerTask</b> for simple job scheduler
+<ul class="org-ul">
+<li>Timer let you schedule TimerTask for future execution on a
+background thread, which is known as the <i>task-execution thread</i>.
+</li>
+<li>Timer tasks may be scheduled for one-shot execution, or for
+repeated execution at regular intervals.
+</li>
+<li>Timer scales to large numbers of concurrently scheduled timer
+tasks. <i>Thousands of tasks should present no problem</i>.
+</li>
+<li>Timer can be set as a daemon which will make the <i>task-execution
+thread</i> a daemon task.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Synchronization</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>
+<code>counter++</code> : although a it might look like a single operation, it
+is actually three separate operations: read, add 1 and write. It is
+not thread safe.
+</li>
+<li>The compiler, the Java virtual machine (JVM), and the operating
+system can collaborate to cache a variable in a register or a
+processor-local cacherather than rely on main memory.
+<ul class="org-ul">
+<li>
+<b>Each thread</b> has its <b>own copy</b> of the variable.
+</li>
+<li>When one thread writes to this variable, it’s writing to its copy;
+</li>
+<li>Other threads are unlikely to see the update in their copies.
+</li>
+</ul>
+</li>
+<li>Synchronization properties:
+<dl class="org-dl">
+<dt> mutual exclusion </dt>
+<dd>each thread is mutually excluded from
+executing in critical section when another thread is inside the
+critical section.
+<ul class="org-ul">
+<li>the lock is often referred to as <b>mutex lock</b>
+</li>
+</ul>
+</dd>
+<dt> property of visibility </dt>
+<dd>ensures that a thread executing in a
+critical section always sees the most recent changes to shared variables.
+<ul class="org-ul">
+<li>It reads these variable from main memory on entry and writes
+values to main memory on exit.
+</li>
+<li>In practical terms, on current hardware, this typically causes
+flushing of the CPU caches when a monitor is acquired and writes
+to main memory when it is released, both of which are expensive.
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Synchronisation is implemented using monitors. Each Java object is
+associated with a monitor, which a thread can <b>lock</b> or <b>unlock</b>
+by acquiring and releasing the monitor's lock (a token).
+</li>
+<li>When a thread attempts to acquire a lock that it already holds, the
+request succeeds.
+</li>
+<li>
+<code>java.lang.Thread</code> has a <code>static boolean holdsLock(Object o)</code> method
+that returns <code>true</code> when the calling thread holds the lock on the
+Object.
+</li>
+<li>A thread that has acquired a lock <b>doesn't</b> release this lock when
+it calls one of the Thread's <code>sleep()</code> methods.
+</li>
+<li>
+<code>volatile</code> exhibits the property of <b>visibility</b>.
+<ul class="org-ul">
+<li>Using volatile, forces all accesses (read or write) to the
+volatile variable to occur to main memory, effectively keeping the
+volatile variable out of CPU caches.
+</li>
+<li>Use <code>volatile</code> only when visibility is an issue.
+</li>
+<li>Only <b>field</b> can be declared as volatile, not on local variable.
+</li>
+<li>You can declare <code>double</code> and <code>long</code> fields to be <code>volatile</code>, but
+should avoid on <b>32-bit</b> JVMs because it takes two operations to
+access a <code>double</code> or <code>long</code> value.
+</li>
+<li>
+<code>volatile</code> field cannot also be declared <code>final</code>. But this isn't a
+problem because <code>final</code> field can be safely accessed without
+synchronization.
+</li>
+<li>
+<code>volatile</code> along can be thread unsafe if the operation involve the
+volatile variable has multiple step. For example:
+<ul class="org-ul">
+<li>
+<b>check-then-act</b>
+</li>
+<li>
+<b>read-modify-write</b>
+</li>
+</ul>
+</li>
+<li>
+<a href="http://stackoverflow.com/questions/3519664/difference-between-volatile-and-synchronized-in-java">http://stackoverflow.com/questions/3519664/difference-between-volatile-and-synchronized-in-java</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Waiting and Notification</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>The <code>wait/notify</code> enables one thread waits for a <b>condition</b> to
+exist. And another thread to create the condition and then notify
+the waiting thread.
+</li>
+<li>
+<code>void wait()</code>: cause the current thread to wait until another thread
+invokes the <code>notify()</code> or <code>notifyAll()</code>, or for some other thread to
+interrupt the current thread while waiting.
+</li>
+<li>
+<code>void notify()</code>: Wake up a <b>single</b> thread that's waiting on this
+object's monitor.
+<ul class="org-ul">
+<li>If more than one threads are waiting on this object,
+one(arbitrary) of them is chosen.
+</li>
+<li>The awakened thread will not be able to proceed until the current
+thread relinquishes the lock on this object.
+</li>
+<li>A thread releases ownership of the monitor associated with the
+object whose <code>wait()</code> method is called.
+</li>
+</ul>
+</li>
+<li>This API leverages an object's <b>condition queue</b>, which is a
+data structure that stores threads waiting for a condition to exists.
+<ul class="org-ul">
+<li>The waiting threads are known as the <b>wait set</b>.
+</li>
+<li>Because the condition queue is tightly bound to an object's lock,
+all methods in this API must be called from within a synchronized
+context. The current thread must be the owner of the object's
+monitor.
+<div class="highlight"><pre><span></span><span class="kd">synchronized</span><span class="o">(</span><span class="n">obj</span><span class="o">){</span>
+    <span class="k">while</span> <span class="o">(&lt;</span><span class="n">condition</span> <span class="n">does</span> <span class="n">not</span> <span class="n">hold</span><span class="o">)</span>
+	<span class="n">obj</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+    <span class="c1">//perform an action that's appropriate to condition.</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>Because of the possibility of <b>spurious wakeups</b>, a thread might
+wakes up without being notified, interrupted, or timingout),
+<code>wait()</code> is called from within the <code>while</code> loop.
+</li>
+<li>Never call a <code>wait()</code> outside a loop.
+</li>
+</ul>
+</li>
+<li>Otherwise <b>java.lang.IllegalMonitorStateException</b> is thrown.
+</li>
+</ul>
+</li>
+<li>In <b>java.util.concurrent.locks.Condition</b>, it factors out these
+Object's monitor methods into distinct objects to give the effect of
+having multiple <b>wait-sets</b> per object, by combining them with the
+use of arbitrary <b>Lock</b> implementations.
+</li>
+<li>Where a <b>Lock</b> replaces the use of <code>synchronized</code> methods and
+statements, a <b>Condition</b> replaces the use of the Object monitor
+methods.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Concurrency Utilities and Executors</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>The <b>ExecutorService</b> extends <b>Executor</b>, is typically implemented
+by a thread pool.
+<ul class="org-ul">
+<li>
+<code>invokeAll</code>, <code>invokeAny</code> perform the bulk execution, executing a
+collection of tasks and then waiting for at least one, or all, to
+complete.
+</li>
+</ul>
+</li>
+<li>
+<b>CompletionService</b> interface and its implementation
+<b>ExecutorCompletionService</b>, arranges that submitted tasks are, upon
+completion, placed on a queue accessible using
+<ul class="org-ul">
+<li>
+<code>take()</code>: which will block until a result is available.
+</li>
+<li>
+<code>poll()</code>: which will return <code>null</code> if no result is available.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Synchronizers</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>Countdown Latches : causes one or more threads to wait at a <i>gate</i>
+until another thread open this gate, at which point these other
+threads can continue.
+<ul class="org-ul">
+<li>
+<code>void await(), void await(long timeout, TimeUnit unit)</code>
+</li>
+<li>
+<code>void countDown()</code>
+</li>
+</ul>
+</li>
+<li>Cyclic Barriers : lets a set of threads wait for each other to reach
+a common barrier point.
+<ul class="org-ul">
+<li>Useful in <b>parallel decomposition</b> scenarios, where a lengthy task
+is divided into subtasks whose individual results are later merged
+into the overall result of the task.
+</li>
+<li>The barrier is <i>cyclic</i> because it can be reused after the waiting
+threads are released.
+</li>
+<li>
+<code>CyclicBarrier(int parties)</code> : specific number of parties( threads
+working toward a common goal)
+</li>
+<li>
+<code>CyclicBarrier(int parties, Runnable barrierAction)</code> : the
+barrierAction is executed when the barrier is <i>tripped</i>.
+</li>
+<li>
+<code>int await(), int ~await(long timeout, TimeUnit unit)</code> : force
+the calling thread to wait until all parties have invoked
+<code>await()</code> on this cyclic barrier.
+<ul class="org-ul">
+<li>the method return the arrival index of the calling thread, where
+a index  <code>getParties() -1</code> indicates the first thread to arrive,
+and <code>zero</code> indicates the last thread to arrive (countdown).
+</li>
+<li>The calling thread will <b>also stop waiting</b> when it, or <b>another
+waiting thread</b> is interrupted, timeout, or <code>reset()</code> is called
+on this cyclic barrier.
+</li>
+<li>If the calling thread on wait is interrupted, this thread will
+throw <b>InterruptedException</b>, while other waiting thread will
+throw <b>BrokenBarrierException</b>
+</li>
+</ul>
+</li>
+<li>
+<code>boolean isBroken()</code> : return <code>true</code> when one or more parties
+broke out of this barrier because of interruption or timeout
+since the cyclic barrier was constructed, or last reset.
+</li>
+<li>
+<code>void reset()</code> : reset the barrier to its initial state. If any
+parties are currently waiting at the barrier, they will return
+with a <b>BrokenBarrierException</b>.
+</li>
+</ul>
+</li>
+<li>Exchangers :provides a synchronization point where threads can swap
+objects.
+<ul class="org-ul">
+<li>Each thread presents some boject on entry to the exchanger's
+<code>exchange()</code> method, matches with a partner thread, and receives
+its partner's object on return.
+</li>
+<li>Useful in applications such as genetic algorithms and pipeline
+design.
+</li>
+<li>
+<code>java.util.concurrent.Exchanger&lt;V&gt;</code> has <code>V exchange(V x)</code> method:
+wait for another thread to arrive at this exchange point and then
+transfer the given object to it, receiving the other thread's
+object in return.
+<ul class="org-ul">
+<li>If another thread is already waiting at the exchange point:
+<ul class="org-ul">
+<li>It is resumed for thread-scheduling purposes and receives the
+object passed in by the calling thread.
+</li>
+<li>The current threads return immediately.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Semaphores : maintains a set of <b>permits</b> for restricting the member
+of threads that can access a limited resource.
+<ul class="org-ul">
+<li>A thread attempting to acquire a permit when no permits are
+available blocks until some other thread releases a permit.
+</li>
+<li>Semaphores whose values can be more than 1 are known as <b>counting
+semaphores</b>
+</li>
+<li>Semaphores whoese value can be only 0 or 1 are known as <b>binary
+semaphores</b>, or <b>mutexes</b>.
+</li>
+<li>Semaphore can set to be fair (fairness policy) :
+<ul class="org-ul">
+<li>when <code>false</code>, i.e., not fair, it makes no guarantees about the
+order in which threads acquire permites.
+</li>
+<li>when <code>true</code>, it guarantees the order as in FIFO, i.e., the first
+thread invoking <code>acquire()</code> will get the permit first.
+</li>
+<li>Generally, semaphores used to control resource access should be
+initialized as fair (<b>by default, it is not</b>) to ensure that no
+therad is starved out from accessing a resource.
+</li>
+<li>When using semaphores for other kinds of synchronization
+control, the throughput advantages of unfair ordering often
+outweight fairness considerations.
+</li>
+<li>
+<code>void acquire()</code>, <code>void acquire(int permits)</code>
+</li>
+<li>
+<code>boolean tryAcquire()</code>, <code>boolean tryAcquire(int permits)</code>:
+acquire permits only when they are available at the time of
+invocation.
+</li>
+<li>
+<code>boolean tryAcquire(long timeOut, TimeUnit unit)</code>
+</li>
+<li>
+<code>void release()</code>, <code>void release(int permits)</code>
+</li>
+<li>
+<code>void acquireUninterruptibly()</code>
+</li>
+<li>
+<code>int drainPermits()</code>: accquire and return a count of all permits
+that are immediately available.
+</li>
+<li>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Phasers : is a more flexible cyclic barrier.
+<ul class="org-ul">
+<li>Is sueful when we have some concurrent tasks divided in steps. And
+this class enable us to synchronize the threads at the end of each
+steps.
+<ul class="org-ul">
+<li>so no thread starts its next step until all the threads
+have finished the previous one.
+</li>
+</ul>
+</li>
+<li>Let a group of threads wait on a barrier; these threads continue
+after the last thread arrives.
+</li>
+<li>Cyclic barrier coordinates a <b>fixed</b> number of threads, while a
+phaser can coordiantes a <b>variable number</b> of threads, which can
+register at any time.
+</li>
+<li>A <b>phase</b> is the phaser's <i>current state</i>, and this state is
+identified by an integer-based <b>phase number</b>.
+</li>
+<li>
+<code>Phaser(int nthreads)</code> : constructor creates a phaser that
+initially coordiates <code>nthreads</code> threads, and whose <i>phase number</i> is
+initially set to <code>0</code>.
+</li>
+<li>
+<code>int register()</code> : add a new unarrived thread to this phaser and
+returns the phase number to classify the arrival.
+</li>
+<li>
+<code>int arriveAndAwaitAdvance()</code> : records arrival and <b>wait</b> for the
+phaser to advance. Return the phase number to which the arrival
+applies.
+</li>
+<li>
+<code>int arriveAndDeregister()</code> : arrives at this phaser and
+deregister from it without waiting for others to arrive, reducing
+the number of threads required to avdance in future phases.
+</li>
+<li>TODO. need to have better understanding.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">The Locking Framework</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>
+<code>synchronized</code> keyword is to wrap <b>critical sections</b>. JVM supports
+synchronization via monitors and the <code>monitorenter</code> and
+<code>monitorexit</code> JVM instructions.
+<ul class="org-ul">
+<li>Every Java object is associated with a monitor, which is <b>a mutual
+exclusion</b> construct.
+</li>
+<li>When a thread locks a monitor in multicore/multiprocessor
+environment, the value of shared variables that are stored in main
+memory are read into the <b>local memory</b> or <b>cache memory</b> of the
+thread.
+</li>
+<li>When a thread unlock the monitor while leaving the critical section,
+the values in its copies are written back to main memory.
+</li>
+</ul>
+</li>
+<li>The more flexible <b>Lock</b> interface:
+<ul class="org-ul">
+<li>
+<code>void lock()</code> : doesn't allow for interruption.
+</li>
+<li>
+<code>void lockInterruptibly()</code> : allow for interruption.
+</li>
+<li>
+<code>boolean tryLock()</code>, <code>boolean tryLock(long time, TimeUnit unit)</code> :
+timeout, or interrupted.
+</li>
+<li>
+<code>void unlock()</code>
+</li>
+</ul>
+</li>
+<li>
+<b>ReentrantLock</b> class implements the <b>Lock</b> interface.
+<ul class="org-ul">
+<li>It is a reentrant mutual exclusion lock.
+</li>
+<li>This lock is associated with a hold count.
+<ul class="org-ul">
+<li>When a thread holds the lock and <b>reacquires</b> the lock, the hold
+count increase by 1.
+</li>
+<li>When unlock from the thread, the hold count is decreased by 1.
+</li>
+<li>The lock is released when the count reaches 0.
+</li>
+<li>This is why it is called a <b>reentrant</b> lock.
+</li>
+</ul>
+</li>
+<li>ReentrantLock also support a fair ordering policy, by default
+false.
+</li>
+<li>
+<code>boolean isHeldByCurrentThread()</code> return true when the lock is
+hold by the current thread.
+</li>
+</ul>
+</li>
+<li>
+<b>Condition</b> interface factors out Object's wait and notification
+methods into distinct condition objects.
+<ul class="org-ul">
+<li>
+<code>await()</code> : wait to be signalled by the same condition.
+<ul class="org-ul">
+<li>The lock associated with this Condition is automatically
+released and the current thread become disabled for thread
+scheduling purpose and lies dormant until one of the following
+four things happens:
+<ul class="org-ul">
+<li>
+<code>signal()</code> called and the current thead happens to be chose to
+be awaken.
+</li>
+<li>
+<code>signalAll()</code> called.
+</li>
+<li>Is interrupted.
+</li>
+<li>A <i>spurious wakeup</i> occurs: this is why the await normally
+need to be wrapped in while loop.
+</li>
+</ul>
+</li>
+<li>In all cases, before <code>await()</code> can return, the current thread
+must <b>re-acquire</b> the lock associated with this condition. The
+thread is guaranteed to hold this lock when the method return.
+</li>
+</ul>
+</li>
+<li>
+<code>signal()</code>, <code>signalAll()</code>
+</li>
+<li>The two methods are protected with the lock to ensure mutual
+exclusion.
+</li>
+<li>the <code>await()</code> is normally wrapped in a while loop on the checked
+condition.
+</li>
+</ul>
+</li>
+<li>The Lock replaces synchronized methods, Condition replaces Object's
+wait/notification methods.
+</li>
+<li>A Condition instance is intrinsically bound to a lock. To obtain a
+Condition instance for a certain Lock instance, use the Lock's
+<code>newCondition()</code> method.
+</li>
+<li>Multiple condition can be created from a Lock.
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">BoundedBuffer</span> <span class="o">{</span>
+    <span class="kd">final</span> <span class="n">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="n">Condition</span> <span class="n">notFull</span>  <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+    <span class="kd">final</span> <span class="n">Condition</span> <span class="n">notEmpty</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+
+    <span class="kd">final</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">items</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="mi">100</span><span class="o">];</span>
+    <span class="kt">int</span> <span class="n">putptr</span><span class="o">,</span> <span class="n">takeptr</span><span class="o">,</span> <span class="n">count</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">Object</span> <span class="n">x</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+	<span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+	<span class="k">try</span> <span class="o">{</span>
+	    <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">items</span><span class="o">.</span><span class="na">length</span><span class="o">)</span>
+		<span class="n">notFull</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+	    <span class="n">items</span><span class="o">[</span><span class="n">putptr</span><span class="o">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">;</span>
+	    <span class="k">if</span> <span class="o">(++</span><span class="n">putptr</span> <span class="o">==</span> <span class="n">items</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="n">putptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	    <span class="o">++</span><span class="n">count</span><span class="o">;</span>
+	    <span class="n">notEmpty</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>
+	<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+	    <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Object</span> <span class="nf">take</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+	<span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+	<span class="k">try</span> <span class="o">{</span>
+	    <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
+		<span class="n">notEmpty</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+	    <span class="n">Object</span> <span class="n">x</span> <span class="o">=</span> <span class="n">items</span><span class="o">[</span><span class="n">takeptr</span><span class="o">];</span>
+	    <span class="k">if</span> <span class="o">(++</span><span class="n">takeptr</span> <span class="o">==</span> <span class="n">items</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="n">takeptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+	    <span class="o">--</span><span class="n">count</span><span class="o">;</span>
+	    <span class="n">notFull</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>
+	    <span class="k">return</span> <span class="n">x</span><span class="o">;</span>
+	<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+	    <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+	<span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>
+<b>ReadWriteLock</b> interface defines a pair of locks: one for read-only
+operations and one for write operations.
+<ul class="org-ul">
+<li>The read lock may be held simultaneously by multiple reader
+threads as long as there are no writes.
+</li>
+<li>The write lock is exclusive: only a single thread can modify
+shared data.
+</li>
+</ul>
+</li>
+<li>
+<b>ReadWriteLock</b> is implemented by the <b>ReentrantReadWriteLock</b>
+  class.
+</li>
+<li>
+<b>StampedLock</b> is another implementation of <b>ReadWriteLock</b>. The main
+differences are:
+<ul class="org-ul">
+<li>StampedLock allow optimistic locking for read operations.
+</li>
+<li>ReentrantReadWriteLock are reentrant while stampedlock are not.
+</li>
+<li>When the readers are much more than writers, the StampedLock can
+significantly improve performance.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">LockSupport</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>This class associates with each thread that uses it, <b>a permit</b> (in
+the sense of the Semaphore class).
+<ul class="org-ul">
+<li>A call to <code>static void park()</code> return immediately if the permit is available,
+consuming it in the process; otherwise it <b>may</b> block.
+</li>
+<li>A call to <code>static void unpark(Thread thread)</code>, if it was not
+already available.
+</li>
+<li>
+<code>park()</code> will return if the caller's thread was interrupted, and
+timeout versions are supported
+</li>
+<li>The <code>park()</code> method may also return at any other time, for "<b>no
+reason</b>", so in general must be invoked within a loop that
+rechecks condition upon return.
+</li>
+<li>In this sense, <code>park</code> serves as an optimization of a <b>busy wait</b>
+that doesn't waste as much time spining, but must be paired with
+an <code>unpark</code> to be effective.
+</li>
+</ul>
+</li>
+<li>Unlike Semaphore's permits, permits of LockSupport are associated
+with threads (i.e. permit is given to a particular thread) and
+doesn't accumulate, i.e. there can be only one permit per thread,
+when thread consumes the permit, it disappears).
+</li>
+<li>You can give permit to a thread by calling unpark(). When permit is
+available, the parked thread consumes it and exits a park() method.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Concurrent Collections</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>The concurrent collections return <b>weakly-consistent iterators</b>:
+<ul class="org-ul">
+<li>An elements that is removed after iteration starts but hasn't yet
+been returned via the iterator's <code>next()</code> method <b>won't</b> be
+returned.
+</li>
+<li>An element that's added after iteration starts <b>may or may not</b> be
+returned.
+</li>
+<li>No element is returned more than once during the iteration of a
+collection, regardless of changes made to the collection during
+iteration.
+</li>
+</ul>
+</li>
+<li>
+<b>BlockingQueue</b>'s implementation:
+<ul class="org-ul">
+<li>
+<b>ArrayBlockingQueue</b>
+</li>
+<li>
+<b>LinkedBlockingQueue</b>
+</li>
+<li>
+<b>PriorityBlockingQueue</b>
+</li>
+<li>
+<b>SynchronousQueue</b>
+</li>
+<li>
+<b>DelayQueue</b>
+</li>
+<li>
+<b>LinkedTransferQueue</b>
+</li>
+</ul>
+</li>
+<li>
+<b>ConcurrentMap</b>'s additional methods:
+<ul class="org-ul">
+<li>
+<code>V putIfAbsent(K key, V value)</code> : combines the <code>containsKey</code> and
+<code>put</code> for a atomic operation.
+</li>
+<li>
+<code>boolean remove(Object key, Object value)</code> : remove the entry for
+a key only if currently mapped to a given value.
+</li>
+<li>
+<code>boolean replace(K key, V oldValue, V newValue)</code>: replace the
+entry for a key only if currently mapped to a given value.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Atomic Variables</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>The atomic classes extends the notion of <code>volatile</code> values, fields,
+and array elements to those that also provide an atomic conditional
+update so that external synchronisation isn't required.
+</li>
+<li>The atomic arrays: <b>AtomicIntegerArray</b>, <b>AtomicLongArray</b> and
+<b>AtomicReferenceArray</b>. Its elements may be updated atomically.
+</li>
+<li>For scalability problem in the context of maintaining a single
+<b>count</b>, a <b>sum</b> or some other value with the possibility of updates
+from many threads:
+<ul class="org-ul">
+<li>Internally employ contention-reduction techniques that provide
+huge throughput improvements compared to atomic variables.
+</li>
+<li>
+<b>DoubleAccumulator</b> and <b>LongAccumulator</b>: Take a BinaryOperator
+</li>
+<li>
+<b>DoubleAdder</b> and <b>LongAdder</b>: provides analogy of the
+functionality of the accumulators for the common special case of
+maintaining counts and sums.
+</li>
+<li>
+<code>new LongAdder()</code> is equivalent to <br><code>new LongAccumulator ((x+y)-&gt;x+y), 0l)</code>
+</li>
+</ul>
+</li>
+<li>Java's low-level synchronisation mechanism impacts hardware
+utilisation and scalability in the following ways:
+<ul class="org-ul">
+<li>
+<b>Contended synchronisation</b> where multiple threads constantly
+competing for a lock, is expensive and throughput suffers as a result.
+<ul class="org-ul">
+<li>The expense is caused mainly by the frequent <b>context switching</b>.
+</li>
+<li>Each <b>context switch</b> operation can take many processor cycles to
+complete.
+</li>
+<li>Modern JVM make <b>uncontended synchronisation</b> inexpensive.
+</li>
+</ul>
+</li>
+<li>When a thread holding a lock is delayed (because of a scheduling
+delay for example), no thread that requires that lock makes any progress.
+</li>
+</ul>
+</li>
+<li>
+<code>volatile</code> cannot be used as a synchronization alternative.
+<ul class="org-ul">
+<li>
+<code>volatile</code> variables only solve the visibility problem.
+</li>
+<li>Cannot be used to safely implement the atomic <b>read-modify-write</b>
+    sequence.
+</li>
+</ul>
+</li>
+<li>Compare-and-Swap(CAS) is an <b>uninterruptible</b> microprocessor specific
+instruction that :
+<ol class="org-ol">
+<li>Read value with an expected value,
+</li>
+<li>Store a new value in the memory location if the read value matches
+the expected value.
+</li>
+<li>Otherwise, nothing is done.
+</li>
+</ol>
+</li>
+<li>CAS supports atomic <b>read-modify-write</b> sequences:
+<ol class="org-ol">
+<li>Read value <code>x</code> from address <code>A</code>
+</li>
+<li>Perform a multistep computation on <code>x</code> to drive a new value <code>y</code>
+</li>
+<li>Use CAS to change ghe value of <code>A</code> from <code>x</code> to <code>y</code>.
+</li>
+<li>CAS succeeds when <code>A</code>'s value hasn't changed while performing
+these steps.
+</li>
+<li>This is normally wrapped in a while loop to repeat until success.
+</li>
+</ol>
+</li>
+<li>
+<b>ReentrantLock</b> offers better performance than <code>synchronized</code> under
+high thread contention.
+<ul class="org-ul">
+<li>its synchronization is managed by a subclass of
+<code>java.util.concurrent.locks.AbstractQueuedSynchronizer</code>,
+</li>
+<li>which in turn, leverages the <code>sun.mics.Unsafe</code> class and its
+<code>compareAndSwapInt()</code> CAS method.
+</li>
+</ul>
+</li>
+<li>The atomic variable classes also leverage CAS with a method:
+<code>boolean compareAndSet(expectedValue, updateValue)</code>.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">Fork/Join</h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>Fork/Join consists of a special <b>executor service</b> and <b>thread
+pool</b>:
+<ul class="org-ul">
+<li>The executor service makes a task available to the framework,
+</li>
+<li>And this task is broken into smaller tasks that are forked
+(executed by different threads) from the pool.
+</li>
+<li>A task waits until joined (its subtasks finish).
+</li>
+</ul>
+</li>
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11">CompletionService</h3>
+<div class="outline-text-3" id="text-1-11">
+<ul class="org-ul">
+<li>A service that decouples the production of new tasks from the
+consumption of the tasks' results <b>in the order</b> they complete.
+<ul class="org-ul">
+<li>Producer <code>submit</code>
+</li>
+<li>Consumer <code>poll</code> or <code>take</code>
+</li>
+</ul>
+</li>
+<li>
+<code>poll()</code> : Retrieves and removes the Future representing the next
+completed task, or <code>null</code> if none are present.
+</li>
+<li>
+<code>poll(long timeout, TimeUnit unit)</code>: waiting if necessary.
+</li>
+<li>
+<code>take()</code> : block if none are yet present.
+</li>
+<li>Difference between executor service and completion service:
+<ul class="org-ul">
+<li>ExecutorService provides an incoming queue for tasks and provides
+workers threads.
+</li>
+<li>CompletionService provides an incoming queue for tasks, worker
+threads, <b>and</b> an output queue for storing task results.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-12" class="outline-3">
+<h3 id="sec-1-12">Testing Concurrent Applications</h3>
+<div class="outline-text-3" id="text-1-12">
+<ul class="org-ul">
+<li>Monitoring <b>ReentrantLock</b> with its methods:
+<ul class="org-ul">
+<li>
+<code>protected Thead getOwner()</code> : return the Thread that currently
+owns this lock, or null if not owned.
+<ul class="org-ul">
+<li>Noticed that this is a protected method, so to use it one will
+need to extend.
+</li>
+</ul>
+</li>
+<li>
+<code>protected getQueuedThreads()</code> : return the collection containing
+the threads that may be waiting to acquire this lock.
+</li>
+<li>
+<code>protected getWaitingThreads(Condition condition)</code> : return the
+collection containing the threads that may be waiting ont he given
+condition associated with this lock.
+</li>
+<li>
+<code>isHeldbycurrentthread()</code> queries if this lock is hold by the
+current thread.
+</li>
+<li>
+<code>isLocked()</code> : indicating if this lock is owned by a thread.
+</li>
+</ul>
+</li>
+<li>
+<b>MultithreadedTC</b> is a library for testing concurrent application.
+<ul class="org-ul">
+<li>It features a <b>metronome/clock</b> that is used to provide <b>fine control</b>
+    over <b>the sequence of activities</b> in multiple threads.
+</li>
+<li>It supports test cases that execise a <b>specific</b> interleaving of
+the threads.
+</li>
+<li>It is motivited by the <b>principle</b> that <i>cuncurrent application
+shoul be built using <b>small concurrent abstractions</b></i> such as
+<i>bounded buffers</i>, <i>semaphores</i> and <i>latches</i>.
+<ul class="org-ul">
+<li>Separating the concurrency logic from the rest of the application
+logic in this way makes it easier to understand and test
+concurrent applications.
+</li>
+<li>Since these abstractions are small, it should be possible to
+<b>deterministically</b> test every <b>significant</b> interleaving in
+separate tests.
+</li>
+</ul>
+</li>
+<li>It uses an internal clock:
+<ul class="org-ul">
+<li>the clock only advances to the next tick when all threads are
+blocked.
+</li>
+<li>waitForTick(1) : makes thread block until the clock reaches tick
+1 before assuming. The interger received in this method is used
+to control the order of execution.
+</li>
+<li>assertTick(1) : assert that the clock is in tick 1.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/java-hotspot-gc/" class="u-url">Java HotSpot VM GC Tunning Guide</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/java-hotspot-gc/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <p>
+References
+<i>- https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/toc.html</i>
+</p>
+<ul class="org-ul">
+<li>
+<a href="https://plumbr.eu/handbook/garbage-collection-in-java">https://plumbr.eu/handbook/garbage-collection-in-java</a>
+</li>
+</ul>
+<p>
+A garbage collector (GC) is a memory management tool. It achieves
+automatic memory management through the following operations:
+</p>
+<ul class="org-ul">
+<li>Allocating objects to a <b>young generation</b> and promoting aged objects
+into an <b>old generation</b>.
+</li>
+<li>Finding live objects in the old generation through a concurrent
+(parallel) <b>marking</b> phase. The Java HotSpot VM triggers the marking
+phase when the total Java heap occupancy exceeds the default
+threshold.
+</li>
+<li>Recovering free memory by compacting live objects through parallel
+copying.
+</li>
+</ul>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">How GC Works</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>In most configurations the operating system allocates the heap in
+advance to be managed by the JVM while the program is running. This
+has a couple of important ramifications
+<ul class="org-ul">
+<li>Object creation is faster because global synchronization with the
+OS is not needed for every single object.
+</li>
+<li>When an object is no longer used, the GC reclaims the underlying
+memory and reuses it for future object allocation. This means
+there is no explicit deletion and no memory is given back to OS.
+</li>
+</ul>
+</li>
+<li>GC Roots: The source of all object trees
+<ul class="org-ul">
+<li>Special objects called GC roots are always reachable and so is any
+object that has a GC root as its own root.
+</li>
+<li>There are four kinds of GC root in JAVA:
+-Local variables in the stack of a thread.
+<ul class="org-ul">
+<li>Active Java threads and its thread local variable.
+</li>
+</ul>
+<p>
+-Static variables referenced by their classes. Classes themselves
+can be GCed, which would remove all referenced static variables.
+</p>
+</li>
+<li>JNI References, which are java objects that native code has
+created as part of a JNI call. Object thus created is theated
+specially because the JVM doesn't know if it is being referenced
+by the native code.
+</li>
+</ul>
+</li>
+<li>Marking and Sweeping away garbage.
+<ul class="org-ul">
+<li>The algorithm traverses all object references, starting with the
+GC roots, and marks every object found as alive.
+</li>
+<li>All that is not marked alive is reclaimed.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">GC in Young Generation</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Young generation is divided into 3 spaces:
+<ul class="org-ul">
+<li>One Eden space
+</li>
+<li>Two survivor spaces.
+</li>
+</ul>
+</li>
+<li>Allocating new objects using <code>new</code> operator (almost) always happens
+in Eden space. Eden space is behave like a <b>Stack</b> when allocating
+memory.
+</li>
+<li>Eden space full will trigger minor GC:
+<ol class="org-ol">
+<li>Traverse graph of objects starting from GC roots
+</li>
+<li>Copy all objects reachable from GC roots to one of <b>survivor</b>
+     spaces.
+</li>
+<li>
+<b>Wipe</b> out Eden space (basically just moving this stack pointer back to 0)
+</li>
+</ol>
+</li>
+<li>Subsequent minor collections there are additional steps:
+<ul class="org-ul">
+<li>One of survivor spaces is examined as well.
+</li>
+<li>Live objects from both Eden and one of Survivor spaces are copied
+to Second survivor space (which is empty). This means there is
+always exactly one free survivor space.
+</li>
+<li>Clean both Eden and the Survivor space.
+</li>
+</ul>
+</li>
+<li>Objects are copied between survivor spaces and Once given object
+jumps back and forth too many times (configurable, 8 by default), it
+is promoted to tenured space.
+</li>
+<li>Major GC runs when tenured space is full.
+</li>
+<li>Two techniques are used for faster memory allocations in HotSpot VM:
+<dl class="org-dl">
+<dt> Bump-the-pointer </dt>
+<dd>tracks the last object allocated to the Eden
+space. That object will be located on <b>top</b> of the Eden
+space. If there is an object crated afterwords, the new object
+will be created on top of the last tracked object.
+<ul class="org-ul">
+<li>Lock is needed in multithread environment to track the last
+object location.
+</li>
+<li>Performance drops due to lock contention.
+</li>
+</ul>
+</dd>
+<dt> Thread-Local Allocation Buffers </dt>
+<dd>is a region of Eden, allows
+each thread to have a small portion of the Eden space. Each
+thread can only access their own TLAB.
+<ul class="org-ul">
+<li>The normal way objects are allocated in HotSpot is within a
+TLAB. TLAB allocation can be done without synchronization with other
+threads. Synchronization is only needed when a new TLAB is fetched.
+</li>
+<li>The TLABs are dynamically resized during the execution for each
+thread individually.
+</li>
+<li>So if a thread allocates very much, the new TLABs that it gets
+from the heap will increase in size.
+</li>
+<li>When allocation inside a TLAB is not possible (typically because
+there is not enough room there)
+<ul class="org-ul">
+<li>The allocation moves on to a shared Eden space.
+</li>
+<li>If no enough space in there either, a GC in Young generation
+is triggered.
+</li>
+<li>If the GC doesn't result in sufficient free memory inside
+Eden, the object is allocated in the Old Generation.
+</li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>
+<b>Card-marking</b> to handle <b>cross-generational</b> reference
+<ul class="org-ul">
+<li>When Eden space is being collected, the JVM use card-marking to
+marks the rough location of objects in Eden that may have links to
+them from the Old Generation.
+</li>
+<li>They will essentially be root objects for the collection.
+</li>
+</ul>
+</li>
+<li>Promotion
+<ul class="org-ul">
+<li>Objects that survivors the tenuring threshold are promoted to Old
+generation.
+</li>
+<li>The threshold is dynamically adjusted but can set a upper limit,
+which is <code>15</code> by default on HotSopt, can be set by
+<code>XX:+MaxTenuringThreshold</code>
+</li>
+<li>Promotion may also happen <b>prematurely</b> if the size of the
+Survivor space is not enough to hold all of the live objects in
+the Young generation.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Minor GC</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Collecting garbage from the Young space is called Minor GC.
+</li>
+<li>Minor GC is always triggered when the JVM is unable to allocate
+space for a new object.
+</li>
+<li>So the higher the allocation rate, the more frequently Minor GC
+occurs.
+</li>
+<li>During Minor GC, Tenured Generation is effectively ignored.
+<ul class="org-ul">
+<li>References from Tenured generation is considered to be GC roots.
+</li>
+<li>References from Young generation to Tenured generation is ignored.
+</li>
+</ul>
+</li>
+<li>Minor GC does trigger <b>stop-the-world</b> pause.
+</li>
+<li>However, for most applications, the length of the pause is
+<b>negligible</b> latency-wise if most of the objects in the Eden can be
+considered garbage and are never copied to Survivor/Old space.
+</li>
+<li>If the opposite is true, Minor GC pauses will take considerably more
+time.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">GC in old generation</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Since most objects are expected to be alive in the Old Generation,
+there is no <b>Mark and Copy</b> happening.
+</li>
+<li>Objects are moved around to minimize fragmentation.
+</li>
+<li>In principle the steps are:
+<ul class="org-ul">
+<li>Mark reachable objects by setting the marked bit next to all
+objects accessible through GC roots.
+</li>
+<li>
+<b>Delete</b> all unreachable objects.
+</li>
+<li>
+<b>Compact</b> the content of the old space by <b>copying</b> the live
+objects <b>contiguously</b> to the beginning of the old space.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Behaviour Goals</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+There two primary measures of garbage collection performance:
+<b>Throughput</b> and <b>Pause</b>
+</p>
+
+<p>
+For parallel collector, Java SE provides two garbage collection
+tunning parameters to achieve specific behavior gaols:
+</p>
+<ul class="org-ul">
+<li>
+<b>Maximum Pause Time</b>: <br>
+  To limit the longest of the GC pause. This is
+specified by command-line option <code>-XX:MaxGCPauseMillis=&lt;nnn&gt;</code>, which
+is interpreted as a hint to the garbage collector that the pause
+time of <code>&lt;nnn&gt;</code> or less is desired. <b>By default</b>, there is no
+maximum pause time goal, and these adjustments may cause garbage
+collector to occur <i>more frequently</i>, reducing the overall
+<b>throughput</b> of the application.
+</li>
+<li>
+<b>Throughout</b>: <br>
+  The throughput goal is measured in terms of time in GC and in
+application respectively. With command-line option
+<code>-XX:GCTimeRatio=&lt;n&gt;</code>, the ratio of gc time to application time is
+set to \(1/(1+n)\). If the goal cannot be met, the size of the
+generations are increased in an effort to increase the application
+time in between collections.
+</li>
+<li>
+<b>Footprint</b>: <br>
+  If the two of the above goals are met, the GC reduces the size of
+the heap until one of the goals (invariably the throughput goal)
+cannot be met.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Tunning Strategy</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Do not choose a maximum value for the heap unless you know you need
+a heap greater than the default maximum heap size. Choose a
+throughput goal that is sufficent for your application.
+</li>
+<li>If the application starts allocating at a higher rate, the heap will
+grow to maintain the same throughput.
+</li>
+<li>If the heap grows to its maximum size and the throughput goal is not
+being met, the maximum heap size is too small for the throughput
+goal. Set the maximum heap size to a value that is close to the
+total physical memory on the platform but which does not cause
+swapping of the application. If the throughput goal is still not
+met, then the goal for the application time is too high for the
+available memory on the platform.
+</li>
+<li>If the throughput goal can be met, but there are pauses that are too
+long, then select a maximum pause time goal. Choosing a maximum
+pause time goal may mean that your throughput goal will not be met,
+so choose values that are an acceptable compromise for the
+application.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Arrangement of Generation</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+The default arrangement of generations, exception for parallel
+collector and G1 looks like following:
+</p>
+
+
+<div class="figure">
+<p><img src="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/img/jsgct_dt_001_armgnt_gn.png" alt="jsgct_dt_001_armgnt_gn.png"></p>
+</div>
+
+<ul class="org-ul">
+<li>At initialization, a maximum address space is virtually reserved but
+<b>not allocated to physical memory</b> unless it is needed. The complete
+address space reserved for object memory can be divided into the
+young and tenured generations.
+</li>
+<li>The young generation consists of <b>eden</b> and <b>two survivor spaces</b>.
+</li>
+<li>Most objects are initially allocated in <b>eden</b>. One survivor space is
+<i>empty at any time</i>, and serves as the destination of any live objects
+in eden; the other survivor space is the destination during the next
+<b>copying collection</b>.
+</li>
+<li>Objects are copied between survivor spaces in this way until they
+are old enough to be tenured, and copied to the <b>tenured generation</b>.
+</li>
+</ul>
+<p>
+In general, choosing the size for a particular generation is a
+trade-off between these <i>considerations of throughput, or puase time,
+footprint, or promptness</i>:
+</p>
+<ul class="org-ul">
+<li>A very large young generation may maximize throughput, but does so
+at the expense of footprint, promptness, and pause times.
+</li>
+<li>Young generation pauses can be minimized by using a small young
+generation at the expense of throughput.
+</li>
+<li>The sizing of one generation does not affect the collection
+frequency and pause times for another generation.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Measurement</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+The command-line option <code>-verbose:gc</code> causes information about the heap
+and garbage collection to be printed at each collection. For example:
+</p>
+<p class="verse">
+[GC 325407K-&gt;83000K(776768K), 0.2300771 secs]<br>
+[GC 325816K-&gt;83372K(776768K), 0.2454258 secs]<br>
+[Full GC 267628K-&gt;83769K(776768K), 1.8479984 secs]<br></p>
+<ul class="org-ul">
+<li>The numbers before and after the arrow (for example, 325407K-&gt;83000K
+from the first line) indicate the combined size of live objects
+before and after garbage collection, respectively.
+</li>
+<li>The next number in parentheses (for example, (776768K) again from
+the first line) is the <b>committed size of the heap</b>: the amount of
+space usable for Java objects <b>without</b> requesting more memory from
+the operating system.
+</li>
+<li>Note that this number only includes one of the survivor
+spaces. Except during a garbage collection, only one survivor space
+will be used at any given time to store objects.
+</li>
+<li>The last item on the line (for example, 0.2300771 secs) indicates
+the time taken to perform the collection.
+</li>
+</ul>
+<p>
+The command-line option <code>-XX:+PrintGCDetails</code> causes additional
+information about the collections to be printed:
+</p>
+<p class="verse">
+[GC [DefNew: 64575K-&gt;959K(64576K), 0.0457646 secs] 196016K-&gt;133633K(261184K), 0.0459067 secs]<br></p>
+<p>
+This indicates that the minor collection recovered about 98% of the
+young generation, DefNew: 64575K-&gt;959K(64576K) and took 0.0457646 secs
+(about 45 milliseconds).
+</p>
+
+<p>
+The option <code>-XX:+PrintGCTimeStamps</code> adds a time stamp at the start of
+each collection. This is useful to see <i>how frequently</i> garbage
+collections occur.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Sizing the Generations</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+The different size parameters as illustrated in the following picture:<br><img src="https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/img/jsgct_dt_006_prm_gn_sz.png" alt="jsgct_dt_006_prm_gn_sz.png"></p>
+
+<ul class="org-ul">
+<li>At initialisation of vm, the <b>entire space</b> for the heap is
+<b>reserved</b>. The size of the space reserved can be specified with <code>-Xmx</code>
+option.
+</li>
+<li>If the value of <code>-Xms</code> is smaller than the value of <code>-Xmx</code>, not all
+the space that is reserved is immediately committed to the virtual
+machine. The uncommitted space is labelled as <b>virtual</b> space.
+</li>
+<li>Maximum heap size should always be smaller than the amount of memory
+installed on the machine to avoid excessive page faults and
+thrashing.
+</li>
+<li>The different parts of the heap (tenured generation and young
+generation) can grow to the limit of the virtual space as needed.
+</li>
+<li>It can be seen from the picture that the <b>committed space</b> is the memory
+already acquired by Java, for the different generation.
+</li>
+<li>After total available memory, the proportion of <b>young generation</b>
+is the second most influential factor of GC. <i>The bigger the young
+generation, the less often minor collections occur</i>.
+</li>
+<li>However, for a bounded heap size, a <i>larger young generation implies
+a <b>smaller</b> tenured generation</i>, which will <b>increase</b> the frequency
+of major collections.
+</li>
+<li>Parameter <code>NewRatio</code> controls the young generation size. <code>-XX:NewRatio=3</code>
+means the ratio between the young and the tenured generation is
+1:3. In other words, the combined size of the eden and the survivor
+space will be one-forth of the total heap size.
+</li>
+<li>Parameter <code>NewSize</code> and <code>MaxNewSize</code> bound the young generation.
+</li>
+<li>Parameter <code>SurvivorRatio</code> controls the survivor spaces, but it is
+often not important for performance.
+</li>
+<li>Increase the young generation size as you increase the number of
+<b>processors</b>, because allocation can be paralleled.
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">GC Algorithms</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1">Marking reachable objects</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>First, GC defines some specific objects as GC Roots.
+</li>
+<li>Next, GC traverses the whole object graph in your memory, starting
+from GC Roots and following references from the roots to other
+objects.
+</li>
+<li>The application threads need to be stopped for the marking to happen
+as you cannot really traverse the graph if it keeps changing.
+</li>
+<li>Such a situation when the application threads are temporarily
+stopped so that JVM can indulge in housekeeping activities is called
+a <b>safe point</b> resulting in a <b>stop-the-world</b> pause.
+<ul class="org-ul">
+<li>Safe points can be triggered for different reasons but GC is by
+far the most common reason.
+</li>
+</ul>
+</li>
+<li>The duration of this pause depends either on total number of objects
+in heap, nor on the size of the heap.
+<ul class="org-ul">
+<li>But on <b>the number of alive objects</b>.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2">Removing unused objects</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li>Mark and <b>Sweep</b>
+  <img src="https://plumbr.eu/wp-content/uploads/2015/06/GC-sweep.png" alt="GC-sweep.png"><ul class="org-ul">
+<li>After marking phase, all space occupied by unvisited objects
+is considered free and thus be reused.
+</li>
+<li>Requires using the so called <b>free-list</b> recording of every free
+region and its size.
+</li>
+<li>Increase memory fragmentation.
+</li>
+</ul>
+</li>
+<li>Mark-Sweep-Compact
+<img src="https://plumbr.eu/wp-content/uploads/2015/06/GC-mark-sweep-compact.png" alt="GC-mark-sweep-compact.png"><ul class="org-ul">
+<li>Solve the shortcomings of Mark and Sweep by moving all marked, and
+thus alive, objects to the beginning of the memory region.
+</li>
+<li>Increase pause time, but no fragmentation issues.
+</li>
+</ul>
+</li>
+<li>Mark and Copy
+<img src="https://plumbr.eu/wp-content/uploads/2015/06/GC-mark-and-copy-in-Java.png" alt="GC-mark-and-copy-in-Java.png"><ul class="org-ul">
+<li>Same as Mark and compact as it also relocate live objects.
+</li>
+<li>The important difference is that the target of relocation.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10">Available Collectors</h2>
+<div class="outline-text-2" id="text-10">
+<dl class="org-dl">
+<dt> Serial Collector (<code>-XX:+UseSerialGC</code>) </dt>
+<dd>
+<i>no communication overhead
+between threads</i>, can be useful on multiprocessors for
+applications with small data sets up to 100MB.
+<ul class="org-ul">
+<li>Using an algorithm called <b>mark-sweep-compact</b>:
+<dl class="org-dl">
+<dt> Mark </dt>
+<dd>Marking the surviving objects
+</dd>
+<dt> Sweep </dt>
+<dd>Check the heap from the front and leaves only the
+surviving ones.
+</dd>
+<dt> Compact </dt>
+<dd>Fills up the heap from the front with the objects so
+that the objects are piled up consecutively, and
+divides the heap into two parts: one with objects and
+one without object.
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt> Parallel Collector (<code>-XX:+UseParallelGC</code>) </dt>
+<dd>also known as
+<i>throughput collector</i>. It performs <b>minor collections</b> in
+parallel, can significantly reduce the garbage collection
+overhead.
+<ul class="org-ul">
+<li>While serial GC uses only one thread to process a GC, Parallel GC
+uses several threads to process a GC.
+</li>
+<li>Its biggest advantage is that is uses multiple threads to scan
+through and compact the heap.
+</li>
+<li>The downside to the parallel collector is that it will stop
+application threads when performing <b>either a minor or full</b> GC
+collection.
+</li>
+<li>Intended for <b>medium-sized</b> to <b>large-sized</b> data sets that are
+run on multiprocessor or multithreaded hardware.
+</li>
+<li>
+<b>Parallel compaction</b> is a feature that enables parallel collector
+to perform <b>major collections</b> in parallel. Without it major
+collections are performed using a <i>single thread</i>. It is enabled by
+default but can be turn off with <code>-XX:UseParallelOldGC</code>
+</li>
+<li>See the difference between serial and parallel collector:
+<img src="http://www.cubrid.org/files/attach/images/220547/284/313/difference-between-the-serial-gc-and-parallel-gc.png" alt="difference-between-the-serial-gc-and-parallel-gc.png">
+</li>
+</ul>
+</dd>
+<dt> <b>Concurrent Collector</b> </dt>
+<dd>performs most of its work concurrently,
+while application is still running to keep GC pause short.
+<ul class="org-ul">
+<li>Designed for application with media to large sized data set in
+which response time is more important than overall throughput.
+</li>
+<li>
+<b>CMS Collector</b> (-XX:+UseConcMarkSweepGC)
+<ul class="org-ul">
+<li>See the difference between Serial Mark-Sweep-Compact and
+Concurrent Mark-Sweep
+</li>
+</ul>
+<div class="figure">
+<p><img src="http://www.cubrid.org/files/attach/images/220547/284/313/serial-gc-and-cms-gc.png" alt="serial-gc-and-cms-gc.png"></p>
+</div>
+</li>
+<li>
+<b>G1 Collector</b> (-XX:+UseG1GC)
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+
+<div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1">Selecting a Collector:</h3>
+<div class="outline-text-3" id="text-10-1">
+<ul class="org-ul">
+<li>Unless your application has strict pause time requirement, you
+can always allow the VM to select a collector, and adjust heap
+size to improve performance if necessary. Otherwise:
+</li>
+<li>Use Serial Collector
+<ul class="org-ul">
+<li>if the application has a small data set;
+</li>
+<li>or if the application will be run on a single processor and no
+pause time requirement;
+</li>
+</ul>
+</li>
+<li>Use Parallel Collector if:
+<ul class="org-ul">
+<li>a peak application performance is the first priority
+</li>
+<li>no pause time requirement
+</li>
+<li>or pause of 1 second or longer are acceptable.
+</li>
+</ul>
+</li>
+<li>Use Concurrent GC if:
+<ul class="org-ul">
+<li>Response time is more important than overall throughput
+</li>
+<li>and GC pause must be ketp shorter than 1 second
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11">Concurrent GC</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+<div id="outline-container-sec-11-1" class="outline-3">
+<h3 id="sec-11-1">CMS</h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li>Assuming that your heap is less than 4Gb in size.
+</li>
+<li>CMS is only used in the Old generation, Yong generation still uses
+Parallel GC.
+</li>
+<li>The collector is designed to avoid long pauses while collecting in
+the Old Generation. This is achieved by:
+<ul class="org-ul">
+<li>Does not compact the old generation but use <b>free-lists</b> to manage
+reclaimed space.
+</li>
+<li>Does most of the job in the mark-and-sweep concurrently with the
+application.
+</li>
+</ul>
+</li>
+<li>This algorithm uses multiple threads (“concurrent”) to scan through
+the heap (“mark”) for unused objects that can be recycled
+(“sweep”).
+</li>
+<li>This algorithm will enter “stop the world” (STW) mode in two
+cases. The steps are:
+<ol class="org-ol">
+<li>Phase 1: Initial Mark(STW) :: when initialising the initial
+marking of roots (objects in the old generation that are
+reachable from thread entry points or static variables)
+<ul class="org-ul">
+<li>References from GC roots.
+</li>
+<li>References from Young generation.
+</li>
+</ul>
+</li>
+<li>Phase 2: Concurrent Mark :: traverses the Old Generation and
+marks all live objects, starting from the roots found in the
+previous phase of "Initial Mark".
+<ul class="org-ul">
+<li>Concurrently running with the application threads.
+</li>
+<li>Not all live objects <b>may</b> be marked, since the application is
+mutating reference during the marking.
+</li>
+</ul>
+</li>
+<li>Phase 3: Concurrent Preclean
+<ul class="org-ul">
+<li>While the previous phase was running, some references can be
+changed. Whenever that happens, the JVM marks the area of the
+heap (called <b>Card</b>) that contains the mutated objects as
+"<i>dirty</i>" (this is known as <b>Card Marking</b>)
+</li>
+<li>In the preclean phase, these dirty objects are accounted for,
+and the objects reachable from them are also marked.
+</li>
+</ul>
+</li>
+<li>Phase 4: Concurrent Abortable Preclean :: attempts to takes as
+much work off the stop-the-world Final Remark as possible.
+</li>
+<li>Phase 5: Final Remark(STW) :: finalise the marking of objects in
+the Old generation, since the previous steps are all running
+concurrently, this is required to make the marking final.
+</li>
+<li>Phase 6: Concurrent Sweep :: remove unused the objects and
+reclaim the space occupied by them.
+</li>
+<li>Phase 7: Concurrent Reset :: resetting inner data structure of
+the CMS, and preparing them for the next cycle.
+</li>
+</ol>
+</li>
+<li>Major drawbacks
+<ul class="org-ul">
+<li>Old generation fragmentation
+</li>
+<li>Lack of predictability in pause duration, especially on large
+heaps.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-11-2" class="outline-3">
+<h3 id="sec-11-2">G1</h3>
+<div class="outline-text-3" id="text-11-2">
+<ul class="org-ul">
+<li>Was designed to better support heaps <b>larger than 4GB</b>.
+</li>
+<li>A <i>soft real-time</i> garbage collector, meaning that you can set
+specific performance goals to it.
+<ul class="org-ul">
+<li>Request the stop-the-world pause to be no longer than <code>x</code>
+    milliseconds within any given <code>y</code>-millisecond long time range.
+</li>
+<li>Meet this goal with high probability (but not with certainty, that
+would be <i>hard real-time</i>.
+</li>
+</ul>
+</li>
+<li>To achieve this, G1 build upon a number of insights:
+<ul class="org-ul">
+<li>Heap doesn't have to be split into contiguous Young and Old generation.
+<ul class="org-ul">
+<li>Instead, the heap is split into a member (typically about 2048)
+smaller heap regions.
+</li>
+<li>Each region may be an Eden region, a Survivor region, or an Old
+region.
+</li>
+<li>The logical union of all Eden and Survivor regions is the Young
+generation, and all the Old regions is the Old generation.
+</li>
+<li>This allow the GC to avoid collecting the entire heap at once,
+and instead approach the problem <i>incrementally</i>.
+<ul class="org-ul">
+<li>Only a subset of the regions, called <b>collection set</b> will be
+considered at a time.
+</li>
+<li>
+<b>All the Young regions</b> are collected during each pause, but
+<b>some Old regions</b> may be included.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>G1 will estimate the amount of <b>live</b> data in each region.
+<ul class="org-ul">
+<li>This is used in building the collection set.
+</li>
+<li>The regions that contains the most marbage are collected first.
+</li>
+<li>Hence the name: <b>Garbage First</b>.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Steps:
+<ul class="org-ul">
+<li>Evaluation Pauses: fully Young.
+</li>
+<li>Concurrent Marking
+</li>
+<li>Evacuation Pause: Mixed
+</li>
+</ul>
+</li>
+<li>it compacts the heap on-the-go, something the CMS collector only
+does during full STW collections.
+</li>
+</ul>
+</div>
+</div>
+</div>
+    </div>
+    </article>
+</div>
+
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="." rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-1.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:n.tesla@example.com">Warren Liu</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

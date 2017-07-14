@@ -10,7 +10,8 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://example.com/">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
+<link rel="next" href="index-2.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/agile-notes/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -63,15 +64,1431 @@
 
     
 <div class="postindex">
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/agile-notes/" class="u-url">agile</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/agile-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Practices of an Agile Developer</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>In the beginning of the development, it will be good to have a hotfix
+policy in place to make it easy to do hotfix.
+</li>
+<li>Integration is one of the biggest risk in software development. It
+will be best to integrate a few times a day.
+</li>
+<li>To integrate as early and as often as possible to avoid problems of
+integration later.
+</li>
+<li>Automate deployment early as well. <i>Deploy hotfix in the production
+environment should be made easy</i>.
+</li>
+<li>Agility is all about <b>managing change</b> and the code is one of things
+that change the most.
+</li>
+<li>Thinking of unit test results same as compiler result. If it doesn't
+pass the test, or even, no test at all for a piece of code, it
+should be treated equivalent to not compiling.
+</li>
+<li>Unit test may not be appropriate for prototyping or
+experimenting. In the rare cases that prototypes go into production,
+unit test need to be added for them.
+</li>
+<li>Estimate the time needed for a task, and when finish a task, keep
+track of how long it really took.
+</li>
+<li>Keep a solution log, maintain a log of problems faced and solutions
+found. <span class="underline">Even better than maintaining a log is sharing it with others</span>.
+</li>
+<li>Warnings are really errors.
+<ul class="org-ul">
+<li>If your compiler allows you to fine-tune warning reporting levels,
+turn that all the way up so warnings are not ignored.
+</li>
+<li>You can usually instruct the compiler to specifically suppress
+unavoidable warnings.
+</li>
+<li>Deprecated methods have been deprecated for a reason.
+</li>
+</ul>
+</li>
+<li>Provide useful error messages to the user. Allow user to see error
+<b>details</b> with <i>additional click</i> could be very useful for debug.
+</li>
+<li>Information logged may contain not only the details about what went
+wrong but also a snapshot of the state of the system (for example,
+the session state in a web application)
+</li>
+<li>Type of errors, by keeping track of what kind of error you are
+reporting, you can provide more appropriate advice to your audience.
+<ul class="org-ul">
+<li>Program defects, bugs: NullPointerException, missing key values,
+etc. The user, or system administrator can do nothing about it.
+</li>
+<li>Environment problem: failure to connect to a database or remote
+service, insufficient permissions, etc. The program can do nothing
+about it.
+</li>
+<li>User error.
+</li>
+</ul>
+</li>
+<li>Practice collective ownership
+</li>
+<li>Architect must write code
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Restrospective</h2>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/angular-notes/" class="u-url">Angular 2 Notes</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/angular-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Modules (NgModule)</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>An angular module is a class decorated with <code>@NgModule</code> metadata:
+<ul class="org-ul">
+<li>declare the <b>components</b>, <b>directives</b> and <b>pipes</b> of the module
+</li>
+<li>export some of those classes
+</li>
+<li>import other <b>modules</b> needed by <i>this</i> module
+</li>
+<li>provide services at the application level that any application
+component can use
+</li>
+</ul>
+</li>
+<li>Every Angular app has at least one module class, the <b>root module</b>,
+which is bootstrapped to launch the application.
+</li>
+<li>
+<b>BrowserModule</b> need to be imported by every browser app. It
+includes common directives like <code>NgIf</code>, <code>NgFor</code>.
+</li>
+<li>There are two ways to bootstrap a root module:
+<ul class="org-ul">
+<li>static bootstrapping with Ahead-Of-time (AOT) compiler
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">platformBrowser</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'@angular/platform-browser'</span><span class="p">;</span>
+<span class="c1">// The app module factory produced by the static offline compiler</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">AppModuleNgFactory</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'./app.module.ngfactory'</span><span class="p">;</span>
+<span class="c1">// Launch with the app module factory.</span>
+<span class="nx">platformBrowser</span><span class="p">().</span><span class="nx">bootstrapModuleFactory</span><span class="p">(</span><span class="nx">AppModuleNgFactory</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>Dynamic bootstrapping with Just-in-time (JIT) compiler
+<div class="highlight"><pre><span></span><span class="c1">// The browser platform with a compiler</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">platformBrowserDynamic</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'@angular/platform-browser-dynamic'</span><span class="p">;</span>
+<span class="c1">// The app module</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">AppModule</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'./app.module'</span><span class="p">;</span>
+<span class="c1">// Compile and launch the module</span>
+<span class="nx">platformBrowserDynamic</span><span class="p">().</span><span class="nx">bootstrapModule</span><span class="p">(</span><span class="nx">AppModule</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>Both way the bootstrap will end up with bootstrapping a
+<code>ModuleFactory</code> but the JIT will compile the ModuleFactory on the fly.
+</li>
+</ul>
+</li>
+<li>
+<b>Service Providers</b>
+<ul class="org-ul">
+<li>A module can add providers to the application's <b>root</b> injector:
+<div class="highlight"><pre><span></span><span class="nx">providers</span><span class="o">:</span> <span class="p">[</span><span class="nx">UserService</span><span class="p">]</span>
+</pre></div>
+<p>
+by adding this <code>providers</code> property in the module metadata, it
+provide it for all components in the module.
+</p>
+</li>
+<li>Angular module instances, unlike components, <b>do not</b> have their
+own injectors so they can't have their own provider scopes. This
+means that anything <code>provided</code> in a module are <b>application-scoped</b>.
+</li>
+<li>As a general rule, import modules with providers <b>exactly once</b>,
+preferably in the <code>root module</code>.
+</li>
+</ul>
+</li>
+<li>Lazy loading modules with the Router
+<ul class="org-ul">
+<li>TODO NEED TO READ MORE. TODO
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Testing</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>The <b>TestBed</b> creates an Angular testing module - an <code>@NgModule</code>
+    class - that you configure with the <b>configureTestingModule</b>
+    method to produce the module environment for the class you want to test.
+</li>
+<li>After configuring the <b>TestBed</b>, use <b>TestBed.createComponent</b> to
+create an component instance and return a <b>ComponentFixture</b>. The
+fixture provides access to the component instance and to the
+<b>DebugElement</b> which is a handle on the compoment's DOM element.
+</li>
+<li>Each test tells Angular when to perform change detection by
+calling <b>fixture.detectChanges()</b>
+</li>
+<li>Use <b>async()</b> function call to passing asynchronous execution body
+to <b>beforeEach</b>. Internally, <b>async()</b> arranges for the body of
+the <b>beforeEach</b> to run in a special async test zone that hides
+the mechanics of asynchronous execution.
+</li>
+<li>
+<b>TestBed.compileComponents</b> method asynchronously compiles all the
+components configured in the testing module. When it completes,
+the external templates and css files have been 'inlined' and
+<b>Test.createComponent</b> can create new instance of component
+synchronously.
+</li>
+<li>In general, tests should not make calls to remote services. They
+should emulate such calls, for example, with <b>Jasmine</b> spy:
+<div class="highlight"><pre><span></span><span class="nx">spy</span> <span class="o">=</span> <span class="nx">spyOn</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span> <span class="s1">'getQuote'</span><span class="p">).</span><span class="nx">and</span><span class="p">.</span><span class="nx">returnValue</span><span class="p">(</span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">'value'</span><span class="p">));</span>
+</pre></div>
+</li>
+<li>Testing async:
+<ul class="org-ul">
+<li>using async()
+</li>
+<li>using fakeAsync() and tick():
+<div class="highlight"><pre><span></span><span class="nx">it</span><span class="p">(</span><span class="s1">'should show quote after getQuote promise (fakeAsync)'</span><span class="p">,</span> <span class="nx">fakeAsync</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span>
+  <span class="nx">tick</span><span class="p">();</span>                  <span class="c1">// wait for async getQuote</span>
+  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span> <span class="c1">// update view with quote</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="nx">testQuote</span><span class="p">);</span>
+<span class="p">}));</span>
+</pre></div>
+</li>
+<li>using jasmine.done:
+<div class="highlight"><pre><span></span>  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span>
+  <span class="c1">// get the spy promise and wait for it to resolve</span>
+  <span class="nx">spy</span><span class="p">.</span><span class="nx">calls</span><span class="p">.</span><span class="nx">mostRecent</span><span class="p">().</span><span class="nx">returnValue</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span> <span class="c1">// update view with quote</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="nx">testQuote</span><span class="p">);</span>
+    <span class="nx">done</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/Bash-notes/" class="u-url">Bash Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/Bash-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Bash array and its loop</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>declare an array
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nv">files</span><span class="o">=(</span> <span class="s2">"/etc/passwd"</span> <span class="s2">"/etc/group"</span> <span class="s2">"/etc/hosts"</span> <span class="o">)</span>
+<span class="nv">limits</span><span class="o">=(</span> <span class="m">10</span>, <span class="m">20</span>, <span class="m">26</span>, <span class="m">39</span>, <span class="m">48</span><span class="o">)</span>
+</pre></div>
+<ul class="org-ul">
+<li>array can also be created automatically when a variable is used in
+the format like:
+</li>
+</ul>
+<div class="highlight"><pre><span></span>name<span class="o">[</span>index<span class="o">]=</span>value
+</pre></div>
+<ul class="org-ul">
+<li>loop through array values
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">for</span> i in <span class="s2">"</span><span class="si">${</span><span class="nv">arrayName</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">do</span>
+   <span class="nb">echo</span> <span class="nv">$i</span>
+<span class="k">done</span>
+</pre></div>
+<p>
+the syntax for array with [@] print out the whole array.
+</p>
+<ul class="org-ul">
+<li>get the length of an array with <code>${#array[@]}</code>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nb">declare</span> -a <span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span> <span class="s1">'Suse'</span> <span class="s1">'Fedora'</span><span class="o">)</span><span class="p">;</span>
+<span class="nb">echo</span> <span class="si">${#</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span> <span class="c1">#Number of elements in the array</span>
+<span class="nb">echo</span> <span class="si">${#</span><span class="nv">Unix</span><span class="si">}</span>  <span class="c1">#Number of characters in the first element of the array.i.e Debian</span>
+</pre></div>
+<ul class="org-ul">
+<li>get a subarray with <code>${array[@]:3:2}</code>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Ubuntu'</span> <span class="s1">'Fedora'</span> <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
+<span class="nb">echo</span> <span class="si">${</span><span class="nv">Unix</span><span class="p">[@]:</span><span class="nv">3</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>add an element to an existing array:
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span>  <span class="s1">'Fedora'</span> <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
+<span class="nv">Unix</span><span class="o">=(</span><span class="s2">"</span><span class="si">${</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span> <span class="s2">"AIX"</span> <span class="s2">"HP-UX"</span><span class="o">)</span>
+</pre></div>
+<ul class="org-ul">
+<li>contact two arrays:
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span> <span class="s1">'Ubuntu'</span>  <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
+<span class="nv">Shell</span><span class="o">=(</span><span class="s1">'bash'</span> <span class="s1">'csh'</span> <span class="s1">'jsh'</span> <span class="s1">'rc'</span> <span class="s1">'tcsh'</span><span class="o">)</span><span class="p">;</span>
+<span class="nv">UnixShell</span><span class="o">=(</span><span class="s2">"</span><span class="si">${</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span> <span class="s2">"</span><span class="si">${</span><span class="nv">Shell</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="o">)</span>
+<span class="c1"># alternatively, to append the second array to the first</span>
+<span class="nv">Unix</span><span class="o">+=</span>Shell
+</pre></div>
+<ul class="org-ul">
+<li>remove an element from an array using subarray and contact
+</li>
+<li>unset can be used to delete an entire array
+</li>
+<li>bash also support <b>associated arrays</b>:
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="nb">declare</span> -A ARRAY <span class="c1"># declar an associate array.</span>
+ARRAY<span class="o">[</span>STRING<span class="o">]=</span>VALUE
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Using <code>trap</code>
+</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>
+<b>trap [COMMANDS] [SIGNALS]</b>: this instructs the <b>trap</b> command to
+catch the listed <i>SIGNALS</i>, which my be signal names with or without
+the <i>SIG</i> prefix, or signal numbers.
+</li>
+<li>0, or <i>EXIT</i>, the commands are executed when the shell exists.
+</li>
+<li>
+<i>DEBUG</i>, the list of commands is executed after every simple
+command.
+</li>
+<li>
+<i>ERR</i>, the commands is executed each time a simple command exists
+with a non-zero status.
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># traptest.sh</span>
+
+<span class="nb">trap</span> <span class="s2">"echo Booh!"</span> SIGINT SIGTERM
+<span class="nb">echo</span> <span class="s2">"pid is </span><span class="nv">$$</span><span class="s2">"</span>
+
+<span class="k">while</span> :                 <span class="c1"># This is the same as "while true".</span>
+<span class="k">do</span>
+	sleep <span class="m">60</span>        <span class="c1"># This script is not really doing anything.</span>
+<span class="k">done</span>
+</pre></div>
+<ul class="org-ul">
+<li>In this example, Ctrl+C, or kill with the PID without specifying
+the <i>KILL</i> signal, will not terminate the script, cause the
+signals is trapped.
+</li>
+</ul>
+</li>
+<li>
+<b>trap</b> can be used to clean up resource in shell script.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">SIGTERM vs. SIGKILL</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Sending signals to processes using <code>kill</code>
+</li>
+<li>Anytime you use <code>kill</code> on a process, you are actually sending the
+process a signal.
+</li>
+<li>The full list of signals can be found with <code>kill -l</code>.
+</li>
+<li>Without any parameters, <code>kill pid</code> would send a <i>SIGTERM</i> signal,
+<ul class="org-ul">
+<li>in which case:
+<ul class="org-ul">
+<li>The process may stop immediately.
+</li>
+<li>The process may stop after a short delay after cleaning up resources.
+</li>
+<li>The process may keep running indefinitely.
+</li>
+</ul>
+</li>
+<li>The application can determine what it want to do once a <i>SIGTERM</i> is
+received.
+</li>
+<li>Also, if the application is in a bad state, such as waiting for disk
+I/O, it may not be able to act on the signal that was sent.
+</li>
+</ul>
+</li>
+<li>
+<code>kill -9 pid</code>: will send a <i>SIGKILL</i>, which cannot be ignored by the
+process.
+<ul class="org-ul">
+<li>The process isn't made aware of the <i>SIGKILL</i> signal since the
+signal goes straight to <code>init</code>, which will stop the process.
+</li>
+<li>The process never gets the opportunity to catch the signal and act
+on it.
+</li>
+</ul>
+</li>
+<li>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/coding-questions/" class="u-url">Coding Questions</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/coding-questions/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <ul class="org-ul">
+<li>String rotation: <br>
+  Use <b>substring()</b> only to determine if a string is a rotation
+of the other.
+</li>
+
+<li>Return k-th to last element (last k element) of a singlely linked list
+</li>
+
+<li>Delete middle node in a singely linke list, given only access to
+that node.
+</li>
+
+<li>Partition a linked list around a value <code>x</code>, so that the node that
+has value smaller than <code>x</code> comes before the those larger than <code>x</code>.
+</li>
+
+<li>
+</li>
+</ul>
+</div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/solr-notes/" class="u-url">Solr Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/solr-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Note on Solr Cloud</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">ZooKeepers used for SolrCloud</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>The main principle for a ZooKeeper ensemble is maintaining a
+majority of servers to serve request. This majority is also called a
+<b>quorum</b>.
+<ul class="org-ul">
+<li>If you only have two ZooKeeper nodes and one goes down, 50% of
+available servers is not a majority, so ZooKeeper will no longer
+server request.
+</li>
+</ul>
+</li>
+<li>For a ZooKeeper service to be active, there must be a <b>majority</b> of
+non-failing machines that can communicate with each other.
+</li>
+<li>To create a deployment that can tolerate the failure of <code>F</code>
+  machines, you should count on deploying <code>2xF+1</code> machines.
+</li>
+<li>For this reason, ZooKeeper deployments are usually made up of an <b>odd</b>
+  number of machines.
+</li>
+<li>Whereas with Solr you need to create entirely new directories to run
+multiple instances, to run a new ZooKeeper instance will only
+require a new configurationfile in
+<code>&lt;ZOOKEEPER_HOME&gt;/conf/zoo?.cfg</code>. Although they will require a
+distinct <code>dataDir</code>.
+<ul class="org-ul">
+<li>The configuration file is passed to <code>zkServer.sh</code> for start the
+instance.
+</li>
+</ul>
+</li>
+<li>The configuration files of SolrCloud are kept in ZooKeeper.
+<ul class="org-ul">
+<li>They are uploaded when Solr start or collection created, or can
+be explicitly uploaded.
+</li>
+</ul>
+</li>
+<li>To manage SolrCloud configuration files with ZooKeeper
+<ul class="org-ul">
+<li>Keep in mind that the configuration need to pushed t back to
+ZooKeeper when the changes.
+</li>
+<li>And reload the collection.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">SolrCloud Concepts</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>
+<b>Core</b> has multiple meaning:
+<ul class="org-ul">
+<li>In stand-alone Solr instance, a core corresponds to a
+logical/physical index.
+</li>
+<li>In SolrCloud, a <b>collection</b> defines a logical index, where a <b>core</b>
+corresponds to a physical index residing in a node, which is a
+<b>portion</b> of the logical index.
+</li>
+</ul>
+</li>
+<li>SolrCloud has a <b>leader</b> in every shard but the leader is largely the
+same as any other <b>replica</b>:
+<ul class="org-ul">
+<li>The <b>leader</b> is elected dynamically. Any replica, on any node in
+the cluster, can be appointed as the leader.
+</li>
+<li>Both indexing documents and serving queries.
+</li>
+<li>The only additional responsibility of the leader is to
+<b>distribute</b> documents to be <i>indexed to all other replicas</i> in the
+shard, and to then <b>report</b> that all replicas have confirmed
+receiving a given document.
+</li>
+<li>Any document sent into SolrCloud is <i><b>re-routed</b> to the leader</i> of
+the appropriate shard, who then performs this responsibility.
+</li>
+<li>Once a document has been added to the <i>transaction logs</i>, it is
+available via a <b>RealTimeGet</b>, but is <i><b>not available</b> via search
+until a soft commit or hard commit with <code>openSearcher=true</code></i> has
+been executed.
+</li>
+<li>When a new replica join/rejoins the cluster it will simply replays
+the transaction log to bring itself up to date with other nodes in
+the shard.
+</li>
+</ul>
+</li>
+<li>Distributed searching is handled automatically by the nodes in the cloud.
+<ul class="org-ul">
+<li>Querying any node will cause that node to send the query out to
+one node in all other shards, returning a response only when it
+has aggregated the results from all shards.
+</li>
+<li>Zookeeper and all replicas are aware of any non-responding nodes,
+and won't direct queries to nodes that are considered dead.
+</li>
+<li>Solrj will use a simple round robin load balancer, distributing
+queries evently to all nodes in SolrCloud.
+</li>
+<li>Solrj is Zookeeper aware and thus will never send a query to a
+node that is known as down.
+</li>
+</ul>
+</li>
+<li>When ZooKeeper detects a leader has gone down
+<ul class="org-ul">
+<li>It will initiate the leader election process to select a new
+leader.
+</li>
+<li>Transaction log ensures that all nodes in the shard are in sync,
+and all updates are durable and never lost when a leader goes
+down.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/zookeeper-notes/" class="u-url">ZooKeeper Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/zookeeper-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Note on ZooKeeper</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Concepts</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>ZooKeeper is a high-performance <b>coordination service</b> for distributed
+applications.
+</li>
+<li>Allows distributed processes to coordinate with each other through a
+<i>shared <b>hierarchal namespace</b></i>, which is organized similarly to a
+standard file system.
+</li>
+<li>ZooKeeper's data is kept in-memory, which means ZooKeeper can
+achieve high throughput and low latency numbers.
+</li>
+<li>ZooKeeper itself is intended to be <b>replicated</b> over a sets of hosts
+called an <b>ensembl</b>.
+<ul class="org-ul">
+<li>The servers that make up the ZooKeeper service must all know about
+each other.
+</li>
+<li>They maintain an <i>in-memory</i> image of state, along with a
+<b>transaction logs</b> and <b>snapshots</b> in a persistent store.
+</li>
+<li>As long as a majority of the servers are available, the ZooKeeper
+service will be available.
+</li>
+<li>Clients connect to a <b>single</b> ZooKeeper server. The client maintains
+<b>a TCP connection</b> through which it sends request, get responses,
+gets <b>watch events</b> and sends <b>heart beats</b>.
+</li>
+<li>If the TCP connection to the server breaks, the client will
+connect to a different server.
+</li>
+</ul>
+</li>
+<li>ZooKeeper is ordered in the sense that, ZooKeeper stamps each update
+with a number that reflects the order of all ZooKeeper transactions.
+<ul class="org-ul">
+<li>Subsequent operations can use the order to implement higher-level
+abstractions, such as <b>synchronization primitives</b>.
+</li>
+</ul>
+</li>
+<li>ZooKeeper is fast in <b>read-dominant</b> workloads, it performs best
+where reads are more common than writes, at ratios of around 10:1.
+</li>
+<li>ZooKeeper data nodes are called <b>znode</b>. Unlike standard file
+system, each node in a ZooKeeper namespace can have data associated
+with it, <b>as well as</b> children.
+</li>
+<li>Znodes maintain a <b>stat</b> structure that includes <b>version numbers</b> for
+data changes, ACL changes, and <b>timestamps</b>. Whenever a client
+retrieves data it also receives the version of the data.
+</li>
+<li>The data stored at each znode in a namespace is read and written
+atomically. Each node has an Access Control List (ACL) that
+restricts who can do that.
+</li>
+<li>ZooKeeper also has the notion of <b>ephemeral nodes</b>. These znodes
+exists as long as the session that created the znode is active. When
+the session ends the znode is deleted.
+</li>
+<li>Clients can <b>set a watch</b> on a znodes. A watch will be triggered and
+removed when the znode changes.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Simple API</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+One of the design goals of ZooKeeper is provide a very simple
+programming interface:
+</p>
+<dl class="org-dl">
+<dt> create </dt>
+<dd>create a node at a location in the tree
+</dd>
+<dt> delete </dt>
+<dd>deletes a node
+</dd>
+<dt> exists </dt>
+<dd>tests if a node exists at a location
+</dd>
+<dt> get data </dt>
+<dd>reads the data from a node
+</dd>
+<dt> set data </dt>
+<dd>writes data to a node
+</dd>
+<dt> get children </dt>
+<dd>retrieves a list of children of a node
+</dd>
+<dt> sync </dt>
+<dd>waits for data to be propagated.
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Implementation</h3>
+<div class="outline-text-3" id="text-1-3">
+
+<div class="figure">
+<p><img src="https://zookeeper.apache.org/doc/r3.3.3/images/zkcomponents.jpg" alt="zkcomponents.jpg"></p>
+</div>
+<ul class="org-ul">
+<li>The replicated database is an *in-memory( database containing the
+entire data tree. Updates are logged to disk for recoverability, and
+writes are serialized to disk <b>before</b> thay are applied to the
+in-memory database.
+</li>
+<li>Client connect to exactly one server to submit request:
+<ul class="org-ul">
+<li>Read requests are serviced from the local replica.
+</li>
+<li>Write requests are processed by an agreement protocol.
+<ul class="org-ul">
+<li>All write requests are forwarded to a single server, called the
+<b>leader</b>. The rest of the ZooKeeper servers, called <b>followers</b>,
+receive message proposals from the leader and agree upon message delivery.
+</li>
+<li>The messaging layer take care of replacing leaders on failures and
+syncing followers with leaders.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">
+<span class="todo TODO">TODO</span> Programmer's Guide</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+<a href="https://zookeeper.apache.org/doc/r3.3.3/zookeeperProgrammers.html">https://zookeeper.apache.org/doc/r3.3.3/zookeeperProgrammers.html</a>
+</p>
+</div>
 </div>
 
 
-
-
-
-
-
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">
+<span class="todo TODO">TODO</span> Java API</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+<a href="https://zookeeper.apache.org/doc/r3.3.3/api/index.html">https://zookeeper.apache.org/doc/r3.3.3/api/index.html</a>
+</p>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/algorithms-notes/" class="u-url">Algorithms Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/algorithms-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
         </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">KdTree</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="http://pointclouds.org/documentation/tutorials/kdtree_search.php">http://pointclouds.org/documentation/tutorials/kdtree_search.php</a>
+</p>
+
+<p>
+A k-d tree, or k-dimensional tree, is a data structure used for
+organizing some number of points in a space with k-dimensions. It is a
+<b>binary tree</b> with some other constraints. K-d trees are very useful
+for <b>range and nearest neighbor searches</b>.
+</p>
+<ul class="org-ul">
+<li>Every node in the binary tree is a k-dimensional point.
+</li>
+<li>Each level of a k-d tree splits all children along a specific dimension.
+</li>
+<li>Every non-leaf node can be thought of implicily generating a
+splitting hyperplane that divides the space into two parts.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Construction</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+The pesduo code to construct a <code>balanced</code> k-d tree, in which each leaf
+node is approximately the same distance from the root.
+</p>
+
+<p class="verse">
+function kdtree (list pointList, int depth)<br>
+{<br>
+    // Select axis based on depth so that axis cycles through all valid values<br>
+    int axis := depth mod k;<br><br>
+    // Sort point list and choose median as pivot element<br>
+    select median by axis from pointList;<br><br>
+    // Create node and construct subtrees<br>
+    var tree<sub>node</sub> node;<br>
+    node.location := median;<br>
+    node.leftChild := kdtree(points in pointList before median, depth+1);<br>
+    node.rightChild := kdtree(points in pointList after median, depth+1);<br>
+    return node;<br>
+}<br></p>
+
+<p>
+It is not required to select the median point for the
+construction. When not, there is no gurantee the tree will be
+balanced. To avoid a complex O(n) median-finding algorithms, on all n
+points, a popular practice is to sort a <code>fixed number</code> of randomly
+selected points, and use the median of those point to server as the
+splitting plane.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Adding elements</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Same way as adding element to another search tree. Traverse the tree
+to find the correct node under which to insert the node.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Removing elements</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+The easiest way is to form the set of all nodes and leaves from the
+children of the target node, and recreate that part of the tree.
+</p>
+
+<p>
+Another way is to find a replacement for the node removed. And then
+recursively remove the replacement.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Nearest neighbour search with k-d tree</h3>
+<div class="outline-text-3" id="text-1-4">
+<ol class="org-ol">
+<li>With the search point, finding the node that will be the insertion
+node if it is to insert the search point into the tree, and save
+the node as <code>current best</code>.
+</li>
+<li>Unwinds the recursion of the tree, performing the following steps
+at each node:
+<ol class="org-ol">
+<li>If the current noe is closer than the <code>current best</code>, it become
+the <code>current best</code>.
+</li>
+<li>The algorithm checks whether there could be any points on the
+other side of the splitting plane that are closer to the search
+point than the <code>current best</code>.
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Selection algorithm</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+A selection algorithm is to find the k-th smallest number in a
+list. This includes the cases of finding minimum, maxmum and median
+elements. There are O(n) selection algorithms and sublinear
+performance for structured data.
+</p>
+
+<p>
+The best-known selection algorithm is <b>quickselect</b>, related to
+<b>quicksort</b>. Like quicksort, <span class="underline">it has optimal average performance, but
+poor worst-case performance</span>.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Selection by sorting.</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>This method is inefficient for selecting a single element, but is
+efficient when many selections need to be made.
+</li>
+<li>Partial sorting only for the k.
+</li>
+<li>Partial selection sort.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Partition based selection</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>Quickselect is a variant of quicksort: in both one chooses a pivot
+and then partitions the data by it, but while quicksort recurses on
+both sides of the partition, <span class="underline">quickselect only recurses on one side</span>,
+namely the side on which the desired kth element is.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Dynamic Programming</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Dynamic Programming is not an algorithm or data-structure. It is a
+technique and it is applied to a certain class of problem.
+</li>
+<li>
+<b>Divide</b> a problem into smaller sub-problems and if there are some
+<b>overlapping</b> sub-problems, then it is a dynamic programming problem.
+</li>
+<li>The core idea of DP is to <i>avoid repeated work</i> by remembering <b>partial</b>
+  results. It is basically <b>recursion along with memorisation</b>.
+<ul class="org-ul">
+<li>Recursion allows expressing the value of a function in terms of
+other values of that function.
+</li>
+<li>Memorisation tells that if the recursive calls were done in
+advanced, and stored for access, it will make the program faster.
+</li>
+<li>The intuition behind is to trade space for time.
+</li>
+</ul>
+</li>
+<li>DP is a powerful technique that allows one to solver different types
+of problems in time \(O(n^2)\) or \(O(n^3)\) while a naive approach would
+take exponential time.
+</li>
+<li>An example for Fibonacci function.
+<ul class="org-ul">
+<li>With pure recursive:
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">fib</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</li>
+<li>Bottom-up iterative approach:
+<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">fib</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="n">fibresult</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">fibresult</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+       <span class="n">fibresult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fibresult</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fibresult</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</li>
+<li>With DP, recursive approach with memorisation:
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">fib</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
+<span class="n">memset</span><span class="p">(</span><span class="n">fib</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">fib</span><span class="p">));</span>
+<span class="kt">int</span> <span class="nf">solve</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>    <span class="c1">// base conditions</span>
+	<span class="k">return</span> <span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>    <span class="c1">// if memoized then return the value</span>
+	<span class="k">return</span> <span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">solve</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">);</span>    <span class="c1">// recursive definition</span>
+<span class="p">}</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Solve <code>Edit Distance</code> using DP:
+<ul class="org-ul">
+<li>
+<code>Edit Distance</code> is a way of quantifying how dissimilar two strings
+are, i.e. how many operations(add, delete, or replace a single
+character) it would take to transform one string to the other.
+</li>
+<li>Solving using DP, using a matrix to save the partial result:
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">editDistance</span><span class="p">(</span><span class="n">string</span> <span class="n">s1</span><span class="p">,</span> <span class="n">string</span> <span class="n">s2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">s1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">s2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+    <span class="c1">// for all i, j, dp[i][j] will hold the edit distance between the first</span>
+    <span class="c1">// i characters of source string and first j characters of target string</span>
+    <span class="kt">int</span> <span class="n">dp</span><span class="p">[</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="n">memset</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">dp</span><span class="p">));</span>
+    <span class="c1">// source can be transformed into target prefix by inserting</span>
+    <span class="c1">// all of the characters in the prefix</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// source prefixes can be transformed into empty string by</span>
+    <span class="c1">// by deleting all of the characters</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+	    <span class="k">if</span> <span class="p">(</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
+		<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span> <span class="c1">// no operation required as characters are the same</span>
+	    <span class="p">}</span>
+	    <span class="k">else</span> <span class="p">{</span>
+		<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>    <span class="c1">// substitution</span>
+			       <span class="n">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>     <span class="c1">// insertion</span>
+				    <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]));</span>    <span class="c1">// deletion</span>
+	    <span class="p">}</span>
+	<span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Backtracking</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Backtracking incrementally builds candidates to the solutions, and
+abandon each partial candidate as soon as it cannot possibly be
+completed to a valid solution.
+</li>
+<li>Backtracking can be applied only for problems which admit the
+concept of a <b>partial candidate solution</b> and a relatively quick
+test of whether it can possibly be completed to a valid solution.
+</li>
+<li>When it applicable, it often much faster than brute force
+enumeration of all complete candidates, since it eliminate a large
+number of candidates with a single test.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Description of the method</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>Conceptually, the partial candidates are represented as the <b>nodes</b> of
+a <b>tree</b> structure, <i>the potential search tree</i>.
+</li>
+<li>Each partial candidate is the parent of the candidates that <i>differ
+from it by a <b>single extension step</b></i>;
+</li>
+<li>The <b>leaves</b> of the tree are the partial candidates that cannot be
+extended any further, i.e, a possible solution.
+</li>
+<li>The backtracking algorithm traverses this search tree recursively,
+from the root down, in <b>depth-first</b> order.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">The algorithm:</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>
+<a href="https://www.cis.upenn.edu/~matuszek/cit594-2012/Pages/backtracking.html">The tutorial</a>
+</li>
+<li>Recursive code:
+<div class="highlight"><pre><span></span><span class="kt">boolean</span> <span class="nf">solve</span><span class="o">(</span><span class="n">Node</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">is_leaf</span><span class="o">(</span><span class="n">n</span><span class="o">))</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">is_goal</span><span class="o">(</span><span class="n">n</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">c</span> <span class="o">:</span> <span class="n">child</span><span class="o">(</span><span class="n">n</span><span class="o">))</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span> <span class="n">solve</span><span class="o">(</span><span class="n">c</span><span class="o">)</span> <span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+The reasoning:
+</p>
+<ul class="org-ul">
+<li>If any of the children of n is solvable, n is solvable
+</li>
+<li>If non of the children of n is solvable, n is non-solvable
+</li>
+</ul>
+</li>
+<li>Non-Recursive code:
+<div class="highlight"><pre><span></span><span class="kt">boolean</span> <span class="nf">solve</span><span class="o">(</span><span class="n">Node</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">n</span><span class="o">);</span>
+  <span class="k">while</span> <span class="o">(!</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">Node</span> <span class="n">node</span><span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="na">peek</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">is_leaf</span><span class="o">(</span><span class="n">node</span><span class="o">)){</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">is_goal</span><span class="o">(</span><span class="n">node</span><span class="o">)){</span>
+	    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+	<span class="o">}</span><span class="k">else</span><span class="o">{</span>
+	    <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+	<span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">hasMoreChildToTry</span><span class="o">()){</span>
+	    <span class="n">Node</span> <span class="n">childNode</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">nextChild</span><span class="o">();</span>
+	    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">childNode</span><span class="o">);</span>
+	<span class="o">}</span><span class="k">else</span><span class="o">{</span>
+	    <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
+	<span class="o">}</span>
+    <span class="o">};</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+When the stack algorithm terminates successfully, the nodes on the
+stack form (in reverse order) a path from the root to a goal node.
+</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Binary Tree</h2>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Threaded Binary Tree</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>A binary tree is threaded by :
+<ul class="org-ul">
+<li>all right child pointers that would normally be <b>null</b> point to
+the <b>inorder</b> successor of the node (if it exists).
+</li>
+<li>all left child pointers that would normally be <b>null</b> point to
+the inorder <b>predecessor</b> of the node.
+</li>
+<li>Need to know if a pointer is a link or a thread, so a boolean is
+needed for each pointer.
+</li>
+</ul>
+</li>
+<li>Binary tree have a lot of wasted space. the null pointers can be
+used to help <b>inorder</b> traversals.
+</li>
+<li>Threaded binary tree makes tree traversal faster since no stack or
+recursion is needed.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Tires</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">The Problem</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li>Determine if a word appears in a large dictionary. How to store the
+large set of words in the dictionary effectively.
+</li>
+<li>Google auto complete can also be implemented with a trie.
+</li>
+<li>We can use <b>Trie</b> and <b>Min Heap</b> to get the <code>k</code> most frequent words
+efficiently.
+<ul class="org-ul">
+<li>The idea is to use <b>Trie</b> for searching existing words
+adding new words efficiently.
+</li>
+<li>Trie also stores count of occurrences of words.
+</li>
+<li>A <b>Min Heap</b> of size <code>k</code> is used to keep track of <code>k</code> most frequent
+words at any point of time(Use of Min Heap is same as we used it
+to find <code>k</code> largest elements in this post).
+</li>
+</ul>
+</li>
+<li>Can be used for many other cases for example, to store a large set
+of <b>Integer</b>, <b>ByteArray</b>, etc.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2">What is a Trie</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>The trie is a tree where each vertex represents a single word or a
+prefix.
+</li>
+<li>The root represents an empty string (“”), the vertexes that are
+direct sons of the root represent prefixes of length <code>1</code>. A vertex
+that are <code>k</code> edges of distance of the root have an associated prefix
+of length <code>k</code>.
+</li>
+<li>Let <code>v</code> and <code>w</code> be two vertexes of the trie, and assume that <code>v</code> is a
+direct father of <code>w</code>, then <code>v</code> must have an associated prefix of <code>w</code>.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3">Complexity</h3>
+<div class="outline-text-3" id="text-7-3">
+<ul class="org-ul">
+<li>Insert/Finding of a word in tire can be done in <code>O(L)</code> time, where L
+is the length of the word.
+</li>
+<li>The memory used in the tries depends on the methods to store the
+edges and how many words have prefixes in common.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4">Example</h3>
+<div class="outline-text-3" id="text-7-4">
+<ul class="org-ul">
+<li>The next figure shows a trie with the words “tree”, “trie”, “algo”,
+“assoc”, “all”, and “also.”
+<img src="http://community.topcoder.com/i/education/alg_tries.png" alt="alg_tries.png">
+</li>
+<li>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">SkipList</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>SkipList is a data structure that allows fast search within an ordered
+sequence of elements.
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Skip_list.svg/400px-Skip_list.svg.png" alt="400px-Skip_list.svg.png"><ul class="org-ul">
+<li>By maintaining a linked hierarchy of subsequences, with each
+successive subsequences skipping over fewer elements than the
+previous one.
+</li>
+</ul>
+</li>
+<li>Search/Insert/Delete average on <code>O(log n)</code>.
+</li>
+<li>A skip list is built in layers:
+<ul class="org-ul">
+<li>The bottom layer is an ordinary ordered linked list.
+</li>
+<li>Each higher layer acts as an "express lane" for the lists below,
+where an element in layer <code>i</code> appears in layer <code>i+1</code> with some fixed
+probability <code>p</code> (two commonly used values for p are 1/2 or 1/4).
+</li>
+</ul>
+</li>
+<li>A search for a target element begins at the head element in the top
+list, and proceeds horizontally until the current element is greater
+than or equal to the target.
+<ul class="org-ul">
+<li>if equal, it is found.
+</li>
+<li>if greater, or search reaches the end of the linked list, the
+procedure is repeated after returning to the previous element and
+dropping down vertically to the next lower list.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/design-pattern/" class="u-url">Design Pattern Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/design-pattern/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Concurrency Design Pattern</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Active Object</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>The active object design pattern decouples method execution from
+method invocation for objects that each reside in their own thread
+of control.
+</li>
+<li>The goal is to introduce concurrency, by using asynchronous method
+invocation and a scheduler for handling requests.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Architectural Pattern</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Naked objects</h3>
+</div>
+</div>
+
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Architectural Style</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Layered Architecture</h3>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Hexagonal Architecture.</h3>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Onion Architecture</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+<a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/">http://jeffreypalermo.com/blog/the-onion-architecture-part-1/</a>
+</p>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/emacs-note/" class="u-url">Emacs Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/emacs-note/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Emacs Notes</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>
+<code>expend-region</code>: require the module to be able to expand/shrink selections.
+<ul class="org-ul">
+<li>expend: C-=
+</li>
+<li>shrink: M– C-= <i>Note</i>: M– is a negative prefix argument normally means -1.
+this allow the <code>er/expand-region</code> function to do a shrink.
+</li>
+</ul>
+</li>
+
+<li>repeat previous command: C-x z
+</li>
+
+<li>open ssh remote file:
+<p class="verse">
+C-x C-f /ssh:user@192.168.1.5:/usr/share/nginx/html/index.html<br></p>
+<p>
+Note the leading slash before ssh.
+It support server defined in .ssh/config.
+</p>
+</li>
+
+<li>This can also be used to Open file with sudo:
+<p class="verse">
+C-x C-f /sudo::/etc/fstab<br></p>
+</li>
+
+<li>Fill paragraph: with ~fill-paragraph~(M-q) to organize paragraph
+with desired right margin.
+</li>
+</ul>
+<ul class="org-ul">
+<li>indent multiple line: <br>
+  Select multiply lines, then type <code>C-u 8 C-x Tab</code>, it will indent the
+region by 8 spaces.  <code>C-u -4</code> C-x Tab will <i>un-indent</i> by 4 spaces
+</li>
+
+<li>To input unicode characters:
+<p class="verse">
+C-x 8 RET unicode<br></p>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/git-note/" class="u-url">Git Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/git-note/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <ul class="org-ul">
+<li>remove a file from the index
+<div class="highlight"><pre><span></span>git rm --cached <span class="o">[</span>file<span class="o">]</span>
+</pre></div>
+</li>
+</ul>
+</div>
+    </article>
+</div>
+
+        <nav class="postindexpager"><ul class="pager">
+<li class="next">
+                <a href="index-2.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav>
+</div>
         <!--End of body content-->
 
         <footer id="footer">

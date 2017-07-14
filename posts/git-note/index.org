@@ -1,0 +1,16 @@
+#+BEGIN_COMMENT
+.. title: Git Note
+.. slug: git-note
+.. date: 2017-07-14
+.. tags: git
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+- remove a file from the index
+  #+BEGIN_SRC sh
+    git rm --cached [file]
+  #+END_SRC

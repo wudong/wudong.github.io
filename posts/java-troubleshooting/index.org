@@ -1,0 +1,111 @@
+#+BEGIN_COMMENT
+.. title: Java Troubleshotting Note
+.. slug: java-troubleshooting
+.. date: 2017-07-14
+.. tags: java
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+
+#+TITLE: Java Troubleshotting Guide
+
+* Options/Flags for JVM trobuleshotting
+- Core files: If java crashes, for example due to a segmentation
+  fault, the OS saves to disk a core file (complete dump of the
+  memory).
+  - On linux, using ~ulimit -c unlimited~ before starting the
+    application will usually enable core file dump.
+  - to force on core file when the application cannot be closed
+    properly, using \\
+    ~kill -6 <pid>~
+- Heap dump: add ~-XX:+HeapDUmpOnOutOfMemoryError~ flags save java
+  heap dump to disk if the application runs into an
+  *OutOfMemoryError*. ~jhat~ can be used to inspect the Java heap.
+- Using a continious Java flight recording (JFR).
+  - The JFR events can be extremely helpful to debug a wide range of
+    issues from /memory leaks/ to /network errors/, high CPU usage/, /thread
+    blocks/, etc.
+  - The overhead of running with a continious flight recording is *very low*.
+- Verbose GC with ~-verbosegc~:
+  - Does GC run for a long time?
+  - Does the free memory decrease over time?
+  - Use flags ~UseGClogFileRotation~ and ~NumberOfGCLogFiles~ to set
+    up log rotation.
+- Print Java version and JVM flags:
+  - Using ~-XX:+PrintCommandLineFlags~
+  - and ~-showversion~
+- Set up JMC JMX for remote monitoring:
+  - There is no performance overhead in enabling JMX
+  - To enable JMX after java application has started using the
+    diagnostic command *ManageAgent.start*, run \\
+    ~jcmd <pid> help ManagementAgent.start~ \\
+    for a list of flags that can be send with the command
+
+* Java Mission Control
+- Java Management console (JMX) connects to a running JVM, collects
+  and displays key characterstics in real time.
+- Java Flight Recordings (JFR) is available to analyze events.
+- JMC can /trigger/ user _provided custom actions and rules_ for JVM.
+- *DTrace* plugin is an extended *DScript* language to produce self
+  describing events.
+- *JOverview* plugin is a tool for analyzing heap waste (emtpy/sparse
+  collections), which use hprof dumps.
+- The JMC plugins connect to JVM using JMX agents.
+
+* Java Flight Recordings
+- The JFR records detailed information about the java runtime and the
+  java application running in the java runtime with little overhead.
+- Typical events can be threads waiting for locks, GC, periodic CPU
+  usage data, etc.
+- When creating a flight recording, you select which events should be
+  saved, which is called a *recording template*.
+- A *Continuous Recording* is a recording that is always on and
+  saves, for example, the last six hours of data.
+  - The default setting for it is to use a recording profile with
+    extremely low overhead.
+  - It is great to always have running. The recoding can be dumped
+    manually using either *JCMD* or *JMC*, or set a trigger in JMC to
+    dump when some criteria is fulfilled.
+  - It can be started from the command line using ~-XX:FlightRecorderOptions~.
+- A *Profiling Recordings* is a recording that is turned on, runs for
+  a set amount of time, and then stops. It might have slightly bigger
+  performance impact. It typical usage includes:
+  - Profile what methods are run the most and where most objects are created.
+  - Look for classes that use more and more heap indicating a memory leak.
+  - Look for bottle necks due to synchronization.
+  - The typical overhead for a profiling recording is about *2 precent*.
+  - It can be started at the start of the application using
+    ~-XX:StartFlightRecording~ option. For example:\\
+    #+BEGIN_SRC sh
+    java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder \
+         -XX:StartFlightRecording=delay=20s,duration=60s,name=myrecording,\
+         filename=C:\TEMP\myrecording.jfr,settings=profile MyApp
+    #+END_SRC
+- Prior to JDK 8u40 release, the JVM must also have been started with
+  the flag: ~-XX:+UnlockCommercialFeatures -XX:FlightRecorder~. Since
+  *JDK 8u40*, the JFR can /be enabled during *runtime*/.
+- You can also set up JMC to automatically start or dump a flight
+  recording if a condition is met.
+  - There are several default triggers set up for common conditions
+    such as high CPU usage, deadlocked threads, or too large of a live
+    set.
+  - You can choose to create a trigger on *any MBean* in the application.
+- Most GCs in Java have some kind of smaller garbage collections. The
+  /old GC goes through the entire Java heap/, while the other GC might
+  look at part of the heap. The heap usage after an old collection is
+  the memory the application is using, which is called the *live set*.
+- For a better way to address memory leaks, look at the /*Heap After GC*
+  value in the first and last old GC/. There could be a memory leak when
+  /this value is increasing over time/.
+- /Small objects/ in Java are allocated in a *TLAB (Thread Local Area
+  Buffer)*.
+  - TLAB is a small memory area where new objects are allocated.
+  - Once a TLAB is full, the thread gets a new one. Logging all memory
+    allocations gives an overhead; therefore, all allocations that
+    triggered a new TLAB are logged.
+  - Larger objects are allocated outside TLAB, which are also logged.
+-

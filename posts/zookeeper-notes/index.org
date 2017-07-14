@@ -1,0 +1,87 @@
+#+BEGIN_COMMENT
+.. title: ZooKeeper Note
+.. slug: zookeeper-notes
+.. date: 2017-07-14 16:28:48 UTC+01:00
+.. tags: zookeeper
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Note on ZooKeeper
+
+** Concepts
+- ZooKeeper is a high-performance *coordination service* for distributed
+  applications.
+- Allows distributed processes to coordinate with each other through a
+  /shared *hierarchal namespace*/, which is organized similarly to a
+  standard file system.
+- ZooKeeper's data is kept in-memory, which means ZooKeeper can
+  achieve high throughput and low latency numbers.
+- ZooKeeper itself is intended to be *replicated* over a sets of hosts
+  called an *ensembl*.
+  - The servers that make up the ZooKeeper service must all know about
+    each other.
+  - They maintain an /in-memory/ image of state, along with a
+    *transaction logs* and *snapshots* in a persistent store.
+  - As long as a majority of the servers are available, the ZooKeeper
+    service will be available.
+  - Clients connect to a *single* ZooKeeper server. The client maintains
+    *a TCP connection* through which it sends request, get responses,
+    gets *watch events* and sends *heart beats*.
+  - If the TCP connection to the server breaks, the client will
+    connect to a different server.
+- ZooKeeper is ordered in the sense that, ZooKeeper stamps each update
+  with a number that reflects the order of all ZooKeeper transactions.
+  - Subsequent operations can use the order to implement higher-level
+    abstractions, such as *synchronization primitives*.
+- ZooKeeper is fast in *read-dominant* workloads, it performs best
+  where reads are more common than writes, at ratios of around 10:1.
+- ZooKeeper data nodes are called *znode*. Unlike standard file
+  system, each node in a ZooKeeper namespace can have data associated
+  with it, *as well as* children.
+- Znodes maintain a *stat* structure that includes *version numbers* for
+  data changes, ACL changes, and *timestamps*. Whenever a client
+  retrieves data it also receives the version of the data.
+- The data stored at each znode in a namespace is read and written
+  atomically. Each node has an Access Control List (ACL) that
+  restricts who can do that.
+- ZooKeeper also has the notion of *ephemeral nodes*. These znodes
+  exists as long as the session that created the znode is active. When
+  the session ends the znode is deleted.
+- Clients can *set a watch* on a znodes. A watch will be triggered and
+  removed when the znode changes.
+
+** Simple API
+One of the design goals of ZooKeeper is provide a very simple
+programming interface:
+- create :: create a node at a location in the tree
+- delete :: deletes a node
+- exists :: tests if a node exists at a location
+- get data :: reads the data from a node
+- set data :: writes data to a node
+- get children :: retrieves a list of children of a node
+- sync :: waits for data to be propagated.
+
+** Implementation
+[[https://zookeeper.apache.org/doc/r3.3.3/images/zkcomponents.jpg]]
+- The replicated database is an *in-memory( database containing the
+  entire data tree. Updates are logged to disk for recoverability, and
+  writes are serialized to disk *before* thay are applied to the
+  in-memory database.
+- Client connect to exactly one server to submit request:
+  - Read requests are serviced from the local replica.
+  - Write requests are processed by an agreement protocol.
+    - All write requests are forwarded to a single server, called the
+      *leader*. The rest of the ZooKeeper servers, called *followers*,
+      receive message proposals from the leader and agree upon message delivery.
+    - The messaging layer take care of replacing leaders on failures and
+      syncing followers with leaders.
+
+** TODO Programmer's Guide
+[[https://zookeeper.apache.org/doc/r3.3.3/zookeeperProgrammers.html]]
+
+
+** TODO Java API
+[[https://zookeeper.apache.org/doc/r3.3.3/api/index.html]]
