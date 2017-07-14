@@ -1,1 +1,6 @@
-/_site
+*.py[cod]
+__pycache__
+cache
+output
+.doit.db
+_env/
