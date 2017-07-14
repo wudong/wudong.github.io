@@ -1,0 +1,1021 @@
+#+BEGIN_COMMENT
+.. title: Scala Note
+.. slug: scala-note
+.. date: 2017-07-14
+.. tags: scala
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Currying and Partially Applied Functions
+[[http://danielwestheide.com/blog/2013/01/30/the-neophytes-guide-to-scala-part-11-currying-and-partially-applied-functions.html]]
+
+** Assign an existing function/method to a function variable
+#+BEGIN_SRC scala
+val c = scala.math.cos _
+// or
+val c = scala.math.cos(_)
+#+END_SRC
+This is called a partially applied function.
+
+If attemp to assign the cos function/method to a variable:
+#+BEGIN_SRC scala
+val c = scala.math.cos
+#+END_SRC
+It will be an error saying missing arguments for the method.
+
+** Partially applied function
+Passing to a function fewer arguments than it has in its
+declaration. Scala does not throw an exception when you provide fewer
+arguments to the function, it simply applies them and returns a new
+function with rest of arguments that need to be passed.
+
+Some example with partial apply functions in scala.
+#+BEGIN_SRC scala
+  case class Email(
+    subject: String,
+    text: String)
+
+  //type define the EmailFilter as a predicate on email.
+  type EmailFilter = Email => Boolean
+  //another type define on two integers
+  type IntPairPred = (Int, Int) => Boolean
+  //with this type, we can have the following predicate.
+  val gt: IntPairPred = _ > _
+  val ge: IntPairPred = _ >= _
+  val lt: IntPairPred = _ < _
+  val le: IntPairPred = _ <= _
+  val eq: IntPairPred = _ == _
+
+  //a constrain based on the size of email and a relationship to a given integer n.
+  def sizeConstraint(pred: IntPairPred, n: Int, email: Email) = pred(email.text.length, n)
+
+  //to get a EmailFilter with a given IntPairPred, we can partially apply
+  //the size constraint with the given IntPairFred
+  val minimumSize: (Int, Email) => Boolean = sizeConstraint(ge, _: Int, _: Email)
+  val maximumSize: (Int, Email) => Boolean = sizeConstraint(le, _: Int, _: Email)
+
+  //or, given the size:
+  val constr20: (IntPairPred, Email) => Boolean = sizeConstraint(_: IntPairPred, 20, _: Email)
+  val constr30: (IntPairPred, Email) => Boolean = sizeConstraint(_: IntPairPred, 30, _: Email)
+
+  //then we can have the EmailFilters by further partial apply the above function.
+  val min20: EmailFilter = minimumSize(20, _: Email)
+  val max20: EmailFilter = maximumSize(20, _: Email)
+
+#+END_SRC
+
+** Curried Function
+Methods in Scala can have more than one parameter list.
+#+BEGIN_SRC scala
+def sizeConstraint(pred: IntPairPred)(n: Int)(email: Email): Boolean =
+  pred(email.text.size, n)
+#+END_SRC
+
+And the type of it would be:
+#+BEGIN_SRC scala
+val sizeConstraintFn: IntPairPred => Int => Email => Boolean = sizeConstraint
+#+END_SRC
+
+Such a chain of one-parameter functions is called a curried function.
+With this curried function, we could more easily get the EmailFilter:
+#+BEGIN_SRC scala
+val min20: Email => Boolean = sizeConstraintFn(ge)(20)
+val max20: Email => Boolean = sizeConstraintFn(le)(20)
+#+END_SRC
+
+** Currying existing functions
+#+BEGIN_SRC scala
+val sum: (Int, Int) => Int = _ + _
+val sumCurried: Int => Int => Int = sum.curried
+
+// or
+def sum(a: Int, b: Int): Int = a + b
+val sum2: (Int) => (Int) => Int = (sum _).curried
+#+END_SRC
+To do the reverse, you could use *Function.uncurried*
+
+** Dependency Injection with Currying and partial function application
+#+BEGIN_SRC scala
+  case class User(name: String)
+
+  trait EmailRepository {
+    def getMails(user: User, unread: Boolean): Seq[Email]
+  }
+
+  trait FilterRepository {
+    def getEmailFilter(user: User): EmailFilter
+  }
+
+  trait MailboxService {
+    def getNewMails(emailRepo: EmailRepository)(filterRepo: FilterRepository)(user: User) =
+      emailRepo.getMails(user, true).filter(filterRepo.getEmailFilter(user))
+    val newMails: User => Seq[Email]
+  }
+#+END_SRC
+
+We need an object that extends MailboxService. The idea is to
+implement ~newMails~ by currying the ~getNewMails~ method and fixing it
+with concrete implementations of the dependencies, *EmailRepository* and
+*FilterRepository*:
+
+#+BEGIN_SRC scala
+object MockEmailRepository extends EmailRepository {
+  def getMails(user: User, unread: Boolean): Seq[Email] = Nil
+}
+
+object MockFilterRepository extends FilterRepository {
+  def getEmailFilter(user: User): EmailFilter = _ => true
+}
+
+object MailboxServiceWithMockDeps extends MailboxService {
+  val newMails: (User) => Seq[Email] =
+    getNewMails(MockEmailRepository)(MockFilterRepository) _
+}
+#+END_SRC
+
+* Predef
+- Variants of *assert* intended for use with static analysis tools are
+  also provided: *assume*, *require* and *ensuring*.
+- require and ensuring are intended for use as a means of
+  *design-by-contract* style specification of /pre- and post-conditions/
+  on functions, with the intention that these specifications could be
+  consumed by a static analysis tool.
+  #+BEGIN_SRC scala
+  def addNaturals(nats: List[Int]): Int = {
+    require(nats forall (_ >= 0), "List contains negative numbers")
+    nats.foldLeft(0)(_ + _)
+  } ensuring(_ >= 0)
+  #+END_SRC
+  - *require* is distinct from assert in that if the condition fails,
+    then the /caller of the function/ is to blame rather than a /logical
+    error/ having been made within function itself.
+  - *ensuring* is a form of assert that declares the guarantee the
+    function is providing with regards to its return value.
+- ~def ??? : Nothing ~ : ~???~ can be used for marking methods that
+  remain to be implemented.
+
+* Type System in Scala
+- ~Nothing~ : is a *subtype* of every other type (including
+  ~Scala.Null~); there exist no instances of this type.
+  - value ~scala.collection.immutable.Nil~ is defined of type
+    ~List[Nothing]~. Because List are *covariant* in Scala, this make
+    ~scala.collection.immutable.Nil~ an instance of ~List[T]~, /for any
+    element of type ~T~/.
+  - Another usage for ~Nothing~ is the return type for methods which
+    *never* return normally. For example, the ~error~ method in in
+    ~scala.sys~ which always throws an exception.
+- ~Null~ is a subtype of all *reference types*(~AnyRef~); its only
+  instance is the ~null~ reference. Since ~Null~ is not a subtype of *value
+  types*, ~null~ is not a member of any such type. For instance, it is
+  /not possible to assign ~nul~l to a variable of type ~scala.Int~/.
+- ~Option~
+  - The most idiomatic way to use an ~Option~ is to treat it as a
+    collection or monand and use ~map~, ~flatMap~, ~filter~, or
+    ~foreach~:
+    #+BEGIN_SRC scala
+    val name: Option[String] = request getParameter "name"
+    val upper = name map { _.trim } filter { _.length != 0 } map { _.toUpperCase }
+    println(upper getOrElse "")
+    #+END_SRC
+  - Note that this is equivalent to:
+    #+BEGIN_SRC scala
+      val upper = for {
+        name <- request getParameter "name"
+        trimmed <- Some(name.trim)
+        upper <- Some(trimmed.toUpperCAse) if trimmed.length != 0
+      } yeild upper
+    #+END_SRC
+  - the less-idiomatic way is via pattern matching:
+    #+BEGIN_SRC scala
+      val nameMaybe = request getParameter "name"
+      nameMaybe match {
+        case Some(name) => println(name.trim.toUppercase)
+        case None => println ("No name value")
+      }
+    #+END_SRC
+  - Using ~fold[B](ifEmpty:=>B)(f: (A)=>B) : B~
+    returns the result of applying ~f~ to this Option's value if it is
+    nonempty, otherwise, evaluates expression ~ifEmpty~
+
+* Partial Function
+- ~PartialFunction[-A, +B] extends (A)=>B~ is a unary function where
+  the domain does not necessarily include all values of type A. The
+  function ~isDefinedAt~ allows to test dynamically if a value is in
+  the domain of the function:
+- It is the responsibility of the caller to call isDefinedAt before
+  calling apply, because if isDefinedAt is false, it is not
+  guaranteed apply will throw an exception to indicate an error
+  condition.
+- Example:
+  #+BEGIN_SRC scala
+    val sample = 1 to 10
+    val isEven: PartialFunction[Int, String] = {
+      case x if x % 2 == 0 => x + " is even"
+    }
+
+    //the method collect can use isDefinedAt to select which members to collect
+    val eventNumbers = sample collect isEven
+
+    val isOld : PartialFunction[Int, String]= {
+      case x if x % 2 == 1 => x + " is old"
+    }
+
+    //the method orElse allows chaining of another partial function
+    //to handle input outside the declared domain.
+    val numbers = sample map (isEven orElse isOld)
+  #+END_SRC
+- A block with bunch of ~case~ inside in one way of defining an
+  *partial functions*, as opposed to "total" functions:
+  #+BEGIN_SRC scala
+    val fraction = new PartialFunction[Int, Int] {
+      def apply(d:Int) = 42/d
+      def isDefinedAt(d: Int) = d!=0
+    }
+
+    //this can also be defined as:
+    val fraction : PartialFunction[Int, Int] =
+      { case d: Int if d!=0 => 42 / d}
+  #+END_SRC
+- The difference in behavior between ~collect~ and ~man~, which is
+  that ~clllect~ expects a partial function, and automatically
+  filters out the values that are not in the function domain.
+- In Scala any instance of ~Seq~ or ~Map~ (but not Set) is actually a
+  *partial function* so that its domain lies inside the Seq's length
+  or Map's key set.
+- *PartialFunction* trait supports the ~lift~ method, which converts
+  the partial function to a normal function that doesn't crash by
+  return the result as an Option.
+
+* Scala collections topic
+- List vs Array
+  - Array is mutable, meaning you can change the values of each
+    index. An immutable analog of ~Array~ is ~IndexedSeq~
+  - List is immutable, and a new list is created everytime you do a modification.
+  - ~Array[A]~ is literally a Java array, a ~List[A]~ is an immutable data
+    structure that is either ~Nil~ or consists of a pair ~(A, List[A])~.
+- Ways to iterate through a collection: ~fold~, ~reduce~, ~scan~
+  - ~fold[A1 >: A]: (z: A1)(op: (A1, A1) => A1 ): A1~ : takes a initial
+    seed value and then operate on the sequence.
+    - ~foldLeft[B](z: B)(op: (B, A) => B): B~ and ~foldRight~ can have
+      a different return type than the sequence element type.
+  - ~scan~: works like ~fold~ but return a sequence instead of final value.
+  - ~reduce[A1 >: A](op: (A1, A1) => A1) : A1~ : takes no initial
+    seed, but just an binary operator.
+- Trait ~Traversable~: it is the *top* of the collection
+  hierarchy. All its operations are guarantee to be performed in a
+  *single-threaded* manner.
+  - ~collect~ : The collection obtained from applying the partial
+    function ~f~ to every element in xs for which it is defined and
+    collecting the results.
+  - String operations ~mkString~, ~addString~, ~stringPrefix~, which give
+    alternative ways of converting a collection to a string.
+- ~Stream~ is like ~List~, except that its elements are computed
+  lazily. Because Stream elements are computed lazily, a ~Stream~ can
+  be infinitely long.
+  - ~Stream~ can be constructed with the ~#::~ method:
+    #+BEGIN_SRC scala
+      val stream = 1  #:: 2  #:: 3  #:: Stream.emtpy
+      val stream2 = ( 1 to 10000000 ).toStream
+    #+END_SRC
+  - Be careful with methods that aren’t transformers. Calls to the
+    strict methods are evaluated immediately and can easily cause OutOfMemory:
+    - ~stream.max~
+    - ~stream.size~
+    - ~stream.sum~
+- Sorting a sequential collection
+  - Sorting methods defined on
+    - ~sorted()~ :: sort the list using the natural ordering, based on
+                    the implicit Ordering passed.
+    - ~sortBy()~ :: sort by a given attribute using the attribute's
+                    type. ~personList.sortBy(_.age)~
+    - ~sortWith()~ :: Takes a comparator function.
+  - Mix in the *Ordered* trait, and implement a ~compare~ method,
+    giving the type a *single way* to order itself.
+  - Trait *Ordering*'s instance represent a *strategy* for sorting
+    instance of a type.
+  - ~scala.util.Sorting.quickSort~ sort Array in place:
+    #+BEGIN_SRC scala
+    object AgeOrdering extends Ordering[Person]{
+        def compare (a: Person, b: Person) = a.age compare b.age
+    }
+    Sorting.quickSort(people)(AgeOrdering)
+    #+END_SRC
+  - *Ordering* and *Ordered* both provide the same functionality, but
+    in different way.
+
+
+* Core Library
+
+** Strings
+- object equality test with ~==~ method, which is defined on
+  ~AnyRef~. It will check for ~null~ values for you before calling
+  ~equals~ method. You don't have to check for ~null~ when comparing
+- String *interpolation*, precede string with the letter ~s~ \\
+  ~s"$name is $age years old"~ \\
+  - This creates a *processed* string literal. and ~s~ is actually a
+    method.
+  - ~f~ string interpolator using printf style formatting. \\
+    ~f"$name weights $weight%.2f pounds"
+  - ~raw~ string interpolator performs no escaping of literlas within
+    the string.
+-
+
+
+* Monoid
+
+Monoid is an *algebric structure*. Given a type ~T~, a binary operation
+~Op:(T,T) => T~, and an instance ~Zero: T~, with the properties that
+will be specified below, the triple ~(T, Op, Zero)~ is called a
+*monoid*. Here are the properties:
+- Neutral element :: ~Zero Op a == a Op Zero == a~
+- Associativity :: ~(a Op b) Op c == a Op (b Op c)~
+
+** Mappings Between Monoids
+For two monoids, ~(A, OpA, ZeroA)~ and ~(B, OpB, ZeroB)~, we define a
+*mapping* from one monoid to another as a function: ~f: A => B~, such
+that:
+- ~f(ZeroA) = ZeroB~
+- ~f(x OpA y)~ = ~f(x) OpB f(y)~
+
+**In Scala
+To define a monoid in Scala, we declare the following
+#+BEGIN_SRC scal
+trait Monoid[T] {
+ def Zero: T
+ def op: (T,T) => T
+}
+#+END_SRC
+
+** Monoids Composition
+- Monoids *compose well*; for example a tuple of monoids is itself a
+  monoid, as such it’s simple to define a monoid for a complex type
+  once monoids for its constituents types exists.
+- Given a Monoid of ~A~, we can have a Monoid for ~Option[A]~:
+  #+BEGIN_SRC scala
+    implicit def optionMonoid[A](implicit am: Monoid[A]): Monoid[Option[A]] =
+      new Monoid[Option[A]] {
+        def id = None
+        def op(x: Option[A], y: Option[A]) : Option[A] = (x, y) match{
+          case (x, None) => x
+          case (None, y) => y
+          case (Some(x), Some(y)) => Some(am.op(x, y))
+        }
+      }
+  #+END_SRC
+- Given a Monoid of ~B~, we can have a Monoid for *functions* return ~B~.
+  #+BEGIN_SRC scala
+    implicit def functionMonoid[A, B](implicit bm: Monoid[B]): Monoid[A => B] =
+      new Monoid[(A) => B] {
+        override def id = A=>bm.id
+        override def op(x: (A) => B, y: (A) => B) = {
+          a => bm.op(x(a), y(a))
+        }
+      }
+  #+END_SRC
+- To collaspe a bunch of values using Monoid:
+  #+BEGIN_SRC scala
+    implicit def fold[A](la: List[A])(implicit am: Monoid[A]) : A =
+    la.foldLeft(am.id)(am.op)
+  #+END_SRC
+
+* Monad in Scala
+- Monad can be think of as *Wrappers*, taking a object and wrap it
+  with a monad.
+- Monad provides us with two operations:
+  - identity :: ~unit~ in Scala
+  - bind :: ~flatMap~ in Scala
+- Scala doesn't provide Monad type build-in, to model Monad:
+  #+BEGIN_SRC scala
+    trait Monad[A]{
+      def flatMap[B](f: A=>Monad[B]): Monad[B]
+    }
+    def unit[A](x: A) : Monad[A]
+  #+END_SRC
+- ~unit~ simply performs the wrapping part: given a value of type ~A~,
+  it will return a value of type ~Monad[A]~
+- Although scala doesn't have a Monad type, but that doesn't mean
+  there are no monads in Scala. Monad is not a class or a trait; it is
+  a concept. Every *wrapper* that provides us with the two operations
+  is essentially a monad.
+- For a monand, it should follow:
+  - left-identity law :: ~unit(x).flatMap(f) == f(x)~
+  - right-identity law :: ~m.flatMap(unit) == m~
+  - associatity law :: ~m.flatMap(f).flatMap(g) == m.flatMap( x=>
+       f(x).flatMap(g))~
+- Some examples:
+  #+BEGIN_SRC scala
+    trait User {
+      val child: Option[User]
+    }
+
+    object UserService{
+      def loadUser(name: String) : Option[User] = {...}
+    }
+
+    val getChild = (user: User) => user.child
+
+    //load a user from the service and get its grandchild.
+    val result = UserService.loadUser("name")
+      .flatMap(getChild)
+      .flatMap(getChild)
+
+    //for-comprehension is basically syntax sugar for mapping
+    //flatMapping and filtering.
+    val result = for {
+      user <- UserService.loadUser("name")
+      userChild <- user.child
+      userGrandChild <- userChild.child
+    } yield userGrandChild
+  #+END_SRC
+- *Future* also defines ~flatMap~, which can be chained in a similar
+  way as in the above code.
+
+
+* [[file:~/Dropbox/ebooks/langs/scala/Scala%20Cookbook%20(2013).pdf][Scala Cookbook]]
+
+** Scala package
+- Put common code in package object. to make functions, fields, and
+  other code available at a *package* level, without requiring a class
+  or object.
+  - put the code in a file named *package.scala*
+  - using ~package object model {}~
+
+** How for loops are translated
+- A simple ~for~ loop that iterates over a collection is translated to
+  a ~foreach~ method call on the collection
+- A ~for~ loop with a *guard* is translated to a sequence of a
+  ~withFilter~ method call on the collection followed by a ~foreach~ call.
+- A ~for~ loop with a ~yield~ expression is translated to a ~map~
+  method call on the collection.
+- A ~for~ loop with a ~yield~ expression and a guard is translated to
+  a ~withFilter~ method call on the collection, followed by a ~map~
+  method call.
+- Using ~scalac -Xprint:parse Main.scala~ can be used to demonstrate
+  the translation.
+
+** Control structures
+*** Break and Continue
+- Scala doesn't have ~break~ and ~continue~ keywords. Similar
+  functionality can be implemented through ~scala.util.control.Breaks~
+- Example:
+  #+BEGIN_SRC scala
+    import util.control.Breaks._
+
+    breakable {
+      for (i <- 1 to 10) {
+        println(i)
+        if (i > 4) break // break out of the for loop
+      }
+    }
+
+    for (i < 0 until searchMe.length){
+      breakable {
+        if (searchFound) {
+          break // break out the breakable, continue outside loop.
+        }
+      }
+    }
+  #+END_SRC
+- ~break~ essentially raise an exception which will be catch by the
+  ~breakable~, both of this are methods defined in
+  ~scala.util.control.Breaks~:
+  #+BEGIN_SRC scala
+    private val breakException = new BreakControl
+    def break() : Nothing = { throw breakException}
+    def breakable (op: => Unit){
+      try {
+        op
+      }catch {
+        case ex: BreakControl => if (ex ne breakException) throw ex
+      }
+    }
+  #+END_SRC
+- Nested loops and labeled breaks
+  #+BEGIN_SRC scala
+    import scala.util.control._
+
+    val Inner = new Breaks
+    val Outer = new Breaks
+    Outer.breakable {
+      for (i <- 1 to 5) {
+        Inner.breakable {
+          for (j <- 'a' to 'e') {
+            if (i ==1 && j == 'c') Inner.break else println (s"i: $i, j : $j")
+            if (j ==2 && j == 'b') Outer.break
+          }
+        }
+      }
+    }
+  #+END_SRC
+
+*** Switch and Match
+- Use Scala match expression like a Java ~switch~ statement.
+- ~@switch~ annotation provides a warning at compile time if the
+  switch can't compiled to a *tableswitch* or *lookupswitch*, which is
+  better for performance, because it results in a branch table rather
+  than a decision tree.
+- One case statement can match multiple conditions:
+  #+BEGIN_SRC scala
+    val i = 5
+    i match {
+      case 1 | 3 | 5 | 7 | 9 => println("old")
+      case 2 | 4 | 6 | 8 | 10 => println("old")
+    }
+  #+END_SRC
+  This same syntax works with strings and other types.
+- Accessing the value of the default case in match:
+  #+BEGIN_SRC scala
+    i match {
+      case 0 => println("1")
+      case 1 => println("2")
+      case others => println ("you give me : "+ others)
+    }
+  #+END_SRC
+  - Instead of using a ~_~ *wildcard* character, assign a variable name to
+    the default case.
+  - It is important to provide a default match, otherwise a
+    *MatchError* will be raised.
+- Sequence patterns in match:
+  #+BEGIN_SRC scala
+    x match {
+      case List(0, _, _) => "a three element list with 0 as the first element"
+      case List(1, _*) => "a list begining with 1, having any number of elements"
+      case Vector(1, _*) => "a vector begining with 1, having any number of elements"
+    }
+  #+END_SRC
+- Adding variable patterns, to assign the variable to the matched
+  pattern value:
+  #+BEGIN_SRC scala
+    case list: List(_) => s"it is a list: $list"
+    //or
+    case list @ List (1, _*) => s"also a list: $list"
+    //
+    case x @ Some(_) => s"$x"  //same as below to get the value.
+    case Some(x) => s"$x"
+    case Some(_) => "got Some some" //work but can't access the Some
+  #+END_SRC
+- Type parameter cannot be matched because of type erasure.
+- List in a Match Expression:
+  #+BEGIN_SRC scala
+    def listToString(list: List[String]) : String = list match{
+      case s :: rest => s + " " + listToString(rest)
+      case Nil => ""
+    }
+  #+END_SRC
+  - Don't forget to handle the ~Nil~ case, or you will get an MatchError
+
+*** Try and catch
+- Declaring a variable vefore using it:
+  - In general, declare your field as an Option before the try/catch
+    block then create a Some inside the try clause.
+  - Forget about the existence of ~null~
+
+** Class, Object and Trait
+- When to use an abstract class.
+  - You want to create a base class that requires constructor
+    arguments. Traits don't allow constructor parameters.
+  - The code will be called from Java code.
+- Case class generates a ~copy~ method and can be used as:
+  #+BEGIN_SRC scala
+    case class Employee(name: String, loc: String, role: String)
+    val fred = Employee("Fred", "Anchorage", "Salesman")
+    val joe = fred.copy(name="Joe", role="Mechanic")
+  #+END_SRC
+- The concept of a "inner class" is different in Scala than in Java.
+  - In Java, the inner classes are members of the enclosing *class*,
+  - In Scala, the inner classes are bound to the outer *object* instances.
+- Method scope is public by default, but can have:
+  - Object-private scope
+  - Private
+  - Package
+  - Package-specific
+  - Protected
+- Tuples can be used in this way:
+  #+BEGIN_SRC scala
+  def getStockInfo = ("NFLX", 100.00)
+  val (symbol, currentPrice) = getStockInfo
+  #+END_SRC
+- Method takes Variable-Argument fields, to take zeor or more parameters:
+  #+BEGIN_SRC scala
+  def printAll(strings: String*) {
+    strings.foreach(println)
+  }
+  #+END_SRC
+  - use _* to adape a sequence
+  #+BEGIN_SRC scala
+  val fruits = List("apple", "banana")
+  printAll(fruits: _*)
+  #+END_SRC
+- To declare a method can throw an exception, use the ~@throws~
+  annotation.
+  #+BEGIN_SRC scala
+  @throws(classOf[IOException])
+  @throws(classOf[Exception])
+  def play {
+    //exception throwing code here
+  }
+  #+END_SRC
+  - The ~@throws~ is the Scala way of providing the throws method
+    signature to Java consumers.
+  - Whether the comsumers are using Scala or Java, it is a good
+    practise to declare the Exceptions you are throwing in the code.
+- If your class can be extended, specify *this.type* as the return
+  type of fluent style methods.
+  #+BEGIN_SRC scala
+  def setFirstName(firstName: String): this.type = {
+    fname = firstName
+    this
+  }
+  #+END_SRC
+- Import can be placed almost anywhere inside a program to limit the
+  scope of the import.
+- It is possible to limit which classes can use a Trait by
+  inheritance:
+  #+BEGIN_SRC scala
+  class StarfleetComponent
+  trait WarpCore extends StarfleetComponent
+  #+END_SRC
+  - With the ~extends~ keyword, the Trait can only be mixed into
+    classes that extend the type.
+  - As long as a class, and a trait *share the same superclass*, the
+    code will compile.
+- Another way of the limiting:
+  #+BEGIN_SRC scala
+  trait MyTrait {
+    this: BaseType =>
+  }
+  #+END_SRC
+  - This will make ~MyTrait~ can only be mixed into a class that is a
+    subclass of a type named ~BaseType~.
+  - This is refered as *self type*
+  - It is also possbile to require multiple other types.
+    #+BEGIN_SRC scala
+    trait WarpCore {
+      this: Starship with WarpCoreEjector with FireExtinguisher =>
+    }
+    #+END_SRC
+- Similarily, you can allow a trait to be mixed into a type that has a
+  method(or multiple methods) with given signatures. This is known as
+  *structure type*
+  #+BEGIN_SRC scala
+  trait WarpCore {
+    this: {
+       def ejectWarpCore(password: String) : Boolean
+       def startWarpCore: Unit
+    } =>
+  }
+  #+END_SRC
+- It is possbile to add trait to an object instance when the object is created.
+  #+BEGIN_SRC scala
+  class DavidBanner
+  trait Angry {
+    println("you don't like me")
+  }
+  object Test extends App {
+    val hulk = new DavidBanner with Angry
+  }
+  #+END_SRC
+
+*
+
+** Functional Programming
+- Function Literals:
+  - Scala let you use the ~_~ wildcard instead of a variable name when
+    the parameter appears only once in your function.
+  - If a function literal consists of *one statement* that takes a
+    single argument, you need not explicitly name and specify the
+    argument.
+  - Examples:
+    #+BEGIN_SRC scala
+      x.foreach (i=> println(i))
+      //same as
+      x.foreach (println(_))
+      //save as
+      x.foreach (println)
+    #+END_SRC
+- Function variables and values.
+  #+BEGIN_SRC scala
+      val double = (i: Int) =>  {i * 2}
+      double(2) // 4
+  #+END_SRC
+  - The variable ~double~ is an instance of a function, known as a
+    ~function value~.
+  - The functio instance can be called just like calling a method.
+- Using a method like an anonymous function:
+  #+BEGIN_SRC scala
+    val modFunction : Int=>Boolean = i=> i % 2 == 0
+    def modMethod(i: Int) = i % 2 ==0
+    list.filter(modMethod)
+    list.filter(modFunction)
+  #+END_SRC
+  - At a coding level, a ~modMethod~ is a ~method~ defined in a class.
+  - ~modFunction~ is a ~function~ that's assigned to a variable, in
+    this case, it is an instance of the ~Function1 trait~.
+  - Assign an existing function/method to a function variable.
+    #+BEGIN_SRC scala
+      val c = scala.math.cos _
+      //or
+      val c = scala.math.cos(_)
+      // c: Double => Double = <function1>
+      c(0) // 1.0
+      //causing error, not assignable.
+      val c = scala.math.cos
+    #+END_SRC
+    - This is called a partially applied function.
+** Collections
+- ~Traversable~ trait lets you traverse an entire collection in terms
+  of a ~foreach~ method.
+- ~Iterable~ trait defines an ~iterator~, which lets you loop through
+  a collection's element one at a time.
+  - When using an iterator, the collection can be traversed only once,
+    beacuse each element is consumed during the iteration process.
+- ~Seq~
+  - ~IndexedSeq~: indicates the random access of elements is efficent.
+    - By default, specifying that you want an IndexedSeq, a ~Vector~
+      is created.
+      #+BEGIN_SRC scala
+      val x = IndexedSeq(1,2,3)
+      //x : IndexedSeq[Int] = Vector(1,2,3)
+      #+END_SRC
+    - Implementation includes:
+      - ~StringBuilder~, ~String~
+      - ~Range~, ~Vector~
+      - ~Array~: backed by a Java array, its elements are mutable, but
+        it can't change in size.
+      - ~ArrayBuffer~, mutable.
+  - ~LinearSeq~: implied that the collection can be efficiently split
+    into ~head~ and ~tail~ components.
+    - Creating a ~LinearSeq~ creates a ~List~
+      #+BEGIN_SRC scala
+      val x = LinearSeq(1,2,3)
+      //x : LinearSeq[Int] = List(1,2,3)
+      #+END_SRC
+    - Implementation includes:
+      - ~List~, ~LinkedList~, ~MutableList~
+      - ~Queue~, ~Stack~, ~Stream~
+- ~Buffer~ is are mutable ~Seq~
+  - Implemented by ~ArrayBuffer~, ~ListBuffer~.
+- Scala's general purpose sequential collections:
+  |         | Immutable | Mutable     |
+  |---------+-----------+-------------|
+  | Indexed | Vector    | ArrayBuffer |
+  | Linear  | List      | ListBuffer  |
+- ~Map~:
+  |               | Immutable | Mutable | Descripton                                    |
+  |---------------+-----------+---------+-----------------------------------------------|
+  | HashMap       | Y         | Y       |                                               |
+  | LinkedHashMap |           | Y       | elements returned by the order of insertation |
+  | ListMap       | Y         | Y       | map implemented using a list                  |
+  | Map           | Y         | Y       | The base map trait.                           |
+  | SortedMap     | Y         |         | base trait                                    |
+  | TreeMap       | Y         |         | a red-black tree implmentation.               |
+  | WeakHashMap   |           | Y       |                                               |
+- ~Set~
+- ~Enumeration~ : A finite collection of constant values.
+- ~Iterator~ : isn't a collection but gives a way to access the
+  elements in a collection.
+  - defined many methods in a normal collection class.
+  - can convert an iterator to a collection when needed.
+- Strict and lazy collections
+  - A *transformer method* is a method that constructs a new
+    collection from an existing collection.
+    - map, filter, reverse, etc.
+  - In a ~strict~ collection, memory for the elements is allocated
+    immediately, and all of its elements are immediately evaluated
+    when a transformer method is invoked.
+  - In a ~lazy~ collection, memory for the elements is not allocated
+    immediately, and transformer methods do not construct new elements
+    until they are demanded.
+  - All of the collection classes except ~Stream~ are strict.
+  - Other collection classes can be converted to a lazy collection by
+    creating a ~view~ on the collection.
+
+*** Seq implementation: Vector and ArrayBuffer
+- Make ~Vector~ the "Go to" Immutable sequence: fast, general-purpose,
+  immutable, sequential collection type.
+- Make ~ArrayBuffer~ the "Go to" Mutable sequence.
+- Use ~ListBuffer~ if you need a mutable sequential collection that
+  works more like a List, i.e., a linear sequence rather than an
+  indexed sequence).
+
+*** Loop counters
+- Using ~zipWithIndex~ or ~zip~ to create Loop counters.
+  #+BEGIN_SRC scala
+    val days = Arrays("Sunday", "Monday", "Tuesday", "Wednesday",
+      "Thursday", "Friday", "Saturday")
+    days.zipWithIndex.foreach {
+      case (day, count) => println("$count is $day")
+    }
+  #+END_SRC
+- When using ~zipWithIndex~, the counter always starts at 0.
+- Can also use ~zip~ method with a ~Stream~ to create a counter with a
+  starting value:
+  #+BEGIN_SRC scala
+    for ((day, count) <- days.zip(Stream from 1)) {
+      println(s"day $count is $day")
+    }
+  #+END_SRC
+
+*** Iterators
+- An iterator isn't a collection; instead, it gives you a way to
+  access the elements in a collection, one by one.
+  - ~next()~ : throw ~NoSuchElementException~ when no more element.
+  - ~hasNext()~
+- An important part of using an iterator is knowing that it is
+  *exhausted* after you use it.
+- As you access each element, you *mutate* the iterator, and the
+  previous element is discarded.
+- Can convert to a collection when needed:
+  #+BEGIN_SRC scala
+  val it = Iterator(1,2,3)
+  it.toArray
+  #+END_SRC
+
+*** Splitting sequences into subset
+- ~groupBy~ create a Map
+- ~partition~
+- ~span(p)~ : the longest prefix whose elements satisfy ~p~
+- ~splitAt(i: Int)~
+- ~sliding(size, step)~ : works by passing a "sliding window" over the
+  original sequence, returning the sequence of a length given by
+  ~size~. The ~step~ lets you skip over elements.
+- ~unzip~ is a handy companion to partition.
+  - Partition divides a traversable into two traversables by a boolean predicate.
+  - Unzip divides a traversable into two by dividing each element into
+    two parts (each becomes an element in one traversable).
+  - If an element is a Tuple2 then each tuple is divided into two
+    otherwise a function is required to divide an element into two.
+  - Example:
+    #+BEGIN_SRC scala
+    case class Item(size: Int, value: String)
+    List(Item(1, "bac"), Item(2, "bla"), Item(3, "bbb")).unzip {
+      item=> (item.size, item.value)
+    }
+    #+END_SRC
+
+*** TODO 10.22. Merging Collections sequential
+
+* [[https://www.youtube.com/watch?v=Oij5V7LQJsA][What to leave implicit]]
+- Traditional ways to express context
+  - Globals, rigid if immutable, unsave if mutable.
+  - Monkey patching ??
+  - Dependency injection, at runtime (Srping, Guice), or with macros
+    (MacWire, Scala framework).
+  - Cake pattern, close coupling + recursion.
+- Functional Way: parameterize all the things
+  - No side effect
+  - type safe
+  - fine-grained control
+  - However:
+    - sea of parameters,
+    - most of which hardly ever change
+    - repetitive, boring, prone to mistakes
+- Implicits to help with the problems.
+  - if there is one feature that makes Scala "Scala", it is implicit.
+- Implicits ground rules:
+  - If you do not give an argument to an implicit parameter, one will
+    be provided by the compiler.
+  - Eligible are all implicit values that are *visible* at the point
+    of call.
+  - If there are more than one eligible candidate, the most specific
+    one is chosen.
+  - If there is no unique most specific candidate, an *ambiguity
+    error~ is reported by compiler.
+- Implicit conversions
+- Implicit classes: shorthand for defining a new class and an implicit
+  conversion into it.
+  #+BEGIN_SRC scala
+    implicit class C(x: T) {...}
+    //is expands to a implicit conversion from T to C
+    class C(x: T) {...}
+    implicit def C(x: T) = new C(x)
+  #+END_SRC
+- Implicits leverage what the compiler know about your code.
+  - remove repetition and boilerplate.
+  - can hurt readability if taken too far.
+- Implicits Patterns
+  - Extension methods: adding new methods to existing type.
+  - *Late Trait Implementation*, making existing classes implement new
+    traits without changing their code. /It was the original reason
+    for implicits in Scala/.
+    #+BEGIN_SRC scala
+      implicit class StringDeco(x: String) extends Ordered[String] {
+        def < (other: String) = ???
+      }
+    #+END_SRC
+  - Implicit parameters: close the type as far as we can, using type
+    safety to have finer grain control.
+    - establish context
+      - security checking with the current user
+      - set configurations
+      - inject dependencies
+    - model capabilities
+    - implement type classes
+
+Ref [[https://jazzy.id.au/2015/03/03/sbt-task-engine.html]]
+
+
+* SBT
+** SBT as a Task Engine
+ - SBT is a task engine.
+   - A task may be dependent on other tasks
+   - Any task from any point in the build may be redifined.
+   - New tasks can be easily added.
+   - Similar to *make* and *ant*
+ - SBT tasks produce an output value, and are able to consume the
+   output value of the tasks they depend on.
+   - whereas *make* and *ant* just modify the file system.
+ - ~inspect~ command let you inspect a task. An example :
+   #+BEGIN_VERSE
+   > inspect sources
+   [info] Task: scala.collection.Seq[java.io.File]
+   [info] Description:
+   [info]  All sources, both managed and unmanaged.
+   [info] Provided by:
+   [info]  {file:/Users/jroper/sbt-fun/}sbt-fun/compile:sources
+   [info] Defined at:
+   [info]  (sbt.Defaults) Defaults.scala:188
+   [info] Dependencies:
+   [info]  compile:unmanagedSources
+   [info]  compile:managedSources
+   [info] Delegates:
+   [info]  compile:sources
+   [info]  *:sources
+   [info]  {.}/compile:sources
+   [info]  {.}/*:sources
+   [info]  */compile:sources
+   [info]  */*:sources
+   [info] Related:
+   [info]  test:sources
+   #+END_VERSE
+   - ~Task: scala.collection.Seq[java.io.File]~ : it is a task that
+     produces a sequence of files.
+   - ~inspect tree sources~ to inspect the whole tree of tasks.
+ - ~Setting~ is a special kind of task
+   #+BEGIN_VERSE
+   compile:scalaSource = src/main/scala
+   #+END_VERSE
+   - ~Setting~ get executed once per *session*, when sbt is started.
+   - ~Task~ get executed once per *execution*.
+   - ~Setting~ can only depend on other settings, not ~Task~.
+   - In general, they can be considered the same thing. ~Setting~ are
+     just small optimization so that they don't have to be executed
+     every time.
+ - A task can be scoped, by ~configuration~, ~project~ and ~task~.
+   - When a task depends on another task, it can depend on that task in
+     a particular scope.
+   - The two main configuration scope are ~comiple~ and ~test~.
+   - ~sources~ depends on ~compile:managedSources~, it means it depends
+     on ~managedSources~ in the ~compile~ scope.
+   - When you don't specify a scope, sbt will choose a default scope.
+   - We could do ~inspect tree test:sources~ to inspect the task in the
+     specific scope.
+   - If the scope is ~*~, it means it is an *unscoped* task/setting.
+   - As a sbt build can have multiple project, and each project can
+     have its own set of settings. The tasks can be further scoped by
+     the project name.
+     - For example ~sbt-fun/compile:surces~ is the task in the
+       ~compile~ scope from the ~sbt-fun~ project.
+     - ~*/*/:excludeFilter~ is a *global* or for the entire build, with
+       no configuration scope, and no project scope.
+   - Task can also be scoped by another task: same task key can be used
+     and explicitly configured for many tasks.
+     - syntax: ~unmanagedSources::includeFilter~, means the task
+       ~includeFilter~ is scoped to the ~unmanagedSources~ task.z
+ - Scope fallback: When a task declares a dependency, sbt will try and
+   satisfy that dependency with the *most specific* task it has for it,
+   but
+   - if no task is defined at that specific scope, it will fallback
+     to a *less specific* scope.
+   - The general approach that sbt takes in its predefined task
+     dependency trees is to
+     - depend on tasks at a very specific scope,
+     - but define them at the most general scope that makes sense,
+     - allowing tasks to be overridden in a blanket fashion, but at a
+       very fine grained level when required.
+ - sbt tasks execution are *paralleled by default*.
+   - Two tasks that have no dependency on each other can, and will be
+     executed in parallel.
+
+** Declarative DSL
+ - ~TaskKey~: is a string (the name) and a type (what the task produce).
+   - ~sources~ task has a name of ~"sources"~ and a type of ~Seq[File]~
+   - Tasks key is uniquely defined by its *name*.
+   - Different Task keys with the same name but different type are not
+     allowed.
+   - ~SettingKey~ is setting as in only executed once per session.
+ - A *setting* as in a task declaration is
+   - a *task or setting key*,
+   - potentially scoped,
+   - which some association behaviour.
+ - Most of the settings are coming from sbt plugins.
+   - ~JvmPlugin~ plugin defines all the settings necessary for building
+     a Java or Scala program.
+   - Plugin settings are executed before the settings in your build
+     file.
+   - Any settings declare in your build file will override the settings
+     declared by the plugins.

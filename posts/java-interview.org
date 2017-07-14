@@ -1,0 +1,948 @@
+#+BEGIN_COMMENT
+.. title: Java Interview Questions
+.. slug: java-interview-questions
+.. date: 2017-07-14
+.. tags: java
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+
+
+#+TITLE: Java Interview
+
+* Java Programming Interview Exposed
+** Writing core algorithm
+** How would you implement a bubble sort algorithm?
+
+The *bubble sort* is extremely simple to describe and implements.
+#+BEGIN_SRC java
+  public void bubblesort(int[] numbers) {
+      boolean numbersSwitched;
+      do {
+          numbersSwitched=false;
+          for (int i=0;i<numbers.length -1; i++){
+              if (numbers[i+1]<numbers[i]){
+                  swap(numbers[i+1], numbers[i]);
+                  numbersSwitched=true;
+              }
+          }
+      } while (numbersSwitched);
+  }
+#+END_SRC
+
+
+
+
+The worse case, when you want to sort a list that is already sorted in
+reverse order, the performance is of $O(n^2)$: /for each iteration, you
+are only switching one elements/. The best case is when a list is
+already sorted, which has performance of $O(n)$.
+
+** How would you implement a insert sort algorithm?
+
+The *insert sort* is another simple algorithm to describe:
+#+BEGIN_SRC java
+  public static List<Integer> insertSort(final List<Integer> numbers) {
+      final List<Integer> sortedList = new LinkedList<>();
+
+      originalList: for (Integer number: numbers) {
+          for (int i=0;i<sortedList.size();i++){
+              if (number < sortedList.get(i)){
+                  sortedList.add(i, number);
+                  continue originalList;
+              }
+          }
+          sortedList.add(sortedList.size(), number);
+      }
+  }
+#+END_SRC
+
+The worst-case performance is still $O(n^2)$.
+
+** How would you implement the quicksort algorithm?
+
+The performance is much more efficient than the bubble sort and insert
+sort with an average performance of $O(n\log(n))$. The worst case is
+still $O(n^2)$. The choice of pivot can make a difference.
+
+#+BEGIN_SRC java
+  public static List<Integer> quicksort(List<Integer> numbers) {
+      if (numbers.size() < 2){
+          return numbers;
+      }
+
+      final Integer pivot = numbers.get(0);
+      final List<Integer> lower = new ArrayList<>();
+      final List<Integer> higher = new ArrayList<>();
+
+      for (int i=1 ; i< numbers.size(); i++){
+          if (numbers.get(i) < pivot) {
+              lower.add(numbers.get(i));
+          }else{
+              higher.add(numbers.get(i));
+          }
+      }
+
+      final List<Integer> sorted = quicksort(lower);
+      sorted.add(pivot);
+      sorted.addAll(quicksort(higher));
+
+      return sroted;
+  }
+#+END_SRC
+
+It is worth noting that each division of the list and the subsequent
+recursive call is *independent* of any other sorting necessary, and
+could be performed *in parallel*.
+
+** How would you implement the merge sort algorithm?
+This is another divide-and-conquer algorithm: split the list into two,
+sort each sublist, and then merge the two list together.
+
+The main code is *merging the two lists efficiently*.
+
+#+BEGIN_SRC java
+  public static List<Integer> merge(final List<Integer> left,
+                                    final List<Integer> right
+      ){
+      int leftPtr = 0;
+      int rightPtr = 0;
+      final List<Integer> merged = new ArrayList<>(left.size()+right.size());
+
+      while (leftPtr < left.size() && rightPtr < right.size()){
+          if (left.get(leftPtr) < right.get(rightPtr)){
+              merged.add(left.get(leftPtr));
+              leftPtr++;
+          }else{
+              merged.add(right.get(rightPtr));
+              rightPtr++;
+          }
+      }
+
+      while (leftPtr < left.size() ){
+          merged.add(left.get(leftPtr));
+          leftPtr++;
+      }
+
+      while (rightPtr < right.size() ){
+          merged.add(right.get(rightPtr));
+          rightPtr++;
+      }
+  }
+#+END_SRC
+
+#+BEGIN_SRC java
+  public static List<Integer> mergesort(final List<Integer> values){
+      if (values.size() < 2){
+          return values;
+      }
+
+      final List<Integer> leftHalf = values.subList(0, values.size() /2);
+      final List<Integer> leftHalf = values.subList(values.size()/2, values.size());
+
+      return merge(mergesort(leftHalf), mergesort(rightHalf));
+  }
+#+END_SRC
+
+Again, merge sort has a performance of $O(n\log(n)$. Each merge
+operation is $O(n)$, and each recursive call works on only half of the
+given list.
+
+** Data Structure
+
+*** Some notable *Collections* methods
+- ~sort, binarySearch~ :: with *Comparable* and *Comparator*
+- ~max, min~ :: with *Comparable* and *Comparator*
+- ~void rotate(List list, int distance)~ :: Rotates the elements in the
+     sepcified list by the specified distance. After calling this
+     method, the element at inde $i$ will be the element previously at
+     index $(i - distance) mod list.size()$
+  - Can be usefully be applied to a sublist: \\
+    ~Collections.rotate(list.subList(j, k+1), -1);~
+- ~void shuffle(List list, Random rnd)~ :: randomly permute the
+     specified list.
+- ~void reverse(List<?> list)~
+- ~<T> Comparator<T> reverseOrder(Comparator<T> cmp)~ :: returns a
+     comparator that imposes the reverse ordering of the specified
+     comparator.
+- ~int frequency(Collection c, Object o)~ :: return the number of
+     elements in the specified collection equal to the specified
+     object.
+- ~boolean disjoint(Collection c1, Collection c2)~ :: return true if
+     two specified collections have no elements in common.
+- ~List<T> nCopies(int n, T o)~ :: returns an *immutable* list
+     consisting of $n$ copies of the specified object.
+  * The newly allocated data object is tiny, containing a single
+    reference to the data object.
+- ~singleton(T o)~  :: return an *immutable* set containing only the
+     specified object.
+  - ~singletonList(T o)~ :: an immutable list.
+  - ~singletonMap<K key, V value>~ :: returns an *immutable* map that
+       only maps the specified key to the specified value.
+- Wrapper implementations
+  - ~unmodifiableXXX~
+  - ~synchronizedXXX~
+  - ~checkedXXX(Collection<T> c, Class<T> type)~ :: returns
+       a dynamically typesafe view of the specified collection. Any
+       attemp to insert an element of the wrong type will result in an
+       immediate ClassCastException.
+    - This can prevent unchecked cast.
+    - ~checkedList~
+    - ~checkedSet~, ~checkedSortedSet~
+    - ~checkedMap~, ~checkedSortedMap~
+
+*** Arrays
+- ~deepEquals(Object[] a1, Object[] a2), deepHashCode(), deepToString()~ :: supporting
+     nested sub-arrays.
+- ~fill~ :: assigns the value to the specified range of the specified array.
+- ~parallelPrefix(double[] array, DoubleBinaryOperator op)~ :: Cumulates,
+     in parallel, each element of the given array in place, using the
+     supplied function.
+- ~sort(T[] array, int fromIndex, int toIndex)~ :: support sosring in a range.
+- ~stream(T[] array, int startInclusive, int endExclusive)~ :: convert
+     a stream with the array as its source, also support range.
+- *ArrayList*, or *ArrayDeque* should be preferable to *LinkedList* for
+  queues/dequeus due to a limited amount of garbage it generates.
+
+*** List
+- The usage of ~subList~ on the ~List~ interface:
+  - The *List* interface now have a *subList(int fromIndex, int
+    toIndex)* function, to return a view of the portion of the list,
+    inclusive ~fromIndex~, and exclusive ~toIndex~.
+  - The returned list is backed by this list, so non-structural
+    changes in the returned list are reflected in this list, and
+    vice-versa.
+  - The method eliminates the need for explicit range operations. Any
+    operation that expects a list can be used as a range operation by
+    passing a subList view. For example, the following idiom removes a
+    range of element from a list:
+    #+BEGIN_SRC java
+        list.subList(from, to).clear();
+    #+END_SRC
+  - Some list implementations have restrictions on the elements that
+    they may contain. For example, some implementations prohibit
+    ~null~ elements, and some have restrictions on the types of their
+    elements. Attempting to add an ineligible element throws an
+    unchecked exception, typically *NullPointerException* or
+    *ClassCastException*.
+  - *toArray()* will return a new array.
+  - *toArray(T[] a)* will also return a *new array*, /not the one
+    specified/, if the size of ~a~ is smaller than the List; it
+    otherwise return ~a~, with the remaining of ~a~ set to ~null~ if ~a~
+    contains more elements thant the List.
+  - *retainAll(Collection<?> c)* will retains only the elements in
+    this list that care contained in the specified collection.
+- ArrayList
+  - ArrayList allows ~null~ elements.
+  - Be aware that the array size reallocation in ArrayList is
+    *one-way*; it doesn't shrink if elements are removed from it. If
+    you have a list that oscillates between many and a few elements,
+    *ArrayList* might not be the best implementation for it.
+  - Increase the capacity of an *ArrayList* before adding a large
+    number of elements using *ensureCapacity()* operation. This /could
+    reduce the amount of incremental reallocation/.
+- LinkedList
+  - It is a *doubly-linked* list implementation of the ~List~ and
+    ~Deque~ interface.
+  - Operations that index into the list will traverse the list from
+    /the beginning or the end/, whichever is closer to the specified
+    index.
+*** Queue and Deque
+- interface *Queue*
+  - Queue implementations generally do not allow insertion of ~null~
+    elements, although some implementations, such as *LinkedList*, do
+    not prohibit insertion of ~null~.
+  - Even in the implementations that permit it, ~null~ should not be
+    inserted into a *Queue*, as ~null~ is also used as a _special return_
+    value by the ~poll~ method to /indicate that the queue contains no
+    elements/.
+  - Queues provide additional insertion, extraction, and
+    inspection operations; and each of these methods exists in two
+    forms: *throw exception* or *return special value* when the
+    operation fails.
+  - The latter form of the insert operation is designed specifically
+    for use with *capacity-restricted* Queue implementations; in most
+    implementations, insert operations cannot fail.
+  - The two set of methods:
+    | Operation | Throws Exception | Return special value |
+    |-----------+------------------+----------------------|
+    | Insert    | add(e)           | offer(e)             |
+    | Remove    | remove()         | poll()               |
+    | Examine   | element()        | peek()               |
+  - Order for Queue is normally *FIFO*, except for *priority
+    queues*, which order according to a supplied comparator, and
+    *LIFO* queue(stack).
+- interface *Deque*
+  - Pronounced "deck" is an extension of Queue, and allows additon and
+    removal from either end of the data structure.
+  - For each methods defined in ~Queue~, ~Deque~ defines corresponding
+    *First*, and *Last* methods like: ~addFirst()~, ~addLast()~,
+    ~offerFirst()~ and ~offerLast()~.
+  - *descendingIterator()*  from the ~Deque~ interface can be used to
+    iterate in reverse sequential order.
+  - Deques can also be used as *LIFO (Last-In-First-Out) stacks*. This
+    interface should be used *in preference to* the *legacy* ~Stack~
+    class:
+    | Stack Method | Equivalent Deque Method |
+    |--------------+-------------------------|
+    | push(e)      | addFirst(e)             |
+    | pop()        | removeFirst(e)          |
+    | peed()       | peekFirst()             |
+  - ~removeFirstOccurrence(e)~ and ~removeLastOccurrence(e)~ is
+    available on *LinkedList*.
+  - Apart from *LinkedList*, *ArrayDeque* is a resizable-array
+    implementation of the ~Deque~ interface.
+- class *PriorityQueue*
+  - An unbounded priority queue based on a *priority heap*.
+  - A priority queue does not permit ~null~.
+  - A priority queue is *unbounded*, but has an /internal capacity/
+    governing the size of an array used to store the elements on the
+    queue.
+  - The *Iterator* returned from  ~iterator()~ is *not* gaurantee to
+    traverse the elements in any particular order. If ordered
+    traversal is needed, could use : ~Arrays.sort(pq.toArray())~.
+  - This class is not threadsafe, *PriorityBlockingQueue* is.
+  - Heap based priority queue provides $O(\log(n))$ for enqueing
+    dequeing methods; linear time for ~remove()~ and ~contains()~ methods
+    and constant time for the retrieval methods.
+- interface *BlockingQueue*
+  - A *Queue* that additionally supports operations that *wait* for the
+    queue to become non-empty when retriving an element, and wait for
+    space to become available in the queue when storing an element.
+  - BlockingQueue methods come in four forms:
+    | Operation | Throw Exception | Special Value | Blocks | Times out            |
+    |-----------+-----------------+---------------+--------+----------------------|
+    | Insert    | add(e)          | offer(e)      | put(e) | offer(e, time, unit) |
+    | Remove    | remove()        | poll()        | take() | poll(time, unit)     |
+    | Examine   | element()       | peek()        | n/a    | n/a                  |
+  - A blockingQueue does not accept null element.
+  - BlockingQueue implementations are designed to be used primarily
+    for *producer-consumer* queues, but additionally support the
+    *Collection* interface. However, such operations are in general *not*
+    /performed very efficiently/.
+  - *drainTo(Collection c)* removes all available elements from this
+    queue and adds them to the given collection. This operation may be
+    more efficient than repeatdly polling thes queue.
+  - BlockingQueue implementations are thread. However, the *bulk*
+    Collection operations ~addAll~, ~containsAll~, ~retainAll~ and ~removeAll~
+    are *not* necessarily /performed atomically/ unless specified
+    otherwise in an implementation.
+  - *Memory consistency effects*: As with other concurrent collections,
+    actions in a thread prior to *placing an object* into a
+    BlockingQueue *happen-before* actions subsequent to the *access* or
+    *removal* of that element from the BlockingQueue in another thread.
+  - *LinkedBlockingQueue* is an optionally-bounded blocking queue. The
+    optional capacity serves as a way to prevent excessive queue
+    expansion, which default to ~Integer.MAX_VALUE~.
+  - *ArrayBlockingQueue* is a bounded blocking queue backed by an
+    array. The capacity cannot be changed once created.
+    - This class supports an optional *fairness policy* for *ordering*
+      waiting producer and consumer threads. /By default, the ordering
+      is not guaranteed/. When setting, the access granted in *FIFO* order.
+    - Fairness generally decreases /throughput/ but reduces
+      /variability/ and avoids /starvation/.
+  - *SynchronousQueue* is a blocking queue in which each insert
+    operation must *wait for* a corresponding remove operation by
+    another thread, and vice versa.
+    - A SynchronousQueue doesn't have any internal capacity, not even
+      a capacity of one.
+    - Cannot peek because element is only present when you try to
+      remove it; you cannot insert an element (using any method)
+      unless another thread is trying to remove it.
+    - its ~isEmpty()~ will always return ~true~.
+    - Synchronous queue are similar to *rendezvous channels* used in
+      *CSP* and *Ada*.
+    - They are suited for *handoff designs*, in which an object running
+      in one thread must /sync up/ with an object running in another
+      thread in order to _hand it some information, event, or task_.
+- interface *TransferQueue* extends *BlockingQueue*
+  - A *BlockingQueue* in which producers may wait for consumer to
+    receive elements.
+  - A *TransferQueue* may be useful for example in message passing
+    applications in which producers sometimes (using method
+    *transfer(E)*) await receipt of elements by consumers invoking take
+    or poll, while at other times enqueue elements (via method put)
+    without waiting for receipt.
+  - *tryTransfer* can be used for Non-blocking and time-out for way.
+  - A *TransferQueue* can also be quired, with *hasWaitingComsumer()*.
+  - class *LinkedTransferQueue* implements this interface.
+    - /the size method is *NOT* a constant-time operation/: Because of
+      the asynchronous nature of these queues, determining the current
+      number of elements requires a traversal of the elements, and so
+      may report inaccurate results if this collection is modified
+      during traversal.
+    - bulk operations are *not* guaranteed to be performed atomically.
+  - *TransferQueue* is more generic and useful than
+    *SynchronousQueue*, allowing you to flexibly decide whether to use
+    normal BlockingQueue semantics or a guaranteed hand-off.
+    - Much better performance than *SynchronousQueue*.
+- class DelayQueue<E extends Delayed> implements *BlockingQueue*
+  - An unbounded blocking queue of Delayed elements, in which an
+    element can only be taken when its delay has expired.
+  - The head of the queue is the Delayed element whose delay expired
+    furthest in the past.
+*** Tree
+  - Search with *binary search tree*:
+    #+BEGIN_SRC java
+      public boolean search(final E toFind){
+          if (toFind.equals(this.value)){
+              return true;
+          }
+          if (toFind.compareTo(value)< 0 && this.left !=null) {
+              return left.search(toFind);
+          }
+
+          return right!=null && right.search(toFind);
+      }
+    #+END_SRC
+  - Inserting value into a binary search tree:
+    #+BEGIN_SRC java
+      public void insert(final E toInsert) {
+          if (toInsert.compareTo(this.value) < 0){
+              if (left == null) {
+                  left = new TreeNode(toInsert, null, null);
+              }else {
+                  left.insert(toInsert);
+              }
+          }else {
+              if (right == null) {
+                  right= new TreeNode(toInsert, null, null);
+              }else {
+                  right.insert(toInsert);
+              }
+          }
+      }
+    #+END_SRC
+    Inserting in this manner may produce an *unbalanced tree*.
+  - Removing from a binary search tree:
+    1. Search for the node;
+    2. If the node have no child, just remove it;
+    3. If the node have only one child, remove the node, and link the
+       node's parent and child.
+    4. If the node have two children:
+       1) Find a minimu value in the right subtree (or maximum value
+          in the left three);
+       2) Replace the value of the node to be removed with found minimum;
+       3) Remove the minimum from its right tree; notice that the
+          minimum has no left child, therefore, its removal may result
+          in first or second cases only.
+    #+BEGIN_SRC java
+      public boolean remove(int value, BSTNode parent) {
+          if (value < this.value) {
+              if (left != null)
+                  return left.remove(value, this);
+              else
+                  return false;
+          } else if (value > this.value) {
+              if (right != null)
+                  return right.remove(value, this);
+              else
+                  return false;
+          } else {
+              if (left != null && right != null) {
+                  this.value = right.minValue();
+                  right.remove(this.value, this);
+              } else if (parent.left == this) {
+                  parent.left = (left != null) ? left : right;
+              } else if (parent.right == this) {
+                  parent.right = (left != null) ? left : right;
+              }
+              return true;
+          }
+      }
+
+      public int minValue() {
+          if (left == null)
+              return value;
+          else
+              return left.minValue();
+      }
+    #+END_SRC
+  - A specific implementation of binary tree is called *[[http://www.geeksforgeeks.org/avl-tree-set-1-insertion/][AVL Tree]]*
+    (self-balancing) enforces that, for any node, the /difference in
+    depth for each child is at most one/.
+    - After each insertion or deletion of a node, the tree checks if
+      it is still balanced, and subsequently *rotates* the nodes of
+      values where the property of the *AVL Tree* doesn't not hold.
+  - *[[http://www.geeksforgeeks.org/red-black-tree-set-1-introduction-2/][Red-Black Tree]]* is another self-balancing binary search tree with
+    one extra attribute for each node: *the colour*, being either red
+    or black:
+    - Properties:
+      - Root of the tree is always black.
+      - There are no two adjacent red nodes (A red node cannot have a
+        red parent or red child)
+      - Every path from /root to a NULL/ node has same number of black
+        node.
+    - The height of a Red-Black Tree is always $O(\log(n))$, i.e. it is a
+      balanced tree.
+  - Comparison of AVL Tree and Red-Black Tree:
+    - AVL Tree is more balanced - better for search
+    - AVL Tree's deletion/insertion may involved more
+      roations. Red-Black tree is better for insert/deletion.
+  - When a tree is balanced, search/insert/delete has performance of
+    $O(\log(n))$.
+  - Bineary trees can be used for *Binary Heap*, which is a balanced
+    tree with the property that children are *greater than* their parent.
+    - The heat property defines that the smallest element in the tree is
+      at the root. Heaps are especially useful for priority queues, or
+      any time you require quick access to the smallest element of a collection.
+    - A heap is not a sorted structure and can be regarded as
+      partially ordered.
+    - *Insert*: the new element is initially appended to the right
+      most leaf node. The heap property is repaired by comparing the
+      added element with its parent and moving the added element up a
+      level by swapping with parent. It is repeated until the parent
+      is smaller or equal to the element. Performance is $(\log(n))$.
+    - *DeleteMin*: Remove the root and replace it the right most
+      leaf. Then compare with its *smaller* child, and swapping until the
+      heap property is satisfied. Performance is $(\log(n))$.
+    - *HeapSort*: build a heap and turn it into a sorted list by
+      calling *deleteMin* repeatly. It has performance of $(n\log(n))$.
+
+*** Set
+For each of the Map implementation visited ealier, there is an
+equvialent Set implementation:
+- HashSet :: implemented based on HashMap with dummy values (same
+             Object is used for every value).
+- TreeSet :: based on a TreeMap instance.
+- LinkedHashSet:: based on a LinkedHashMap instance.
+- *SortedSet* and *NavigableSet* implemented by *TreeSet*.
+- *Set <E> Collections.newSetFromMap(Map<E, Boolean> map)* returns a
+  set backed by the specified map. The resulting set displays the same
+  ordering, concurrency, and performance characterstics as the backing
+  map.
+  - Useful to construct Set that doesn't have corresponding Set
+    implementation of a Map, like *WeakHashSet*, or
+    *ConcurrentHashMap*.
+
+*** Map
+- HashMap
+  - The implementation permits ~null~ values and ~null~ key.
+  - An instance of HashMap has two parameters that affect its
+    performance: *initial capacity* and *load factor*. The capacity is
+    the /number of buckets/ in the hash table. The load factor is a
+    measure of how full the hash table is allowed to get before its
+    capacity is automatically increased.
+  - When the number of entries in the hash table
+    ~loadFactor*currentCapacity~, the hash table is *rehashed* so that
+    the hash table has approximately *twice* the number of buckets.
+  - When construct a new HashMap, a *load factor* between [0, 1] can
+    be specified: ~public HashMap(int initialCapacity, float
+    loadFactory)~. The default load factor is 0.75.
+  - If the initial capacity is greater than the maximum number of
+    entries divided by the load factor, no rehash operations will ever
+    occur.
+  - If many mappings are to be stored in a HashMap instance, creating
+    it with a sufficiently large capacity will allow the mappings to
+    be stored more efficiently than letting it perform automatic
+    rehashing as needed to grow the table.
+  - *keySet()*, *values()* and *entrySet()* all provide *view* /backed/
+    by the map. Map's changes are reflected in the set, and
+    vise-verse. If elements are removed from the view, the
+    corresponding mappings are *removed* from the map.
+- *LinkedHashMap* is similar to HashMap but have an added property
+  that iterating over the *keys* will be in the same order as
+  *insertion*. However, this is the most expensive JDK collection in
+  terms of memory consumption per element.
+- interface *SortedMap* :: A map that provides a total ordering on its
+     keys.
+  - The order is reflected when iterating over the sorted map's
+    collection views (returned by ~entrySet~, ~keySet~, and ~values~ methods).
+  - Implements by *TreeMap*
+- interface *NavigableMap* :: A *SortedMap* extended with navigation
+     methods returning the closest matches for given search target.
+  - ~lowEntry~, ~flowEntry~, ~ceilingEntry~, ~higherEntry~ returns
+    ~Map.Entry~ objects whose key respectively /less then/, /less than
+    or equal/, /greater than or equal/, /greater than/ the given key.
+  - ~headMap(until)~, ~tailMap(from)~, and ~subMap(from, to)~ return
+    subset of the mapping entries given the search condition.
+- TreeMap implements both *SortedMap* and *NavigableMap*
+  - It uses a *red-black tree* with each node in the tree is a
+    key-value pair.
+  - Each elements put into the TreeMap rebalanced the tree.
+- EnumMap - a map with enum keys
+- *IdentityHashMap* :: it a special version of map. It *violates* the
+     Map general contract : it compares references using ~==~ instead of
+     ~Object.equals~.
+  - Useful for various graph traversal algorithms: you may easily
+    store already processed nodes in the *IdentityHashMap* along with
+    some node-related data.
+- *WeakHashMap* :: keeps its key with WeakReference, which is subject to
+                 GC. Values are, however, stored using strong
+                 reference.
+  - Useful for data cache implementations.
+
+*** Concurrent Collections
+- *CopyOnWriteArrayList*: making a copy of underlying array on each
+  update. Should be used when traversal seriously outnumbering
+  updates.
+  - Useful for listener/observers.
+  - No synchronization is necessary, even during iteration.
+- *CopyOnWriteArraySet*: based on a copy-on-write array.
+- *ConcurrentHashMap* ::
+- *ConcurrentLinkedQueue* :: A unbounded thread-safe queue based on
+     linked nodes.
+- *ConcurrentSkipListMap*
+
+
+** Java 8 Stream
+- The processing Order
+  - Intermediate operations will only be executed when a terminal
+    operation is present.
+  - Each elements in the stream moves along the chain vertically, not
+    all elements processed together in each intermediate operations.
+- Reusing Streams.
+  - Java 8 stream cannot be reused.
+  - As soon as you call any terminal operation, the stream is closed.
+  - We have to create a new stream chain for every terminal operation
+    we want to execute.
+- Intermediate operations.
+  | Function   | Preserve count | Preserve type | Perserve order |
+  |------------+----------------+---------------+----------------|
+  | ~map~      | Y              | N             | Y              |
+  | ~filter~   | N              | Y             | Y              |
+  | ~distinct~ | N              | Y             | Y              |
+  | ~sorted~   | Y              | Y             | N              |
+  | ~peek~     | Y              | Y             | Y              |
+
+- *Collectors* : transform the elements of the stream into a different
+  kind of result.
+  - ~toList~, ~toSet~, ~toMap~
+  - ~averagingInt~, ~summarizingInt~
+  - ~joining~: accepts a delimiter and optional prefix and suffix.
+- One important thing to note is that parallel streams achieve
+  parallelism through threads using the existing common
+  *ForkJoinPool*.
+  - As a result, there are possible complications:
+    - [[https://zeroturnaround.com/rebellabs/java-parallel-streams-are-bad-for-your-health/]]
+    - The common pool is upper limited (can be changed with a system
+      property) with ~Runtime.availableProcessors()~, it is possible
+      to block all the threads in it and thus exhaust the pool.
+    - If you know the Job in the parallel stream is going to block for
+      some time, it will be better to use a ~interface
+      ForkJoinPool.ManagedBlocker~.
+- Parallel streams are *unpredictable* and complex to use correctly.
+  - Almost any use of parallel streams can affect the performance of
+    other *unrelated* system components in an *unpredictable way*.
+
+- *Starvation* describes a situation where a thread is unable to gain
+    regular access to shared resources and is unable to make
+    progress.
+  - This happens when shared resources are made unavailable for long
+    periods by "greedy" threads.
+  - For example, suppose an object provides a synchronized method
+    that often takes a long time to return.
+  - If one thread invokes this method frequently, other threads that
+    also need frequent synchronized access to the same object will
+    often be blocked.
+- *Livelock* A thread often acts in response to the action of another
+  thread. If the other thread's action is also a response to the
+  action of another thread, then livelock may result.
+  - As with deadlock, livelocked threads are unable to make further
+    progress.
+  - However, the threads are not blocked — they are simply too busy
+    responding to each other to resume work.
+  - This is comparable to two people attempting to pass each other
+    in a corridor: Alphonse moves to his left to let Gaston pass,
+    while Gaston moves to his right to let Alphonse pass. Seeing
+    that they are still blocking each other, Alphone moves to his
+    right, while Gaston moves to his left. They're still blocking
+    each other, so...
+
+** Design Patterns
+- Strategy Pattern :: enables you to defer decisions about which
+     implementation to use until /run time/.
+  - The Spring Framework uses an XML file to construct objects and
+    their dependencies, which are read at runtime, allowing a quick
+    change between implementations without any need for recompilation.
+- Template Pattern :: is used to defer to delegate some, or all steps
+     of an algorithm to a subclass. Common behaviour can be defined in
+     a superclass, then specific variants are written in a subclass.
+- Decorator Pattern :: enables you to change or configure the
+     functionality of a specific object.
+  - It takes an instance of same abstract/interface type which adds
+    additional behaviour.
+  - Java's IO class use the Decorator Pattern extensively.
+  - java.util.Collections, the ~checkedXXX()~, ~synchronizedXXX()~ and
+    ~unmodifiableXXX()~ methods.
+- Flyweight Pattern :: can be used when you have several objects, and
+     many may represent the same value. In these instances, it can be
+     possbile to share the values as long as the objects are immutable.
+  - *Integer* class is an implementation of the flyweight pattern:
+    #+BEGIN_SRC java
+      public static Integer valueOf(int i){
+          assert IntegerCache.high >=127;
+          if (i >=IntegerCache.low && i <= IntegerCache.high){
+              return IntegerCache.cache[i + (-IntegerCache.low)];
+          }
+          return new Integer(i);
+      }
+    #+END_SRC
+    The default range of the cache is -128 to 127. The cache is
+    initialized in a static block and is created the first time an
+    Integer is referenced.
+  - Another implementation of the Flyweight Pattern is called *Null
+    Object Pattern*, which uses a flyweight object to represent
+    ~null~. For example in tree implementation, a *NullObject* can be
+    used to represent non-children.
+- Singleton :: using *Enum*, JVM will guarantee that only one
+    instance will ever be created.
+    #+BEGIN_SRC java
+      public enum SingletonEnum {
+          INSTANCE;
+          public void singletonMethod{
+              //operation here.
+          }
+      }
+    #+END_SRC
+  - Singletons work best in specialized applications such as GUI on
+    a desktop or mobile application. Or you know you will not have
+    many concurrent users.
+  - If you are building large, scalable server applications,
+    singleton objects are often the source of many performance
+    bottlenecks.
+  - ~java.lang.Runtime#getRuntime()~
+  - ~java.awt.Desktop#getDesktop()~
+- Abstract Factory :: creational methods returning the *factory
+     itself* which in turn can be used to create other abstract types.
+  - ~javax.xml.parsers.DocumentBuilderFactory#newInstance()~
+  - ~javax.xml.transform.TransformerFactory#newInstance()~
+- Factory Method :: Creational methods returning an implementation of
+                    an abstract/interface type.
+  - ~java.util.Calendar#getInstance()~
+  - ~java.util.ResourceBundle#getBundle()~
+  - ~java.text.NumberFormat#getInstance()~
+  - ~java.nio.charset.Charset#forName()~
+- Builder
+  - The Implementations of *java.lang.Appendable* are
+    builders. *Appendable* is an object which char sequences
+    (*java.lang.CharSequence*) and values can be appended. It must be
+    implemented by class whose instances are intended to receive
+    formatted output from a Formatter.
+- Prototype :: Creational methods returning a different instance of
+               itself with same properties
+  - ~java.lang.Object#clone()~
+- Chain of Responsibility :: Behaviour methods which indirectly
+     invokes the same method in another implementation of same
+     abstract/interface type *in a queue*.
+  - ~java.util.logging.Logger#log()~
+  - ~javax.servlet.Filter#doFilter()~
+- State :: Behaviour methods which changes its behaviour depending on
+           the instance's state, which can be controlled externally.
+  - provides behaviour to an object so that it can be changed during
+    runtime.
+  - Very similar to *Bridge* pattern but intention is different:
+    - Bridge is structural: hide data from client, and client only
+      aware of the handle.
+    - State is behavioral: provides /flexible behavior/ of owning object
+      and client would be aware of *both* owning object and state objects.
+- Bridge :: decouples an abstraction from the implementation of its
+            abstract operations, so that abstraction and its
+            implementation can vary *independently*.
+  - AWT: provides an abstract layer which maps onto the native OS.
+  - JDBC
+- Template method :: allows subclasses to override parts of the method
+     without rewriting it; also allow you to control whichh operations
+     subclasses are required to override.
+- Adapter :: convert the interface of a class into another interface
+             clients expect.
+  - ~java.io.InputStreamReader~, ~java.io.OutputStreamWriter~
+- Memento :: capture the internal state of an object without violating
+             encapsulation and thus providing a mean for restoring the
+             object into initial state when needed.
+  - ~java.util.Date~: internally represented by a long value.
+  - ~java.io.Serializable~
+
+** Datatype
+- Two's Complement representation
+  - Storage of binary values of short, int, and long.
+  - The negative equivalent of possitive value is calculated by
+    applying a binary NOT and then add 1.
+  - There is only one value for zero: there is no concept of a
+    negative zero.
+  - Which in tun, means the system can store one extra negative value.
+  - The most negative number(*Integer.MIN_VALUE*), has the most
+    significant bit of 1, and all remaining bits are zeros.
+  - The most negative number's abs() will fail, no corresponding
+    positive value for it.
+- BigInteger :: Immutable *arbitrary-precision* integers.
+  - Effectively unbounded.
+  - Has all the methods that can would normally applied on an Integer.
+  - All operations behave as if BigIntegers were represented in
+    *two's-complement* notation (like Java's primitive integer types).
+  - ~gcd(BigInteger val)~: return the greatest common divisor.
+  - ~isProbablyPrime()~ : return ture if is probably prime, false if
+    it definitely composite.
+- BigDecimal :: Immutable *arbitrary-precision* decimal numbers.
+- *AtomicLong* and *AtomicInteger* are also subclass of *Number*.
+- *String* ::
+  - String constructor which take byte or char array, will copy the
+    array for the String.
+  - static methods
+    - ~format(String format, Object... args)~
+    - ~join(CharSequence delimiter, CharSequence... elements)~
+  - String intern: When the class is loaded by the JVM, it holds all
+      the literals in a constants pool. Any repettion of a String
+      literal can be referenced from the same constant in the pool.
+    - The String intern pool is not just open to compile-time String
+      literals; any String instance can be added to this pool with the
+      intern() method.
+    - When the intern method is invoked, if the pool already contains
+      a string equal to this String object as determined by the
+      ~equals(Object)~ method, then the string from the pool is
+      returned. Otherwise, this String object is added to the pool and
+      a reference to this String object is returned.
+    - It follows that for any two strings ~s~ and ~t~, ~s.intern() ==
+      t.intern()~ is ~true~ if and only if ~s.equals(t)~ is ~true~.
+    - In Java 6, interned strings were stored in the *PermGen* – the
+      *fixed size* part of heap mainly used for storing loaded classes
+      and string pool. using intern() might lead to out of memory in
+      the *PermGen*.
+    - Since Java 7: the string pool was relocated to the heap.
+    - String pool values can be GC as well.
+    - String pool is implemented as a HashMap, with its key being its
+      hashcode. and the map size can be set with ~-XX:StringTableSize~.
+    - The String constant pool is an implementation of the *Flyweight*
+      pattern.
+- Exception
+  - the author's opition is to favor runtime exceptions and be
+    explicit in any documentation as to what exactly may be thrown to
+    any clients calling that method.
+  - Modern languages such as *Scala* have stepped away from checked
+    exceptions, and have only runtime exceptions.
+- Why do fields that are private also need to be marked as final to
+  make them immutable?
+  - The private field can be manipulated using the *Reflection
+    API*. Reflection API has the ability to access and mutate all
+    fields, regardless of their visibility.
+  - The final modifier instructs the JVM that no modifications are
+    allowed on that field at all.
+
+** Libraries
+- It is advisiable to use the *expected* parameter on the *@Test*
+  annotation sparingly. The most reliable tests using this parameter
+  have only one line in the method body: the line that should throw
+  the exception.
+- How can a test fail if it does not complete quickly enough?
+  - The @Test annotation can take a *timeout* parameter, which takes a
+    value of type long.
+  - If the test is running for longer than the timeout specified, the
+    test fails.
+
+* Functional Programming in Java
+- The ~Iterable~ interface has been enhanced in Java 8 with a special
+  method ~forEach()~, which accept a ~Consumer~.
+- However, once ~forEach~ starts, we cannot break out of the
+  iteration.
+- Thus this style is useful in the common case where we want to
+  process each element in a collection.
+- Lambda function with inferred parameters: the parameters are
+  ~non-final~.
+  #+BEGIN_SRC java
+    friends.forEach((final String name) -> System.out.println(name));
+    //or, with the inferred type, cannot specify final here.
+    friends.forEach(name-> System.out.println(name));
+    //or.
+    friends.forEach(System.out::println);
+  #+END_SRC
+- In Java you can use lambdas and method references when any *SAM*
+  (single abstract method) interface is expected.
+  - Lambdas can be freely converted to SAM Types.
+    - Example:
+      #+BEGIN_SRC java
+        final Predicate<String> startsWithN = name -> name.startsWith("N");
+        //or using a Lexical scoping with closure.
+        public static Predicate<String> checkIfStartsWith(final String letter) {
+            return name -> name.startsWith(letter);
+        }
+        //or with *Function* Interface.
+        final Function<String, Predicate<String>> startsWithLetter =
+            letter -> name -> name.startsWith(letter);
+      #+END_SRC
+    - This can also help with reuse of lambda expression, if it is
+      used multiple times.
+    - From within a lambda expression we can only access local
+      variables that are ~final~ or ~effectively final~ in the
+      enclosing scope.
+    - A lambda expression may be invoked right away, or it may be
+      invoked lazily or from multiple thread.
+    - To avoid race conditions, the local variables we access in the
+      enclosing scope are not allowed to change once initialized.
+    - Variables either marked as ~final~.
+    - Or for ~effectively final~
+      - the variables have to be initialized within the enclosing
+        method before the lambda expression is defined.
+      - the values of these variable don't change anywhere else.
+  - In Scala, it is only supported from version 2.12, so a scala
+    function literal can be used for a *SAM*.
+    - If a ~trait/abstract class~ with exactly one ~abstract~ method,
+      then a *Function* of the same parameter and return type of the
+      abstract method can be converted into the ~trait/abstract
+      class~.
+    - Example:
+      #+BEGIN_SRC scala
+        trait Flyable {
+          def fly(miles: Int) : Unit
+          val name = "Unindentified Flyable Object"
+        }
+
+        val ufo: Flyable = (m: Int) => println(s"${ufo.name} flies $m miles")
+        ufo.fly(123)
+        //Unidentified Flyable Object files 123 miles!
+      #+END_SRC
+- Picking an element from collection, using ~findFirst()~ method,
+  which return a ~Optional~:
+  #+BEGIN_SRC java
+    Optional<String> foundName =
+       names.stream()
+          .filter(name->name.startsWith("N")
+          .findFirst();
+  #+END_SRC
+- ~reduce~
+  - An ~Optional reduce(BinaryOperator bo)~ example, finding the name with the longest length:
+    #+BEGIN_SRC java
+      final Optional<String> aLongName =
+         friends.stream().
+           reduce((name1, name2)=> name1.length() >=name2.length() ? name1 : name2);
+      aLongName.ifPresent(name-> System.out.println("A long name: "+ name));
+    #+END_SRC
+    - As the ~reduce()~ method iterated through the collection, it called
+      the lambda expression first with the first two elements in the
+      list.
+    - The result is used as the *first* parameter in the following calls.
+    - The result from the final call is returned as the result of the
+      ~reduce()~ method call.
+    - The result of ~reduce()~ is an ~Optional~ because the collection
+      on which is called may be empty.
+    - If the list had only one element, the ~reduce()~ would return that
+      element and the lambda expression would not be invoked.
+  - Another form of ~reduce~ looks like:
+    #+BEGIN_SRC java
+          final String steveOrLonger =
+              friends.stream()
+              .reduce("steve", (name1, name2) ->
+                      name1.length() >=name2.length() ? name1, name2
+                  );
+    #+END_SRC
+    - It takes a base value, and not return an ~Optional~.
+- Join elements:
+  - ~String~ has an added convenience method ~join()~:
+    #+BEGIN_SRC java
+    System.out.println(String.join(", ", friends));
+    #+END_SRC
+  - Under the hood, the ~join()~ method calls upon the ~StringJoiner~
+    to concatenate the values.
+  - We could use the ~reduce()~ method to concatenate elements into a
+    string, but JDK has a ~collect()~ method, which is another form of
+    ~reduce~ that can help collect values into a target destination:
+    #+BEGIN_SRC java
+      String names = friends.stream().map(String::toUpperCase)
+          .collect(Collectors.joining(", "))
+    #+END_SRC
+  - ~StringJoiner~ gives more control over the format of
+    concatenation; we can specify a prefix, a suffix, and infix
+    character sequences.

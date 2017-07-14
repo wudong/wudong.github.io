@@ -1,0 +1,106 @@
+#+BEGIN_COMMENT
+.. title: Angular 2 Notes
+.. slug: angular-notes
+.. date: 2017-07-14 16:28:48 UTC+01:00
+.. tags: angular javascript
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+#+TITLE: Angular 2 notes
+
+* Modules (NgModule)
+- An angular module is a class decorated with ~@NgModule~ metadata:
+  - declare the *components*, *directives* and *pipes* of the module
+  - export some of those classes
+  - import other *modules* needed by /this/ module
+  - provide services at the application level that any application
+    component can use
+- Every Angular app has at least one module class, the *root module*,
+  which is bootstrapped to launch the application.
+- *BrowserModule* need to be imported by every browser app. It
+  includes common directives like ~NgIf~, ~NgFor~.
+- There are two ways to bootstrap a root module:
+  - static bootstrapping with Ahead-Of-time (AOT) compiler
+    #+BEGIN_SRC js
+    import { platformBrowser } from '@angular/platform-browser';
+    // The app module factory produced by the static offline compiler
+    import { AppModuleNgFactory } from './app.module.ngfactory';
+    // Launch with the app module factory.
+    platformBrowser().bootstrapModuleFactory(AppModuleNgFactory);
+    #+END_SRC
+  - Dynamic bootstrapping with Just-in-time (JIT) compiler
+    #+BEGIN_SRC js
+    // The browser platform with a compiler
+    import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+    // The app module
+    import { AppModule } from './app.module';
+    // Compile and launch the module
+    platformBrowserDynamic().bootstrapModule(AppModule);
+    #+END_SRC
+  - Both way the bootstrap will end up with bootstrapping a
+    ~ModuleFactory~ but the JIT will compile the ModuleFactory on the fly.
+- *Service Providers*
+  - A module can add providers to the application's *root* injector:
+    #+BEGIN_SRC js
+    providers: [UserService]
+    #+END_SRC
+    by adding this ~providers~ property in the module metadata, it
+    provide it for all components in the module.
+  - Angular module instances, unlike components, *do not* have their
+    own injectors so they can't have their own provider scopes. This
+    means that anything ~provided~ in a module are *application-scoped*.
+  - As a general rule, import modules with providers *exactly once*,
+    preferably in the ~root module~.
+- Lazy loading modules with the Router
+  - TODO NEED TO READ MORE. TODO
+
+* Testing
+  - The *TestBed* creates an Angular testing module - an ~@NgModule~
+    class - that you configure with the *configureTestingModule*
+    method to produce the module environment for the class you want to test.
+  - After configuring the *TestBed*, use *TestBed.createComponent* to
+    create an component instance and return a *ComponentFixture*. The
+    fixture provides access to the component instance and to the
+    *DebugElement* which is a handle on the compoment's DOM element.
+  - Each test tells Angular when to perform change detection by
+    calling *fixture.detectChanges()*
+  - Use *async()* function call to passing asynchronous execution body
+    to *beforeEach*. Internally, *async()* arranges for the body of
+    the *beforeEach* to run in a special async test zone that hides
+    the mechanics of asynchronous execution.
+  - *TestBed.compileComponents* method asynchronously compiles all the
+    components configured in the testing module. When it completes,
+    the external templates and css files have been 'inlined' and
+    *Test.createComponent* can create new instance of component
+    synchronously.
+  - In general, tests should not make calls to remote services. They
+    should emulate such calls, for example, with *Jasmine* spy:
+    #+BEGIN_SRC js
+    spy = spyOn(service, 'getQuote').and.returnValue(Promise.resolve('value'));
+    #+END_SRC
+  - Testing async:
+    - using async()
+    - using fakeAsync() and tick():
+      #+BEGIN_SRC js
+        it('should show quote after getQuote promise (fakeAsync)', fakeAsync(() => {
+          fixture.detectChanges();
+          tick();                  // wait for async getQuote
+          fixture.detectChanges(); // update view with quote
+          expect(el.textContent).toBe(testQuote);
+        }));
+      #+END_SRC
+    - using jasmine.done:
+      #+BEGIN_SRC js        it('should show quote after getQuote promise (done)', done => {
+          fixture.detectChanges();
+          // get the spy promise and wait for it to resolve
+          spy.calls.mostRecent().returnValue.then(() => {
+            fixture.detectChanges(); // update view with quote
+            expect(el.textContent).toBe(testQuote);
+            done();
+          });
+        });
+      #+END_SRC

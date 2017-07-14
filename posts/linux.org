@@ -1,0 +1,203 @@
+#+BEGIN_COMMENT
+.. title: Linux Note
+.. slug: linux-notes
+.. date: 2017-07-14
+.. tags: Linux
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Linux Memory
+[[http://www.inmotionhosting.com/support/website/server-usage/linux-check-memory-usage]]
+
+- With ~free -m~ shows linux memory usage, displayed in MB instead of KB.
+  The *free* column besides buffers/cache is the actual free memory available
+  to linux
+
+- Difference between buffers and cache
+  A buffer is a temporary location to store data for a particular application
+  and this data is not used by any other application. Cache is a memory location
+  to store frequently used data for faster access.
+
+- A process memory layout
+
+  [[http://duartes.org/gustavo/blog/post/anatomy-of-a-program-in-memory/]]
+
+  [[http://static.duartes.org/img/blogPosts/linuxFlexibleAddressSpaceLayout.png]]
+
+
+* Let's Encrypt
+Using the webroot method to lets encrypt to a Nginx configuration.
+
+1. With Http only on the nginx config (disable HTTPS first if necessary)
+
+   #+BEGIN_VERSE
+    server {
+           listen 80;
+           server_name www.graceliu.uk;
+
+           location '/.well-known/acme-challenge' {
+             default_type "text/plain";
+            root /tmp/letsencrypt-auto;
+          }
+        }
+   #+END_VERSE
+
+2. Run
+   ~./letsencrypt-auto certonly -a webroot  --webroot-path=/tmp/letsencrypt-auto
+   -d www.graceliu.uk~
+
+3. Re-enable https
+
+
+* Kernel Modules: Load, Unload and Configure
+
+- Linux allows the Kernel to be configured at runtime.
+- Modules are stored in /usr/lib/modules/kernel_release. Module names
+  often use underscore (_) or dashes (-); however thoese symbols are
+  interchangeable when using *modprobe* command and in configuration
+  files in _/etc/modprobe.d_._
+- /cli/ for manipulating the kernel:
+  * *depmod*: handle dependency descriptions for loadable modules
+  * *insmod*: install loadable module
+  * *lsmod*: list loaded modules
+  * *modinfo*: display information about a kernel module
+  * *modprobe*: high level handling of loadable modules
+  * *rmmod*: unload loadable modules
+- to list the options that are set for a loaded module:
+  #+BEGIN_SRC sh
+    systool -v -m modlue_name
+  #+END_SRC
+- All necessary modules loading is handled automatically by
+  *udev*, so if you do not need to use any out-of-tree kernel modules,
+  there is no need to put modules that should be loaded at boot in any
+  configuration file.
+- Kernel modules can be explicitly loaded during boot and are
+  configured as a static list in files under
+  _/etc/modules-load.d_. Configuration files simply contain a list of
+  kernel modules names to load, separated by new newlines.
+- Manual module handling:
+  - To load a module:
+    #+BEGIN_SRC sh
+       modprobe module_name
+    #+END_SRC
+  - To load a module by filename (i.e., one that is not installed in
+    _/lib/modules/$(uname -r)_:
+    #+BEGIN_SRC sh
+       ismod filename [args]
+    #+END_SRC
+  - To unload a module:
+    #+BEGIN_SRC sh
+       modprobe -r module_name
+       # alternatively:
+       rmmod module_name
+    #+END_SRC
+- Setting module options:
+  * Manually at load time using *modprobe*:
+    #+BEGIN_SRC sh
+       modprobe module_name parameter_name=parameter_value
+    #+END_SRC
+  * Using files in _/etc/modprobe.d_. Files in this directory can be
+    used to pass module settings to *udev*, which will use *modprobe*
+    to manage the loading of modules during system boot. File in this
+    directory can have any name, given that they end with the /.conf/
+    extension. The syntax is:
+    #+BEGIN_VERSE
+       options module_name parameter_name=parameter_value
+    #+END_VERSE
+  * If the module is built into the kernel, you can pass options to
+    the module using the kernel command line. For all common
+    bootloaders, the following syntax is correct:
+    #+BEGIN_VERSE
+        module_name.parameter_name=parameter_value
+    #+END_VERSE
+- Blacklisting:
+  - Using files in _/etc/modprobe.d_:
+    #+BEGIN_VERSE
+       blacklist module_name
+    #+END_VERSE
+    The blacklist command will blacklist a module so that it will not
+    be loaded automatically, but the module may be loaded if another
+    non-blacklisted module depends on it or if it is loaded manually.
+  - Using kernel command line. _This can be very useful if a broken
+    module makes it impossible to boot your system_.
+    Simply add the following to the bootloader's kernel line:
+    #+BEGIN_VERSE
+        modprobe.blacklist=modname1,modname2,modname3
+    #+END_VERSE
+
+* Systemd targets
+*Systemd targets* are represented by /target units/. Target units end with
+the ~.target~ file extension and their only purpose is to group together
+other systemd units through a chain of dependencies.
+
+- List currently loaded target units ::
+  #+BEGIN_SRC sh
+  systemctl list-units --type target
+  #+END_SRC
+- Determine the current default target ::
+  #+BEGIN_SRC sh
+  systemctl get-default
+  #+END_SRC
+- Change the default target ::
+  #+BEGIN_SRC sh
+  systemctl set-default name.target
+  #+END_SRC
+- Change the current target ::
+  #+BEGIN_SRC sh
+  systemctl isolate name.target
+  #+END_SRC
+- Changing to different mode with systemd ::
+  | Command                  | Description                              |
+  | ~systemctl halt~         | Halts the system                         |
+  | ~systemctl poweroff~     | Powers off the system                    |
+  | ~systemctl reboot~       | Restarts the system                      |
+  | ~systemctl suspend~      | Suspends the system                      |
+  | ~systemctl hibernate~    | Hibernates the system                    |
+  | ~systemctl hybrid-sleep~ | Hibernates and suspends the system       |
+  | ~systemctl rescue~       | Enter single user no network rescue mode |
+  | ~systemctl emergency~    | Enter a minimal emergency mode           |
+- Reemote control with systemd directly::
+  #+BEGIN_SRC sh
+  systemctl --host user_name@host_name command
+  #+END_SRC
+
+* ~find~ tips
+- To remove the current directory "./" to find subdirectory in.
+  - Not only the recursion depth of find can be controlled by the
+    ~-maxdepth~ parameter, the depth can also be limited from “top”
+    using the corresponding ~-mindepth~ parameter.
+  - Example:
+    #+BEGIN_SRC sh
+    find . -mindepth 1 -type d
+    #+END_SRC
+
+* SSH running remote command.
+- It will return the exit code of the remote command.
+  #+BEGIN_SRC sh
+  ssh user@somehost today
+  echo $?
+  #+END_SRC
+  Output from the above command will be:
+  #+BEGIN_EXAMPLE
+  bash: today: command not found
+  127
+  #+END_EXAMPLE
+- However, you cannot use conditional control operator:
+  - && : Execute command only if command returns an exit status of zero.
+  - || : Execute command only if command returns an exit status of non zero.
+- When running remote command like this:
+  #+BEGIN_SRC sh
+  find . -mindepth 1 - type d | while read hostname
+  do
+    ssh $hostname /some/command/to/run.sh
+  done
+  #+END_SRC
+  This will not work cause the SSH will read the stdin
+  before the next ~read~ run.
+- To run it, need to use ~ssh -n~, It will Redirects stdin from /dev/null (actually, prevents reading
+    from stdin).
+- Read more:
+  [[https://www.cyberciti.biz/faq/linux-unix-osx-bsd-ssh-run-command-on-remote-machine-server/]]

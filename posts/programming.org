@@ -1,0 +1,378 @@
+#+BEGIN_COMMENT
+.. title: Programming Notes
+.. slug: programming-note
+.. date: 2017-07-14
+.. tags: programming
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* How does a concurrent garbage collector work
+
+[[https://blog.pusher.com/golangs-real-time-gc-in-theory-and-practice/]]
+
+In golang, its collector runs concurrently with the program. It is called
+/tricolor mark-and-sweep/ algorithm.
+
+It enables the GC to run concurrently with the program; and means that the pause
+times become a *scheduling* problem. The scheduler can be configured to only run
+GC for short periods of time, /*interleaved*/ with the program.
+
+The details of the algorithm is illustrated in link above.
+
+** Overview of the steps
+- The garbage collector assigns objects to three sets: *black*, *grey*,
+  and *white*. At the beginning of a GC cycle, all objects are put in white set;
+- Any newly created object are put in the grey set; The rule is: when a pointer
+  field is changed, the pointed-to object is coloured;
+- At the start of a GC cycle, the root objects are moved to the grey set;
+- To scan an object, the collector colours it black, and its children grey;
+  At any stage, we can count the number of moves the GC has left to do:
+  ~2*|white| + |grey|~. The collector finished when it reach zero;
+- When there is no more grey objects to scan, the white objects are unreachable,
+  and available for free;
+- Swap white and black set for the next GC cycle;
+- The GC still has to stop-the-world while scanning for root objects; however in
+  practice the pause time is <1ms for very large heaps.
+
+Low latency has costs, the most important cost is reduced /throughput/.
+Concurrency requires extra work for synchronisation and duplication, which eats
+into the time program can do useful work.
+
+** Some benchmarks
+
+| Benchmark   | Longest pause (ms) |
+| OCaml       |               2.21 |
+| Golang      |               7.01 |
+| Java 1.8    |                161 |
+| Java 1.8 G1 |                153 |
+
+Java perform very poorly compared.
+
+** Takeaway
+GC are either optimised for low latency or high throughput. It is important to
+understand the underlying GC algorithm in order to decide whether it is
+appropriate  for your use-case.
+
+* Zero-copy
+[[http://www.linuxjournal.com/article/6345]]
+** What Is Zero-Copy.
+
+Each time data traverses the user-kernel boundary, it must be copied,
+which consumes CPU cycles and memory bandwidth.
+
+To serve a file over a network socket, some sample code would looks
+like:
+
+#+BEGIN_SRC c
+read(file, tmp_buf, len);
+write(socket, tmp_buf, len);
+#+END_SRC
+
+[[http://www.ibm.com/developerworks/library/j-zerocopy/figure1.gif]]
+
+Behind those two calls, the data has been copied at least four times,
+and almost as many user/kernel context switches have been performed.
+
+File is copied from hard drive (DMA copy) to kernel buffer, then from
+kernel buffer to user buffer, then from user buffer to socket buffer,
+and DMA copy to the protocol engine.
+
+One way to eliminate a copy is to skip calling *read*, and instead
+call *mmap*:
+#+BEGIN_SRC c
+tem_buf = mmap(file, len);
+write(socket, tem_buf, len);
+#+END_SRC
+
+In this case, the context switch remain same. After the file is copied
+by DMA copy into kernel buffer, the user space buffer is shared with
+the kernel buffer.
+
+Another way is to use *sendfile* system call.
+#+BEGIN_SRC c
+sendfile(socket, file, len);
+#+END_SRC
+This cause the file contents to be copied into a kernel buffer, then
+the data is copied by the kernel into the kernel buffer associated
+with sockets.
+
+To avoid having the kernel do all the copy, *zero-copy* is supported by
+certain hardware that supports *gather* operations. This simply means
+data data awaiting transmission doesn't need to be in consecutive
+memory.
+
+With the same *sendfile* system call, supporint hardware can now avoid
+copying data from the kernel buffer to the socket buffer. Instead,
+only the descriptors with the information about the wherabouts and
+length of the data are appended to the socket buffer. And the DMA
+engine passes data directly from the kernel buffer to the protocol
+engine, thus eliminating the remaining final copy.
+
+When using zero copy, other performance benefits can be had besides
+copy avoidance, such as fewer *context switches*, less CPU data cache
+pollution and no CPU checksum calculations.
+
+** Java implementation.
+Java input streams can support zero-copy through the
+java.nio.channels. *FileChannel*'s ~transferTo()~ method if the underlying
+operating system also supports zero copy.
+
+* Memory Mapped Files
+
+As an alternative to standard file I/O, the kernel provides an
+interface that allows an application to map a file into memory,
+meaning that there is a one-to-one correspondence between a memory
+address and a word in the file. The programmer can then access the
+file directly through memory, identically to any other chunk of
+memory-resident data—it is even possible to allow writes to the memory
+region to transparently map back to the file on disk.
+
+[[https://www.safaribooksonline.com/library/view/linux-system-programming/0596009585/httpatomoreillycomsourceoreillyimages47949.png]]
+
+** The page size
+
+The page is the smallest unit of memory that can have distinct
+permissions and behavior. Consequently, the page is the building block
+of memory mappings, which in turn are the building blocks of the
+process address space.
+
+The *mmap()* system call operates on pages. Both the ~addr~ and
+~offset~ parameters must be aligned on a *page-sized boundary*. That
+is, they must be integer multiples of the page size. Mappings are,
+therefore, integer multiples of pages.
+
+If the len parameter provided by the caller is not aligned on a page
+boundary, the mapping is rounded up to the *next full page*.
+
+The bytes inside this added memory, between the last valid byte and
+the end of the mapping, are *zero-filled*.
+- Any read from that region will return zeros.
+- Any writes to that memory will not affect the backing file, even if
+  it is mapped as MAP_SHARED. Only the original len bytes are ever
+  written back to the file.
+
+** system calls relating to memory mapped files.
+- The standard POSIX method of obtaining the page size is with
+  *sysconf()*
+- Linux provides the *munmap()* system call for removing a mapping
+  created with *mmap()
+- *mremap()* system call can be used to expanding or shrinking the
+  size of a given mapping.
+- Synchronizing a File with a mapping, *msync()* is the equivalent of
+  the *fsync()*. A call to *msync()* flushes back to disk any changes
+  made to a file mapped via *mmap()*.
+
+** Advantages
+- Reading from and writing to a memory-mapped file avoids the
+  extraneous copy that occurs when using the read( ) or write( )
+  system calls, where the data must be copied to and from a user-space
+  buffer.
+- Aside from any potential page faults, reading from and writing to a
+  memory-mapped file does not incur any system call or context switch
+  overhead. It is as simple as accessing memory.
+- When multiple processes map the same object into memory, the data is
+  shared among all the processes. Read-only and shared writable
+  mappings are shared in their entirety; private writable mappings
+  have their not-yet-COW (copy-on-write) pages shared.
+- Seeking around the mapping involves trivial pointer
+  manipulations. There is no need for the lseek( ) system call.
+
+** Some discussion
+
+[[https://ayende.com/blog/162791/on-memory-mapped-files]]
+
+So the OS already knows how to evict pages from memory and store them
+on the file system, because it needs to do that for the page file.
+
+The next step is to make use of that for more than just the page
+file. So you can *map any file into your memory space*. Once that is
+done, you can access /the part of the memory you have mapped/ and the OS
+will load the relevant parts of the file to memory.
+
+The reason you want to do this sort of thing is that it gives you the
+ability to work with files as if it was memory.
+
+Probably the most important is that you don’t have to do *manual file
+I/O*. That can drastically reduce the amount of work you have to do,
+and it can also give you a pretty significant perf boost. Because the
+I/O is actually being managed by the operation system, you gain a lot
+of experience in optimizing
+
+It also make it drastically easier to do parallel I/O safely, since
+you can read/write from “memory” concurrently without having to deal
+with complex API.
+
+Disadvantages: data structures that are good in memory might not
+result in good performance if they are stored on disk.
+
+* Write-Ahead Logging
+[[https://sqlite.org/wal.html]]
+[[https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying]]
+- Sometime also called *commit logs* or *transaction logs*
+- Providing atomicity and durability (two of the ACID properties) in
+  database systems.
+
+** Logs in Databases
+- The traditional *rollback journal* works by writing a copy of the
+  original unchanged database content into a separate rollback journal
+  file and then writing changes directly into the database file.
+  - In event of a crash or *ROLLBACK*, the original content contained
+    in the rollback journal is played back to the database file to
+    revert the file to its original state.
+  - *COMMIT* occurs when the rollback journal is deleted
+- The *WAL* approach inverts the *rollback journal*'s approach.
+  - The original content is preserved in the database file and the
+    changes are appended into a *separated* WAL file.
+  - A *COMMIT* occurs when a special record indicating a commit is
+    appended to the WAL.
+  - A *COMMIT* can happen without ever writing to the original
+    database, which allows reader to continue operating from the
+    original unaltered database, while changes are simultaneously
+    being committed into the WAL.
+  - Multiple transactions can be appended to the end of a single WAL
+    file.
+- Moving the WAL file transactions back into the database is called a
+  *checkpoint*.
+  - By default, SQLite does a checkpoint automatically when the *WAL*
+    file reaches a threadshold size.
+  - Application can adjust the threshold, or
+  - Turns off the automatic checkpoints and run checkpointing
+    manually.
+- The sequence of changes that happened on the database is exactly
+  what is needed to keep a remote replica database in sync.
+  - Oracle, MySQL, and PostgreSQL include log shipping protocols to
+    transmit portions of log to replica databases which act as slaves
+  - Oracle has productized the logs as a general data subscription
+    mechanism for no-oracle data subscribers with *XStreams* and *GoldenGate*
+  - Similar facilities in MySQL and PostgreSQL are key components of
+    many data architectures.
+- Logical and Physical Logs:
+  - Logical :: logging the SQL commands that lead to the row changes
+               (insert/update/delete statements)
+  - Physical :: logging the contents of each row that is changed.
+
+** Logs in distributed systems
+- The log-centric approach to distributed systems arises from a simple
+  observation that I will call the State Machine Replication
+  Principle
+  #+BEGIN_QUOTE
+    If two identical, deterministic processes begin in the same state
+    and get the same inputs in the same order, they will produce the
+    same output and end in the same state.
+  #+END_QUOTE
+- You can reduce the problem of making multiple machines all do the
+  same thing to the problem of implementing a distributed consistent
+  log to feed these processes input.
+- The timestamps that index the log now act as the clock for the state of the
+  replicas
+  - you can describe /each replica by a single number/, the timestamp
+    for the maximum log entry it has processed.
+  - This timestamp combined with the log uniquely captures the entire
+    *state of the replica*.
+- There are *two broad approaches* to processing and replication:
+  [[https://content.linkedin.com/content/dam/engineering/en-us/blog/migrated/active_and_passive_arch.png]]
+  - state machine model ::  *active-active* model where we keep a log
+       of the incoming requests and *each replica* processes each
+       request.
+  - primary-backup model :: to elect one replica as the leader
+    - Allow this *leader* to *process* requests in the order they
+      arrive and /log out the changes/ to its state from processing
+      the requests.
+    - The other replicas apply in order the state changes the leader
+      makes so that they will be in sync and ready to take over as
+      leader should the leader fail.
+- You can see tables and events as dual: tables support *data at rest*
+  and logs *capture change*.
+  - The log, if it is a complete log of changes, holds not only the
+    contents of the *final version of the table*, but also allows
+    recreating all other versions that might have existed.
+  - It is, effectively, a sort of backup of every previous
+    state of the table.
+
+* TODO finishing reading blog
+** File system journaling
+- File systems typically use a variant of *WAL* for at least file system
+  *metadata* called journaling.
+- Updating file systems to reflect changes to files and directories
+  usually requires many separate write operations. For example,
+  to deleting a file on a Unix file system:
+  1. Removing its directory entry.
+  2. Releasing the inode to the pool of free inodes.
+  3. Returning any blocks used to the pool of free disk blocks
+- If there is crash between the steps, there will inconsistencies in
+  the file system.
+  - tools such as *fsck* is used to detect/recovering such erros.
+  - normally requires a complete working of its data structures.
+- To prevent this, a journaled file system allocates a special
+  area—the journal—in which it records the changes it will make ahead
+  of time.
+
+
+* Programming Tips
+** A simple state machine implementation
+ Using Java enum. Enum's ordinal value default to start with 0.
+
+ #+BEGIN_SRC java
+   private volatile State state = State.CREATED;
+
+   public enum State {
+       CREATED(1, 2, 3), RUNNING(2, 3), REBALANCING(1, 2, 3), PENDING_SHUTDOWN(4), NOT_RUNNING;
+
+       private final Set<Integer> validTransitions = new HashSet<>();
+
+       State(final Integer... validTransitions) {
+           this.validTransitions.addAll(Arrays.asList(validTransitions));
+       }
+
+       public boolean isRunning() {
+           return equals(RUNNING) || equals(REBALANCING);
+       }
+       public boolean isCreatedOrRunning() {
+           return isRunning() || equals(CREATED);
+       }
+       public boolean isValidTransition(final State newState) {
+           return validTransitions.contains(newState.ordinal());
+       }
+   }
+ #+END_SRC
+
+ - JDK has a ~java.util.UUID~ for generating UUID.
+
+** Scala call by value vs call by name
+ #+BEGIN_SRC scala
+ def f(x: R)   // call-by-value
+ def f(x: => R)  // call-by-name (lazy parameters)
+ #+END_SRC
+
+ - Call-by-value functions compute the passed-in expression's value
+   before calling the function, thus the same value is accessed every
+   time.
+ - However, call-by-name functions recompute the passed-in expression's
+   value *every time* it is accessed inside the function.
+ - ~=> Int~ is a different type from ~Int~; it's /*function of no
+   arguments* that will generate an Int/ vs /just Int/.
+
+** Scala's inner classes
+ [[http://docs.scala-lang.org/tutorials/tour/inner-classes.html]]
+
+** Java's FileLock
+ ~java.nio.channels.FileLock~ provides lock based on a file.
+ *FileLock* is a token representing a lock on a region of a file. A
+ file lock is either *exclusive* or *shared*.
+
+ #+BEGIN_SRC scala
+ private val channel = new RandomAccessFile(file, "rw").getChannel()
+ val flock = channel.lock()
+ // or
+ val flock = channel.tryLock()
+ // or to lock a region
+ val flock = lock(position, size, shared)
+ //to unlock:
+ flock.release()
+ #+END_SRC
+
+ Directory can be locked using some lock file, for example a file
+ postfixed with /.lock/ of the /directory name/.

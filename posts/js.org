@@ -1,0 +1,131 @@
+#+BEGIN_COMMENT
+.. title: Javascript Notes
+.. slug: javascript-note
+.. date: 2017-07-14
+.. tags: javascript
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* async / await
+
+Using ~async/await~  is able to write code that runs asynchronously, but
+looks /synchronous/.
+
+Since typescript 2.1, it able to compile down ~async/await~ to ES3/ES5
+without using any other tools.
+
+[[https://ponyfoo.com/articles/understanding-javascript-async-await]]
+
+- ~await~ may only be used in functions marked with ~async~ keywords. It suspends
+  execution in your context until the promise settles. If the awaited expression
+  isn't a promise, it is casted into a promise.
+  #+BEGIN_SRC js
+    read();
+
+    async function read () {
+        var html = await getRandomPonyFooArticle();
+        var md = hget(html, {
+            markdown: true,
+            root: 'main',
+            ignore: '.at-subscribe,.mm-comments,.de-sidebar'
+        });
+        var txt = marked(md, {
+            renderer: new Term()
+        });
+        console.log(txt);
+    }
+  #+END_SRC
+- Keep in mind that you should wrap ~await~ in try / catch so that you can
+  capture and handle errors in awaited promises from within the async function.
+- An ~async~ function always returns a Promise. That promise is rejected in the
+  case of uncaught exceptions, and it is otherwise resolved to the return
+  value of the ~async~ function. This enables us to invoke an ~async~ function
+  and mix that with regular promise-based continuation.
+  #+BEGIN_SRC js
+    async function asyncFun () {
+        var value = await Promise
+            .resolve(1)
+            .then(x => x * )
+        return value;
+    }
+    asyncFun().then(x => console.log(`x: ${x}`));
+    // <- 'x: 4'
+  #+END_SRC
+
+** Error handling
+   - Errors are swallowed "silently" within an ~async~ function. Unless we add
+     ~try / catch~ blocks around await expressions, uncaught exceptions will
+     reject the promise returned by ~async~ function.
+
+
+* *setInverval* and without delay:
+[[
+http://stackoverflow.com/questions/6685396/execute-the-setinterval-function-without-delay-the-first-time]]
+
+- It is simplest to just call the function directly the first time,
+  like:
+  #+BEGIN_SRC js
+  foo();
+  setInterval(foo, delay);
+  #+END_SRC
+- *setInterval* isn't very reliable and better to avoid:
+  - In particular circumstances a whole load of *setInterval* events
+    can arrive immediately after each other without any delay.
+  - Need to remember the handler to cancel using ~clearInterval~.
+  -
+- An alternative is to use ~setTimeout~:
+  #+BEGIN_SRC js
+    function foo (){
+        //do stuff for foo.
+        setTimeout(foo, delay);
+    }
+    foo();
+  #+END_SRC
+- The above approach /ensures that timer events don't *STACK* if they are left
+  unprocessed/.
+
+* Why JSON.stringify doesn't work on native Error object
+[[http://stackoverflow.com/questions/18391212/is-it-not-possible-to-stringify-an-error-using-json-stringify]]
+- The reason why it doesn't work is the Error object's properties are
+  defined as 'enumerable: false':
+  #+BEGIN_SRC javascript
+    var error = new Error('simple error message');
+    var propertyNames = Object.getOwnPropertyNames(error);
+    var descriptor;
+    for (var property, i = 0, len = propertyNames.length; i < len; ++i) {
+        property = propertyNames[i];
+        descriptor = Object.getOwnPropertyDescriptor(error, property);
+        console.log(property, descriptor);
+    }
+  #+END_SRC
+  The output from this shows that:
+  #+BEGIN_VERSE
+  stack { get: [Function],
+    set: [Function],
+    enumerable: false,
+    configurable: true }
+  arguments { value: undefined,
+    writable: true,
+    enumerable: false,
+    configurable: true }
+  type { value: undefined,
+    writable: true,
+    enumerable: false,
+    configurable: true }
+  message { value: 'simple error message',
+    writable: true,
+    enumerable: false,
+    configurable: true }
+  #+END_VERSE
+- ~JSON.stringify()~ can accept an array of String and Number objects
+  that serve as a whiltelist for selecting/filtering the properties of
+  the value object to be included in the JSON string
+  #+BEGIN_SRC javascript
+  var error  = new Error("some simple error object")
+  JSON.stringify(error, Object.getOwnPropertyNames(error));
+  #+END_SRC
+  This will print out the Error object's properties as intended.
