@@ -1,5 +1,0 @@
-* TCP Connection
-
-  - *Path MTU* is the minimum MTU on any network segment that is currently /in the path between two hosts/. It helps
-    protocols like TCP to avoid /fragmentation/.
-  -
