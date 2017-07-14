@@ -11,54 +11,54 @@
 
 * Bash array and its loop
 - declare an array
-#+BEGIN_SRC sh
+  #+BEGIN_SRC sh
   files=( "/etc/passwd" "/etc/group" "/etc/hosts" )
   limits=( 10, 20, 26, 39, 48)
-#+END_SRC
+  #+END_SRC
 - array can also be created automatically when a variable is used in
   the format like:
-#+BEGIN_SRC sh
+  #+BEGIN_SRC sh
   name[index]=value
-#+END_SRC
+  #+END_SRC
 - loop through array values
-#+BEGIN_SRC sh
+  #+BEGIN_SRC sh
   for i in "${arrayName[@]}"
   do
      echo $i
   done
-#+END_SRC
+  #+END_SRC
   the syntax for array with [@] print out the whole array.
 - get the length of an array with ~${#array[@]}~
-#+BEGIN_SRC sh
+  #+BEGIN_SRC sh
   declare -a Unix=('Debian' 'Red hat' 'Suse' 'Fedora');
   echo ${#Unix[@]} #Number of elements in the array
   echo ${#Unix}  #Number of characters in the first element of the array.i.e Debian
-#+END_SRC
+  #+END_SRC
 - get a subarray with ~${array[@]:3:2}~
-#+BEGIN_SRC sh
+  #+BEGIN_SRC sh
   Unix=('Debian' 'Ubuntu' 'Fedora' 'UTS' 'OpenLinux');
   echo ${Unix[@]:3:2}
-#+END_SRC
+  #+END_SRC
 - add an element to an existing array:
-#+BEGIN_SRC sh
+  #+BEGIN_SRC sh
   Unix=('Debian' 'Red hat'  'Fedora' 'UTS' 'OpenLinux');
   Unix=("${Unix[@]}" "AIX" "HP-UX")
-#+END_SRC
+  #+END_SRC
 - contact two arrays:
-#+BEGIN_SRC sh
+  #+BEGIN_SRC sh
   Unix=('Debian' 'Red hat' 'Ubuntu'  'UTS' 'OpenLinux');
   Shell=('bash' 'csh' 'jsh' 'rc' 'tcsh');
   UnixShell=("${Unix[@]}" "${Shell[@]}")
   # alternatively, to append the second array to the first
   Unix+=Shell
-#+END_SRC
+  #+END_SRC
 - remove an element from an array using subarray and contact
 - unset can be used to delete an entire array
 - bash also support *associated arrays*:
-#+BEGIN_SRC sh
+  #+BEGIN_SRC sh
   declare -A ARRAY # declar an associate array.
   ARRAY[STRING]=VALUE
-#+END_SRC
+  #+END_SRC
 
 * Using ~trap~
 - *trap [COMMANDS] [SIGNALS]*: this instructs the *trap* command to
