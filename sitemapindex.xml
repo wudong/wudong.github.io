@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://example.com/categories/agile-study.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/algorithm.xml</loc>
@@ -16,6 +16,10 @@
  <sitemap>
   <loc>https://example.com/categories/angular-javascript.xml</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/angular.xml</loc>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/bash.xml</loc>
@@ -27,7 +31,7 @@
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/cat_notes.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T20:58:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/coding-algorithm.xml</loc>
@@ -36,6 +40,10 @@
  <sitemap>
   <loc>https://example.com/categories/design-pattern.xml</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/design.xml</loc>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/emacs.xml</loc>
@@ -59,7 +67,7 @@
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/javascript.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T20:58:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/linux.xml</loc>
@@ -68,6 +76,10 @@
  <sitemap>
   <loc>https://example.com/categories/microservice.xml</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/pattern.xml</loc>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/php.xml</loc>
@@ -87,7 +99,7 @@
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/solr.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/zookeeper.xml</loc>
@@ -95,14 +107,14 @@
  </sitemap>
  <sitemap>
   <loc>https://example.com/galleries/rss.xml</loc>
-  <lastmod>2017-07-14T15:52:00Z</lastmod>
+  <lastmod>2017-07-14T21:01:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/rss.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T20:58:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/sitemap.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T21:01:00Z</lastmod>
  </sitemap>
 </sitemapindex>

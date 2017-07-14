@@ -15,11 +15,11 @@
  </url>
  <url>
   <loc>https://example.com/archive.html</loc>
-  <lastmod>2017-07-14T20:14:00Z</lastmod>
+  <lastmod>2017-07-14T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/agile-study/</loc>
@@ -32,6 +32,10 @@
  <url>
   <loc>https://example.com/categories/angular-javascript/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/angular/</loc>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/bash/</loc>
@@ -52,6 +56,10 @@
  <url>
   <loc>https://example.com/categories/design-pattern/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/design/</loc>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/emacs/</loc>
@@ -86,6 +94,10 @@
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
+  <loc>https://example.com/categories/pattern/</loc>
+  <lastmod>2017-07-14T20:57:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://example.com/categories/php/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
@@ -115,11 +127,11 @@
  </url>
  <url>
   <loc>https://example.com/index-1.html</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/index-2.html</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-14T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/listings/</loc>

@@ -2,8 +2,8 @@
 .. title: Design Pattern Note
 .. slug: design-pattern
 .. date: 2017-07-14
-.. tags: design pattern
-.. category: Note
+.. tags: design, pattern
+.. category: Notes
 .. link:
 .. description:
 .. type: text

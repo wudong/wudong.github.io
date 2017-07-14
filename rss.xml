@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu</title><link>https://example.com/</link><description>This is a demo site for Nikola.</description><atom:link href="https://example.com/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Jul 2017 20:53:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>agile</title><link>https://example.com/posts/agile-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu</title><link>https://example.com/</link><description>This is a demo site for Nikola.</description><atom:link href="https://example.com/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Jul 2017 21:05:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Agile Note</title><link>https://example.com/posts/agile-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Practices of an Agile Developer&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;
@@ -75,7 +75,7 @@ about it.
 
 &lt;div id="outline-container-sec-2" class="outline-2"&gt;
 &lt;h2 id="sec-2"&gt;Restrospective&lt;/h2&gt;
-&lt;/div&gt;</description><category>agile study</category><guid>https://example.com/posts/agile-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Angular 2 Notes</title><link>https://example.com/posts/angular-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>agile study</category><guid>https://example.com/posts/agile-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Angular 2 Note</title><link>https://example.com/posts/angular-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Modules (NgModule)&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;
@@ -211,27 +211,21 @@ should emulate such calls, for example, with &lt;b&gt;Jasmine&lt;/b&gt; spy:
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>angular javascript</category><guid>https://example.com/posts/angular-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Bash Note</title><link>https://example.com/posts/Bash-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>angular</category><category>javascript</category><guid>https://example.com/posts/angular-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Bash Note</title><link>https://example.com/posts/Bash-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Bash array and its loop&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;declare an array
-&lt;/li&gt;
-&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;files&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt; &lt;span class="s2"&gt;"/etc/passwd"&lt;/span&gt; &lt;span class="s2"&gt;"/etc/group"&lt;/span&gt; &lt;span class="s2"&gt;"/etc/hosts"&lt;/span&gt; &lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="nv"&gt;limits&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt; &lt;span class="m"&gt;10&lt;/span&gt;, &lt;span class="m"&gt;20&lt;/span&gt;, &lt;span class="m"&gt;26&lt;/span&gt;, &lt;span class="m"&gt;39&lt;/span&gt;, &lt;span class="m"&gt;48&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="org-ul"&gt;
+&lt;/li&gt;
 &lt;li&gt;array can also be created automatically when a variable is used in
 the format like:
-&lt;/li&gt;
-&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;name&lt;span class="o"&gt;[&lt;/span&gt;index&lt;span class="o"&gt;]=&lt;/span&gt;value
 &lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;loop through array values
 &lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;loop through array values
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; i in &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arrayName&lt;/span&gt;&lt;span class="p"&gt;[@]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;
 &lt;span class="k"&gt;do&lt;/span&gt;
    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="nv"&gt;$i&lt;/span&gt;
@@ -240,49 +234,41 @@ the format like:
 &lt;p&gt;
 the syntax for array with [@] print out the whole array.
 &lt;/p&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;get the length of an array with &lt;code&gt;${#array[@]}&lt;/code&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;get the length of an array with &lt;code&gt;${#array[@]}&lt;/code&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s1"&gt;'Debian'&lt;/span&gt; &lt;span class="s1"&gt;'Red hat'&lt;/span&gt; &lt;span class="s1"&gt;'Suse'&lt;/span&gt; &lt;span class="s1"&gt;'Fedora'&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${#&lt;/span&gt;&lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="p"&gt;[@]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="c1"&gt;#Number of elements in the array&lt;/span&gt;
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${#&lt;/span&gt;&lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;  &lt;span class="c1"&gt;#Number of characters in the first element of the array.i.e Debian&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;get a subarray with &lt;code&gt;${array[@]:3:2}&lt;/code&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;get a subarray with &lt;code&gt;${array[@]:3:2}&lt;/code&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s1"&gt;'Debian'&lt;/span&gt; &lt;span class="s1"&gt;'Ubuntu'&lt;/span&gt; &lt;span class="s1"&gt;'Fedora'&lt;/span&gt; &lt;span class="s1"&gt;'UTS'&lt;/span&gt; &lt;span class="s1"&gt;'OpenLinux'&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="p"&gt;[@]:&lt;/span&gt;&lt;span class="nv"&gt;3&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;add an element to an existing array:
 &lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;add an element to an existing array:
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s1"&gt;'Debian'&lt;/span&gt; &lt;span class="s1"&gt;'Red hat'&lt;/span&gt;  &lt;span class="s1"&gt;'Fedora'&lt;/span&gt; &lt;span class="s1"&gt;'UTS'&lt;/span&gt; &lt;span class="s1"&gt;'OpenLinux'&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="p"&gt;[@]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="s2"&gt;"AIX"&lt;/span&gt; &lt;span class="s2"&gt;"HP-UX"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="org-ul"&gt;
-&lt;li&gt;contact two arrays:
 &lt;/li&gt;
-&lt;/ul&gt;
+&lt;li&gt;contact two arrays:
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s1"&gt;'Debian'&lt;/span&gt; &lt;span class="s1"&gt;'Red hat'&lt;/span&gt; &lt;span class="s1"&gt;'Ubuntu'&lt;/span&gt;  &lt;span class="s1"&gt;'UTS'&lt;/span&gt; &lt;span class="s1"&gt;'OpenLinux'&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="nv"&gt;Shell&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s1"&gt;'bash'&lt;/span&gt; &lt;span class="s1"&gt;'csh'&lt;/span&gt; &lt;span class="s1"&gt;'jsh'&lt;/span&gt; &lt;span class="s1"&gt;'rc'&lt;/span&gt; &lt;span class="s1"&gt;'tcsh'&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="nv"&gt;UnixShell&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="p"&gt;[@]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;Shell&lt;/span&gt;&lt;span class="p"&gt;[@]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="c1"&gt;# alternatively, to append the second array to the first&lt;/span&gt;
 &lt;span class="nv"&gt;Unix&lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;Shell
 &lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="org-ul"&gt;
+&lt;/li&gt;
 &lt;li&gt;remove an element from an array using subarray and contact
 &lt;/li&gt;
 &lt;li&gt;unset can be used to delete an entire array
 &lt;/li&gt;
 &lt;li&gt;bash also support &lt;b&gt;associated arrays&lt;/b&gt;:
-&lt;/li&gt;
-&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;declare&lt;/span&gt; -A ARRAY &lt;span class="c1"&gt;# declar an associate array.&lt;/span&gt;
 ARRAY&lt;span class="o"&gt;[&lt;/span&gt;STRING&lt;span class="o"&gt;]=&lt;/span&gt;VALUE
 &lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 
@@ -391,11 +377,8 @@ has value smaller than &lt;code&gt;x&lt;/code&gt; comes before the those larger 
 
 &lt;li&gt;
 &lt;/li&gt;&lt;/ul&gt;</description><category>coding algorithm</category><guid>https://example.com/posts/coding-questions/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Solr Note</title><link>https://example.com/posts/solr-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
-&lt;h2 id="sec-1"&gt;Note on Solr Cloud&lt;/h2&gt;
+&lt;h2 id="sec-1"&gt;ZooKeepers used for SolrCloud&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
-&lt;/div&gt;&lt;div id="outline-container-sec-1-1" class="outline-3"&gt;
-&lt;h3 id="sec-1-1"&gt;ZooKeepers used for SolrCloud&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-1-1"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;The main principle for a ZooKeeper ensemble is maintaining a
 majority of servers to serve request. This majority is also called a
@@ -447,9 +430,9 @@ ZooKeeper when the changes.
 &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;div id="outline-container-sec-1-2" class="outline-3"&gt;
-&lt;h3 id="sec-1-2"&gt;SolrCloud Concepts&lt;/h3&gt;
-&lt;div class="outline-text-3" id="text-1-2"&gt;
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;SolrCloud Concepts&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;b&gt;Core&lt;/b&gt; has multiple meaning:
 &lt;ul class="org-ul"&gt;
@@ -518,7 +501,6 @@ down.
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;</description><category>solr</category><guid>https://example.com/posts/solr-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>ZooKeeper Note</title><link>https://example.com/posts/zookeeper-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Note on ZooKeeper&lt;/h2&gt;
@@ -1236,7 +1218,7 @@ invocation and a scheduler for handling requests.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>design pattern</category><guid>https://example.com/posts/design-pattern/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Emacs Note</title><link>https://example.com/posts/emacs-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>design</category><category>pattern</category><guid>https://example.com/posts/design-pattern/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Emacs Note</title><link>https://example.com/posts/emacs-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Emacs Notes&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;

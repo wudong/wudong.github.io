@@ -9,9 +9,7 @@
 .. type: text
 #+END_COMMENT
 
-* Note on Solr Cloud
-
-** ZooKeepers used for SolrCloud
+* ZooKeepers used for SolrCloud
 - The main principle for a ZooKeeper ensemble is maintaining a
   majority of servers to serve request. This majority is also called a
   *quorum*.
@@ -39,7 +37,7 @@
     ZooKeeper when the changes.
   - And reload the collection.
 
-** SolrCloud Concepts
+* SolrCloud Concepts
 - *Core* has multiple meaning:
   - In stand-alone Solr instance, a core corresponds to a
     logical/physical index.

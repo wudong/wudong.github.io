@@ -1,5 +1,5 @@
 #+BEGIN_COMMENT
-.. title: Javascript Notes
+.. title: Javascript Note
 .. slug: javascript-note
 .. date: 2017-07-14
 .. tags: javascript
