@@ -1,0 +1,40 @@
+#+BEGIN_COMMENT
+.. title: SOA Patterns
+.. slug: soa-patterns
+.. date: 2017-07-15
+.. tags: soa, patterns
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Solving SOA pains with patterns
+- Defining software architecutre:
+  - Software architecture is the collection of fundamental decisions
+    about a software product or solution designed to meet the
+    project's quality attributes (the architectural requirements).
+  - The architecture includes the main components, their main
+    attributes, and their collaboration to meet the quality attributes.
+  - Arehitecture can, and usually should, be expressed in several
+    levels of abstraction, where the number of levels depends on the
+    project's size and complexity.
+- Some comments about software architecture:
+  - Architecture represents the set of earliest design decisions that
+    are both hardest to change and most critical to get right.
+  - Architecture is an attribute of every system.
+  - Architecture breaks a system into components and sets boundaries.
+  - Architecture is about relationships and component interactions.
+  - Architecture explains the retionale behind the choices. Also it
+    can be benefical to understand what alternatives were weighed and
+    abandoned.
+- The unit of communicationin SOA is the ~message~.
+  - RPC often requires the caller to have intimate knowledge of the
+    other system's implementation details. With messaging, this isn't
+    the case.
+  - Messages have both a header and a body (the payload).
+  - Messages can come in may different forms:
+    - HTTP GET messages,
+    - Simple Object Access Protocol (SOAP) messages,
+    - Java Message Service (JMS) messages,
+    - Simple Mail Transfer Protocol (SMTP) messages.

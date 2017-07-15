@@ -1,0 +1,45 @@
+#+BEGIN_COMMENT
+.. title: Domain Driven Design in Practise
+.. slug: domain-driven-design
+.. date: 2017-07-15
+.. tags: ddd
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Domain Driven Design
+
+- Types of equality
+  - Reference: same address in memory
+  - Structural: all of their members match
+  - Identifier: id field
+- Entity vs Value Object
+  - Entity : Identifier and Reference equality
+  - Value Object: Structural and Reference equality
+  - Entity: each has its own identity, while value object doesn't have
+    a id field.
+  - Value object can be treated interchangeably.
+  - Value object should be immutable, Entity are almost always
+    mutable.
+  - Lifespan
+    - Value object should always belong to Entity object.
+    - There should be at lease one entity that owns a value object.
+    - Value object doesn't have their own table in the database.
+- An concept can be a value object in one domain model but an entity
+  in another domain.
+- Prefer value objects to entities
+  - Value objects are light-weight, easy to work with.
+  - *Most* of the business logic should be /captured in value object/,
+  - Entity are acts as *wrapper* for value object and provider
+    high level business logic.
+- Entity Base class
+  - Having an interface as an entity base class is most of time a bad idea.
+  - Interface cannot have logic, which will introduce code
+    duplication.
+  - Interface introduce a *can-do* relationship while class
+    inheritance introduce a *is-a*  relationship.
+  - Using abstract base class for entity base class and implements
+    some common function for id and equality.
+- Value object base class

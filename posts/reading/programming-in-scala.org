@@ -1,0 +1,464 @@
+#+BEGIN_COMMENT
+.. title: Programming in scala
+.. slug: programming-in-scala
+.. date: 2017-07-15
+.. tags: scala
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+
+* Function
+
+- Define function:
+  #+BEGIN_SRC scala
+  def max(x: Int, y: Int): Int = {
+     if (x>y) x
+     else y
+  }
+  #+END_SRC
+- If a function consists of just one statement, the curly braces can
+  be omitted.
+  #+BEGIN_SRC scala
+  def max2(x: Int, y: Int) = if (x>y) x else y
+  #+END_SRC
+- Scala's Unit type is similar to Java's void type.
+- Functions are first class constructs; for example:
+  #+BEGIN_SRC scala
+  args.foreach(arg => println(arg))
+  #+END_SRC
+  In this case, a function literal that take one parameter named ~arg~
+  is passed in; the body of the function is ~println(arg)~.
+- In the above example, Scala infers the type of arg to be String,
+  since String is the element type of the array on which you are
+  calling foreach. but you can also do more explicitly:
+  #+BEGIN_SRC scala
+  args.foreach((arg: String) => println(arg))
+  #+END_SRC
+- If a function literal consists of one statement that takes a single
+  argument, you dont need to explicitly name and specify the argument. Thus
+  the following code also works:
+  #+BEGIN_SRC scala
+  args.foreach(println)
+  #+END_SRC
+- The traditional for loop can be written as like:
+  #+BEGIN_SRC scala
+  for (arg <- args) println(arg)
+  #+END_SRC
+  the arg to the left of <- is a val, not a var: arg can't be
+  reassigned inside the body of the for expression.
+- The generic in scala:
+  #+BEGIN_SRC scala
+  val greetingStrings = new Array[String](3)
+  #+END_SRC
+  and to access the array content using parentheses, not square
+  brackets as in Java:
+  #+BEGIN_SRC scala
+  greetStrings(0) = "Hello"
+  #+END_SRC
+  The for expression that access the array:
+  #+BEGIN_SRC scala
+  for (i <- 0 to 2) print(grentStrings(0))
+  #+END_SRC
+- As a *general rule* in scala:  if a method takes only one parameter,
+  you can call it without a dot or a parentheses. In the above example
+  the ~to~ in is actually a method that takes one Int argument. thus 0 to
+  2 is actually a method call ~(0).to(2)~.
+- Note that this syntax only works if you explicitly specify the
+  receiver of the method call. You cannot write ~println 10~, but you
+  can write ~Console println 10~.
+- Scala doesn't technically have operator overloading, because it
+  doesn't actually have operators in the traditional sense. Instead,
+  characters such as +, -, * and / can be used in method names.
+- When you *apply parentheses* surrounding one or more values to a
+  variable, Scala will transform the code into an invocation of a
+  method named ~apply~ on that variable. So ~greetStrings(i)~ gets
+  transformed into ~greetStrings.apply(i)~. Thus accessing an element of
+  an array in Scala is /simply a method/ call like any other.
+- Similarly, when an assignment is made to a variable to which
+  *parentheses and one more arguments* have been applied, the compiler
+  will transform that into an invocation of an ~update~ method. Thus 
+  ~greetString(0) = 1~ is transformed into: ~greetStrings.update(0, 1)~
+- To create and initialise arrays more easily:
+  #+BEGIN_SRC scala
+  val numNames = Array("zero", "one", "two")
+  #+END_SRC
+  In this case, Scala will actually call a *factory method*, named
+  ~apply~, on Array type.
+- Scala's array is a *mutable* sequence of objects that all share the
+  same type. Array[String] contains only strings; Although you can't
+  change the length of an array, you can change its element values. 
+- For an immutable sequence of objects that share the same type, you
+  can use Scala's List class. ~scala.List~, differs from Java's
+  java.util.List type in that Scala Lists are always *immutable*, in a
+  sense that, when you call a method on a list that might seem by its
+  name to imply the list will mutate, _it instead creates and returns a
+  new list with the new value_.
+- If a method is used in operator notation, such as ~a*b~, the method is
+  invoked on the left operand, as in ~a.*(b)~, unless the method name
+  ends in a *colon*, where the method is invoked on the right operand.
+- Scala's List can contains only same type elements, while *tuple* can
+  contains different types. To instantiate a new tuple that holds some
+  objects:
+  #+BEGIN_SRC scala
+  val pair = (99, "Lu")
+  println(pair._1)
+  #+END_SRC
+  Scala infers the type of the tuple to be Tuple2[Int, String] and
+  gives that type to variable pair. Note that these -N numbers
+  function to /access the element of a tuple/ is *1* based,  instead of
+  zero-based.
+- When dealing with map:
+  #+BEGIN_SRC scala
+  val treasureMap = Map[Int, String] ()
+  treasuremap +=  (1 -> "Go to island.")
+  #+END_SRC
+  the method ~->~ can be applied on any object in scala, which will
+  produce a *two element tuple*.
+- Both ~set~ and ~map~ in Scala have mutable version and immutable
+  version, which resides in different package. When no import is used,
+  Scala will choose to use the immutable version.
+- One telltale sign is that if code contains any vars, it is probably
+  in an imperative style. Thus one way to move towards a functional
+  style, is to try to program without vars. The reason Scala
+  encourages a functional style, in fact, is that the functional style
+  can help you write more understandable, less error-prone
+- Another telltale sign of a function with side effects is that its
+  result type is Unit.
+- One important characteristic of method parameters in Scala is that
+  they are vals, not vars. so you cannot reassign a parameter inside a
+  method in Scala.
+- The recommended style for methods is to avoid having explicit, and
+  especially multiple, return statement. Instead, think of _each method
+  as an expression that yields one value, which is returned_. This
+  philosophy will encourage you to *make methods quite small*, to factor
+  large methods into multiple smaller ones.
+- Methods with a result type of ~Unit~, are executed for their side
+  affects. Another way to express such methods is to leave off the
+  result type and the equals sign, and enclose the body of the method
+  in curly braces. In this form, the method looks like a
+  procedure. For example:
+  #+BEGIN_SRC scala
+  def add(b: Byte) {sum +=b}
+  #+END_SRC
+  Whenever you leave off the equals sign before the body of a
+  function, its /result type will definitely be ~Unit~/. This is true no
+  matter what the body contains, because Scala can/will convert any
+  type to Unit.
+- Scala includes a special syntax for *raw strings*, which is started
+  and ended with three double quotation marks in a row. Inside a raw
+  string, | (pipe) at the front of each line and then a method
+  stripMargin can be called to remove the white space.
+- Whenever you call a method that takes multiple arguments using
+  operator notation, you have to place those arguments in
+  parentheses. For example:
+  #+BEGIN_SRC scala
+  s indexOf ('o', 5)
+  #+END_SRC
+- *Prefix operators* are a shorthand way of invoking methods. In this
+  case, the name of the method has *unary_* pretended to the operator
+  character. For example, ~-2.0~ will be translated to
+  ~(2.0).unary_-~. The /only identifiers/ that can be used as prefix
+  operators are *+, -, ! and ~*.
+- *Postfix operators* are methods take no arguments, when they are
+  _invoked without a dot or parentheses_.
+- In scala, you can also leave off empty parentheses on method
+  calls. The /convention/ is that you _include parentheses if the mouthed
+  has side effects_, such as ~println()~, but you can _leave them off if
+  the method has no side effects_, such as ~toLowerCase~ invoked on a
+  String.
+- Any method that ends in a ":" character is invoked on its right
+  operand, passing in the left operand. 
+
+* Class and Trait
+- *Object equality* is compared with ~==~ or ~!=~. To comparing *reference
+  equality*, use method ~eq~ and ~ne~. However, eq and ne only apply to
+  objects that directly map to Java objects.
+- When a *singleton* object shares the same name with a class, it is
+  called that class's /companion object/; and you must define both the
+  class and its companion object /in the same source file/. _A class and
+  its companion object can assess each other's private members_.
+- Ond difference between classes and singleton objects is that
+  singleton objects cannot take parameters, cause you can't
+  instantiate a single object with the new keyword. 
+- Each singleton object is implemented as an instance of a synthetic
+  class referenced from a static variable, so they have the same
+  initialisation semantics as java statics. In particular, a singleton
+  object is initialised the first time some code access it. 
+- Scala implicitly imports members of packages ~java.lang~ and ~scala~, as
+  well as the member of a singleton object named *~Predef~*.
+- If a class doesn't have a body, u don't need to specify empty curly
+  braces. The identifiers in the parentheses after the class name are
+  called *class parameters*. Scala compiler will gather up these
+  class parameters and create a *primary constructor* that takes the
+  same two parameters. For example:
+  #+BEGIN_SRC scala
+  class Rational(n: Int, d: Int)
+  #+END_SRC
+  class parameters can be used directly in the body of the class.
+- The scala compiler will compile any code you place in the class
+  body, _which isn't part of a field or a method definition_, into the
+  *primary constructor*.
+- To override a method:
+  #+BEGIN_SRC scala
+  override def toString = n +"/" _d
+  #+END_SRC
+- Check preconditions, using ~require~:
+  #+BEGIN_SRC scala
+  require (d!=0)
+  #+END_SRC
+  ~IllegalArgumentException~ will be raised when the condition fail.
+- Class parameters can only be access by ~this~ object.
+- In scala, constructors other than the primary constructor are called
+  *auxiliary constructors*, and it is defined like: 
+  #+BEGIN_SRC scala
+  def this(n: Int)  = this(n, 1) 
+  #+END_SRC
+- Scala can do implicit conversion of type by:
+  #+BEGIN_SRC scala
+  implicit def intToRational(x: Int) = new Rational(x)
+  #+END_SRC
+  Note that for an implicit conversion to work, it needs to be in
+  scape. if the implicit method definition inside class Rational, it
+  won't be in scope in the interpreter.
+- Scala's control structures are ~if~, ~while~, ~for~, ~try~, ~match~ and
+  ~function calls~. /Almost all Scala's control structures result in some
+  value/. 
+- The ~while~ and ~do-while~ constructs are called "loops", not
+  expressions, because /they don't result in an interesting value/. The
+  type of result is *Unit*. Only one value exists for type Unit, it is
+  called unit value and is written *()*. /The exists of () is how Scala's
+  Unit different from Java's void/. 
+- While in Java, /assignment results in the value assigned/, in Scala
+  *assignment always results in unit value ()*. Thus for example this
+  bit of code won't work:
+  #+BEGIN_SRC scala
+  while ((line = readLine()) !="") println (line)
+  #+END_SRC
+  It will cause infinite loop; cause any thing compared with a () will
+  result in true.
+- for expression with a filter:
+  #+BEGIN_SRC scala
+  for (file <- filesHere if file.getName.endsWith(".scala")) println(file)
+  #+END_SRC
+  more than one filters can be includes. 
+- for expression can have more than one <- to get nested "loops". 
+  #+BEGIN_SRC scala
+  for (file <- filesHere if file.getName.endsWith(".scala");
+      line<-fileLines(file) if line.trim.matches(pattern)) ..
+  #+END_SRC
+- Mid-stream variable bindings in for expression:
+  #+BEGIN_SRC scala
+  for {
+   file<-filesHere if file.getName.endsWith(".scala")
+   line<-fileLInes(file)
+   trimmed = line.trim if trimmed.matches(pattern)
+  }...
+  #+END_SRC
+- ~for .. yield...~ to produce new collections. 
+  #+BEGIN_SRC scala
+  for {
+   file<- filesHere if file.getName.endsWith(".scala")
+  } yield file
+  #+END_SRC
+  the type of resulting collection is based on the kind of collection processed.
+- In scala, /throw is an expression that has a result type of
+  *Nothing*/, although when throw happens, the result type is never
+  evaluated.
+- As with most Scala control structures, ~try-catch-finally~ results in
+  a value. If an exception is thrown but not caught, the expression
+  has not result al all; /The value computed in the finally clause, if
+  there is one, is dropped/. Usually finally clauses do some kind of
+  clean up; they should not normally change the value computers in the
+  main body or a catch cause. 
+- ~match~ expression also result in a value. 
+- Scala don't have break and continue.
+- A ~function literal~ is compiled into a class that when instantiated
+  at runtime is a function value. Function literals exists in the
+  source code where function values exist as objects at runtime. 
+- To make a ~function literal~ even more concise, you can use
+  /underscores as placeholders/ for one or *more* parameters, so long as
+  _each parameter appears only one time within the function_
+  literal. for example: ~ _ > 0~ is same as ~x => x>0~
+- If the compiler cannot know enough of the type of the parameter when
+  placeholder is used, the type can be specified: 
+  #+BEGIN_SRC scala
+  val f= (_: Int) +(_: Int)
+  #+END_SRC
+- Multiple underscores means /multiple parameters/.
+- You can also replace an entire parameter list with an underscore.
+- The function value (the object) that's created at runtime from this
+  function literal is called a ~closure~. The name arises from the act
+  of "closing" the function literal by "capturing" the hidings of its
+  free variables. A function literal with no free variables is called
+  a closed term; and any function literal with free variables, such as
+  (x: Int) => x + more,  is an open term. 
+- What happens if the free variables are changed after the closure is
+  created? In Scala, the answer is that closure sees the
+  change. Change made by the closure to a captured variable are
+  visible outside the closure.
+- Scala allows you to indicate that the last parameter to a function
+  may be repeated. This allow clients to pass variable length argument
+  lists to the function.
+  #+BEGIN_SRC scala
+  def echo(args: String*) = for (arg <- args) println(arg)
+  #+END_SRC
+- The type of args inside the echo function String* is actually
+  Array[String]. /However you cannot pass a Array[String] into that
+  function directly/. To accomplish this, you will need to append the
+  array argument with an colon and an _* symbol, like:
+  #+BEGIN_SRC scala
+  val array = Array("A", "B")
+  echo(array: _*)
+  #+END_SRC
+  This notation tells the compiler to pass each element of array as
+  its own argument to echo, rather than all of it as a single
+  argument. 
+- You can use Named arguments to change the order the parameter is
+  passed into a function:
+  #+BEGIN_SRC scala
+  def speed(distance: Float, time: Float) : Float = distance / time
+  speed(time=10, distance=100)
+  #+END_SRC
+- You can also define default parameter values for function
+  parameters. The argument for such a parameter can optionally be
+  omitted from a function call, in which case the corresponding
+  argument will be filled with the default.
+- In any method invocation in Scala in which you are passing in
+  exactly one argument, you can opt to /use curly braces to surround
+  the argument instead of parentheses/. This enable client programmers
+  to _write function literals between curly braces_. 
+- In scala, *by-name parameter* to *delay the function call* when
+  passing function value; the function value is not evaluated at the
+  point of function application, but instead is /evaluated at each use
+  within the function/.
+- *Case classes* are regular classes which export their constructor
+  parameters and which provide a recursive decomposition mechanism
+  via pattern matching. It makes only sense to /define case classes if
+  *pattern matching* is used to decompose data structures/. 
+- Scala does not require that the new primitive is used to
+  facilitate the construction of case classes.
+- Similar to  interfaces  in Java, traits are used to define object
+  types by specifying the signature of the supported methods. Unlike
+  Java, Scala allows traits to be partially implemented; i.e. it is
+  possible to define default implementations for some methods. In
+  contrast to  classes, traits may not have /constructor parameters/.
+- Scala is very liberal when it comes to mixing *parameterless*
+  and *empty-paren* methods.
+  - In particular, you can override a
+    parameterless method with an empty-paren method, and vice versa.
+  - you can also leave off the empty parentheses on an invocation of
+    any function that takes no arguments. 
+- In Scala, any class will implicitly extends from scala.AnyRef, which
+  is same as class java.lang.Object.
+- Filed can be used to override an *parameterless* method. But on the
+  other hand, it is /forbidden to define a field and method with the
+  same name in the same class, whereas it is allowed in Java/. 
+- A parametric filed for class:
+  #+BEGIN_SRC scala
+  class ArrayElement (
+     val contents: Array[String]
+  ) extends Element
+  #+END_SRC
+  - combine  the  definition  of a class parameter and a
+    field.
+  - You can also prefix a class parameter with ~var~, in which case
+    the corresponding field would be reassignable.
+  - It is possible to add modifiers such as ~private~, ~protected~, or
+    ~override~ to these parametric fields, just as you can do for any
+    other class member.
+- Invoking superclass constructors:
+  #+BEGIN_SRC scala
+  class LineElement(s: String) extends ArrayElement(Array(s)){
+  }
+  #+END_SRC
+- For override modifier, Scala requires such a modifier for all
+   members that override a concrete member in a parent
+  class. the modifier is optional if a member implements an
+  abstract member with the same name. The modifier is forbidden if a
+  member doesn't not override or implement some other member in a base
+  class.
+- Traits let you modify the methods of a class, and they do so in a
+  way that allow you to stack those modifications with each other. 
+- *Stackable modification* of traits:
+  #+BEGIN_SRC scala
+  trait Doubling extends IntQueue {
+     abstract override def put(x: Int) {super.put(2*x) }
+  }
+  #+END_SRC
+  - ~super()~ calls in traits are dynamically bound. it will work as
+    long as the traits is mixed in after another trait or class that
+    gives a concrete definition to the method.
+  - To tell the compiler you are doing this on purpose, you must mark
+    such methods as abstract override. This combination of modifiers
+    is only allowed for members of traits, not classes. 
+- When you call a method on a class with several  mixed-in traits, the
+  method in the *right furthest* traits will be called. If it has a
+  ~super()~ call, the left  to  it will be called, and so on. The
+  /order of mixed-in traits is important/.
+- Scala compiler adds a *copy* method to a case class for making
+  copied instance that are same except one or two attributes are
+  different. The method works by using named and default parameters:
+  ~op.copy(operator = "-")~
+
+* Pattern Matching
+- Scala's match never "fall through" into the next case. If none of
+  the patterns match, an exception named "MatchError" is thrown.
+- A constant pattern matches only itself. Any literal can be used as a
+  constant.
+- Any ~val~ or *singleton object* can be used as a constant. For
+  example, ~Nil~, a singleton object, is a pattern that matches only
+  empty List.
+- A *variable pattern* matches /any object/, just like a *wildcard* but
+  Scala bind the variable to whatever the object is. 
+- How does Scala compiler know that "Pi" is a constant imported from
+  scala.math, and not a variable that stands for the selector value
+  itself? Scala uses a s impel  lexical rule for disambiguation:
+  - a simple name starting with a lowercase letter is taken to be a
+    pattern variable;
+  - all other references  are taken to be constants. 
+  - Lower case  constant identifier  can be treated in pattern match with
+    a back tick syntax. back tick can also be used to treat a keyword as
+    an ordinary identifier: \\
+    ~Tread.`yield`()~ treats yield as an identifier rather than a
+    keyword.
+- You can match against sequence type like List or Array just like you
+  match against case classes. you can also match against tuples.
+- Typed pattern can be used as a convenient replacement for type tests
+  and type casts:
+  #+BEGIN_SRC scala
+  def generalSize(x: Any) = x match {
+     case s: String => s.length
+     case m: Map[_, _] => m.size
+     case _ => -1
+  }
+  #+END_SRC
+- Alternatively: ~expr.isInstanceOf[String]~ and
+  ~expr.asInstanceOf[String]~ can be used.
+- Scala restricts patterns to be linear: a pattern variable may only
+  appear once in a pattern. However you can use *pattern guard*:
+  #+BEGIN_SRC scala
+  def simplifyAdd(e: Expr) = e match {
+     case BinOp("+", x, y) if x ==y => BinOp("*", x, Number(2))
+     case - => e
+  }
+  #+END_SRC
+  The guard can be an arbitrary boolean expression. 
+- A sealed class cannot have any new subclasses added except the ones
+  in the same file. This will help the scala compiler to detect the
+  missing cases in a pattern match.
+
+- *Implicit conversion* are governed by the following rules:
+  - Only definitions marked implicit are available. 
+  - An inserted implicit conversion must be in scope as a single
+    identifier, or be associated with the source or target type of the
+    conversion.
+  - The compiler will also book look implicit definitions in the
+    companion object of the source or expected target type of the
+    conversion. There is no need to import the conversion separately
+    into your
+  - Only one implicit is tried at a time, however, the restriction can
+    be circumvent by having implicits take implicit parameters. 

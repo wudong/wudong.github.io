@@ -1,0 +1,226 @@
+#+BEGIN_COMMENT
+.. title: Go In Action
+.. slug: go-in-action
+.. date: 2017-07-15
+.. tags: go
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Introducing Go
+- *Goroutines* are functions that run concurrently with other
+  goroutines, including the entry point of your program. In other
+  languages, you 'd use threads to accomplish the same thing, but in
+  Go, _many goroutines execute on *single thread*_.
+- In Go, the net/http library has concurrentcy build in using
+  goroutings. Each inbound request automatically runs on its own
+  goroute.
+- Goroutines use less memory that threads and Go runtime will
+  automatically schedule the execution of goroutines against a set of
+  configured logical processors. _Each *logical processor* is bound to a
+  single OS thread_.
+- *Channels* are data structures that enable safe data communication
+  between goroutines.
+- *Channels* help to enforce the pattern that only one goroutine
+  should modify the data at any time.
+- It is imortant tonote that channels don't provide data access
+  protection between goroutines. If copies of data are exchanged
+  through a channel, each goroutine has its own copy and can make any
+  changes to that data safely. When pointers to the data are being
+  exchanged, each goroutine still need to be synchronized if reads and
+  writes will be performed by different goroutines.
+- Go developers embed types to reuse functionality in a design pattern
+  called *composition*. Other languages use composition, but it is
+  often deeply tired to inheritance, which make it complicated and
+  difficult to use.
+
+* Go quick-start
+- If you ~main~ function doesn't exist in package ~main~, the build
+  tools won't produce an executable.
+- All code files in a folder must use the same package name, and it is
+  common practise to name the package after the folder. A _package
+  defines a unit of compiled code_, and each unit of code represents a package.
+- The Go compiler won't let you declare a package to be imported if it
+  is not used. The *blank identifier* allow the compiler to accept the
+  import and call any ~init~ functions that can be found in the
+  different code files within that package.
+- All ~init~ functions in any code file that are part of the program
+  will get called before the ~main~ function.
+- By default the logger is set to write to stderr device, however this
+  can be changed with:
+  #+BEGIN_SRC go
+      log.SetOutput(os.Stdout)
+  #+END_SRC
+- The compiler will always look for the packages you import at the
+  locations referenced by the ~GOROOT~ and ~GOPATH~ environment
+  variables.
+- Variables located outside the scope of any function are considered
+  package-level variable.
+- Identifiers start with a captial letter are exported, while
+  identifiers start with a lowercase letter are unexported.
+- In Go, all variables are initialized to their zero value. For
+  pointers, the zero value is ~nil~. For reference types, their
+  underlying data structures are initialized to their zero values.
+- The short variable declaration operator ~:=~ is used to both declare
+  and initialize variables at the same time. The type of each value
+  being returned is used by the compiler to determine the type of each
+  variable, respectively.
+- A good rule of thumb when declaring variables is to use keyword
+  ~var~ when declaring variables that will be initialized to their
+  zero value, and to use the short variable declaration operator when
+  providing extra initialization or making a function call.
+- In Go, once the ~main~ function returns, the program terminates. Any
+  goroutines that are still running at this time will also be
+  terminated by the Go runtime.
+- ~WaitGroup~ from the ~sync~ package is a great way to track when a
+  goroutine is finished performing its work. A ~WaitGroup~ is a
+  counting semaphore.
+- The keyword ~range~ can be used with arrays, strings, slices, maps
+  and channels.
+- When use ~for range~ to iterate over a slice, we get two values back
+  on each iteration, the first is the index position, and the second
+  is a *copy* of the value in that element.
+- When you have function that returns multiple values, and you don't
+  have a need for one, the blank identifier can be used to ignore
+  those values:
+  #+BEGIN_SRC go
+    for _, feed := range feeds {}
+  #+END_SRC
+- When a key doesn't exist, the map will return the zero value for the
+  type of value being stored in the map. When the key does exist, the
+  map will return a *copy* of the value for that key.
+- Go supports closures. The ~anonymous~ function isn't given a copy of
+  these variables; it has direct access to the same variables declared
+  in the scope of outer functon.
+- Tag can be used to add meta data for struct fields:
+  #+BEGIN_SRC go
+    type Feed struct {
+            Name string `json: "site"`
+            URI string `json: "link"`
+            Type string `json: "type"`
+    }
+  #+END_SRC
+  The above example use tag to map a struct with a JSON document.
+- The keyword ~defer~ lets us write statement close to where the
+  open occurs, which helps with readability and reducing bugs.
+- Empty interface:
+  #+BEGIN_SRC go
+    func (dec *Decoder) Decode (v interface{}) error
+  #+END_SRC
+  This is a special type in Go, which allow ~Decode~ method to accept
+  any type of value.
+- A name conventionin Go for interfaces: if the interface type
+  contains only one method, the name of the interface ends with the
+  ~er~ suffix.
+- The use of a receiver with any function declaration declares a
+  method that is bound to the specified reciever type.
+- Whether we use a value or pointer of the receiver type to make the
+  method call, the compiler will reference or deference the value if
+  necessary to support the call.
+- It is best practice to declare methods using pointer receivers,
+  since many of the methods you implements need to manipulate the
+  state of the value being used to make the method call.
+- Interface type bcan be assigned to either value or pointer:
+  #+BEGIN_SRC go
+    var dm defaultMatcher
+    //Assign value to interface type Matcher
+    var matcher1 Matcher = dm
+    //Can also assign the interface type to a pointer
+    var matcher2 Matcher = &dm
+  #+END_SRC
+- Methods declared with pointer receivers can only be called by
+  interface type values that contain pointers. Methods declared with
+  value receivers can be called by interface type that contain both
+  values and points.
+
+* Package and tooling
+- Go programs are organized into groups of files called packages, so
+  that *code* has the abitity to be included into other projects as
+  _smaller resuable pieces_.
+- You cannot have multiple packages in the same directory, nor split a
+  package across multiple directories.
+- Unique package name is not required, because package is imported
+  using its full path. The package name is used as the default name
+  when it is imported, but it can be overridden:
+  #+BEGIN_SRC go
+    import (
+            "fmt"
+            myfmt "mylib/fmt"
+    )
+  #+END_SRC
+
+* Arrays, slices, and maps
+- When an array is initialized, each individual element that belongs
+  to the array is initialized to its zero value.
+- Array literal:
+  #+BEGIN_SRC go
+    array := [5]int {1,2,3,4,5}
+  #+END_SRC
+- Declaring an array with Go calculating size:
+  #+BEGIN_SRC go
+      array := [...]int{1,2,3,4,5}
+  #+END_SRC
+- Declaring an array initializing specific elements:
+  #+BEGIN_SRC go
+      array := [5]int{1: 1, 2: 2}
+  #+END_SRC
+- An array is a value in Gl. This means you can use it in an
+  assignment operation. The variable name denotes the entire array,
+  and can be assigned to other arrays of the same type:
+  #+BEGIN_SRC go
+    var array1 [5]string
+    array2 :=[5]string{"a", "b", "c", "d", "e"}
+    //copy the values from array2 into array1.
+    array1=array2
+    //after the copy the two array is identical.
+  #+END_SRC
+- The type of an array variable includes both the length and the type
+  of data. Only arrays of the same type can be assigned.
+- Arrays are *always* one-dimensional, but they can be composed to
+  create multidimensinal arrays.
+- Passing an array between functions can be expensive because array is
+  a value and the whole array will be copied.
+- An idiomatic way of creating a slice is to use a slice
+  literal. Similar to creating an array, excpet don't specify a value
+  inside of the [] operator. Remember: _If a value is specified inside
+  the [] operator, an array is created, otherwise, a slice is created_.
+- A ~nil~ slice represent a slice that doesn't exist:
+  #+BEGIN_SRC go
+    //create a nil slice of integres.
+    var slice []int
+  #+END_SRC
+- An empty slice is different from ~nil~ slice in that its array
+  pointer is an empty array, instead of a ~nil~. It is used to
+  represents an empty collection.
+- Taking the slice of a slice:
+  #+BEGIN_SRC go
+    slice := []int{1,2,3,4,5}
+    //create a new slice
+    newSlice := slice[1:3]
+  #+END_SRC
+- A slice can only access indexes up to its length. Accessing outside
+  its length will cause a runtime exception.
+- By set the capacity of a new slice to be the same as the length, you
+  can force the first append operation to detach the new slice from
+  the underlying array, which make it safe to change.
+- The ~append~ is a variadic function. This means you can pass
+  multiple values to be appended. If you use the ~...~ operator, you
+  can append all the elements of one slice into another:
+  #+BEGIN_SRC go
+    s1 := []int{1,2}
+    s2 := []int{3,4}
+    //s3 : [1,2,3,4]
+    s3 := append(s1, s2...)
+  #+END_SRC
+- It is important to know that ~range~ is making a copy of the value,
+  not a reference.
+- Passing a slice between two functions requires nothing more than
+  passing the slice by value.
+- Maps are collections and can be iterated. But maps are unordered
+  collections. There is no way to predict the order in which the
+  key/value pairs will be returned. _Every iteration over a map could
+  return a different order_.
+-

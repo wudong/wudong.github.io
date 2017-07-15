@@ -1,0 +1,58 @@
+#+BEGIN_COMMENT
+.. title: Akka In Action
+.. slug: akka-in-action
+.. date: 2017-07-15
+.. tags: akka, scala
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Actors: a quick overview
+- Actors are a lot like message queues without the configuration and
+  message broker installation overhead.
+- Actors don't "Do" anything unless they are sent a message.
+- Messages are immutable.
+- Actors receive messages one at a time and execute some behavior
+  whenever a message is received.
+- Everything a actor does is executed asynchronously.
+- Actors aren't like threads, but messages sent to them are pushed
+  through on a thread at some point in time.
+- How actors are connected to threads is configurable.
+- A message could be processed locally on some available thread, or
+  remotely on another server.
+
+* The reactive Manifesto
+- Blocking I/O limits opportunities for parallelism, so nonblocking
+  I/O is preferred.
+- Synchronous interaction limits opportunities for parallelism, so
+  asynchornous interaction is preferred.
+- Polling reduce opportunity to use fewer resources, so an
+  event-driven style is preferred.
+- If one node can bring down all other nodes, that's a waste of
+  resources. So you need isolation of errors (resilience) to avoid
+  losing all your work.
+- System need to be elastic: if there are less demand, you want to use
+  fewer resources. If there is more demand, use more resources, but
+  never more than required.
+
+* Scaling with AKKA
+- The current state of the Converstaion can be rebuilt by *replaying*
+  the events that occurred to the im-momory Conversation, so it can
+  continue where it left off.
+- This type of database is often called a *journal*, and the technique
+  is known as *event sourcing*.
+- The journal become a uniform service. All it needs to do is store
+  all events in sequence, and make it possible to retrieve the events
+  in the same sequence as they were written to the journal.
+- It is hard to imagine how we could keep the conversations consistent
+  across many servers. and what would happen if there were too many
+  conversations to fit in one server?
+  - divide the conversations over the servers in a predictable way, or
+    keep track of where every conversation lives.
+  - This is called *sharding*, or *partitioning*.
+  - We can keep using the simple in-memory model of Conversations if
+    we have a generic event-sourced journal and a way to indicate how
+    Conversations should be partitioned.
+-

@@ -1,0 +1,46 @@
+#+BEGIN_COMMENT
+.. title: Service Design Patterns
+.. slug: service-design-patterns
+.. date: 2017-07-15
+.. tags: patterns
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+#+TITLE: [[file:~/Dropbox/ebooks/dev/design/Service%20Design%20Patterns.pdf][Service Design Patterns]]
+
+- Distributed objects typically maintained state between client
+  calls. This lead to a number of problems that hindered scalability.
+  - Server memory utilization degraded with increased client load.
+  - Effective load-balancing techniques were more difficult to
+    implement and manage because session state was often reserved for
+    the client.
+    - Unless a sophisticated infrastructure like shared memory cache
+      was used to access the client's session from any server.
+  - Server had to implement a strategy to release the memory allocated
+    for a specific client instance.
+    - In most cases the server relied on the client to notify it when
+      it was down.
+    - If the client crashed, it will be problematic.
+- Possibly more important than the problem of latency is the fact that
+  web service calls typically entail distributed communications. This
+  means that client and service developers alike must be prepared to
+  handle partial failures.
+- In light of these inherent risks, developers and architects should
+  *first* explore the alternatives.
+  - A .NET client could host a JVM, load a Java library into the JVM,
+    and communicate with the target classes through JNI.
+  - Web services should therefore be reserved for situations in which
+    out-of-process and cross-machine calls "make sense".
+
+* Web Service API Styles
+- RPC API: How can client execute remote procedures over HTTP.
+- Message API: How can clients send commands, notifications or other
+  information to remote systems over HTTP while avoiding direct
+  coupling to the remote procedures.
+- Resource API: How can a client manipulate data managed by a remote
+  system, avoid direct coupling to remote procedures, and minimize the
+  need for *domain-specific* API.

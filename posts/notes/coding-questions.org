@@ -2,7 +2,7 @@
 .. title: Coding Questions
 .. slug: coding-questions
 .. date: 2017-07-14 16:28:48 UTC+01:00
-.. tags: coding algorithm
+.. tags: coding, algorithm
 .. category: Notes
 .. link:
 .. description:
@@ -10,7 +10,7 @@
 #+END_COMMENT
 
 
-#+TITLE: Coding Questions
+* Some Coding Questions
 
 - String rotation: \\
   Use *substring()* only to determine if a string is a rotation

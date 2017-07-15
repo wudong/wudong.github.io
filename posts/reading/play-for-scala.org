@@ -1,0 +1,256 @@
+#+BEGIN_COMMENT
+.. title: Play for Scala
+.. slug: play-for-scala
+.. date: 2017-07-15
+.. tags: play, scala
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Play for Scala
+
+- Defining Route that takes a HTTP request parameter:
+  - To take a request like ~http://localhost:9000/hellp?n=World~
+  - In the route:
+    #+BEGIN_VERSE
+    GET  /hello   controllers.Application.hello(n: String)
+    #+END_VERSE
+  - In the controller
+    #+BEGIN_SRC scala
+    def hello(name: String) = Action {
+      Ok("hello " + name)
+    }
+    #+END_SRC
+  - Not that the query string parameter n patches the parameter name
+    declared in the routes file, not in the hello action method
+    parameters.
+- A template is a Scala function definition that Play will convert to
+  a normal Scala code and compile.
+- To render a view, with the view file name as ~hello.scala.html~ in
+  the views directory:
+  #+BEGIN_SRC scala
+  def hello(name: String) = Action {
+    Ok(views.html.hello(name)
+  }
+  #+END_SRC
+- To redirect:
+  #+BEGIN_SRC scala
+  def index = Action {
+    Redirect(routes.Products.list())
+  }
+  #+END_SRC
+- To insert content from another template:
+  #+BEGIN_SRC html
+  <div class="container">
+   @content
+   @debug()
+  </div>
+  #+END_SRC
+  Notice the differene between ~@content~ and ~@debug()~, while
+  ~content~ is a variable, and ~debug~ is the template name to be
+  included.
+- The flash scope:
+  - Most modern frameworks have a flash scope.
+  - Like the session scope, it is meant to keep data, related to the
+    client, outside of the context of a single request.
+  - The difference is that the flash scope is kept for the next
+    request only, after which it is removed.
+  - Play implements this in the form of a cookie that is cleared on
+    every response, except for the response that sets it.
+  - It is useful to use flash scope to show one-time messages to the
+    user.
+
+* Protecting against Cross Site Request Forgery
+- Cross Site Request Forgery (CSRF) is a security exploit where an
+  attacker tricks a victims browser into making a request using the
+  victims *session*.
+- Since the session token is send with every request, if an attacker
+  can coerce the victims browser to make a request on their behalf,
+  the attacker can make request on the user's behalf.
+- By default, Play will require a CSRF check when all of the following
+  are true:
+  - The request method is not GET, HEAD, or OPTIONS.
+  - The request has one or more Cookie, or Authorization headers.
+  - The CORS filter is not configured to trust the request's origin.
+- Play's primary mechanism for CSRF protection is ~CSRF~ token.
+  - The token gets placed either in the query string, or body of every
+    form submitted, and also gets placed in the users session.
+  - Play then verifies that both tokens are presents and match.
+
+* Proxy settings with a front end HTTP server
+- Using a front end HTTP server will rarely give you better
+  performance than using Play server directly.
+- However HTTP servers are very good at handling *HTTPs*, *conditional
+  GET requests* and *static assets*
+- Many services assume a front end HTTP server is part of you
+  architecture.
+- When using an HTTP frontal server, request addresses are seen as
+  coming from *the HTTP server*.
+- Proxy servers can add a specific header to the request to tell the
+  proxied application where the request came from. Most web servers
+  will add an *X-Forwarded-For* header with the remote client IP Address
+  as first argument.
+
+* Application configuration.
+- Configuration options are set in ~conf/application.conf~ file.
+- Play uses the *Typesafe config library*, which supports a superset
+  of JSON, although plain JSON and Java Properties files are also
+  supported.
+  - Comments.
+  - References to other configuration parameters and system
+    environment variables.
+    - Environment variable: ~db.default.url = ${DATABASE_URL}~
+    - Same ~${...}~ syntax to refer to other configuration variables.
+      #+BEGIN_VERSE
+      log.directory = /var/log
+      log.access = ${log.directory}/access.log
+      log.errors = ${log.directory}/errors.log
+      #+END_VERSE
+  - File includes: ~include "db-default.conf"~
+    - Single value will *replace* the previous value.
+    - Object notation can be used to *merge* multiple values.
+  - Merge multiple configuration files.
+  - Specifying an alternative configuration file or URL using system
+    properties.
+    - override a property value: ~$ start -Ddb.default.url=...~
+    - override the whole ~application.conf~, using either relative or
+      absolute path:
+      #+BEGIN_SRC sh
+      $ run -Dconfig.file=conf/production.conf
+      $ run -Dconfig.file=/etc/products/production.conf
+      #+END_SRC
+  - Units specifiers for durations, such as ~days~, and sizes in bytes,
+    such as ~MB~
+  - ~play.api.Configuration~ provides type-safe access to
+    configuration parameter values:
+    - supports ~String~, ~Int~, ~Boolean~
+    - Configurations are structured hierarchically. The API allows you
+      to get a subconfiguration of the current configuration.
+  - Note that it would be better *not to hardcode the version
+    information* in the configuration file. Instead, you might get the
+    information from a revision control system by writing the output
+    of commands like ~git describe --always~ to a file and reading
+    that from your application.
+
+* Using Slick for database access
+- Slick is intended as a Scala-based API for relational database access.
+- The idea is that you use it instead of using JDBC directly or adding
+  a complex object-relational mapping framework.
+- Slick uses Scala language features to allow you to map database
+  tables to *Scala collections* and to *execute queries*
+- With scala, this results in less code and cleaner code compared to
+  directly using JDBC.
+- An example, to map a database table to a ~Product~ data access
+  object using Scala code:
+  #+BEGIN_SRC scala
+    object Product extends Table[(Long, String, String)] ("Products"){
+      def ean = column[Long]("ean", O.PrimaryKey)
+      def name = column[String]("name")
+      def description = column[String]("description")
+      def * = ena ~ name ~ description
+    }
+
+    val products = for {
+      product <- Product.sortBy(Product => product.name.asc)
+    } yeild (product)
+
+    val url = "jdbc:postgresql:/localhost/slick?user=slick&password=slick"
+    Database.forURL(url, driver="org.postgresql.Driver") withSession {
+      val productList = products.list
+    }
+  #+END_SRC
+
+* Binding HTTP data to Scala objects
+- Action methods often have parameters, it is need to be able to map
+  HTTP request data to those parameters.
+- The routing and the subsequent parameter binding are both part of
+  the *mapping* between HTTP and Scala's interfaces, which is a
+  translation between two very different interface style.
+- Play has a number of separate build-in binders for different types,
+  and you can also implement your own binders.
+
+* Static and compiled assets
+- Architects and web frameworks often take the view that static files
+  should be handled differently than generated content in a web
+  application's architecture
+- In Play, this probably a *premature optimization*. If you have high
+  performance requirements for serving static content, the best
+  approach is probably to use a *cache*, or *load balancer* in front
+  of Play, instead of avoiding serving the files using Play in the
+  first place.
+- Play provides an *assets controller* to serve static files.
+
+* Action composition
+- Action are functions, which means you can compose them to apply
+  common functionality to multiple actions.
+- For example, you can defined actions for caching and authentication
+  and use them like this:
+  #+BEGIN_SRC scala
+  def list = Authenticated {
+       Cached {
+            Action {
+              //process request.
+            }
+       }
+  }
+  #+END_SRC
+  - This example uses ~Action~ to create an action function that is
+    passed as a parameter to ~Cached~, which returns a new action function.
+  - This, in turn, is passed as parameter to ~Authenticated~, which
+    decorate the action function again.
+
+* Routes
+- Add an optional page number parameter, with a default value:
+  #+BEGIN_VERSE
+  GET  /products      controllers.Products.list(page: Int ?=1)
+  #+END_VERSE
+  - The ~?=~ syntax for an optional parameter isn't normal Scala
+    syntax, and it is only used in the ~routes~ file.
+  - Can also use ~=~ for fixed parameter values that aren't specified
+    in the URL  ~(page: Int =1)~,
+  - and ~Option~ for optional parameters that may or may not be
+    include din the query string ~(page: Option[Int])~.
+- Matching URL path parameters that contain forward slashes:
+  #+BEGIN_VERSE
+  # This route will not work ~:file~ contains forward slashes.
+  GET  /photo/:file    controllers.Media.photo(file: String)
+  # This route will work.
+  GET  /photo/*file    controllers.Media.photo(file: String)
+  #+END_VERSE
+- Matching regexp:
+  #+BEGIN_VERSE
+  # This will only match ean conform to the regexp \d{13}
+  GET   /product/$ean<\d{13}>   controllers.Products.details(ean: Long)
+  GET   /product/:alias   controllers.Products.details(alias: String)
+  #+END_VERSE
+- Binding HTTP data
+  - Play, along with other modern web frameworks such as Spring MVC,
+    improves on treating HTTP request parameters as strings by
+    performing type conversion *before* it attempts to call action.
+  - Only when type conversion succeeds does Play call the action
+    method.
+  - Binding applies to two kinds of request data:
+    - URL path parameters
+    - and query string parameters.
+  - Play defines binders for a number of basic types.
+  - You can also add binding for custom types, such as your
+    application's domain model types, by adding your own ~Formatter~
+    implementation.
+  - Binding the content of an HTML form to a domain object, using a
+    ~form object~
+- Generating HTTP calls for actions with reverse routing.
+  - map a particular action method invocation to the corresponding
+    URL.
+  - avoid hard coding path.
+    #+BEGIN_SRC scala
+      def delete(ean: Long) = Action {
+        Product.delete(ean)
+        Redirect(routes.Products.list())
+      }
+    #+END_SRC
+  - The reverse route generates a URL in the form of an HTTP call (a
+    ~play.pai.mvc.Call~) for certain action method, including the
+    parameter values.

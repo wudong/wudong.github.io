@@ -2,7 +2,7 @@
 .. title: Java Concurrency
 .. slug: java-concurrency
 .. date: 2017-07-14
-.. tags: java concurrency
+.. tags: java, concurrency
 .. category: Notes
 .. link:
 .. description:

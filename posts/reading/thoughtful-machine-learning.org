@@ -1,0 +1,73 @@
+#+BEGIN_COMMENT
+.. title: Thoughtful machine learning
+.. slug: thoughtful-machine-learning
+.. date: 2017-07-15
+.. tags: machine learning, algorithm
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* K-Nearest Neighbours Classification
+
+K-Nearest Neighbour is one of the best algorithms for classifying data
+sets. It is lazy and nonparametric.
+
+- A *perceptual hash (pHash)* is a fingerprint of a multimedia file
+  derived from various features from its content. Unlike cryptographic
+  hash functions, where small changes in input leading to drastic
+  changes in the putput, _perceptual hashes are "close" to another if
+  the features are similar_.
+- Hamming distance: between two strings of equal length is the number
+  of positions at which the corresponding symbols are different. It
+  measures the minimum number of substitutions required to change one
+  string into the other.
+- How to pick K:
+  - It is usually domain specific;
+  - Choose a K that is low enough to avoid noise;
+  - Iterate through a couple of possbile Ks unitl finding a suitable
+    error with *cross validation*, given the training set.
+
+* Naive Bayesian Classification
+
+- *Conditional Probablities* is a measure of the probablitity of an
+  event given that another event has occured:
+  \begin{equation} P(A|B) = \frac{P(A \cap B)}{P(B)} \end{equation}
+  Note that this is a *definition but not a theoretical result*. We just
+  denote the quantity $P(A\cap B)/P(B)$ as $P(A|B)$
+  and call it the conditional probability of A given B.
+- In statistical inference, *Conditional Probablities* is an update of
+  the probablitity of an event based on new information.
+- Inverse conditional probablity (aka Bayes's Theorem):
+  \begin{equation} P(A\mid B) = \frac{P(B \mid A) \, P(A)}{P(B)}
+  \end{equation}
+- Naive Bayesian classifier assume the independence assumptions
+  between the features.
+
+*** Spam Filter using naive bayesian classification
+- A tokenizer to extract words into a stream, instead of an array, to
+  keep a low memory usage.
+- For all word in each training email, the filter will adjust the
+  probabilities each word will appear in spam or ham.
+- The word probablities (also known as likelihood functions) are used
+  to compute the probablitity that an email with a particular set of
+  words in it belongs to either category.
+- With the native bayesian classification, the score for spam based on
+  word can be simplified as:
+  \begin{equation}
+    Score(spam, W_1, W_2, ..., W_n) = P(spam)P(W_1|spam)P(W_2|spam)...P(W_n|spam)
+  \end{equation}
+  which is then divided some normalizing constant Z.
+- Cross-validation to minimizing false positives (instead of error)
+
+* Nerual Networks
+
+
+* Hidden Markov Models
+
+Hidden Markov Models can be either supervised or unsupervised, and
+also are called Markovian due to theire reliance on a Markov
+Model. They work well where there doesn't need to be a lot of
+historical information built into the model.

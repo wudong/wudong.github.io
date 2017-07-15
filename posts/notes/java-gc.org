@@ -2,7 +2,7 @@
 .. title: Java HotSpot VM GC Tunning Guide
 .. slug: java-hotspot-gc
 .. date: 2017-07-14
-.. tags: java gc
+.. tags: java, gc
 .. category: Notes
 .. link:
 .. description:
