@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about functional programming)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/functional-programming.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:19:50 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Functional Programming in Scala</title><link>https://example.com/posts/reading/functional-programming-in-scala/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1"&gt;Some Basic Ideas&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-1"&gt;(Pure) function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-2"&gt;Loop without mutating a loop variable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-3"&gt;ADT(algebraic data type)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2"&gt;Handling Errors&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2-1"&gt;Partial function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2-2"&gt;&lt;code&gt;Option&lt;/code&gt;, &lt;code&gt;Either&lt;/code&gt; and &lt;code&gt;Try&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-3"&gt;Strictness and Laziness&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-4"&gt;Purely functional state&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Some Basic Ideas&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;FP is based on a simple premise that to construct programs using
+only &lt;b&gt;pure functions&lt;/b&gt;. Functions that have &lt;i&gt;no side effects&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;Side effect examples
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Reading or Writing to a file
+&lt;/li&gt;
+&lt;li&gt;Printing to the console or reading user input
+&lt;/li&gt;
+&lt;li&gt;Drawing on the screen
+&lt;/li&gt;
+&lt;li&gt;Throwing an excepion or halting with an error
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Functional programming is a restriction on &lt;i&gt;how&lt;/i&gt; to write programs,
+but not on &lt;i&gt;what&lt;/i&gt; programs we can express.
+&lt;/li&gt;
+&lt;li&gt;Functional programmers often speak of implementing programs with a
+&lt;b&gt;pure core&lt;/b&gt; and a thin layer on the outside that handles effects.
+&lt;/li&gt;
+&lt;li&gt;Finding ways to structure code so that effects occur but aren't
+&lt;b&gt;observable&lt;/b&gt;.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;mutate data that's declared locally in the body of some function,
+if we ensure that it can't be referenced outside the function.
+&lt;/li&gt;
+&lt;li&gt;write to a file as long as no enclosing function can observe this
+occurring.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-1" class="outline-3"&gt;
+&lt;h3 id="sec-1-1"&gt;(Pure) function&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A function &lt;code&gt;f: (A)=&amp;gt;B&lt;/code&gt; is a computation that relates every value &lt;code&gt;a&lt;/code&gt;
+  of type &lt;code&gt;A&lt;/code&gt; to exactly one value &lt;code&gt;b&lt;/code&gt; of type &lt;code&gt;B&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Such that &lt;code&gt;b&lt;/code&gt; is determined solely by the value of &lt;code&gt;a&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Any changing state of an internal or external process is irrelevant
+to computing the result.
+&lt;/li&gt;
+&lt;li&gt;If it really is a &lt;code&gt;function&lt;/code&gt;, it will do nothing else.
+&lt;/li&gt;
+&lt;li&gt;a function has no &lt;i&gt;observable effect&lt;/i&gt; on the execution of the
+program other than to compute the result given its inputs.
+&lt;/li&gt;
+&lt;li&gt;Function vs Procedure : whether to have side effects.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Referentially Transparent&lt;/b&gt; : the expression can be replaced by its
+result without changing the meaning of the program.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It forces the invariant that everything a function does is
+represented by the value that it returns.
+&lt;/li&gt;
+&lt;li&gt;This constrains enables a simple and natural mode of reasoning
+about program evaluation : &lt;b&gt;substitution model&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Functional programs are often more modular due to this.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Modular programs consist of components that can be understood and
+reused &lt;b&gt;independently&lt;/b&gt; of the whole.
+&lt;/li&gt;
+&lt;li&gt;Such that the meaning of the whole depends only on the meaning of
+the components and the rules governing their composition.
+&lt;/li&gt;
+&lt;li&gt;That is, they are &lt;b&gt;composable&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-2" class="outline-3"&gt;
+&lt;h3 id="sec-1-2"&gt;Loop without mutating a loop variable&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An example for looping with recursion:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;={&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;  &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;acc&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The argument to &lt;code&gt;go&lt;/code&gt; are the state for the loop. In this case, it is
+the remaining value &lt;code&gt;n&lt;/code&gt;, and the current accumulated factorial &lt;code&gt;acc&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;To advanced to the next iteration, simply call the &lt;code&gt;go&lt;/code&gt; recursively
+with the &lt;i&gt;new loop state&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;And to exist the loop, return a value without a recursive call.
+&lt;/li&gt;
+&lt;li&gt;Scala detects this sort of &lt;b&gt;self-recursion&lt;/b&gt; and compiles it to the
+same sort of bytecode as would be emitted for a &lt;code&gt;while&lt;/code&gt; loop, as
+long as the recursive call is in &lt;b&gt;tail position&lt;/b&gt;.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;This optimization is called tail call elimination.
+&lt;/li&gt;
+&lt;li&gt;applied when there is no additional work left to do after the
+recursive call returns.
+&lt;/li&gt;
+&lt;li&gt;annotation &lt;code&gt;@tailrec&lt;/code&gt; can be used to tell Scala compiler about
+this assumption.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-3" class="outline-3"&gt;
+&lt;h3 id="sec-1-3"&gt;ADT(algebraic data type)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An ADT is a data type defined by one or more data constructors, each
+of which may contain zero or more arguments.
+&lt;/li&gt;
+&lt;li&gt;The data type is the &lt;b&gt;sum&lt;/b&gt;, or &lt;b&gt;union&lt;/b&gt; of its data constructors
+&lt;/li&gt;
+&lt;li&gt;And each data constructor is the &lt;b&gt;product&lt;/b&gt; of its arguments.
+&lt;/li&gt;
+&lt;li&gt;Hence the name &lt;b&gt;algebraic data type&lt;/b&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The naming is not coincidental.
+&lt;/li&gt;
+&lt;li&gt;There is a deep connection between the "addition" and
+"multiplication" of types to form an ADT and addition and
+multiplication of numbers.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Algebraic data types can be used to define other data structures.
+&lt;/li&gt;
+&lt;li&gt;One might object that algebraic data types violate encapsulation by
+making public the internal representation of type.
+&lt;/li&gt;
+&lt;li&gt;However in FP, the approach to encapsulation is different, it
+doesn't typically have delicate mutable state which could lead to
+bugs or violation of invariants if exposed publicly.
+&lt;/li&gt;
+&lt;li&gt;ADTs is typically used for situations where the set of cases is
+closed(known to be fixed)
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Handling Errors&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Two major problem with exceptions:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Exceptions break referential transparent.
+&lt;/li&gt;
+&lt;li&gt;Exceptions are not type-safe.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Instead of throwing an exception, we can return a value indicating
+that an exceptional condition has occurred.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-2-1" class="outline-3"&gt;
+&lt;h3 id="sec-2-1"&gt;Partial function&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It is not defined for some input.
+&lt;/li&gt;
+&lt;li&gt;An example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Seq&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Double&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isEmpty&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;ArithmeticException&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"mean of empty list!"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;mean2&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Seq&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Doubl&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isEmpty&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nc"&gt;None&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="nc"&gt;Some&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-2-2" class="outline-3"&gt;
+&lt;h3 id="sec-2-2"&gt;&lt;code&gt;Option&lt;/code&gt;, &lt;code&gt;Either&lt;/code&gt; and &lt;code&gt;Try&lt;/code&gt;&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;filter(f: A=&amp;gt;Boolean): Option[A]&lt;/code&gt; : can convert successes into
+failure if the successful value doesn't match the given predicate.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getOrElse(default: =&amp;gt;B) : B&lt;/code&gt; : return &lt;code&gt;defulat&lt;/code&gt; if undefined.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;orElse(ob: =&amp;gt;Option[B]) : Option[B]&lt;/code&gt; : return another Option if the
+first is undefined. This is often useful when we need to chain
+together possibly failing computations, trying the second if the
+first hasn't succeeded.
+&lt;/li&gt;
+&lt;li&gt;A common idiom is to do &lt;code&gt;o.getOrElse(throw new Exception("FAIL"))&lt;/code&gt;
+    to convert the &lt;code&gt;None&lt;/code&gt; case of an Option back to an exception.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;use it only if no reasonable program would ever catch the
+exception.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Convert existed function to be Option-aware
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;lift&lt;/code&gt; of ordinary functions to operate on &lt;code&gt;Option&lt;/code&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;lift&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;, &lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt; &lt;span class="n"&gt;map&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;map2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;,&lt;span class="kt"&gt;B&lt;/span&gt;,&lt;span class="kt"&gt;C&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;],&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;C&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;//TODO.&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;absO&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lift&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abs&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Try&lt;/code&gt; : a general-purpose function to convert from an
+exception-based API to an Option-oriented API:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="nc"&gt;Some&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Exception&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Either&lt;/code&gt; data type: sometimes just knowing whether a failure
+occurred is insufficient when more information about failure is
+wanted. the &lt;code&gt;Either&lt;/code&gt; data type is designed for the purpose.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;seal&lt;/span&gt; &lt;span class="k"&gt;trait&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+E&lt;/span&gt;, &lt;span class="kt"&gt;+A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nc"&gt;case&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Left&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+E&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;E&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;E&lt;/span&gt;, &lt;span class="kt"&gt;Nothing&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Right&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Nothing&lt;/span&gt;, &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Both cases carry a value.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A common use of &lt;code&gt;Either&lt;/code&gt; is as an alternative to &lt;code&gt;Option&lt;/code&gt; for
+dealing with possibly missing values.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In this usage, &lt;code&gt;None&lt;/code&gt; is replaced with a &lt;code&gt;Left&lt;/code&gt; which can
+contain useful information. &lt;code&gt;Right&lt;/code&gt; takes the place of &lt;code&gt;Some&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Convention dictates that &lt;code&gt;Left&lt;/code&gt; is used for failure and &lt;code&gt;Right&lt;/code&gt;
+    is used for success.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Try&lt;/code&gt; represents a computation that may either result in an
+exception, or return a successful computed value.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Similar to &lt;code&gt;Either&lt;/code&gt;, but semantically different.
+&lt;/li&gt;
+&lt;li&gt;Instance of &lt;code&gt;Try[T]&lt;/code&gt;, are either an &lt;code&gt;Success[T]&lt;/code&gt; or a &lt;code&gt;Failure[t]&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scala.io.StdIn&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scala.util.&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nc"&gt;Failure&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;divide&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;StdIn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Enter an Int that you'd like to divide:\n"&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;toInt&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;StdIn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Enter an Int that you'd like to divide by:\n"&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;toInt&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;problem&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatMap&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+  &lt;span class="n"&gt;problem&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Result of "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;"/"&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s"&gt;" is: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Failure&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"You must've divided by zero or entered something that's not an Int. Try again!"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Info from the exception: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getMessage&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;divide&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;An important property of &lt;b&gt;Try&lt;/b&gt; shown in the above example is its
+ability to pipeline, or chain, operations, catching exceptions
+along the way.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Strictness and Laziness&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Scala collection function like &lt;code&gt;map&lt;/code&gt;, &lt;code&gt;filter&lt;/code&gt; are &lt;b&gt;strict functions&lt;/b&gt;
+  that produce intermediate temporary collections when called in chain.
+&lt;/li&gt;
+&lt;li&gt;a non-strict function may choose &lt;b&gt;not&lt;/b&gt; to evaluate one, or more of
+its arguments, while a strict function will always evaluates its
+arguments.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;if&lt;/code&gt; can be think as a function accepting three parameters. This
+function would be non-strict, since it won't evaluate all of its
+arguments.
+&lt;/li&gt;
+&lt;li&gt;In scala, we can write non-strict functions by accepting some of our
+arguments un-evaluated, for example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;if2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;()=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;()=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Or with pass-by-reference:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;if2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Adding the &lt;code&gt;lazy&lt;/code&gt; keyword to a &lt;code&gt;val&lt;/code&gt; declaration will cause Scala to
+delay evaluation of the right-hand side of the declaration, until it
+is first referenced. It will also cache the result so that
+subsequent references to it don't trigger repeated evaluation.
+&lt;/li&gt;
+&lt;li&gt;A major theme in FP is &lt;i&gt;separation of concerns&lt;/i&gt;. We want to separate
+the description of computations from actually running them.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Laizness lets us separate the description of an expression from
+the evaluation of that expression.
+&lt;/li&gt;
+&lt;li&gt;We may choose to describe a &lt;i&gt;larger&lt;/i&gt; expression than we need, and
+then evaluate only a portion of it.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="nc"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Cons&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Note that &lt;code&gt;||&lt;/code&gt; is non-strict in its second argument.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Purely functional state&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The key to recovering referential transparency is to &lt;b&gt;make the state
+updates explicit&lt;/b&gt;. Don't update the state as a side effect, but
+simply &lt;b&gt;return the new state&lt;/b&gt; along with the value that we are return.
+&lt;/li&gt;
+&lt;li&gt;An example for a random number generator:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;trait&lt;/span&gt; &lt;span class="nc"&gt;RNG&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;nextInt&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;RNG&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Rather than returning only the generated random number, and
+updating some internal state by &lt;i&gt;mmutating&lt;/i&gt; it in place, we return
+the random number &lt;b&gt;and&lt;/b&gt; the new state, leaving the old state
+unmodified.
+&lt;/li&gt;
+&lt;li&gt;It separating the concern of &lt;b&gt;computing&lt;/b&gt; what the next state is
+from the concern of &lt;b&gt;communicating&lt;/b&gt; the new state to the rest of
+the program.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The function has a type of the form &lt;code&gt;RNG =&amp;gt; (A, RNG)&lt;/code&gt;. Functions of
+this type are called &lt;b&gt;state actions&lt;/b&gt; or &lt;b&gt;state transitions&lt;/b&gt; because
+they transform &lt;b&gt;RNG&lt;/b&gt; states from one to the next.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It will be quite tedious and repetitive to passing the state.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;This state actions can be combined using &lt;b&gt;combinators&lt;/b&gt;, which are
+higher-order functions. The combinators will pass the state from one
+action to the next automatically.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>functional programming</category><category>scala</category><guid>https://example.com/posts/reading/functional-programming-in-scala/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

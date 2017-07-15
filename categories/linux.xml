@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about Linux)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Jul 2017 20:53:56 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux Note</title><link>https://example.com/posts/linux-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about linux)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:32:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Linux Note</title><link>https://example.com/posts/notes/linux-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/linux-notes/#sec-1"&gt;Linux Memory&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/linux-notes/#sec-2"&gt;Let's Encrypt&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/linux-notes/#sec-3"&gt;Kernel Modules: Load, Unload and Configure&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/linux-notes/#sec-4"&gt;Systemd targets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/linux-notes/#sec-5"&gt;&lt;code&gt;find&lt;/code&gt; tips&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/linux-notes/#sec-6"&gt;SSH running remote command.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/linux-notes/#sec-7"&gt;Unix Processes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Linux Memory&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -328,4 +343,69 @@ from stdin).
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>Linux</category><guid>https://example.com/posts/linux-notes/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Unix Processes&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-7"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In Unix, &lt;b&gt;&lt;span class="underline"&gt;everything is a file&lt;/span&gt;&lt;/b&gt;.
+&lt;/li&gt;
+
+&lt;li&gt;Anytime open a resource in running process it is assigned a file descriptor
+number. File descriptors are &lt;b&gt;NOT&lt;/b&gt; shared between unrelated processes, they
+live and die with the process they are bound to.
+&lt;/li&gt;
+
+&lt;li&gt;Any resource that your process opens gets a unique number identifying it:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;File Descriptor numbers are assigned the lowest unused value;
+&lt;/li&gt;
+&lt;li&gt;Once a resource is closed its file descriptor number becomes available again
+&lt;/li&gt;
+&lt;li&gt;Closed resources are not given a file descriptor number.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;STDIN, STDOUT, and STDERR has file descriptor 0, 1, and 2. So the lowest
+number for any new opened resource will start with 3.
+&lt;/li&gt;
+
+&lt;li&gt;There are some resource limits imposed on a process by the kernel:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Soft limits: if you exceed the soft limit, an exception will be raised, but
+any process can always change that limit.
+&lt;/li&gt;
+&lt;li&gt;Hard limits: only superuser can set this limit.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;&lt;code&gt;fork&lt;/code&gt; &lt;i&gt;system call&lt;/i&gt; allows a running process to &lt;b&gt;&lt;i&gt;create new process&lt;/i&gt;&lt;/b&gt;, and the
+new process is an exact copy of the original
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Child process &lt;b&gt;inherits any open file descriptors from the parent&lt;/b&gt;. In this
+way, the two processes can share open files, sockets,
+&lt;/li&gt;
+&lt;li&gt;Child process inherits a copy of everything that the parent process has in
+main memory. and because fork is fast, it is faster than loading the app x
+times in separate instances.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+
+&lt;li&gt;The OS doesn't treat child processes any differently than any other processes.
+so &lt;b&gt;&lt;i&gt;when the parent process dies, the child process continues on&lt;/i&gt;&lt;/b&gt;.
+
+&lt;p&gt;
+although fork create a new child process that is an exact copy of the parent
+process, modern unix system something called &lt;b&gt;copy-on-write (CoW) &lt;i&gt;semantics&lt;/i&gt;&lt;/b&gt; to
+avoid copy all data all at once. Both parent and child will actually share the
+same physical data in memory until one of them needs to modify it.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>linux</category><category>os</category><guid>https://example.com/posts/notes/linux-notes/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

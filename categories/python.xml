@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about python)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/python.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 10:48:55 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Lean Python</title><link>https://example.com/posts/reading/lean-python/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Getting Started&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Variables
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The first character must be a letter or underscore.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Don't start a variable with a underscore, which is usually used
+for special identifiers.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Additional characters may be alphanumeric or underscore.
+&lt;/li&gt;
+&lt;li&gt;Names are case sensitive.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Assignment
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'Some Text'&lt;/span&gt;
+&lt;span class="n"&gt;Name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'Mr'&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;' '&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;'Fred'&lt;/span&gt;
+&lt;span class="c1"&gt;# list.&lt;/span&gt;
+&lt;span class="n"&gt;shoppingList&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'ham'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'eggs'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'mushrooms'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="c1"&gt;# multiple assignment.&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myFunc&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;# when myFunc() returns three values&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Special identifiers, the name will be of the form: \
+&lt;code&gt;_xxx&lt;/code&gt;, &lt;code&gt;__xxx__&lt;/code&gt;, &lt;code&gt;__xxx&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;__name__&lt;/code&gt; special variable specified how the module is called, it
+will be:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The name of the module if imported,
+&lt;/li&gt;
+&lt;li&gt;The string &lt;code&gt;__main__&lt;/code&gt; if executed directly.
+&lt;/li&gt;
+&lt;li&gt;The following code let the interpreter loads your program and runs
+it if necessary
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;'__main__'&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Python Objects&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;All variables have a type which can be seen using the build-in
+&lt;code&gt;type()&lt;/code&gt; function.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;type 'int'&amp;gt;&lt;/span&gt;
+&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'some more text'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;type 'str'&amp;gt;&lt;/span&gt;
+&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;'some'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;type list'&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Other types are &lt;code&gt;class&lt;/code&gt;, &lt;code&gt;module&lt;/code&gt;, &lt;code&gt;function&lt;/code&gt;, &lt;code&gt;file&lt;/code&gt;, &lt;code&gt;bool&lt;/code&gt;,
+&lt;code&gt;NoneType&lt;/code&gt; and &lt;code&gt;long&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;The special constants &lt;code&gt;True&lt;/code&gt; and &lt;code&gt;False&lt;/code&gt; are &lt;code&gt;bool&lt;/code&gt; type, special
+constant &lt;code&gt;None&lt;/code&gt; is a &lt;code&gt;NoneType&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Function &lt;code&gt;str()&lt;/code&gt; is used to see a textual definition of any object
+&lt;/li&gt;
+&lt;li&gt;Factory functions are a serials of functions that create variable
+types directly
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;int(4.0)&lt;/code&gt; create integer &lt;code&gt;4&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;str(4)&lt;/code&gt; create string ='4'=
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;list(1,2,3,4,5)&lt;/code&gt; create &lt;code&gt;list [1,2,3,4,5]&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tuple(1,2,3,4)&lt;/code&gt; create tuple &lt;code&gt;(1,2,3,4)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dict(one=1,two=2)&lt;/code&gt; create dictionary &lt;code&gt;{'one': 1, 'two': 2}&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Exponentiation operator: &lt;code&gt;4 ** 3&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Boolean are actually held as integers but have a value of either
+&lt;code&gt;True&lt;/code&gt; or &lt;code&gt;False&lt;/code&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;bool(23)&lt;/code&gt;  : &lt;code&gt;True&lt;/code&gt;, all nonzero integers
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool(0)&lt;/code&gt;  : &lt;code&gt;False&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool('any')&lt;/code&gt; : &lt;code&gt;True&lt;/code&gt;, any string
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool('')&lt;/code&gt; : &lt;code&gt;False&lt;/code&gt;, zero length string
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool([])&lt;/code&gt; : &lt;code&gt;False&lt;/code&gt;, empty lists
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Sequences: Strings, Lists, and Tuples.
+&lt;/li&gt;
+&lt;li&gt;Tuples value much like a list, but the entries in a tuple are &lt;b&gt;immutable&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;Membership test in sequence:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s1"&gt;'a'&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="s1"&gt;'track'&lt;/span&gt;    &lt;span class="c1"&gt;# True&lt;/span&gt;
+&lt;span class="mi"&gt;9&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# False&lt;/span&gt;
+&lt;span class="s1"&gt;'x'&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="s1"&gt;'next'&lt;/span&gt;  &lt;span class="c1"&gt;# False&lt;/span&gt;
+&lt;span class="s1"&gt;'red'&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'tan'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'pink'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# True&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Two or more sequences can be added together using &lt;code&gt;+&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Or Using string's &lt;code&gt;join()&lt;/code&gt; method to join a list of strings, or tuple
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s1"&gt;'-'&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="s1"&gt;'a'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'b'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'c'&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  &lt;span class="c1"&gt;# 'a-b-c'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;A slice is a convenient way to select a subset of elements in sequence
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;[startIndex:endIndex]&lt;/code&gt; : not including &lt;code&gt;endIndex&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;index of minus value : counting from end. &lt;code&gt;-1&lt;/code&gt; index refer to the
+last element of the sequence.
+&lt;/li&gt;
+&lt;li&gt;either &lt;code&gt;startIndex&lt;/code&gt; or &lt;code&gt;endIndex&lt;/code&gt; can be omitted.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Built-in Sequence Functions: &lt;code&gt;len()&lt;/code&gt;, &lt;code&gt;max()&lt;/code&gt;, &lt;code&gt;min()=， =sum()&lt;/code&gt;,
+&lt;code&gt;sorted()&lt;/code&gt;, &lt;code&gt;reversed()&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;String can be delimt with either single (') or double (")
+quotes. You can embed either quote inside the other.
+&lt;/li&gt;
+&lt;li&gt;Access substring with slices.
+&lt;/li&gt;
+&lt;li&gt;Strings can be compared with &lt;code&gt;&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;&lt;/code&gt;, &lt;code&gt;==&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;String can be searched using the membership test of sequence.
+&lt;/li&gt;
+&lt;li&gt;Longer pieces of text with embedded new lines can be assigned using
+the triple quotes.
+&lt;/li&gt;
+&lt;li&gt;String formatting can be done using the &lt;code&gt;%&lt;/code&gt; operator
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;ntoys&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="n"&gt;myname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'Fred'&lt;/span&gt;
+&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; has &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt; toys'&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ntoys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;%c&lt;/code&gt; Single character/string of length 1
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%s&lt;/code&gt; String
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%d&lt;/code&gt; Signed decimal integer
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%f&lt;/code&gt; Floating point number
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%%&lt;/code&gt; Percent character
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Updating Lists with &lt;code&gt;append()&lt;/code&gt; and &lt;code&gt;del&lt;/code&gt; statement
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;myList&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="n"&gt;myList&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Tom'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;myList&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Dick'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;myList&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'Bill'&lt;/span&gt;
+&lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;myList&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Using &lt;code&gt;index()&lt;/code&gt; method to find an entry and returns the offset of
+that entry.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;If the entry cannot be found, it returns an Error.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Dictionary
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;'M'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Monday'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'T'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Tuesday'&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'M'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s1"&gt;'Monday'&lt;/span&gt;
+&lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'W'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'Wednesday'&lt;/span&gt;
+&lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'W'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Program Structure&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;pass&lt;/code&gt; statment is a &lt;i&gt;do nothing&lt;/i&gt; statement, is often useful to show
+explicitly that the program is doing nothing.
+&lt;/li&gt;
+&lt;li&gt;List comprehensions is a way of dynamically creating a list of
+elements in an elegant shorthand.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;squares&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;squares&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;squares&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;span class="n"&gt;evens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The syntax is &lt;code&gt;[expr for element in iterable if condition]&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A python function can return more than one result: &lt;br&gt;
+  &lt;code&gt;return r1, r2, r3&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;and it can be assigned to multiple value at same time: &lt;br&gt;
+  &lt;code&gt;max, min, average = analyse(numlist)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Named arguments and default value:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;
+&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Variables defined in module are visible to the functions in the
+module
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Input and Output&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Stdin/Stdout
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;print()&lt;/code&gt; function takes format of:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arg2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arg3&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;' '&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Note that in python 2, &lt;code&gt;print&lt;/code&gt; is a statement, not a function.
+&lt;/li&gt;
+&lt;li&gt;The trailing newline can be suppressed by setting the end argument
+to an empty string.
+&lt;/li&gt;
+&lt;li&gt;It is common to use the string formatting feature:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt; plus &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt; makes &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;input()&lt;/code&gt; function to get data into the program:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;youName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Enter your name: '&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'You name is'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;yourName&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;If you ask the user for an integer number, you should check the
+text:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Use &lt;code&gt;len(text)&lt;/code&gt; to verify text has been entered.
+&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;text.isdigit()&lt;/code&gt; to check the text is a number.
+&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;int(text)&lt;/code&gt; to convert the text to an integer.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Files
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Opening file with: &lt;code&gt;fileobj = open(filename, mode)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Closing file with: &lt;code&gt;fileobj.close()&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Reading file:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;read()&lt;/code&gt; : read the entire contents of the file into a string
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The content can then be split into lines using &lt;code&gt;split('\n')&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Or using &lt;code&gt;readlines()&lt;/code&gt;, which returns a list containing each
+line.
+&lt;/li&gt;
+&lt;li&gt;A good way of cleaning up the newline at the end:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rstrip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;the file object itself is an iterator which can be used:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;fp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'r'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;eachLine&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# process each line&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eachLine&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;''&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Writing a file:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;using &lt;code&gt;write()&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;using &lt;code&gt;writelines()&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;both methods do not append trailing newline (='\n'=)
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Accessing File System using the &lt;code&gt;os&lt;/code&gt; module, which must be imported.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Command-Ling arguments can be obtained from &lt;code&gt;sys&lt;/code&gt; module's
+&lt;code&gt;sys.argv&lt;/code&gt;. The first argument (element 0) is the name of the
+program itself.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Using Modules&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The &lt;code&gt;import&lt;/code&gt; statement has format:  &lt;br&gt;
+  &lt;code&gt;import modulename [as name]&lt;/code&gt; &lt;br&gt;
+  &lt;code&gt;from module import name1, name2&lt;/code&gt; &lt;br&gt;
+  &lt;code&gt;from module import *&lt;/code&gt; &lt;br&gt;
+&lt;/li&gt;
+&lt;li&gt;Modules come from the python path (&lt;code&gt;sys.path&lt;/code&gt;), which is a list of
+directories that is set up by the Python installation process.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Object Orientation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Python doesn't need a &lt;code&gt;new&lt;/code&gt; method: when the object is created,
+Python looks for an &lt;code&gt;__init__()&lt;/code&gt; method to initialize the object.
+&lt;/li&gt;
+&lt;li&gt;The arguments passed through the &lt;code&gt;__init__()&lt;/code&gt; call are used to
+initialize the object attributes.
+&lt;/li&gt;
+&lt;li&gt;The first argument to all the methods in the class is &lt;code&gt;self&lt;/code&gt;, the
+object itself. This argument is used internally in the class and
+is not exposed to the code that calls these method.
+&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;self.&lt;/code&gt; attributes are public.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Exception and Error Handling&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-7"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;try/except&lt;/code&gt; to catch exception
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"input two numbers, the first will be devided by the second"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;afirst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'1st number: '&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;asecond&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'2nd number: '&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;afirst&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;second&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;asecond&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;quotient&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;first&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;second&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Quotient 1st/2nd = &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;quotient&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;diag&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diag&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__class__&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;':'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;diag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;It is possible to trap multiple exception types by: &lt;br&gt;
+    &lt;code&gt;except (ValueError, ZeroDivisionError) [as e]:&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-8" class="outline-2"&gt;
+&lt;h2 id="sec-8"&gt;Databases&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-8"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;SQLLite can be used for development or prototyping.
+&lt;/li&gt;
+&lt;li&gt;Database Functions
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Open (or create) a database file&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sqlite3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# executes a SQL statement&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;executescript&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# return a cursor&lt;/span&gt;
+&lt;span class="n"&gt;cursor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="c1"&gt;# execute the SQL query that returns rows of data&lt;/span&gt;
+&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# return the data as list of rows&lt;/span&gt;
+&lt;span class="n"&gt;rows&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fetchall&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://example.com/posts/reading/lean-python/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

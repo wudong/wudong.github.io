@@ -1,0 +1,2699 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="This is a demo site for Nikola.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Warren Liu (old posts, page 3) | Warren Liu</title>
+<link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
+<link rel="canonical" href="https://example.com/index-3.html">
+<link rel="prev" href="index-4.html" type="text/html">
+<link rel="next" href="index-2.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://example.com/">
+
+                <span id="blog-title">Warren Liu</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="archive.html">Archive</a>
+                </li>
+<li>
+<a href="categories/">Tags</a>
+                </li>
+<li>
+<a href="rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+    
+
+
+    
+<div class="postindex">
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/play-for-scala/" class="u-url">Play for Scala</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/play-for-scala/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/play-for-scala/#sec-1">Play for Scala</a></li>
+<li><a href="posts/reading/play-for-scala/#sec-2">Protecting against Cross Site Request Forgery</a></li>
+<li><a href="posts/reading/play-for-scala/#sec-3">Proxy settings with a front end HTTP server</a></li>
+<li><a href="posts/reading/play-for-scala/#sec-4">Application configuration.</a></li>
+<li><a href="posts/reading/play-for-scala/#sec-5">Using Slick for database access</a></li>
+<li><a href="posts/reading/play-for-scala/#sec-6">Binding HTTP data to Scala objects</a></li>
+<li><a href="posts/reading/play-for-scala/#sec-7">Static and compiled assets</a></li>
+<li><a href="posts/reading/play-for-scala/#sec-8">Action composition</a></li>
+<li><a href="posts/reading/play-for-scala/#sec-9">Routes</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Play for Scala</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Defining Route that takes a HTTP request parameter:
+<ul class="org-ul">
+<li>To take a request like <code>http://localhost:9000/hellp?n=World</code>
+</li>
+<li>In the route:
+<p class="verse">
+GET  /hello   controllers.Application.hello(n: String)<br></p>
+</li>
+<li>In the controller
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">hello</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+  <span class="nc">Ok</span><span class="o">(</span><span class="s">"hello "</span> <span class="o">+</span> <span class="n">name</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Not that the query string parameter n patches the parameter name
+declared in the routes file, not in the hello action method
+parameters.
+</li>
+</ul>
+</li>
+<li>A template is a Scala function definition that Play will convert to
+a normal Scala code and compile.
+</li>
+<li>To render a view, with the view file name as <code>hello.scala.html</code> in
+the views directory:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">hello</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+  <span class="nc">Ok</span><span class="o">(</span><span class="n">views</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">hello</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>To redirect:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">index</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+  <span class="nc">Redirect</span><span class="o">(</span><span class="n">routes</span><span class="o">.</span><span class="nc">Products</span><span class="o">.</span><span class="n">list</span><span class="o">())</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>To insert content from another template:
+<div class="highlight"><pre><span></span>&lt;div class="container"&gt;
+ @content
+ @debug()
+&lt;/div&gt;
+</pre></div>
+<p>
+Notice the differene between <code>@content</code> and <code>@debug()</code>, while
+<code>content</code> is a variable, and <code>debug</code> is the template name to be
+included.
+</p>
+</li>
+<li>The flash scope:
+<ul class="org-ul">
+<li>Most modern frameworks have a flash scope.
+</li>
+<li>Like the session scope, it is meant to keep data, related to the
+client, outside of the context of a single request.
+</li>
+<li>The difference is that the flash scope is kept for the next
+request only, after which it is removed.
+</li>
+<li>Play implements this in the form of a cookie that is cleared on
+every response, except for the response that sets it.
+</li>
+<li>It is useful to use flash scope to show one-time messages to the
+user.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Protecting against Cross Site Request Forgery</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Cross Site Request Forgery (CSRF) is a security exploit where an
+attacker tricks a victims browser into making a request using the
+victims <b>session</b>.
+</li>
+<li>Since the session token is send with every request, if an attacker
+can coerce the victims browser to make a request on their behalf,
+the attacker can make request on the user's behalf.
+</li>
+<li>By default, Play will require a CSRF check when all of the following
+are true:
+<ul class="org-ul">
+<li>The request method is not GET, HEAD, or OPTIONS.
+</li>
+<li>The request has one or more Cookie, or Authorization headers.
+</li>
+<li>The CORS filter is not configured to trust the request's origin.
+</li>
+</ul>
+</li>
+<li>Play's primary mechanism for CSRF protection is <code>CSRF</code> token.
+<ul class="org-ul">
+<li>The token gets placed either in the query string, or body of every
+form submitted, and also gets placed in the users session.
+</li>
+<li>Play then verifies that both tokens are presents and match.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Proxy settings with a front end HTTP server</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Using a front end HTTP server will rarely give you better
+performance than using Play server directly.
+</li>
+<li>However HTTP servers are very good at handling <b>HTTPs</b>, <b>conditional
+GET requests</b> and <b>static assets</b>
+</li>
+<li>Many services assume a front end HTTP server is part of you
+architecture.
+</li>
+<li>When using an HTTP frontal server, request addresses are seen as
+coming from <b>the HTTP server</b>.
+</li>
+<li>Proxy servers can add a specific header to the request to tell the
+proxied application where the request came from. Most web servers
+will add an <b>X-Forwarded-For</b> header with the remote client IP Address
+as first argument.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Application configuration.</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Configuration options are set in <code>conf/application.conf</code> file.
+</li>
+<li>Play uses the <b>Typesafe config library</b>, which supports a superset
+of JSON, although plain JSON and Java Properties files are also
+supported.
+<ul class="org-ul">
+<li>Comments.
+</li>
+<li>References to other configuration parameters and system
+environment variables.
+<ul class="org-ul">
+<li>Environment variable: <code>db.default.url = ${DATABASE_URL}</code>
+</li>
+<li>Same <code>${...}</code> syntax to refer to other configuration variables.
+<p class="verse">
+log.directory = /var/log<br>
+log.access = ${log.directory}/access.log<br>
+log.errors = ${log.directory}/errors.log<br></p>
+</li>
+</ul>
+</li>
+<li>File includes: ~include "db-default.conf"~
+<ul class="org-ul">
+<li>Single value will <b>replace</b> the previous value.
+</li>
+<li>Object notation can be used to <b>merge</b> multiple values.
+</li>
+</ul>
+</li>
+<li>Merge multiple configuration files.
+</li>
+<li>Specifying an alternative configuration file or URL using system
+properties.
+<ul class="org-ul">
+<li>override a property value: <code>$ start -Ddb.default.url=...</code>
+</li>
+<li>override the whole <code>application.conf</code>, using either relative or
+absolute path:
+<div class="highlight"><pre><span></span>$ run -Dconfig.file<span class="o">=</span>conf/production.conf
+$ run -Dconfig.file<span class="o">=</span>/etc/products/production.conf
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Units specifiers for durations, such as <code>days</code>, and sizes in bytes,
+such as <code>MB</code>
+</li>
+<li>
+<code>play.api.Configuration</code> provides type-safe access to
+configuration parameter values:
+<ul class="org-ul">
+<li>supports <code>String</code>, <code>Int</code>, <code>Boolean</code>
+</li>
+<li>Configurations are structured hierarchically. The API allows you
+to get a subconfiguration of the current configuration.
+</li>
+</ul>
+</li>
+<li>Note that it would be better <b>not to hardcode the version
+information</b> in the configuration file. Instead, you might get the
+information from a revision control system by writing the output
+of commands like <code>git describe --always</code> to a file and reading
+that from your application.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Using Slick for database access</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Slick is intended as a Scala-based API for relational database access.
+</li>
+<li>The idea is that you use it instead of using JDBC directly or adding
+a complex object-relational mapping framework.
+</li>
+<li>Slick uses Scala language features to allow you to map database
+tables to <b>Scala collections</b> and to <b>execute queries</b>
+</li>
+<li>With scala, this results in less code and cleaner code compared to
+directly using JDBC.
+</li>
+<li>An example, to map a database table to a <code>Product</code> data access
+object using Scala code:
+<div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">Product</span> <span class="k">extends</span> <span class="nc">Table</span><span class="o">[(</span><span class="kt">Long</span>, <span class="kt">String</span>, <span class="kt">String</span><span class="o">)]</span> <span class="o">(</span><span class="s">"Products"</span><span class="o">){</span>
+  <span class="k">def</span> <span class="n">ean</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">Long</span><span class="o">](</span><span class="s">"ean"</span><span class="o">,</span> <span class="n">O</span><span class="o">.</span><span class="nc">PrimaryKey</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">name</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"name"</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">description</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"description"</span><span class="o">)</span>
+  <span class="k">def</span> <span class="o">*</span> <span class="k">=</span> <span class="n">ena</span> <span class="o">~</span> <span class="n">name</span> <span class="o">~</span> <span class="n">description</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">products</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+  <span class="n">product</span> <span class="k">&lt;-</span> <span class="nc">Product</span><span class="o">.</span><span class="n">sortBy</span><span class="o">(</span><span class="nc">Product</span> <span class="k">=&gt;</span> <span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">asc</span><span class="o">)</span>
+<span class="o">}</span> <span class="n">yeild</span> <span class="o">(</span><span class="n">product</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">url</span> <span class="k">=</span> <span class="s">"jdbc:postgresql:/localhost/slick?user=slick&amp;password=slick"</span>
+<span class="nc">Database</span><span class="o">.</span><span class="n">forURL</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">driver</span><span class="o">=</span><span class="s">"org.postgresql.Driver"</span><span class="o">)</span> <span class="n">withSession</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">productList</span> <span class="k">=</span> <span class="n">products</span><span class="o">.</span><span class="n">list</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Binding HTTP data to Scala objects</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Action methods often have parameters, it is need to be able to map
+HTTP request data to those parameters.
+</li>
+<li>The routing and the subsequent parameter binding are both part of
+the <b>mapping</b> between HTTP and Scala's interfaces, which is a
+translation between two very different interface style.
+</li>
+<li>Play has a number of separate build-in binders for different types,
+and you can also implement your own binders.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Static and compiled assets</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>Architects and web frameworks often take the view that static files
+should be handled differently than generated content in a web
+application's architecture
+</li>
+<li>In Play, this probably a <b>premature optimization</b>. If you have high
+performance requirements for serving static content, the best
+approach is probably to use a <b>cache</b>, or <b>load balancer</b> in front
+of Play, instead of avoiding serving the files using Play in the
+first place.
+</li>
+<li>Play provides an <b>assets controller</b> to serve static files.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Action composition</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>Action are functions, which means you can compose them to apply
+common functionality to multiple actions.
+</li>
+<li>For example, you can defined actions for caching and authentication
+and use them like this:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">list</span> <span class="k">=</span> <span class="nc">Authenticated</span> <span class="o">{</span>
+     <span class="nc">Cached</span> <span class="o">{</span>
+	  <span class="nc">Action</span> <span class="o">{</span>
+	    <span class="c1">//process request.</span>
+	  <span class="o">}</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>This example uses <code>Action</code> to create an action function that is
+passed as a parameter to <code>Cached</code>, which returns a new action function.
+</li>
+<li>This, in turn, is passed as parameter to <code>Authenticated</code>, which
+decorate the action function again.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Routes</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>Add an optional page number parameter, with a default value:
+<p class="verse">
+GET  /products      controllers.Products.list(page: Int ?=1)<br></p>
+<ul class="org-ul">
+<li>The <code>?=</code> syntax for an optional parameter isn't normal Scala
+syntax, and it is only used in the <code>routes</code> file.
+</li>
+<li>Can also use <code>=</code> for fixed parameter values that aren't specified
+in the URL  <code>(page: Int =1)</code>,
+</li>
+<li>and <code>Option</code> for optional parameters that may or may not be
+include din the query string <code>(page: Option[Int])</code>.
+</li>
+</ul>
+</li>
+<li>Matching URL path parameters that contain forward slashes:
+<p class="verse">
+# This route will not work <code>:file</code> contains forward slashes.<br>
+GET  <i>photo</i>:file    controllers.Media.photo(file: String)<br>
+# This route will work.<br>
+GET  /photo/*file    controllers.Media.photo(file: String)<br></p>
+</li>
+<li>Matching regexp:
+<p class="verse">
+# This will only match ean conform to the regexp \d{13}<br>
+GET   <i>product/$ean&lt;\d{13}&gt;   controllers.Products.details(ean: Long)<br>
+GET   /product</i>:alias   controllers.Products.details(alias: String)<br></p>
+</li>
+<li>Binding HTTP data
+<ul class="org-ul">
+<li>Play, along with other modern web frameworks such as Spring MVC,
+improves on treating HTTP request parameters as strings by
+performing type conversion <b>before</b> it attempts to call action.
+</li>
+<li>Only when type conversion succeeds does Play call the action
+method.
+</li>
+<li>Binding applies to two kinds of request data:
+<ul class="org-ul">
+<li>URL path parameters
+</li>
+<li>and query string parameters.
+</li>
+</ul>
+</li>
+<li>Play defines binders for a number of basic types.
+</li>
+<li>You can also add binding for custom types, such as your
+application's domain model types, by adding your own <code>Formatter</code>
+implementation.
+</li>
+<li>Binding the content of an HTML form to a domain object, using a
+<code>form object</code>
+</li>
+</ul>
+</li>
+<li>Generating HTTP calls for actions with reverse routing.
+<ul class="org-ul">
+<li>map a particular action method invocation to the corresponding
+URL.
+</li>
+<li>avoid hard coding path.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">delete</span><span class="o">(</span><span class="n">ean</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+  <span class="nc">Product</span><span class="o">.</span><span class="n">delete</span><span class="o">(</span><span class="n">ean</span><span class="o">)</span>
+  <span class="nc">Redirect</span><span class="o">(</span><span class="n">routes</span><span class="o">.</span><span class="nc">Products</span><span class="o">.</span><span class="n">list</span><span class="o">())</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>The reverse route generates a URL in the form of an HTTP call (a
+<code>play.pai.mvc.Call</code>) for certain action method, including the
+parameter values.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/programming-in-scala/" class="u-url">Programming in scala</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/programming-in-scala/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/programming-in-scala/#sec-1">Function</a></li>
+<li><a href="posts/reading/programming-in-scala/#sec-2">Class and Trait</a></li>
+<li><a href="posts/reading/programming-in-scala/#sec-3">Pattern Matching</a></li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Function</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Define function:
+<div class="highlight"><pre><span></span>  <span class="k">def</span> <span class="n">max</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+     <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">&gt;</span><span class="n">y</span><span class="o">)</span> <span class="n">x</span>
+     <span class="k">else</span> <span class="n">y</span>
+  <span class="o">}</span>
+</pre></div>
+</li>
+<li>If a function consists of just one statement, the curly braces can
+be omitted.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">max2</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">if</span> <span class="o">(</span><span class="n">x</span><span class="o">&gt;</span><span class="n">y</span><span class="o">)</span> <span class="n">x</span> <span class="k">else</span> <span class="n">y</span>
+</pre></div>
+</li>
+<li>Scala's Unit type is similar to Java's void type.
+</li>
+<li>Functions are first class constructs; for example:
+<div class="highlight"><pre><span></span><span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">arg</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span>
+</pre></div>
+<p>
+In this case, a function literal that take one parameter named <code>arg</code>
+is passed in; the body of the function is <code>println(arg)</code>.
+</p>
+</li>
+<li>In the above example, Scala infers the type of arg to be String,
+since String is the element type of the array on which you are
+calling foreach. but you can also do more explicitly:
+<div class="highlight"><pre><span></span><span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">((</span><span class="n">arg</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">))</span>
+</pre></div>
+</li>
+<li>If a function literal consists of one statement that takes a single
+argument, you dont need to explicitly name and specify the argument. Thus
+the following code also works:
+<div class="highlight"><pre><span></span><span class="n">args</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>The traditional for loop can be written as like:
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">(</span><span class="n">arg</span> <span class="k">&lt;-</span> <span class="n">args</span><span class="o">)</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span>
+</pre></div>
+<p>
+the arg to the left of &lt;- is a val, not a var: arg can't be
+reassigned inside the body of the for expression.
+</p>
+</li>
+<li>The generic in scala:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">greetingStrings</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="mi">3</span><span class="o">)</span>
+</pre></div>
+<p>
+and to access the array content using parentheses, not square
+brackets as in Java:
+</p>
+<div class="highlight"><pre><span></span><span class="n">greetStrings</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="k">=</span> <span class="s">"Hello"</span>
+</pre></div>
+<p>
+The for expression that access the array:
+</p>
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">0</span> <span class="n">to</span> <span class="mi">2</span><span class="o">)</span> <span class="n">print</span><span class="o">(</span><span class="n">grentStrings</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span>
+</pre></div>
+</li>
+<li>As a <b>general rule</b> in scala:  if a method takes only one parameter,
+you can call it without a dot or a parentheses. In the above example
+the <code>to</code> in is actually a method that takes one Int argument. thus 0 to
+2 is actually a method call <code>(0).to(2)</code>.
+</li>
+<li>Note that this syntax only works if you explicitly specify the
+receiver of the method call. You cannot write <code>println 10</code>, but you
+can write <code>Console println 10</code>.
+</li>
+<li>Scala doesn't technically have operator overloading, because it
+doesn't actually have operators in the traditional sense. Instead,
+characters such as +, -, * and / can be used in method names.
+</li>
+<li>When you <b>apply parentheses</b> surrounding one or more values to a
+variable, Scala will transform the code into an invocation of a
+method named <code>apply</code> on that variable. So <code>greetStrings(i)</code> gets
+transformed into <code>greetStrings.apply(i)</code>. Thus accessing an element of
+an array in Scala is <i>simply a method</i> call like any other.
+</li>
+<li>Similarly, when an assignment is made to a variable to which
+<b>parentheses and one more arguments</b> have been applied, the compiler
+will transform that into an invocation of an <code>update</code> method. Thus 
+<code>greetString(0) = 1</code> is transformed into: <code>greetStrings.update(0, 1)</code>
+</li>
+<li>To create and initialise arrays more easily:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">numNames</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"zero"</span><span class="o">,</span> <span class="s">"one"</span><span class="o">,</span> <span class="s">"two"</span><span class="o">)</span>
+</pre></div>
+<p>
+In this case, Scala will actually call a <b>factory method</b>, named
+<code>apply</code>, on Array type.
+</p>
+</li>
+<li>Scala's array is a <b>mutable</b> sequence of objects that all share the
+same type. Array[String] contains only strings; Although you can't
+change the length of an array, you can change its element values. 
+</li>
+<li>For an immutable sequence of objects that share the same type, you
+can use Scala's List class. <code>scala.List</code>, differs from Java's
+java.util.List type in that Scala Lists are always <b>immutable</b>, in a
+sense that, when you call a method on a list that might seem by its
+name to imply the list will mutate, <span class="underline">it instead creates and returns a
+new list with the new value</span>.
+</li>
+<li>If a method is used in operator notation, such as <code>a*b</code>, the method is
+invoked on the left operand, as in <code>a.*(b)</code>, unless the method name
+ends in a <b>colon</b>, where the method is invoked on the right operand.
+</li>
+<li>Scala's List can contains only same type elements, while <b>tuple</b> can
+contains different types. To instantiate a new tuple that holds some
+objects:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">pair</span> <span class="k">=</span> <span class="o">(</span><span class="mi">99</span><span class="o">,</span> <span class="s">"Lu"</span><span class="o">)</span>
+<span class="n">println</span><span class="o">(</span><span class="n">pair</span><span class="o">.</span><span class="n">_1</span><span class="o">)</span>
+</pre></div>
+<p>
+Scala infers the type of the tuple to be Tuple2[Int, String] and
+gives that type to variable pair. Note that these -N numbers
+function to <i>access the element of a tuple</i> is <b>1</b> based,  instead of
+zero-based.
+</p>
+</li>
+<li>When dealing with map:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">treasureMap</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">]</span> <span class="o">()</span>
+<span class="n">treasuremap</span> <span class="o">+=</span>  <span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="s">"Go to island."</span><span class="o">)</span>
+</pre></div>
+<p>
+the method ~-&gt;~ can be applied on any object in scala, which will
+produce a <b>two element tuple</b>.
+</p>
+</li>
+<li>Both <code>set</code> and <code>map</code> in Scala have mutable version and immutable
+version, which resides in different package. When no import is used,
+Scala will choose to use the immutable version.
+</li>
+<li>One telltale sign is that if code contains any vars, it is probably
+in an imperative style. Thus one way to move towards a functional
+style, is to try to program without vars. The reason Scala
+encourages a functional style, in fact, is that the functional style
+can help you write more understandable, less error-prone
+</li>
+<li>Another telltale sign of a function with side effects is that its
+result type is Unit.
+</li>
+<li>One important characteristic of method parameters in Scala is that
+they are vals, not vars. so you cannot reassign a parameter inside a
+method in Scala.
+</li>
+<li>The recommended style for methods is to avoid having explicit, and
+especially multiple, return statement. Instead, think of <span class="underline">each method
+as an expression that yields one value, which is returned</span>. This
+philosophy will encourage you to <b>make methods quite small</b>, to factor
+large methods into multiple smaller ones.
+</li>
+<li>Methods with a result type of <code>Unit</code>, are executed for their side
+affects. Another way to express such methods is to leave off the
+result type and the equals sign, and enclose the body of the method
+in curly braces. In this form, the method looks like a
+procedure. For example:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">add</span><span class="o">(</span><span class="n">b</span><span class="k">:</span> <span class="kt">Byte</span><span class="o">)</span> <span class="o">{</span><span class="n">sum</span> <span class="o">+=</span><span class="n">b</span><span class="o">}</span>
+</pre></div>
+<p>
+Whenever you leave off the equals sign before the body of a
+function, its <i>result type will definitely be <code>Unit</code></i>. This is true no
+matter what the body contains, because Scala can/will convert any
+type to Unit.
+</p>
+</li>
+<li>Scala includes a special syntax for <b>raw strings</b>, which is started
+and ended with three double quotation marks in a row. Inside a raw
+string, | (pipe) at the front of each line and then a method
+stripMargin can be called to remove the white space.
+</li>
+<li>Whenever you call a method that takes multiple arguments using
+operator notation, you have to place those arguments in
+parentheses. For example:
+<div class="highlight"><pre><span></span><span class="n">s</span> <span class="n">indexOf</span> <span class="o">(</span><span class="sc">'o'</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>
+<b>Prefix operators</b> are a shorthand way of invoking methods. In this
+case, the name of the method has <b>unary_</b> pretended to the operator
+character. For example, <code>-2.0</code> will be translated to
+<code>(2.0).unary_-</code>. The <i>only identifiers</i> that can be used as prefix
+operators are <b>+, -, ! and ~</b>.
+</li>
+<li>
+<b>Postfix operators</b> are methods take no arguments, when they are
+<span class="underline">invoked without a dot or parentheses</span>.
+</li>
+<li>In scala, you can also leave off empty parentheses on method
+calls. The <i>convention</i> is that you <span class="underline">include parentheses if the mouthed
+has side effects</span>, such as <code>println()</code>, but you can <span class="underline">leave them off if
+the method has no side effects</span>, such as <code>toLowerCase</code> invoked on a
+String.
+</li>
+<li>Any method that ends in a ":" character is invoked on its right
+operand, passing in the left operand. 
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Class and Trait</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>
+<b>Object equality</b> is compared with <code>==</code> or <code>!=</code>. To comparing <b>reference
+equality</b>, use method <code>eq</code> and <code>ne</code>. However, eq and ne only apply to
+objects that directly map to Java objects.
+</li>
+<li>When a <b>singleton</b> object shares the same name with a class, it is
+called that class's <i>companion object</i>; and you must define both the
+class and its companion object <i>in the same source file</i>. <span class="underline">A class and
+its companion object can assess each other's private members</span>.
+</li>
+<li>Ond difference between classes and singleton objects is that
+singleton objects cannot take parameters, cause you can't
+instantiate a single object with the new keyword. 
+</li>
+<li>Each singleton object is implemented as an instance of a synthetic
+class referenced from a static variable, so they have the same
+initialisation semantics as java statics. In particular, a singleton
+object is initialised the first time some code access it. 
+</li>
+<li>Scala implicitly imports members of packages <code>java.lang</code> and <code>scala</code>, as
+well as the member of a singleton object named <b><code>Predef</code></b>.
+</li>
+<li>If a class doesn't have a body, u don't need to specify empty curly
+braces. The identifiers in the parentheses after the class name are
+called <b>class parameters</b>. Scala compiler will gather up these
+class parameters and create a <b>primary constructor</b> that takes the
+same two parameters. For example:
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Rational</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">d</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>
+</pre></div>
+<p>
+class parameters can be used directly in the body of the class.
+</p>
+</li>
+<li>The scala compiler will compile any code you place in the class
+body, <span class="underline">which isn't part of a field or a method definition</span>, into the
+<b>primary constructor</b>.
+</li>
+<li>To override a method:
+<div class="highlight"><pre><span></span><span class="k">override</span> <span class="k">def</span> <span class="n">toString</span> <span class="k">=</span> <span class="n">n</span> <span class="o">+</span><span class="s">"/"</span> <span class="nc">_d</span>
+</pre></div>
+</li>
+<li>Check preconditions, using <code>require</code>:
+<div class="highlight"><pre><span></span><span class="n">require</span> <span class="o">(</span><span class="n">d</span><span class="o">!=</span><span class="mi">0</span><span class="o">)</span>
+</pre></div>
+<p>
+<code>IllegalArgumentException</code> will be raised when the condition fail.
+</p>
+</li>
+<li>Class parameters can only be access by <code>this</code> object.
+</li>
+<li>In scala, constructors other than the primary constructor are called
+<b>auxiliary constructors</b>, and it is defined like: 
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="k">this</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  <span class="k">=</span> <span class="k">this</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span> 
+</pre></div>
+</li>
+<li>Scala can do implicit conversion of type by:
+<div class="highlight"><pre><span></span><span class="k">implicit</span> <span class="k">def</span> <span class="n">intToRational</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Rational</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+</pre></div>
+<p>
+Note that for an implicit conversion to work, it needs to be in
+scape. if the implicit method definition inside class Rational, it
+won't be in scope in the interpreter.
+</p>
+</li>
+<li>Scala's control structures are <code>if</code>, <code>while</code>, <code>for</code>, <code>try</code>, <code>match</code> and
+<code>function calls</code>. /Almost all Scala's control structures result in some
+value/. 
+</li>
+<li>The <code>while</code> and <code>do-while</code> constructs are called "loops", not
+expressions, because <i>they don't result in an interesting value</i>. The
+type of result is <b>Unit</b>. Only one value exists for type Unit, it is
+called unit value and is written <b>()</b>. <i>The exists of () is how Scala's
+Unit different from Java's void</i>. 
+</li>
+<li>While in Java, <i>assignment results in the value assigned</i>, in Scala
+<b>assignment always results in unit value ()</b>. Thus for example this
+bit of code won't work:
+<div class="highlight"><pre><span></span><span class="k">while</span> <span class="o">((</span><span class="n">line</span> <span class="k">=</span> <span class="n">readLine</span><span class="o">())</span> <span class="o">!=</span><span class="s">""</span><span class="o">)</span> <span class="n">println</span> <span class="o">(</span><span class="n">line</span><span class="o">)</span>
+</pre></div>
+<p>
+It will cause infinite loop; cause any thing compared with a () will
+result in true.
+</p>
+</li>
+<li>for expression with a filter:
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">(</span><span class="n">file</span> <span class="k">&lt;-</span> <span class="n">filesHere</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">getName</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">".scala"</span><span class="o">))</span> <span class="n">println</span><span class="o">(</span><span class="n">file</span><span class="o">)</span>
+</pre></div>
+<p>
+more than one filters can be includes. 
+</p>
+</li>
+<li>for expression can have more than one &lt;- to get nested "loops". 
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">(</span><span class="n">file</span> <span class="k">&lt;-</span> <span class="n">filesHere</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">getName</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">".scala"</span><span class="o">);</span>
+    <span class="n">line</span><span class="k">&lt;-</span><span class="n">fileLines</span><span class="o">(</span><span class="n">file</span><span class="o">)</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">trim</span><span class="o">.</span><span class="n">matches</span><span class="o">(</span><span class="n">pattern</span><span class="o">))</span> <span class="o">..</span>
+</pre></div>
+</li>
+<li>Mid-stream variable bindings in for expression:
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">{</span>
+ <span class="n">file</span><span class="k">&lt;-</span><span class="n">filesHere</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">getName</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">".scala"</span><span class="o">)</span>
+ <span class="n">line</span><span class="k">&lt;-</span><span class="n">fileLInes</span><span class="o">(</span><span class="n">file</span><span class="o">)</span>
+ <span class="n">trimmed</span> <span class="k">=</span> <span class="n">line</span><span class="o">.</span><span class="n">trim</span> <span class="k">if</span> <span class="n">trimmed</span><span class="o">.</span><span class="n">matches</span><span class="o">(</span><span class="n">pattern</span><span class="o">)</span>
+<span class="o">}...</span>
+</pre></div>
+</li>
+<li>
+<code>for .. yield...</code> to produce new collections. 
+<div class="highlight"><pre><span></span>  <span class="k">for</span> <span class="o">{</span>
+   <span class="n">file</span><span class="k">&lt;-</span> <span class="n">filesHere</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">getName</span><span class="o">.</span><span class="n">endsWith</span><span class="o">(</span><span class="s">".scala"</span><span class="o">)</span>
+  <span class="o">}</span> <span class="k">yield</span> <span class="n">file</span>
+</pre></div>
+<p>
+the type of resulting collection is based on the kind of collection processed.
+</p>
+</li>
+<li>In scala, <i>throw is an expression that has a result type of
+<b>Nothing</b></i>, although when throw happens, the result type is never
+evaluated.
+</li>
+<li>As with most Scala control structures, <code>try-catch-finally</code> results in
+a value. If an exception is thrown but not caught, the expression
+has not result al all; <i>The value computed in the finally clause, if
+there is one, is dropped</i>. Usually finally clauses do some kind of
+clean up; they should not normally change the value computers in the
+main body or a catch cause. 
+</li>
+<li>
+<code>match</code> expression also result in a value. 
+</li>
+<li>Scala don't have break and continue.
+</li>
+<li>A <code>function literal</code> is compiled into a class that when instantiated
+at runtime is a function value. Function literals exists in the
+source code where function values exist as objects at runtime. 
+</li>
+<li>To make a <code>function literal</code> even more concise, you can use
+<i>underscores as placeholders</i> for one or <b>more</b> parameters, so long as
+<span class="underline">each parameter appears only one time within the function</span>
+literal. for example: ~ _ &gt; 0~ is same as <code>x =&gt; x&gt;0</code>
+</li>
+<li>If the compiler cannot know enough of the type of the parameter when
+placeholder is used, the type can be specified: 
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">f</span><span class="k">=</span> <span class="o">(</span><span class="k">_:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">+(</span><span class="k">_:</span> <span class="kt">Int</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>Multiple underscores means <i>multiple parameters</i>.
+</li>
+<li>You can also replace an entire parameter list with an underscore.
+</li>
+<li>The function value (the object) that's created at runtime from this
+function literal is called a <code>closure</code>. The name arises from the act
+of "closing" the function literal by "capturing" the hidings of its
+free variables. A function literal with no free variables is called
+a closed term; and any function literal with free variables, such as
+(x: Int) =&gt; x + more,  is an open term. 
+</li>
+<li>What happens if the free variables are changed after the closure is
+created? In Scala, the answer is that closure sees the
+change. Change made by the closure to a captured variable are
+visible outside the closure.
+</li>
+<li>Scala allows you to indicate that the last parameter to a function
+may be repeated. This allow clients to pass variable length argument
+lists to the function.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">echo</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">String*</span><span class="o">)</span> <span class="k">=</span> <span class="k">for</span> <span class="o">(</span><span class="n">arg</span> <span class="k">&lt;-</span> <span class="n">args</span><span class="o">)</span> <span class="n">println</span><span class="o">(</span><span class="n">arg</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>The type of args inside the echo function String* is actually
+Array[String]. <i>However you cannot pass a Array[String] into that
+function directly</i>. To accomplish this, you will need to append the
+array argument with an colon and an _* symbol, like:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">array</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(</span><span class="s">"A"</span><span class="o">,</span> <span class="s">"B"</span><span class="o">)</span>
+<span class="n">echo</span><span class="o">(</span><span class="n">array</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">)</span>
+</pre></div>
+<p>
+This notation tells the compiler to pass each element of array as
+its own argument to echo, rather than all of it as a single
+argument. 
+</p>
+</li>
+<li>You can use Named arguments to change the order the parameter is
+passed into a function:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">speed</span><span class="o">(</span><span class="n">distance</span><span class="k">:</span> <span class="kt">Float</span><span class="o">,</span> <span class="n">time</span><span class="k">:</span> <span class="kt">Float</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Float</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">/</span> <span class="n">time</span>
+<span class="n">speed</span><span class="o">(</span><span class="n">time</span><span class="k">=</span><span class="mi">10</span><span class="o">,</span> <span class="n">distance</span><span class="k">=</span><span class="mi">100</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>You can also define default parameter values for function
+parameters. The argument for such a parameter can optionally be
+omitted from a function call, in which case the corresponding
+argument will be filled with the default.
+</li>
+<li>In any method invocation in Scala in which you are passing in
+exactly one argument, you can opt to <i>use curly braces to surround
+the argument instead of parentheses</i>. This enable client programmers
+to <span class="underline">write function literals between curly braces</span>. 
+</li>
+<li>In scala, <b>by-name parameter</b> to <b>delay the function call</b> when
+passing function value; the function value is not evaluated at the
+point of function application, but instead is <i>evaluated at each use
+within the function</i>.
+</li>
+<li>
+<b>Case classes</b> are regular classes which export their constructor
+parameters and which provide a recursive decomposition mechanism
+via pattern matching. It makes only sense to <i>define case classes if
+<b>pattern matching</b> is used to decompose data structures</i>. 
+</li>
+<li>Scala does not require that the new primitive is used to
+facilitate the construction of case classes.
+</li>
+<li>Similar to  interfaces  in Java, traits are used to define object
+types by specifying the signature of the supported methods. Unlike
+Java, Scala allows traits to be partially implemented; i.e. it is
+possible to define default implementations for some methods. In
+contrast to  classes, traits may not have <i>constructor parameters</i>.
+</li>
+<li>Scala is very liberal when it comes to mixing <b>parameterless</b>
+  and <b>empty-paren</b> methods.
+<ul class="org-ul">
+<li>In particular, you can override a
+parameterless method with an empty-paren method, and vice versa.
+</li>
+<li>you can also leave off the empty parentheses on an invocation of
+any function that takes no arguments. 
+</li>
+</ul>
+</li>
+<li>In Scala, any class will implicitly extends from scala.AnyRef, which
+is same as class java.lang.Object.
+</li>
+<li>Filed can be used to override an <b>parameterless</b> method. But on the
+other hand, it is <i>forbidden to define a field and method with the
+same name in the same class, whereas it is allowed in Java</i>. 
+</li>
+<li>A parametric filed for class:
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ArrayElement</span> <span class="o">(</span>
+   <span class="k">val</span> <span class="n">contents</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span>
+<span class="o">)</span> <span class="k">extends</span> <span class="nc">Element</span>
+</pre></div>
+<ul class="org-ul">
+<li>combine  the  definition  of a class parameter and a
+field.
+</li>
+<li>You can also prefix a class parameter with <code>var</code>, in which case
+the corresponding field would be reassignable.
+</li>
+<li>It is possible to add modifiers such as <code>private</code>, <code>protected</code>, or
+<code>override</code> to these parametric fields, just as you can do for any
+other class member.
+</li>
+</ul>
+</li>
+<li>Invoking superclass constructors:
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LineElement</span><span class="o">(</span><span class="n">s</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">ArrayElement</span><span class="o">(</span><span class="nc">Array</span><span class="o">(</span><span class="n">s</span><span class="o">)){</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>For override modifier, Scala requires such a modifier for all
+ members that override a concrete member in a parent
+class. the modifier is optional if a member implements an
+abstract member with the same name. The modifier is forbidden if a
+member doesn't not override or implement some other member in a base
+class.
+</li>
+<li>Traits let you modify the methods of a class, and they do so in a
+way that allow you to stack those modifications with each other. 
+</li>
+<li>
+<b>Stackable modification</b> of traits:
+<div class="highlight"><pre><span></span>  <span class="k">trait</span> <span class="nc">Doubling</span> <span class="k">extends</span> <span class="nc">IntQueue</span> <span class="o">{</span>
+     <span class="k">abstract</span> <span class="k">override</span> <span class="k">def</span> <span class="n">put</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="o">{</span><span class="k">super</span><span class="o">.</span><span class="n">put</span><span class="o">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">)</span> <span class="o">}</span>
+  <span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>
+<code>super()</code> calls in traits are dynamically bound. it will work as
+long as the traits is mixed in after another trait or class that
+gives a concrete definition to the method.
+</li>
+<li>To tell the compiler you are doing this on purpose, you must mark
+such methods as abstract override. This combination of modifiers
+is only allowed for members of traits, not classes. 
+</li>
+</ul>
+</li>
+<li>When you call a method on a class with several  mixed-in traits, the
+method in the <b>right furthest</b> traits will be called. If it has a
+<code>super()</code> call, the left  to  it will be called, and so on. The
+<i>order of mixed-in traits is important</i>.
+</li>
+<li>Scala compiler adds a <b>copy</b> method to a case class for making
+copied instance that are same except one or two attributes are
+different. The method works by using named and default parameters:
+<code>op.copy(operator = "-")</code>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Pattern Matching</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Scala's match never "fall through" into the next case. If none of
+the patterns match, an exception named "MatchError" is thrown.
+</li>
+<li>A constant pattern matches only itself. Any literal can be used as a
+constant.
+</li>
+<li>Any <code>val</code> or <b>singleton object</b> can be used as a constant. For
+example, <code>Nil</code>, a singleton object, is a pattern that matches only
+empty List.
+</li>
+<li>A <b>variable pattern</b> matches <i>any object</i>, just like a <b>wildcard</b> but
+Scala bind the variable to whatever the object is. 
+</li>
+<li>How does Scala compiler know that "Pi" is a constant imported from
+scala.math, and not a variable that stands for the selector value
+itself? Scala uses a s impel  lexical rule for disambiguation:
+<ul class="org-ul">
+<li>a simple name starting with a lowercase letter is taken to be a
+pattern variable;
+</li>
+<li>all other references  are taken to be constants. 
+</li>
+<li>Lower case  constant identifier  can be treated in pattern match with
+a back tick syntax. back tick can also be used to treat a keyword as
+an ordinary identifier: <br><code>Tread.`yield`()</code> treats yield as an identifier rather than a
+keyword.
+</li>
+</ul>
+</li>
+<li>You can match against sequence type like List or Array just like you
+match against case classes. you can also match against tuples.
+</li>
+<li>Typed pattern can be used as a convenient replacement for type tests
+and type casts:
+<div class="highlight"><pre><span></span>  <span class="k">def</span> <span class="n">generalSize</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Any</span><span class="o">)</span> <span class="k">=</span> <span class="n">x</span> <span class="k">match</span> <span class="o">{</span>
+     <span class="k">case</span> <span class="n">s</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">length</span>
+     <span class="k">case</span> <span class="n">m</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="k">_</span>, <span class="k">_</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="n">m</span><span class="o">.</span><span class="n">size</span>
+     <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="o">}</span>
+</pre></div>
+</li>
+<li>Alternatively: <code>expr.isInstanceOf[String]</code> and
+<code>expr.asInstanceOf[String]</code> can be used.
+</li>
+<li>Scala restricts patterns to be linear: a pattern variable may only
+appear once in a pattern. However you can use <b>pattern guard</b>:
+<div class="highlight"><pre><span></span>  <span class="k">def</span> <span class="n">simplifyAdd</span><span class="o">(</span><span class="n">e</span><span class="k">:</span> <span class="kt">Expr</span><span class="o">)</span> <span class="k">=</span> <span class="n">e</span> <span class="k">match</span> <span class="o">{</span>
+     <span class="k">case</span> <span class="nc">BinOp</span><span class="o">(</span><span class="s">"+"</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span><span class="n">y</span> <span class="k">=&gt;</span> <span class="nc">BinOp</span><span class="o">(</span><span class="s">"*"</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="nc">Number</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span>
+     <span class="k">case</span> <span class="o">-</span> <span class="k">=&gt;</span> <span class="n">e</span>
+  <span class="o">}</span>
+</pre></div>
+<p>
+The guard can be an arbitrary boolean expression. 
+</p>
+</li>
+<li>A sealed class cannot have any new subclasses added except the ones
+in the same file. This will help the scala compiler to detect the
+missing cases in a pattern match.
+</li>
+
+<li>
+<b>Implicit conversion</b> are governed by the following rules:
+<ul class="org-ul">
+<li>Only definitions marked implicit are available. 
+</li>
+<li>An inserted implicit conversion must be in scope as a single
+identifier, or be associated with the source or target type of the
+conversion.
+</li>
+<li>The compiler will also book look implicit definitions in the
+companion object of the source or expected target type of the
+conversion. There is no need to import the conversion separately
+into your
+</li>
+<li>Only one implicit is tried at a time, however, the restriction can
+be circumvent by having implicits take implicit parameters. 
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/redis-in-action/" class="u-url">Redis in Action</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/redis-in-action/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/redis-in-action/#sec-1">Getting to know Redis</a></li>
+<li>
+<a href="posts/reading/redis-in-action/#sec-2">Anatomy of Redis web application</a>
+<ul>
+<li><a href="posts/reading/redis-in-action/#sec-2-1">Login Cookies and Shopping cart</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-2-2">Web page caching</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-2-3">Database row caching</a></li>
+</ul>
+</li>
+<li>
+<a href="posts/reading/redis-in-action/#sec-3">Commands in Redis</a>
+<ul>
+<li><a href="posts/reading/redis-in-action/#sec-3-1">String</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-3-2">Lists</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-3-3">Sets</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-3-4">Hashes</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-3-5">ZSets</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-3-6">Publish/Subscribe</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-3-7">Basic Transaction in Redis</a></li>
+<li><a href="posts/reading/redis-in-action/#sec-3-8">Expiring keys</a></li>
+</ul>
+</li>
+<li>
+<a href="posts/reading/redis-in-action/#sec-4">Keeping data safe and ensuring performance</a>
+<ul>
+<li><a href="posts/reading/redis-in-action/#sec-4-1">Persistence options</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Getting to know Redis</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Redis is a in-memory non-relational database.
+<ul class="org-ul">
+<li>Data storage options: strings, lists, sets, hashes, sorted sets
+</li>
+<li>additional features: publish/subscribe, master/slave replication,
+disk persistence, and scripting(stored procedures)
+</li>
+</ul>
+</li>
+<li>Redis has two forms of persistence for writing in-memory data to
+disk in a compact format
+<ul class="org-ul">
+<li>a point-in-time dump when conditions are met, or when one of the
+two <i>dump-to-disk</i> commands is called.
+</li>
+<li>use an <i>append-only</i> file that writes every command that alters
+data in Redis to disk as it happens. append-only writing can be
+configured to never sync, sync once per second, or sync at the
+completion of every operation.
+</li>
+</ul>
+</li>
+<li>Redis support master/slave replication where slaves connect to the
+master and receive an initial copy of the full database.
+<ul class="org-ul">
+<li>As writes are performed on the master, they are sent to all
+connected slaves for updating the slave datasets in real time.
+</li>
+<li>Client can connect to any slave for reads.
+</li>
+</ul>
+</li>
+<li>Redis data structures:
+<ul class="org-ul">
+<li>STRING: key-&gt;string
+<ul class="org-ul">
+<li>
+<b>GET</b>, <b>SET</b>, <b>DEL</b>
+</li>
+</ul>
+</li>
+<li>LIST: key-&gt;An ordered sequence of strings
+<ul class="org-ul">
+<li>push items to the front and back: <b>LPUSH*/*RPUSH</b>
+</li>
+<li>pop items from the front and back: <b>LPOP*/*RPOP</b>
+</li>
+<li>fetch an item at given position: <b>LINDEX</b>
+</li>
+<li>fetch a range of item with: <b>LRANGE</b>
+</li>
+</ul>
+</li>
+<li>SET: key-&gt;Set of string
+<ul class="org-ul">
+<li>Use a hashtable to keep all string unique (although there are no
+associated values)
+</li>
+<li>add and remove items by value with: <b>SADD</b> and <b>SREM</b>
+</li>
+<li>check if it is a member: <b>SISMEMBER</b>
+</li>
+<li>get the entire set: *SMEMBERS. tthis can be slow for large sets.
+</li>
+<li>set operations: <b>SINTER</b>, <b>SUNION</b>, <b>SDIFF</b>
+</li>
+</ul>
+</li>
+<li>HASH: key-&gt;hashtable
+<ul class="org-ul">
+<li>Can consider a Redis HASH as being similar to a document in a
+document store.
+</li>
+<li>operation is defined on a key of Redis, then a sub-key of the hashtable.
+</li>
+<li>
+<b>HSET</b>, <b>HGET</b>, <b>HGETALL</b>, <b>HDEL</b>
+</li>
+</ul>
+</li>
+<li>ZSET: key-&gt;Set of string with a score for sorting.
+<ul class="org-ul">
+<li>Like HASH, ZSET hold a type of key and value, the keys are
+unique and the values (called scores) are limited to float-point numbers.
+</li>
+<li>add/remove: <b>ZADD</b>, <b>ZREM</b>
+</li>
+<li>fetches items from their positions in sorted order: <b>ZRANGE</b>
+</li>
+<li>fetches items based on a range of scores: <b>ZRANGEBYSCORE</b>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Anatomy of Redis web application</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Login Cookies and Shopping cart</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Two common methods of stroing login information in cookies: a <i>signed
+cookie</i> or a <i>token cookie</i>.
+<dl class="org-dl">
+<dt> Signed cookies </dt>
+<dd>typically store the user's name, ID, last
+logged in, and whatever else service may find useful. Cookies
+also includes a <b>signature</b> that allows the server to <i>verify</i>
+that information the browser sent hasn't been altered.
+</dd>
+<dt> Token cookies </dt>
+<dd>use a series of random bytes as the data in the
+cookie. On the server, the token is used as a key
+to look up the user who owns that token.
+</dd>
+</dl>
+</li>
+<li>Most relational databases are limited to inserting, updating, or
+deleting <b>roughly 200-2000</b> individual rows every second per
+database server.
+<ul class="org-ul">
+<li>Bulk inserts/updates/deletes can be performed faster.
+</li>
+<li>But for normal customer faced web application, a customer will
+only update a small handful of rows for each web page view, so
+higher-speed bulk operation doesn't help.
+</li>
+</ul>
+</li>
+<li>Redis's HASH datastructure is a good fit to implements token
+cookies and shopping carts.
+<ul class="org-ul">
+<li>Performance is about <i><b>10-100</b> times</i> over a typical relational
+database in this context
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Web page caching</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>The majority of the pages that are served don't change much on a
+regular basis.
+</li>
+<li>Middleware can be easily used to add a layer of cache for requested response.
+</li>
+<li>This could reduce the latency for a data-heavy page from maybe
+<b>20-50ms</b>, down to one round trip to Redis, which is normally <i><b>1ms</b>
+for a local connection</i>, and under <i><b>5ms</b> for computers in the same
+data center</i>.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Database row caching</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>Cache database rows in preparation for a heavy load, we will:
+<ul class="org-ul">
+<li>have a <b>daemon</b> function that will run continuously
+</li>
+<li>to cache specific database rows in Redis and updating them on a
+variable schedule.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Commands in Redis</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">String</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>In Redis, STRINGs are used to store three types of values:
+<ul class="org-ul">
+<li>Byte string values
+</li>
+<li>Integer values
+</li>
+<li>Floating-point values
+</li>
+</ul>
+</li>
+<li>When setting a STRING value in Redis, if that value could be
+interpreted as a base-10 integer or a floating-point value, the
+<b>INCR</b> and <b>DECR</b> related command can be used to manipulate the
+value.
+</li>
+<li>Integer/Float-point values can be increase/decerase by an numeric
+value (integer turning into float as necessary)
+<dl class="org-dl">
+<dt> INCR </dt>
+<dd>increments the value stored at the key by 1
+</dd>
+<dt> DECR </dt>
+<dd>decrements the value stored at the key by 1
+</dd>
+<dt> INCRBY </dt>
+<dd>increments by specified integer value
+</dd>
+<dt> DECRBY </dt>
+<dd>decrements by specified integer value
+</dd>
+<dt> INCRBYFLOAT </dt>
+<dd>increments by specified float value.
+</dd>
+</dl>
+</li>
+<li>STRINGs can also be manuplated with commands:
+<ul class="org-ul">
+<li>
+<b>APPEND</b>
+</li>
+<li>
+<b>GETRANGE</b>, <b>SETRANGE</b> : get/set substring with given offset value
+</li>
+<li>
+<b>GETBIT</b>, <b>SETBIT</b> : treat the byte string as bit string
+</li>
+<li>
+<b>BITCOUNT</b> : count 1 bits in the string.
+</li>
+<li>
+<b>BITOP</b> : performs <b>AND</b> <b>OR</b> <b>XOR</b> or <b>NOT</b>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Lists</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>LIST store an ordered sequence of STRING value
+</li>
+<li>Commonly used LIST commands
+<ul class="org-ul">
+<li>RPUSH, LPUSH, RPOP, LPOP
+</li>
+<li>LINDEX, LRANGE
+</li>
+<li>
+<b>LTRIM</b> : trims the list to only include items in the given range.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Sets</h3>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4">Hashes</h3>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5">ZSets</h3>
+</div>
+
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6">Publish/Subscribe</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li>In Redis, the pub/sub concept has been included through the use of
+five commands:
+<dl class="org-dl">
+<dt> SUBSCRIBE channel </dt>
+<dd>subscribe to the given channels
+</dd>
+<dt> UNSUBSCRIBE channel </dt>
+<dd>unsubscribe to the given channels
+</dd>
+<dt> (no term) </dt>
+<dd>PUBLISH channel message::  publish a message to the given channel
+</dd>
+<dt> PSUBSCRIBE pattern </dt>
+<dd>subscribes to messages broadcase to channels
+that match the given pattern
+</dd>
+<dt> PUNSUBSCRIBE </dt>
+<dd>unsubscribe the above.
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7">Basic Transaction in Redis</h3>
+<div class="outline-text-3" id="text-3-7">
+<ul class="org-ul">
+<li>A basic transaction involving <b>MULTI</b> and <b>EXEC</b> is meant to provide
+the opportunity for one client to execute multiple commands without
+other clients being able to interrupt them.
+</li>
+<li>It isn't the same as a relational database which can be executed
+partially, and then rolled back or committed.
+</li>
+<li>To perform a transaction:
+<ul class="org-ul">
+<li>first call MULTI, when seeing it, Redis will queue up commands
+from that same connection until it sees an EXEC.
+</li>
+<li>followed by any sequence of commands, all commands will be queued,
+without execution.
+</li>
+<li>followed by EXEC, Redis will execute all the queued commands
+sequentially without interruption.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8">Expiring keys</h3>
+<div class="outline-text-3" id="text-3-8">
+<ul class="org-ul">
+<li>data can be explicitly with <b>DEL</b> command,
+</li>
+<li>or can be removed after a specified timeout, or expiration.
+</li>
+<li>Related commands are:
+<dl class="org-dl">
+<dt> EXPIRE key-name seconds </dt>
+<dd>set the key to expire in the given
+number of <b>seconds</b>.
+</dd>
+<dt> EXPIREAT key-name timestamp </dt>
+<dd>set to expire at tht given time.
+</dd>
+<dt> TTL key-name </dt>
+<dd>get the remaining time before key expire.
+</dd>
+<dt> PERSIST key-name </dt>
+<dd>remove the expiration from the key.
+</dd>
+<dt> PTTL, PEXPIRE, PEXPIREAT </dt>
+<dd>accept parameters in <b>milliseconds</b>.
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Keeping data safe and ensuring performance</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Persistence options</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>Two different ways of persisting data to disk:
+<dl class="org-dl">
+<dt> snapshotting </dt>
+<dd>take the data as it exists at one moment in time
+and writes it to disk.
+</dd>
+<dt> AOF (append-only file)  </dt>
+<dd>copy incoming write commands to disk as
+they happen.
+</dd>
+<dt> (no term) </dt>
+<dd>both methods can be used together, separately, or not at all.
+</dd>
+</dl>
+</li>
+<li>
+</li>
+</ul>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/service-design-patterns/" class="u-url">Service Design Patterns</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/service-design-patterns/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/service-design-patterns/#sec-1">Web Service API Styles</a></li>
+</ul>
+</div>
+</div>
+<ul class="org-ul">
+<li>Distributed objects typically maintained state between client
+calls. This lead to a number of problems that hindered scalability.
+<ul class="org-ul">
+<li>Server memory utilization degraded with increased client load.
+</li>
+<li>Effective load-balancing techniques were more difficult to
+implement and manage because session state was often reserved for
+the client.
+<ul class="org-ul">
+<li>Unless a sophisticated infrastructure like shared memory cache
+was used to access the client's session from any server.
+</li>
+</ul>
+</li>
+<li>Server had to implement a strategy to release the memory allocated
+for a specific client instance.
+<ul class="org-ul">
+<li>In most cases the server relied on the client to notify it when
+it was down.
+</li>
+<li>If the client crashed, it will be problematic.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Possibly more important than the problem of latency is the fact that
+web service calls typically entail distributed communications. This
+means that client and service developers alike must be prepared to
+handle partial failures.
+</li>
+<li>In light of these inherent risks, developers and architects should
+<b>first</b> explore the alternatives.
+<ul class="org-ul">
+<li>A .NET client could host a JVM, load a Java library into the JVM,
+and communicate with the target classes through JNI.
+</li>
+<li>Web services should therefore be reserved for situations in which
+out-of-process and cross-machine calls "make sense".
+</li>
+</ul>
+</li>
+</ul>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Web Service API Styles</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>RPC API: How can client execute remote procedures over HTTP.
+</li>
+<li>Message API: How can clients send commands, notifications or other
+information to remote systems over HTTP while avoiding direct
+coupling to the remote procedures.
+</li>
+<li>Resource API: How can a client manipulate data managed by a remote
+system, avoid direct coupling to remote procedures, and minimize the
+need for <b>domain-specific</b> API.
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/soa-patterns/" class="u-url">SOA Patterns</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/soa-patterns/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/soa-patterns/#sec-1">Solving SOA pains with patterns</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Solving SOA pains with patterns</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Defining software architecutre:
+<ul class="org-ul">
+<li>Software architecture is the collection of fundamental decisions
+about a software product or solution designed to meet the
+project's quality attributes (the architectural requirements).
+</li>
+<li>The architecture includes the main components, their main
+attributes, and their collaboration to meet the quality attributes.
+</li>
+<li>Arehitecture can, and usually should, be expressed in several
+levels of abstraction, where the number of levels depends on the
+project's size and complexity.
+</li>
+</ul>
+</li>
+<li>Some comments about software architecture:
+<ul class="org-ul">
+<li>Architecture represents the set of earliest design decisions that
+are both hardest to change and most critical to get right.
+</li>
+<li>Architecture is an attribute of every system.
+</li>
+<li>Architecture breaks a system into components and sets boundaries.
+</li>
+<li>Architecture is about relationships and component interactions.
+</li>
+<li>Architecture explains the retionale behind the choices. Also it
+can be benefical to understand what alternatives were weighed and
+abandoned.
+</li>
+</ul>
+</li>
+<li>The unit of communicationin SOA is the <code>message</code>.
+<ul class="org-ul">
+<li>RPC often requires the caller to have intimate knowledge of the
+other system's implementation details. With messaging, this isn't
+the case.
+</li>
+<li>Messages have both a header and a body (the payload).
+</li>
+<li>Messages can come in may different forms:
+<ul class="org-ul">
+<li>HTTP GET messages,
+</li>
+<li>Simple Object Access Protocol (SOAP) messages,
+</li>
+<li>Java Message Service (JMS) messages,
+</li>
+<li>Simple Mail Transfer Protocol (SMTP) messages.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/spring-integration-in-action/" class="u-url">Spring Integration in Action</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/spring-integration-in-action/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/spring-integration-in-action/#sec-1">Introduction</a></li>
+<li><a href="posts/reading/spring-integration-in-action/#sec-2">Enterprise integration fundamentals</a></li>
+<li><a href="posts/reading/spring-integration-in-action/#sec-3">Messages and Channels</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Spring Integration consists of two parts:
+<ul class="org-ul">
+<li>At its core, a <i>messaging framework</i> that supports lightweight,
+event-driven interactions <b>within</b> an application.
+<ul class="org-ul">
+<li>The components in it would exist within the scope of a single
+Spring application context.
+</li>
+<li>They would exchange messages in a lightweight manner because
+they are running in the same instance of a JVM.
+</li>
+<li>No serialization is needed, most messages will contain POJO
+instances as their payloads.
+</li>
+</ul>
+</li>
+<li>On top of the core, an adapter-based platform that support
+flexible integration of application across the enterprise.
+<ul class="org-ul">
+<li>Adapters are used to map the content from outbound messages into
+the format that some external system expectes.
+</li>
+<li>map inbound content from those external systems into messages.
+</li>
+<li>In Spring Integration 2.0, following adapters are supported:
+<ul class="org-ul">
+<li>Filesystem, FTP, or SFTP
+</li>
+<li>UDP, TCP
+</li>
+<li>HTTP (REST)
+</li>
+<li>Web services (SOAP)
+</li>
+<li>Main (POP3, IMAP, SMTP)
+</li>
+<li>Java Message Service (JMS)
+</li>
+<li>Java Database Connectivity (JDBC)
+</li>
+<li>Java Management Extension (JMX)
+</li>
+<li>Remote Method Invocation (RMI)
+</li>
+<li>Really Simple Syndication (RSS) feeds
+</li>
+<li>Twitter
+</li>
+<li>Extensible Messaging and Presence Protocol (XMPP)
+</li>
+</ul>
+</li>
+<li>In Spring Integration:
+<dl class="org-dl">
+<dt> Channel Adapter </dt>
+<dd>any unidirectional inbound <b>OR</b> outbound adapter.
+</dd>
+<dt> Messaging Gateway </dt>
+<dd>bidirectional, or request-reply adapter.
+</dd>
+</dl>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Message Channels
+<ul class="org-ul">
+<li>Although the most important characteristic of any channel is that
+it <i>logically</i> decouples producers from consumers, there are a
+number of <i>practical</i> implementation options
+<ul class="org-ul">
+<li>A channel implementation might dispatch messages directly to
+<b>passive</b> consumers within the <i><b>same</b> thread of control</i>.
+</li>
+<li>A channel might buffer messages in a queue whose
+reference is shared by producer and an <b>active</b> consumer such
+that the send and receive operations each occur within <i><b>different</b>
+threads of control</i>.
+</li>
+<li>Channels might be classified according to whether messages are
+delivered to a single endpoint (point-to-point), or to any
+endpoint that is listening to the channel (publish-subscribe).
+</li>
+</ul>
+</li>
+<li>Channels can be categorized based on two dimension
+<ul class="org-ul">
+<li>type of handoff : synchronous, or asynchronous
+</li>
+<li>type of delivery
+<ul class="org-ul">
+<li>Point-to-point
+<ul class="org-ul">
+<li>Each single message is received by exactly <b>one</b> consumer.
+</li>
+<li>
+<b>Competing Consumers</b>: Multiple comsumers can compete for
+messages from a single channel.
+</li>
+</ul>
+</li>
+<li>Publish-subscribe: delivers the same message to zero or more
+subscribers.
+<ul class="org-ul">
+<li>The drawback of it is tha tthe sender isn't informed about
+message delivery or failure to the same extent as in
+point-to-point configurations.
+</li>
+<li>Often require failure-handling patterns such as <b>Idempotent
+Receiver</b> or <b>Compensating Transactions</b>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Message Endpoints
+<ul class="org-ul">
+<li>Channel Adapter
+</li>
+<li>Message Gateway
+</li>
+<li id="Service Activator">is a component that invokes a service based
+on an incoming message and sends an outbound message based on
+the return value of this service invocation.
+<ul class="org-ul">
+<li>In Spring Integration, it is constrained to local method calls.
+</li>
+<li>Can be think of as a method-invoking outbound gateway.
+</li>
+</ul>
+</li>
+<li id="Router">determines the next channel a message should be send to
+based on the incomming message.
+</li>
+<li id="Splitter">receives one message and splits it into multiple
+messages that are send to its output channels.
+<ul class="org-ul">
+<li>Useful whenever the act of processing message content can be
+split into multiple steps and executed by different consumers at
+the same time.
+</li>
+</ul>
+</li>
+<li id="Aggregator">waits for a group of correlated messages and merges
+them together when the group is completed.
+<ul class="org-ul">
+<li>The correlation of the messages typically is based on a
+<b>correlation ID</b>.
+</li>
+<li>A splitter and an aggregator are often used in a symmetric setup.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Enterprise integration fundamentals</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Identifying highly coupled system
+<ul class="org-ul">
+<li>One measure could be how many user types a class references. When
+a class is referencing <i>many user types</i>, it is considered <span class="underline">highly coupled</span>.
+</li>
+<li>A general way of defining coupling is as a measure of how
+connected the parts of a system are or how many assumptions the
+components of the system make about each other.
+</li>
+</ul>
+</li>
+<li>Event-driven architecture
+<dl class="org-dl">
+<dt> Staged event-driven architecture (SEDA) </dt>
+<dd>events are communicated via
+channels that can act as buffers in periods of high throughput.
+<ul class="org-ul">
+<li>generally respond better to significant <i>spikes in load</i>.
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Synchronous and asynchronous communication
+<ul class="org-ul">
+<li>In Spring Integration, simple configuration option allow you
+switch between the two without channing the overall logical design
+of the application.
+</li>
+<li>With an increased load, the synchronous communication has few alternatives:
+<ul class="org-ul">
+<li>Trying to accomodate all requests as they arrive, which will
+crash the system.
+</li>
+<li>Throttling some of the requests to bring the load to a bearable level.
+</li>
+<li>The application will eventually fail, when the load increases.
+</li>
+</ul>
+</li>
+<li>Unlike synchronous calls when the load of the system is controlled
+by the <b>requesting side</b>, in asynchronous model, the load of the
+system is controllered by the <b>service provider's side</b>.
+</li>
+<li>Asynchronous communication has the obvious advantages in terms of
+<i>scalabiity</i> and <i>robustness</i>, but it brings in <b>complexity</b>.
+</li>
+<li>In Spring Integration, the two interaction model is determined by
+the type of channel that is used for transferring the messages
+between then endpoints
+<ul class="org-ul">
+<li>
+<b>DirectChannel</b> for synchronous
+</li>
+<li>
+<b>QueueChannel</b> for asynchronous
+</li>
+<li>The interaction model doesn't affect the logical design of the
+system on how many channels, what endpoints, and how they are connected.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Messages and Channels</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Three types of messages based on the role they fulfill:
+<ul class="org-ul">
+<li>Document messages that contain only information
+</li>
+<li>Command messages that instruct the recipient to perform various operations
+</li>
+<li>Event messages that indicate notable occurrences in the system and
+to which the recipient may react.
+</li>
+</ul>
+</li>
+<li>The <b>Message&lt;T&gt;</b> interface
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Message</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="n">MessageHeaders</span> <span class="nf">getHeaders</span><span class="o">();</span>
+    <span class="n">T</span> <span class="nf">getPayload</span><span class="o">();</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>It is rarely necessary to create your own message implementation,
+apart from the build-ins with the framework.
+</li>
+<li>The <b>MessageHeaders</b> are <b>Map</b> with some additional behaviour
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="nc">MessageHeaders</span> <span class="kd">implements</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;,</span> <span class="n">Serializable</span> <span class="o">{}</span>
+</pre></div>
+</li>
+<li>
+<b>Message</b> and <b>MessageHeaders</b> are immutable objects, and can be
+build with <b>MessageBuilder</b>
+</li>
+</ul>
+</li>
+<li>Channels aren't just information transfer components, they play an
+<b>active</b> role in defining the overall application behavior.
+<ul class="org-ul">
+<li>different from other enterprise integration framework.
+</li>
+</ul>
+</li>
+<li>The <b>MessageChannel</b> interface
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">MessageChannel</span> <span class="o">{</span>
+    <span class="kt">boolean</span> <span class="nf">send</span><span class="o">(</span><span class="n">Message</span><span class="o">&lt;?&gt;</span> <span class="n">message</span><span class="o">);</span>
+    <span class="kt">boolean</span> <span class="nf">send</span><span class="o">(</span><span class="n">Msssage</span><span class="o">&lt;?&gt;</span> <span class="n">message</span><span class="o">,</span> <span class="kt">long</span> <span class="n">timeout</span><span class="o">);</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>To receiving message, two mechanism through which messages are
+handed over to the next endpoint:
+<ul class="org-ul">
+<li>
+<b>SubscribableChannel extends MessageChannel</b> interface
+<ul class="org-ul">
+<li>
+<b>boolean subscribe(MessageHandler handler)</b>
+</li>
+<li>
+<b>boolean unsubscribe(MessageHandler handler)</b>
+</li>
+</ul>
+</li>
+<li>
+<b>PollableChannel extends MessageChannel</b> interface
+<ul class="org-ul">
+<li>
+<b>Message&lt;?&gt; receive()</b>;
+</li>
+<li>
+<b>Message&lt;?&gt; receive(long timeout)</b>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Spring Integration offers a number of channel implements. The type
+of channel you select has significant implications for your
+application, including
+<ul class="org-ul">
+<li>transactional boundaries,
+</li>
+<li>lagency
+</li>
+<li>overall throughput
+</li>
+<li>The default channel used is <b>SubscribableChannel</b>, and the message
+transmission is synchronous.
+</li>
+</ul>
+</li>
+<li>Type of channels:
+<ul class="org-ul">
+<li>
+<b>QueueChannel</b>
+<ul class="org-ul">
+<li>
+<b>PriorityChannel</b> with a priority queue.
+</li>
+</ul>
+</li>
+<li>
+<b>PUblishSubscribeChannel</b> for more than one consumer.
+<ul class="org-ul">
+<li>It doesn't support queueing,
+</li>
+<li>but does support asynchronous operation if provided with a task
+executor that delivers messages to each of the subscribers in
+separate threads.
+</li>
+</ul>
+</li>
+<li>
+<b>bridge</b> is an enterprise integration pattern that supports the
+connection of two channels.
+</li>
+</ul>
+</li>
+<li>Channel collaborators:
+<ul class="org-ul">
+<li>
+<b>MessageDispatcher</b> controls how messages sent to a channel are
+passed to any registered handlers.
+</li>
+<li>
+<b>ChannelInterceptor</b> allows interception at key points like
+channel send and receive operations
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/thoughtful-machine-learning/" class="u-url">Thoughtful machine learning</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/thoughtful-machine-learning/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/thoughtful-machine-learning/#sec-1">K-Nearest Neighbours Classification</a></li>
+<li>
+<a href="posts/reading/thoughtful-machine-learning/#sec-2">Naive Bayesian Classification</a>
+<ul>
+<li>
+<ul>
+<li><a href="posts/reading/thoughtful-machine-learning/#sec-2-0-1">Spam Filter using naive bayesian classification</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="posts/reading/thoughtful-machine-learning/#sec-3">Nerual Networks</a></li>
+<li><a href="posts/reading/thoughtful-machine-learning/#sec-4">Hidden Markov Models</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">K-Nearest Neighbours Classification</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+K-Nearest Neighbour is one of the best algorithms for classifying data
+sets. It is lazy and nonparametric.
+</p>
+
+<ul class="org-ul">
+<li>A <b>perceptual hash (pHash)</b> is a fingerprint of a multimedia file
+derived from various features from its content. Unlike cryptographic
+hash functions, where small changes in input leading to drastic
+changes in the putput, <span class="underline">perceptual hashes are "close" to another if
+the features are similar</span>.
+</li>
+<li>Hamming distance: between two strings of equal length is the number
+of positions at which the corresponding symbols are different. It
+measures the minimum number of substitutions required to change one
+string into the other.
+</li>
+<li>How to pick K:
+<ul class="org-ul">
+<li>It is usually domain specific;
+</li>
+<li>Choose a K that is low enough to avoid noise;
+</li>
+<li>Iterate through a couple of possbile Ks unitl finding a suitable
+error with <b>cross validation</b>, given the training set.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Naive Bayesian Classification</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>
+<b>Conditional Probablities</b> is a measure of the probablitity of an
+event given that another event has occured:
+<p>
+\begin{equation} P(A|B) = \frac{P(A \cap B)}{P(B)} \end{equation}
+Note that this is a <b>definition but not a theoretical result</b>. We just
+denote the quantity \(P(A\cap B)/P(B)\) as \(P(A|B)\)
+and call it the conditional probability of A given B.
+</p>
+</li>
+<li>In statistical inference, <b>Conditional Probablities</b> is an update of
+the probablitity of an event based on new information.
+</li>
+<li>Inverse conditional probablity (aka Bayes's Theorem):
+<p>
+\begin{equation} P(A\mid B) = \frac{P(B \mid A) \, P(A)}{P(B)}
+\end{equation}
+</p>
+</li>
+<li>Naive Bayesian classifier assume the independence assumptions
+between the features.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-2-0-1" class="outline-4">
+<h4 id="sec-2-0-1">Spam Filter using naive bayesian classification</h4>
+<div class="outline-text-4" id="text-2-0-1">
+<ul class="org-ul">
+<li>A tokenizer to extract words into a stream, instead of an array, to
+keep a low memory usage.
+</li>
+<li>For all word in each training email, the filter will adjust the
+probabilities each word will appear in spam or ham.
+</li>
+<li>The word probablities (also known as likelihood functions) are used
+to compute the probablitity that an email with a particular set of
+words in it belongs to either category.
+</li>
+<li>With the native bayesian classification, the score for spam based on
+word can be simplified as:
+\begin{equation}
+  Score(spam, W_1, W_2, ..., W_n) = P(spam)P(W_1|spam)P(W_2|spam)...P(W_n|spam)
+\end{equation}
+<p>
+which is then divided some normalizing constant Z.
+</p>
+</li>
+<li>Cross-validation to minimizing false positives (instead of error)
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Nerual Networks</h2>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Hidden Markov Models</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Hidden Markov Models can be either supervised or unsupervised, and
+also are called Markovian due to theire reliance on a Markov
+Model. They work well where there doesn't need to be a lot of
+historical information built into the model.
+</p>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/notes/agile-notes/" class="u-url">Agile Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/notes/agile-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/notes/agile-notes/#sec-1">Practices of an Agile Developer</a></li>
+<li><a href="posts/notes/agile-notes/#sec-2">Restrospective</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Practices of an Agile Developer</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>In the beginning of the development, it will be good to have a hotfix
+policy in place to make it easy to do hotfix.
+</li>
+<li>Integration is one of the biggest risk in software development. It
+will be best to integrate a few times a day.
+</li>
+<li>To integrate as early and as often as possible to avoid problems of
+integration later.
+</li>
+<li>Automate deployment early as well. <i>Deploy hotfix in the production
+environment should be made easy</i>.
+</li>
+<li>Agility is all about <b>managing change</b> and the code is one of things
+that change the most.
+</li>
+<li>Thinking of unit test results same as compiler result. If it doesn't
+pass the test, or even, no test at all for a piece of code, it
+should be treated equivalent to not compiling.
+</li>
+<li>Unit test may not be appropriate for prototyping or
+experimenting. In the rare cases that prototypes go into production,
+unit test need to be added for them.
+</li>
+<li>Estimate the time needed for a task, and when finish a task, keep
+track of how long it really took.
+</li>
+<li>Keep a solution log, maintain a log of problems faced and solutions
+found. <span class="underline">Even better than maintaining a log is sharing it with others</span>.
+</li>
+<li>Warnings are really errors.
+<ul class="org-ul">
+<li>If your compiler allows you to fine-tune warning reporting levels,
+turn that all the way up so warnings are not ignored.
+</li>
+<li>You can usually instruct the compiler to specifically suppress
+unavoidable warnings.
+</li>
+<li>Deprecated methods have been deprecated for a reason.
+</li>
+</ul>
+</li>
+<li>Provide useful error messages to the user. Allow user to see error
+<b>details</b> with <i>additional click</i> could be very useful for debug.
+</li>
+<li>Information logged may contain not only the details about what went
+wrong but also a snapshot of the state of the system (for example,
+the session state in a web application)
+</li>
+<li>Type of errors, by keeping track of what kind of error you are
+reporting, you can provide more appropriate advice to your audience.
+<ul class="org-ul">
+<li>Program defects, bugs: NullPointerException, missing key values,
+etc. The user, or system administrator can do nothing about it.
+</li>
+<li>Environment problem: failure to connect to a database or remote
+service, insufficient permissions, etc. The program can do nothing
+about it.
+</li>
+<li>User error.
+</li>
+</ul>
+</li>
+<li>Practice collective ownership
+</li>
+<li>Architect must write code
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Restrospective</h2>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/notes/angular-notes/" class="u-url">Angular 2 Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/notes/angular-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/notes/angular-notes/#sec-1">Modules (NgModule)</a></li>
+<li><a href="posts/notes/angular-notes/#sec-2">Testing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Modules (NgModule)</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>An angular module is a class decorated with <code>@NgModule</code> metadata:
+<ul class="org-ul">
+<li>declare the <b>components</b>, <b>directives</b> and <b>pipes</b> of the module
+</li>
+<li>export some of those classes
+</li>
+<li>import other <b>modules</b> needed by <i>this</i> module
+</li>
+<li>provide services at the application level that any application
+component can use
+</li>
+</ul>
+</li>
+<li>Every Angular app has at least one module class, the <b>root module</b>,
+which is bootstrapped to launch the application.
+</li>
+<li>
+<b>BrowserModule</b> need to be imported by every browser app. It
+includes common directives like <code>NgIf</code>, <code>NgFor</code>.
+</li>
+<li>There are two ways to bootstrap a root module:
+<ul class="org-ul">
+<li>static bootstrapping with Ahead-Of-time (AOT) compiler
+<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">platformBrowser</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'@angular/platform-browser'</span><span class="p">;</span>
+<span class="c1">// The app module factory produced by the static offline compiler</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">AppModuleNgFactory</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'./app.module.ngfactory'</span><span class="p">;</span>
+<span class="c1">// Launch with the app module factory.</span>
+<span class="nx">platformBrowser</span><span class="p">().</span><span class="nx">bootstrapModuleFactory</span><span class="p">(</span><span class="nx">AppModuleNgFactory</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>Dynamic bootstrapping with Just-in-time (JIT) compiler
+<div class="highlight"><pre><span></span><span class="c1">// The browser platform with a compiler</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">platformBrowserDynamic</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'@angular/platform-browser-dynamic'</span><span class="p">;</span>
+<span class="c1">// The app module</span>
+<span class="kr">import</span> <span class="p">{</span> <span class="nx">AppModule</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'./app.module'</span><span class="p">;</span>
+<span class="c1">// Compile and launch the module</span>
+<span class="nx">platformBrowserDynamic</span><span class="p">().</span><span class="nx">bootstrapModule</span><span class="p">(</span><span class="nx">AppModule</span><span class="p">);</span>
+</pre></div>
+</li>
+<li>Both way the bootstrap will end up with bootstrapping a
+<code>ModuleFactory</code> but the JIT will compile the ModuleFactory on the fly.
+</li>
+</ul>
+</li>
+<li>
+<b>Service Providers</b>
+<ul class="org-ul">
+<li>A module can add providers to the application's <b>root</b> injector:
+<div class="highlight"><pre><span></span><span class="nx">providers</span><span class="o">:</span> <span class="p">[</span><span class="nx">UserService</span><span class="p">]</span>
+</pre></div>
+<p>
+by adding this <code>providers</code> property in the module metadata, it
+provide it for all components in the module.
+</p>
+</li>
+<li>Angular module instances, unlike components, <b>do not</b> have their
+own injectors so they can't have their own provider scopes. This
+means that anything <code>provided</code> in a module are <b>application-scoped</b>.
+</li>
+<li>As a general rule, import modules with providers <b>exactly once</b>,
+preferably in the <code>root module</code>.
+</li>
+</ul>
+</li>
+<li>Lazy loading modules with the Router
+<ul class="org-ul">
+<li>TODO NEED TO READ MORE. TODO
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Testing</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>The <b>TestBed</b> creates an Angular testing module - an <code>@NgModule</code>
+    class - that you configure with the <b>configureTestingModule</b>
+    method to produce the module environment for the class you want to test.
+</li>
+<li>After configuring the <b>TestBed</b>, use <b>TestBed.createComponent</b> to
+create an component instance and return a <b>ComponentFixture</b>. The
+fixture provides access to the component instance and to the
+<b>DebugElement</b> which is a handle on the compoment's DOM element.
+</li>
+<li>Each test tells Angular when to perform change detection by
+calling <b>fixture.detectChanges()</b>
+</li>
+<li>Use <b>async()</b> function call to passing asynchronous execution body
+to <b>beforeEach</b>. Internally, <b>async()</b> arranges for the body of
+the <b>beforeEach</b> to run in a special async test zone that hides
+the mechanics of asynchronous execution.
+</li>
+<li>
+<b>TestBed.compileComponents</b> method asynchronously compiles all the
+components configured in the testing module. When it completes,
+the external templates and css files have been 'inlined' and
+<b>Test.createComponent</b> can create new instance of component
+synchronously.
+</li>
+<li>In general, tests should not make calls to remote services. They
+should emulate such calls, for example, with <b>Jasmine</b> spy:
+<div class="highlight"><pre><span></span><span class="nx">spy</span> <span class="o">=</span> <span class="nx">spyOn</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span> <span class="s1">'getQuote'</span><span class="p">).</span><span class="nx">and</span><span class="p">.</span><span class="nx">returnValue</span><span class="p">(</span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">'value'</span><span class="p">));</span>
+</pre></div>
+</li>
+<li>Testing async:
+<ul class="org-ul">
+<li>using async()
+</li>
+<li>using fakeAsync() and tick():
+<div class="highlight"><pre><span></span><span class="nx">it</span><span class="p">(</span><span class="s1">'should show quote after getQuote promise (fakeAsync)'</span><span class="p">,</span> <span class="nx">fakeAsync</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span>
+  <span class="nx">tick</span><span class="p">();</span>                  <span class="c1">// wait for async getQuote</span>
+  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span> <span class="c1">// update view with quote</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="nx">testQuote</span><span class="p">);</span>
+<span class="p">}));</span>
+</pre></div>
+</li>
+<li>using jasmine.done:
+<div class="highlight"><pre><span></span>  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span>
+  <span class="c1">// get the spy promise and wait for it to resolve</span>
+  <span class="nx">spy</span><span class="p">.</span><span class="nx">calls</span><span class="p">.</span><span class="nx">mostRecent</span><span class="p">().</span><span class="nx">returnValue</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+    <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span> <span class="c1">// update view with quote</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="nx">testQuote</span><span class="p">);</span>
+    <span class="nx">done</span><span class="p">();</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/notes/Bash-notes/" class="u-url">Bash Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/notes/Bash-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/notes/Bash-notes/#sec-1">Bash array and its loop</a></li>
+<li><a href="posts/notes/Bash-notes/#sec-2">Using <code>trap</code></a></li>
+<li><a href="posts/notes/Bash-notes/#sec-3">SIGTERM vs. SIGKILL</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Bash array and its loop</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>declare an array
+<div class="highlight"><pre><span></span><span class="nv">files</span><span class="o">=(</span> <span class="s2">"/etc/passwd"</span> <span class="s2">"/etc/group"</span> <span class="s2">"/etc/hosts"</span> <span class="o">)</span>
+<span class="nv">limits</span><span class="o">=(</span> <span class="m">10</span>, <span class="m">20</span>, <span class="m">26</span>, <span class="m">39</span>, <span class="m">48</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>array can also be created automatically when a variable is used in
+the format like:
+<div class="highlight"><pre><span></span>name<span class="o">[</span>index<span class="o">]=</span>value
+</pre></div>
+</li>
+<li>loop through array values
+<div class="highlight"><pre><span></span><span class="k">for</span> i in <span class="s2">"</span><span class="si">${</span><span class="nv">arrayName</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">do</span>
+   <span class="nb">echo</span> <span class="nv">$i</span>
+<span class="k">done</span>
+</pre></div>
+<p>
+the syntax for array with [@] print out the whole array.
+</p>
+</li>
+<li>get the length of an array with <code>${#array[@]}</code>
+<div class="highlight"><pre><span></span><span class="nb">declare</span> -a <span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span> <span class="s1">'Suse'</span> <span class="s1">'Fedora'</span><span class="o">)</span><span class="p">;</span>
+<span class="nb">echo</span> <span class="si">${#</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span> <span class="c1">#Number of elements in the array</span>
+<span class="nb">echo</span> <span class="si">${#</span><span class="nv">Unix</span><span class="si">}</span>  <span class="c1">#Number of characters in the first element of the array.i.e Debian</span>
+</pre></div>
+</li>
+<li>get a subarray with <code>${array[@]:3:2}</code>
+<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Ubuntu'</span> <span class="s1">'Fedora'</span> <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
+<span class="nb">echo</span> <span class="si">${</span><span class="nv">Unix</span><span class="p">[@]:</span><span class="nv">3</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span>
+</pre></div>
+</li>
+<li>add an element to an existing array:
+<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span>  <span class="s1">'Fedora'</span> <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
+<span class="nv">Unix</span><span class="o">=(</span><span class="s2">"</span><span class="si">${</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span> <span class="s2">"AIX"</span> <span class="s2">"HP-UX"</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>contact two arrays:
+<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span> <span class="s1">'Ubuntu'</span>  <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
+<span class="nv">Shell</span><span class="o">=(</span><span class="s1">'bash'</span> <span class="s1">'csh'</span> <span class="s1">'jsh'</span> <span class="s1">'rc'</span> <span class="s1">'tcsh'</span><span class="o">)</span><span class="p">;</span>
+<span class="nv">UnixShell</span><span class="o">=(</span><span class="s2">"</span><span class="si">${</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span> <span class="s2">"</span><span class="si">${</span><span class="nv">Shell</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="o">)</span>
+<span class="c1"># alternatively, to append the second array to the first</span>
+<span class="nv">Unix</span><span class="o">+=</span>Shell
+</pre></div>
+</li>
+<li>remove an element from an array using subarray and contact
+</li>
+<li>unset can be used to delete an entire array
+</li>
+<li>bash also support <b>associated arrays</b>:
+<div class="highlight"><pre><span></span><span class="nb">declare</span> -A ARRAY <span class="c1"># declar an associate array.</span>
+ARRAY<span class="o">[</span>STRING<span class="o">]=</span>VALUE
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Using <code>trap</code>
+</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>
+<b>trap [COMMANDS] [SIGNALS]</b>: this instructs the <b>trap</b> command to
+catch the listed <i>SIGNALS</i>, which my be signal names with or without
+the <i>SIG</i> prefix, or signal numbers.
+</li>
+<li>0, or <i>EXIT</i>, the commands are executed when the shell exists.
+</li>
+<li>
+<i>DEBUG</i>, the list of commands is executed after every simple
+command.
+</li>
+<li>
+<i>ERR</i>, the commands is executed each time a simple command exists
+with a non-zero status.
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># traptest.sh</span>
+
+<span class="nb">trap</span> <span class="s2">"echo Booh!"</span> SIGINT SIGTERM
+<span class="nb">echo</span> <span class="s2">"pid is </span><span class="nv">$$</span><span class="s2">"</span>
+
+<span class="k">while</span> :                 <span class="c1"># This is the same as "while true".</span>
+<span class="k">do</span>
+	sleep <span class="m">60</span>        <span class="c1"># This script is not really doing anything.</span>
+<span class="k">done</span>
+</pre></div>
+<ul class="org-ul">
+<li>In this example, Ctrl+C, or kill with the PID without specifying
+the <i>KILL</i> signal, will not terminate the script, cause the
+signals is trapped.
+</li>
+</ul>
+</li>
+<li>
+<b>trap</b> can be used to clean up resource in shell script.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">SIGTERM vs. SIGKILL</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Sending signals to processes using <code>kill</code>
+</li>
+<li>Anytime you use <code>kill</code> on a process, you are actually sending the
+process a signal.
+</li>
+<li>The full list of signals can be found with <code>kill -l</code>.
+</li>
+<li>Without any parameters, <code>kill pid</code> would send a <i>SIGTERM</i> signal,
+<ul class="org-ul">
+<li>in which case:
+<ul class="org-ul">
+<li>The process may stop immediately.
+</li>
+<li>The process may stop after a short delay after cleaning up resources.
+</li>
+<li>The process may keep running indefinitely.
+</li>
+</ul>
+</li>
+<li>The application can determine what it want to do once a <i>SIGTERM</i> is
+received.
+</li>
+<li>Also, if the application is in a bad state, such as waiting for disk
+I/O, it may not be able to act on the signal that was sent.
+</li>
+</ul>
+</li>
+<li>
+<code>kill -9 pid</code>: will send a <i>SIGKILL</i>, which cannot be ignored by the
+process.
+<ul class="org-ul">
+<li>The process isn't made aware of the <i>SIGKILL</i> signal since the
+signal goes straight to <code>init</code>, which will stop the process.
+</li>
+<li>The process never gets the opportunity to catch the signal and act
+on it.
+</li>
+</ul>
+</li>
+<li>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article>
+</div>
+
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index-4.html" rel="prev">Newer posts</a>
+            </li>
+            <li class="next">
+                <a href="index-2.html" rel="next">Older posts</a>
+            </li>
+        </ul></nav>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:n.tesla@example.com">Warren Liu</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

@@ -1,0 +1,2796 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about Books)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/cat_books.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:32:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Akka In Action</title><link>https://example.com/posts/reading/akka-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/akka-in-action/#sec-1"&gt;Actors: a quick overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/akka-in-action/#sec-2"&gt;The reactive Manifesto&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/akka-in-action/#sec-3"&gt;Scaling with AKKA&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Actors: a quick overview&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Actors are a lot like message queues without the configuration and
+message broker installation overhead.
+&lt;/li&gt;
+&lt;li&gt;Actors don't "Do" anything unless they are sent a message.
+&lt;/li&gt;
+&lt;li&gt;Messages are immutable.
+&lt;/li&gt;
+&lt;li&gt;Actors receive messages one at a time and execute some behavior
+whenever a message is received.
+&lt;/li&gt;
+&lt;li&gt;Everything a actor does is executed asynchronously.
+&lt;/li&gt;
+&lt;li&gt;Actors aren't like threads, but messages sent to them are pushed
+through on a thread at some point in time.
+&lt;/li&gt;
+&lt;li&gt;How actors are connected to threads is configurable.
+&lt;/li&gt;
+&lt;li&gt;A message could be processed locally on some available thread, or
+remotely on another server.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;The reactive Manifesto&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Blocking I/O limits opportunities for parallelism, so nonblocking
+I/O is preferred.
+&lt;/li&gt;
+&lt;li&gt;Synchronous interaction limits opportunities for parallelism, so
+asynchornous interaction is preferred.
+&lt;/li&gt;
+&lt;li&gt;Polling reduce opportunity to use fewer resources, so an
+event-driven style is preferred.
+&lt;/li&gt;
+&lt;li&gt;If one node can bring down all other nodes, that's a waste of
+resources. So you need isolation of errors (resilience) to avoid
+losing all your work.
+&lt;/li&gt;
+&lt;li&gt;System need to be elastic: if there are less demand, you want to use
+fewer resources. If there is more demand, use more resources, but
+never more than required.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Scaling with AKKA&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The current state of the Converstaion can be rebuilt by &lt;b&gt;replaying&lt;/b&gt;
+the events that occurred to the im-momory Conversation, so it can
+continue where it left off.
+&lt;/li&gt;
+&lt;li&gt;This type of database is often called a &lt;b&gt;journal&lt;/b&gt;, and the technique
+is known as &lt;b&gt;event sourcing&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;The journal become a uniform service. All it needs to do is store
+all events in sequence, and make it possible to retrieve the events
+in the same sequence as they were written to the journal.
+&lt;/li&gt;
+&lt;li&gt;It is hard to imagine how we could keep the conversations consistent
+across many servers. and what would happen if there were too many
+conversations to fit in one server?
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;divide the conversations over the servers in a predictable way, or
+keep track of where every conversation lives.
+&lt;/li&gt;
+&lt;li&gt;This is called &lt;b&gt;sharding&lt;/b&gt;, or &lt;b&gt;partitioning&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;We can keep using the simple in-memory model of Conversations if
+we have a generic event-sourced journal and a way to indicate how
+Conversations should be partitioned.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>akka</category><category>scala</category><guid>https://example.com/posts/reading/akka-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Domain Driven Design in Practise</title><link>https://example.com/posts/courses/domain-driven-design/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/courses/domain-driven-design/#sec-1"&gt;Domain Driven Design&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Domain Driven Design&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Types of equality
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Reference: same address in memory
+&lt;/li&gt;
+&lt;li&gt;Structural: all of their members match
+&lt;/li&gt;
+&lt;li&gt;Identifier: id field
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Entity vs Value Object
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Entity : Identifier and Reference equality
+&lt;/li&gt;
+&lt;li&gt;Value Object: Structural and Reference equality
+&lt;/li&gt;
+&lt;li&gt;Entity: each has its own identity, while value object doesn't have
+a id field.
+&lt;/li&gt;
+&lt;li&gt;Value object can be treated interchangeably.
+&lt;/li&gt;
+&lt;li&gt;Value object should be immutable, Entity are almost always
+mutable.
+&lt;/li&gt;
+&lt;li&gt;Lifespan
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Value object should always belong to Entity object.
+&lt;/li&gt;
+&lt;li&gt;There should be at lease one entity that owns a value object.
+&lt;/li&gt;
+&lt;li&gt;Value object doesn't have their own table in the database.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;An concept can be a value object in one domain model but an entity
+in another domain.
+&lt;/li&gt;
+&lt;li&gt;Prefer value objects to entities
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Value objects are light-weight, easy to work with.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Most&lt;/b&gt; of the business logic should be &lt;i&gt;captured in value object&lt;/i&gt;,
+&lt;/li&gt;
+&lt;li&gt;Entity are acts as &lt;b&gt;wrapper&lt;/b&gt; for value object and provider
+high level business logic.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Entity Base class
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Having an interface as an entity base class is most of time a bad idea.
+&lt;/li&gt;
+&lt;li&gt;Interface cannot have logic, which will introduce code
+duplication.
+&lt;/li&gt;
+&lt;li&gt;Interface introduce a &lt;b&gt;can-do&lt;/b&gt; relationship while class
+inheritance introduce a &lt;b&gt;is-a&lt;/b&gt;  relationship.
+&lt;/li&gt;
+&lt;li&gt;Using abstract base class for entity base class and implements
+some common function for id and equality.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Value object base class
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>ddd</category><guid>https://example.com/posts/courses/domain-driven-design/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Enterprise Integration Patterns</title><link>https://example.com/posts/reading/enterprise-integration-patterns/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-1"&gt;The challenges and approaches:&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-1-1"&gt;Integration solutions's challenges:&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-1-2"&gt;Approaches to overcome these challenges:&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-2"&gt;The main concepts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-3"&gt;Messaging System&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-3-1"&gt;The challenges of asynchronous messaging&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-4"&gt;Distributed Applications vs Integration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-5"&gt;Six Type of Integrations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-6"&gt;Loose coupling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-7"&gt;Messaging Concetps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-8"&gt;Message Channel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-9"&gt;Message&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-10"&gt;Pipes-and-Filters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-11"&gt;Message Router&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-12"&gt;Message Translator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-13"&gt;Message Endpoint&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;The challenges and approaches:&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;/div&gt;&lt;div id="outline-container-sec-1-1" class="outline-3"&gt;
+&lt;h3 id="sec-1-1"&gt;Integration solutions's challenges:&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Networks are unreliable.
+&lt;/li&gt;
+&lt;li&gt;Networks are slow.
+&lt;/li&gt;
+&lt;li&gt;Any two applications are different.
+&lt;/li&gt;
+&lt;li&gt;Change is inevitable.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-2" class="outline-3"&gt;
+&lt;h3 id="sec-1-2"&gt;Approaches to overcome these challenges:&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;File Transfer: One application writes a file that another later reads.
+&lt;/li&gt;
+&lt;li&gt;Shared Database
+&lt;/li&gt;
+&lt;li&gt;Remote Procedure Invocation
+&lt;/li&gt;
+&lt;li&gt;Messaging: One application publishes a message to a common message
+channel. Other applications can read the message from the channel at
+a later time.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The applications must agree on a channel as well as the format of
+the message.
+&lt;/li&gt;
+&lt;li&gt;The communication is &lt;b&gt;asynchronous&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;The main concepts&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;Messaging&lt;/b&gt; is a technology that enables &lt;b&gt;high-speed&lt;/b&gt;,
+&lt;b&gt;asynchronous&lt;/b&gt;, program-to-program communication with &lt;b&gt;reliable
+delivery&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Channels&lt;/b&gt;, also known as queues, are logical pathways that connect
+the programs and convey messages.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Sender&lt;/b&gt; or &lt;b&gt;producer&lt;/b&gt; is programs that send message by writing the
+message to a channel.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Receiver&lt;/b&gt; or &lt;b&gt;consumer&lt;/b&gt; is programs that receive messages by
+reading (and deleting) from a channel.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Messaging System&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Messaging capabilities are typically provided by a separate software
+system called &lt;b&gt;messaging system&lt;/b&gt; or &lt;b&gt;message-oriented
+middleware(MOM)&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;A messaging system is configured with the channels that define the
+paths of communication between the applications. The messaging
+system then coordinates tha messages the sending the receiving of messages.
+&lt;/li&gt;
+&lt;li&gt;Two important messaging concetps:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Send and forget &lt;/dt&gt;&lt;dd&gt;The sender sends the message to the message
+channel and once that is complete, the sender can go on while
+the messaging system transmits the message in the
+background. The sender doesn't have to wait for the receiver to
+receive and process the message.
+&lt;/dd&gt;
+&lt;dt&gt; Store and forward &lt;/dt&gt;&lt;dd&gt;When the sender sends a message, the
+messaging system &lt;b&gt;store&lt;/b&gt; the message. It then delivers the
+message by forwording it to the receiver, where it is stored
+again.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;By wrapping the data as a message and storeing it in the messaging
+system, the applications &lt;b&gt;delegate&lt;/b&gt; to the messaging system the
+&lt;b&gt;responsibility&lt;/b&gt; of delivering the data.
+&lt;/li&gt;
+&lt;li&gt;The messaging system can act as a &lt;b&gt;mediator&lt;/b&gt; - as in the Mediator
+pattern - between all of the programs that can send and receive
+messages. An application can use it as a &lt;b&gt;directory&lt;/b&gt; of other
+applications or services available to integrate with.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The messaging system can be used to provide a high number of
+distributed connections to a shared resouce, such as a database.
+&lt;/li&gt;
+&lt;li&gt;The messaging system can employ &lt;b&gt;redundant resources&lt;/b&gt; to provide
+high-availability, balance load, reroute around failed network
+connections, and tune performance and quality of service.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Messaging system can enable &lt;b&gt;asynchronous communications&lt;/b&gt; and &lt;b&gt;call
+back&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3-1" class="outline-3"&gt;
+&lt;h3 id="sec-3-1"&gt;The challenges of asynchronous messaging&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-3-1"&gt;
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Complex programming model &lt;/dt&gt;&lt;dd&gt;application logic can no longer be
+coded ina single method that invokes other methods, but the logic
+is now split up into a number of event handlers that respond to
+incoming messages.
+&lt;/dd&gt;
+&lt;dt&gt; Sequence issue &lt;/dt&gt;&lt;dd&gt;message channels guarantee message delivery, but
+not when the message will be delivered. This can
+cause messages that are send in sequence to get
+out of sequence.
+&lt;/dd&gt;
+&lt;dt&gt; Synchronous scenario &lt;/dt&gt;&lt;dd&gt;not all application can operate in a
+send-and-forget mode. Thus many messaging systems need to bridge
+the gap between synchronous and asynchronous solutions.
+&lt;/dd&gt;
+&lt;dt&gt; Performance &lt;/dt&gt;&lt;dd&gt;Messaging systems do add some overhead to communication.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Distributed Applications vs Integration&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An enterprise application often incorporates an n-tier architecture
+enabling it to be distributed across several computers.
+&lt;/li&gt;
+&lt;li&gt;Even through this results in processes on different machines
+communicating with each other, this is application distribution, not
+application integration.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The communicating parts are tightly coupled.
+&lt;/li&gt;
+&lt;li&gt;Communication between tiers tends to be synchronous.
+&lt;/li&gt;
+&lt;li&gt;An application (n-tier or atomic) tends to have human users that
+will only accept rapid system response.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Integrated applications are independent applications that can each
+run by itself, but coordinate with each other in a loosely coupled way.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Six Type of Integrations&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Information Portal &lt;/dt&gt;&lt;dd&gt;many business users have to access more than
+one system to answer a specific question or to perform a single
+business function. Information portal &lt;b&gt;aggregate&lt;/b&gt; information
+from multiple sources into a single display to avoid having the
+user access multiple system for information.
+&lt;/dd&gt;
+&lt;dt&gt; Data Replication &lt;/dt&gt;&lt;dd&gt;many business systems require access to the same
+data. and many of these system are going to have their own data
+stores.
+&lt;/dd&gt;
+&lt;dt&gt; Shared Business Function &lt;/dt&gt;&lt;dd&gt;many business applications tend to
+implement redundant functionality.
+&lt;/dd&gt;
+&lt;dt&gt; Service-Oriented Architecture &lt;/dt&gt;&lt;dd&gt;shared business functions are often
+referred to as services.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Managing the services:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;service directory
+&lt;/li&gt;
+&lt;li&gt;service description/negotiation
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SOA blur the line between integration and distributed application.
+&lt;/li&gt;
+&lt;li&gt;Because services are available in a consistent manner, SOAs are
+sometimes referred to as "&lt;sub&gt;service&lt;/sub&gt; bus architectures_"
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;dt&gt; Disbributed Business Process &lt;/dt&gt;&lt;dd&gt;A single business transaction is
+often spread across many different systems.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In most cases, all relevant functions are incorporated inside
+existing applications.
+&lt;/li&gt;
+&lt;li&gt;What is missing is the &lt;b&gt;coordination&lt;/b&gt; between the applications.
+&lt;/li&gt;
+&lt;li&gt;A &lt;b&gt;business process management&lt;/b&gt; component can be added to manage the
+execution of a business function across multiple existing systems.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;dt&gt; Business-to-Business Integration &lt;/dt&gt;&lt;dd&gt;business functions may be
+available from outside suppliers or business partners.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Communication across the Internet or some other network usually
+raises new issues related to transport protocols and security.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Loose coupling&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The core principle behind loose coupling is to &lt;b&gt;reduce the
+assumptions&lt;/b&gt; two parties (components, applications, services,
+programs, users) make about each other when they exchange
+information.
+&lt;/li&gt;
+&lt;li&gt;A great example of tight coupling is a local method invocation.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;RPC&lt;/b&gt; or &lt;b&gt;RMI&lt;/b&gt; is also considered to be &lt;span class="underline"&gt;tightly coupled&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;Trying to portray remote communication as a variant of a local
+method invocation is &lt;i&gt;asking for trouble&lt;/i&gt;. Such architectures
+typically result in &lt;i&gt;brittle, hard to maintain and poorly scalable
+solutions&lt;/i&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Messaging Concetps&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-7"&gt;
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Channels &lt;/dt&gt;&lt;dd&gt;Messaing applications transmit data through a Message
+Channel, a virtual pipe that connects a sender to a receiver.
+&lt;/dd&gt;
+&lt;dt&gt; Messages &lt;/dt&gt;&lt;dd&gt;An &lt;b&gt;atomic&lt;/b&gt; packet of data that can be transmitted on a channel.
+&lt;/dd&gt;
+&lt;dt&gt; Multi-step delivery &lt;/dt&gt;&lt;dd&gt;In the simplest case, the message system
+delivers a message directly from the sender to the
+reciever. However, actions often need to be performed on the
+message after it is sent and before it is received by the final
+receiver. A &lt;b&gt;Pipes and Filters&lt;/b&gt; architecture describes how
+multiple processing steps can be &lt;b&gt;chained&lt;/b&gt; together using channels.
+&lt;/dd&gt;
+&lt;dt&gt; Routing &lt;/dt&gt;&lt;dd&gt;A message may have to go through several channels to
+reach its final destination. When message is send to a
+&lt;b&gt;Message Router&lt;/b&gt;, it will determine how to nagivate the
+channel topology and direct the message to the final
+receiver, or at least to the next router.
+&lt;/dd&gt;
+&lt;dt&gt; Transformation &lt;/dt&gt;&lt;dd&gt;Variaous applications may not agree on the format
+for the same conceptual data. To reconcile this,
+the message must go through an intermediate
+filter, a &lt;b&gt;Message Translator&lt;/b&gt;.
+&lt;/dd&gt;
+&lt;dt&gt; Endpoints &lt;/dt&gt;&lt;dd&gt;An application doesn't have some build-in capability to
+interface with the messaging system. The &lt;b&gt;Message
+Endpoint&lt;/b&gt; is the bridge code that enable the
+application to send and receive messages.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-8" class="outline-2"&gt;
+&lt;h2 id="sec-8"&gt;Message Channel&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-8"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Channels are logical addresses in the messaging system; how they are
+actually implemented depends on the messaging system product and its
+implementation.
+&lt;/li&gt;
+&lt;li&gt;Channels are configured by the system administrator so that
+applications can use.
+&lt;/li&gt;
+&lt;li&gt;Channels are cheap, but they are not free. Each channel requires
+memory to represent the messages, persistent channels require disk space.
+&lt;/li&gt;
+&lt;li&gt;Two kinds of message channels:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Point-to-point channel
+&lt;/li&gt;
+&lt;li&gt;Publish-Subscribe channel
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-9" class="outline-2"&gt;
+&lt;h2 id="sec-9"&gt;Message&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-9"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A message consists of two basic parts:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Header &lt;/dt&gt;&lt;dd&gt;information used by the messaging system that describes
+the data being transmitted, its origin, its destination, and so on;
+&lt;/dd&gt;
+&lt;dt&gt; Body &lt;/dt&gt;&lt;dd&gt;The data being transmitted;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;Messages concpets:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Command Message &lt;/dt&gt;&lt;dd&gt;to invoke a procdure in another application;
+&lt;/dd&gt;
+&lt;dt&gt; Document Message &lt;/dt&gt;&lt;dd&gt;to pass a set of data to another application;
+&lt;/dd&gt;
+&lt;dt&gt; Event Message &lt;/dt&gt;&lt;dd&gt;to notify another application of a change in the
+application;
+&lt;/dd&gt;
+&lt;dt&gt; Request-Reply &lt;/dt&gt;&lt;dd&gt;if other application should send a reply back;
+&lt;/dd&gt;
+&lt;dt&gt; Message Sequence &lt;/dt&gt;&lt;dd&gt;if one application wish to send more
+information than one message can hold;
+&lt;/dd&gt;
+&lt;dt&gt; Message Expiration &lt;/dt&gt;&lt;dd&gt;specify the data is only useful for a
+limited amount of time;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-10" class="outline-2"&gt;
+&lt;h2 id="sec-10"&gt;Pipes-and-Filters&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-10"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The pipes and Filters style use abstract pipes to decouple
+components from each other. The pipe allows one component to send a
+message into the pipe so that it can be consumed later by another
+process that is unkown to the component.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The obvious implementation for such a pipe is the &lt;b&gt;Message Channel&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;Most Message Channels provide language, platform and location
+independence between the filters.
+&lt;/li&gt;
+&lt;li&gt;This affords us the flexibility to move a processing step to a
+different machine for dependency, maintenance or performance reasons.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;One potential downsides of a Pipe and Filters architecture is the
+large number of required channels.
+&lt;/li&gt;
+&lt;li id="Pipeline Processing"&gt;Connecting components with asynchronous
+Message Channels allow each unit in the chain to operate in its
+own thread or process. This is called &lt;b&gt;processing pipeline&lt;/b&gt;
+because messages flow through the filters. When compared to
+strictly sequential processing, a processing pipeline can
+&lt;i&gt;&lt;b&gt;significantly&lt;/b&gt; increase system throughput&lt;/i&gt;. &lt;br&gt;
+      &lt;img src="https://www.codeproject.com/KB/architecture/PipesAndFilters/image002.jpg" alt="image002.jpg"&gt;
+&lt;/li&gt;
+&lt;li id="Parallel processing"&gt;With the pipeline processing, the overall
+system throughput is limited by the slowest process in the
+chain. To improve throughput we can deploy multiple parallel
+instance of that process to improve throughput.
+&lt;/li&gt;
+&lt;li&gt;Pipes and Filters share some similarities with the concept of
+Communicating Sequential Processes(CSPs)
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The basic mechanism underlying CSPs is the synchronization of two
+processes via input-output(I/O).
+&lt;/li&gt;
+&lt;li&gt;I/O occurs when process A indicates that it is ready to output to
+process B and process B states that it is ready to input from
+process A.
+&lt;/li&gt;
+&lt;li&gt;If one of these happens without the other being true, the process
+is put on a wait queue until the other process is ready.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-11" class="outline-2"&gt;
+&lt;h2 id="sec-11"&gt;Message Router&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-11"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Message based integration solutions deals with individual messages
+which are not necessarily associated with a single, larger
+dataset. &lt;b&gt;As a result&lt;/b&gt;, individual messages are more likely to
+require &lt;b&gt;different&lt;/b&gt; series of processing steps.
+&lt;/li&gt;
+&lt;li&gt;Message Channel decouples the sender and the recevier of a
+Message. &lt;b&gt;As a result&lt;/b&gt;, a message channel can contain messages from
+different sources that may have to be treated differently based on
+the type of message, or other criteria.
+&lt;/li&gt;
+&lt;li&gt;Decouple individual processing steps so that messages can be passed
+to different filters depending on a set of condition.
+&lt;/li&gt;
+&lt;li&gt;Message Fouter differs from mthe most basic notion of Pipes and
+Filters in that it connects to multiple outpue channels.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The components surrounding the Message Router are completely
+unaware of the existence of a Message Router.
+&lt;/li&gt;
+&lt;li&gt;A key property of the Message Router is that it does not modify
+the message content.
+&lt;/li&gt;
+&lt;li&gt;Only conerns itself with the destination of the message.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;While the intent of a Message Router is to decouple filters, it can
+actually cause the opposite effect.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Message Router needs to have knowledge of all possible message
+destination in order to send the message to the correct channel.
+&lt;/li&gt;
+&lt;li&gt;If the destination change frequently, it turn the Message Router
+into a &lt;b&gt;maintaince bottleneck&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;In this case it would be better to let the individual recipients
+to decide which message they are interested in.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Message Router requires the insertion of an additional processing
+step, it can degrade performance.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Can cause computational overhead if the message itself doesn't
+really change.
+&lt;/li&gt;
+&lt;li&gt;Could turn a Message Router into a &lt;b&gt;performance bottleneck&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Deliberate use of Message Routers can turn the advantage of loose
+coupling into a disavantage.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Make it difficul to understand the big picture of the solution.
+&lt;/li&gt;
+&lt;li&gt;This is common problem with messaging solutions and the use of
+routers can exacerbate the problem.
+&lt;/li&gt;
+&lt;li&gt;It is difficult to understand which way messages actually flow.
+&lt;/li&gt;
+&lt;li&gt;Using &lt;b&gt;Message History&lt;/b&gt; to inspect messages at runtime which
+components they traversed.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-12" class="outline-2"&gt;
+&lt;h2 id="sec-12"&gt;Message Translator&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-13" class="outline-2"&gt;
+&lt;h2 id="sec-13"&gt;Message Endpoint&lt;/h2&gt;
+&lt;/div&gt;</description><category>patterns</category><guid>https://example.com/posts/reading/enterprise-integration-patterns/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Functional Programming in Scala</title><link>https://example.com/posts/reading/functional-programming-in-scala/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1"&gt;Some Basic Ideas&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-1"&gt;(Pure) function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-2"&gt;Loop without mutating a loop variable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-3"&gt;ADT(algebraic data type)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2"&gt;Handling Errors&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2-1"&gt;Partial function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2-2"&gt;&lt;code&gt;Option&lt;/code&gt;, &lt;code&gt;Either&lt;/code&gt; and &lt;code&gt;Try&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-3"&gt;Strictness and Laziness&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-4"&gt;Purely functional state&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Some Basic Ideas&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;FP is based on a simple premise that to construct programs using
+only &lt;b&gt;pure functions&lt;/b&gt;. Functions that have &lt;i&gt;no side effects&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;Side effect examples
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Reading or Writing to a file
+&lt;/li&gt;
+&lt;li&gt;Printing to the console or reading user input
+&lt;/li&gt;
+&lt;li&gt;Drawing on the screen
+&lt;/li&gt;
+&lt;li&gt;Throwing an excepion or halting with an error
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Functional programming is a restriction on &lt;i&gt;how&lt;/i&gt; to write programs,
+but not on &lt;i&gt;what&lt;/i&gt; programs we can express.
+&lt;/li&gt;
+&lt;li&gt;Functional programmers often speak of implementing programs with a
+&lt;b&gt;pure core&lt;/b&gt; and a thin layer on the outside that handles effects.
+&lt;/li&gt;
+&lt;li&gt;Finding ways to structure code so that effects occur but aren't
+&lt;b&gt;observable&lt;/b&gt;.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;mutate data that's declared locally in the body of some function,
+if we ensure that it can't be referenced outside the function.
+&lt;/li&gt;
+&lt;li&gt;write to a file as long as no enclosing function can observe this
+occurring.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-1" class="outline-3"&gt;
+&lt;h3 id="sec-1-1"&gt;(Pure) function&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A function &lt;code&gt;f: (A)=&amp;gt;B&lt;/code&gt; is a computation that relates every value &lt;code&gt;a&lt;/code&gt;
+  of type &lt;code&gt;A&lt;/code&gt; to exactly one value &lt;code&gt;b&lt;/code&gt; of type &lt;code&gt;B&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Such that &lt;code&gt;b&lt;/code&gt; is determined solely by the value of &lt;code&gt;a&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Any changing state of an internal or external process is irrelevant
+to computing the result.
+&lt;/li&gt;
+&lt;li&gt;If it really is a &lt;code&gt;function&lt;/code&gt;, it will do nothing else.
+&lt;/li&gt;
+&lt;li&gt;a function has no &lt;i&gt;observable effect&lt;/i&gt; on the execution of the
+program other than to compute the result given its inputs.
+&lt;/li&gt;
+&lt;li&gt;Function vs Procedure : whether to have side effects.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Referentially Transparent&lt;/b&gt; : the expression can be replaced by its
+result without changing the meaning of the program.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It forces the invariant that everything a function does is
+represented by the value that it returns.
+&lt;/li&gt;
+&lt;li&gt;This constrains enables a simple and natural mode of reasoning
+about program evaluation : &lt;b&gt;substitution model&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Functional programs are often more modular due to this.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Modular programs consist of components that can be understood and
+reused &lt;b&gt;independently&lt;/b&gt; of the whole.
+&lt;/li&gt;
+&lt;li&gt;Such that the meaning of the whole depends only on the meaning of
+the components and the rules governing their composition.
+&lt;/li&gt;
+&lt;li&gt;That is, they are &lt;b&gt;composable&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-2" class="outline-3"&gt;
+&lt;h3 id="sec-1-2"&gt;Loop without mutating a loop variable&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An example for looping with recursion:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;={&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;  &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;acc&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The argument to &lt;code&gt;go&lt;/code&gt; are the state for the loop. In this case, it is
+the remaining value &lt;code&gt;n&lt;/code&gt;, and the current accumulated factorial &lt;code&gt;acc&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;To advanced to the next iteration, simply call the &lt;code&gt;go&lt;/code&gt; recursively
+with the &lt;i&gt;new loop state&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;And to exist the loop, return a value without a recursive call.
+&lt;/li&gt;
+&lt;li&gt;Scala detects this sort of &lt;b&gt;self-recursion&lt;/b&gt; and compiles it to the
+same sort of bytecode as would be emitted for a &lt;code&gt;while&lt;/code&gt; loop, as
+long as the recursive call is in &lt;b&gt;tail position&lt;/b&gt;.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;This optimization is called tail call elimination.
+&lt;/li&gt;
+&lt;li&gt;applied when there is no additional work left to do after the
+recursive call returns.
+&lt;/li&gt;
+&lt;li&gt;annotation &lt;code&gt;@tailrec&lt;/code&gt; can be used to tell Scala compiler about
+this assumption.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-3" class="outline-3"&gt;
+&lt;h3 id="sec-1-3"&gt;ADT(algebraic data type)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An ADT is a data type defined by one or more data constructors, each
+of which may contain zero or more arguments.
+&lt;/li&gt;
+&lt;li&gt;The data type is the &lt;b&gt;sum&lt;/b&gt;, or &lt;b&gt;union&lt;/b&gt; of its data constructors
+&lt;/li&gt;
+&lt;li&gt;And each data constructor is the &lt;b&gt;product&lt;/b&gt; of its arguments.
+&lt;/li&gt;
+&lt;li&gt;Hence the name &lt;b&gt;algebraic data type&lt;/b&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The naming is not coincidental.
+&lt;/li&gt;
+&lt;li&gt;There is a deep connection between the "addition" and
+"multiplication" of types to form an ADT and addition and
+multiplication of numbers.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Algebraic data types can be used to define other data structures.
+&lt;/li&gt;
+&lt;li&gt;One might object that algebraic data types violate encapsulation by
+making public the internal representation of type.
+&lt;/li&gt;
+&lt;li&gt;However in FP, the approach to encapsulation is different, it
+doesn't typically have delicate mutable state which could lead to
+bugs or violation of invariants if exposed publicly.
+&lt;/li&gt;
+&lt;li&gt;ADTs is typically used for situations where the set of cases is
+closed(known to be fixed)
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Handling Errors&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Two major problem with exceptions:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Exceptions break referential transparent.
+&lt;/li&gt;
+&lt;li&gt;Exceptions are not type-safe.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Instead of throwing an exception, we can return a value indicating
+that an exceptional condition has occurred.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-2-1" class="outline-3"&gt;
+&lt;h3 id="sec-2-1"&gt;Partial function&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It is not defined for some input.
+&lt;/li&gt;
+&lt;li&gt;An example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Seq&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Double&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isEmpty&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;ArithmeticException&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"mean of empty list!"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;mean2&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Seq&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Doubl&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isEmpty&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nc"&gt;None&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="nc"&gt;Some&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-2-2" class="outline-3"&gt;
+&lt;h3 id="sec-2-2"&gt;&lt;code&gt;Option&lt;/code&gt;, &lt;code&gt;Either&lt;/code&gt; and &lt;code&gt;Try&lt;/code&gt;&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;filter(f: A=&amp;gt;Boolean): Option[A]&lt;/code&gt; : can convert successes into
+failure if the successful value doesn't match the given predicate.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getOrElse(default: =&amp;gt;B) : B&lt;/code&gt; : return &lt;code&gt;defulat&lt;/code&gt; if undefined.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;orElse(ob: =&amp;gt;Option[B]) : Option[B]&lt;/code&gt; : return another Option if the
+first is undefined. This is often useful when we need to chain
+together possibly failing computations, trying the second if the
+first hasn't succeeded.
+&lt;/li&gt;
+&lt;li&gt;A common idiom is to do &lt;code&gt;o.getOrElse(throw new Exception("FAIL"))&lt;/code&gt;
+    to convert the &lt;code&gt;None&lt;/code&gt; case of an Option back to an exception.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;use it only if no reasonable program would ever catch the
+exception.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Convert existed function to be Option-aware
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;lift&lt;/code&gt; of ordinary functions to operate on &lt;code&gt;Option&lt;/code&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;lift&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;, &lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt; &lt;span class="n"&gt;map&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;map2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;,&lt;span class="kt"&gt;B&lt;/span&gt;,&lt;span class="kt"&gt;C&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;],&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;C&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;//TODO.&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;absO&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lift&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abs&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Try&lt;/code&gt; : a general-purpose function to convert from an
+exception-based API to an Option-oriented API:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="nc"&gt;Some&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Exception&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Either&lt;/code&gt; data type: sometimes just knowing whether a failure
+occurred is insufficient when more information about failure is
+wanted. the &lt;code&gt;Either&lt;/code&gt; data type is designed for the purpose.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;seal&lt;/span&gt; &lt;span class="k"&gt;trait&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+E&lt;/span&gt;, &lt;span class="kt"&gt;+A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nc"&gt;case&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Left&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+E&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;E&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;E&lt;/span&gt;, &lt;span class="kt"&gt;Nothing&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Right&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Nothing&lt;/span&gt;, &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Both cases carry a value.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A common use of &lt;code&gt;Either&lt;/code&gt; is as an alternative to &lt;code&gt;Option&lt;/code&gt; for
+dealing with possibly missing values.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In this usage, &lt;code&gt;None&lt;/code&gt; is replaced with a &lt;code&gt;Left&lt;/code&gt; which can
+contain useful information. &lt;code&gt;Right&lt;/code&gt; takes the place of &lt;code&gt;Some&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Convention dictates that &lt;code&gt;Left&lt;/code&gt; is used for failure and &lt;code&gt;Right&lt;/code&gt;
+    is used for success.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Try&lt;/code&gt; represents a computation that may either result in an
+exception, or return a successful computed value.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Similar to &lt;code&gt;Either&lt;/code&gt;, but semantically different.
+&lt;/li&gt;
+&lt;li&gt;Instance of &lt;code&gt;Try[T]&lt;/code&gt;, are either an &lt;code&gt;Success[T]&lt;/code&gt; or a &lt;code&gt;Failure[t]&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scala.io.StdIn&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scala.util.&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nc"&gt;Failure&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;divide&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;StdIn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Enter an Int that you'd like to divide:\n"&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;toInt&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;StdIn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Enter an Int that you'd like to divide by:\n"&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;toInt&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;problem&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatMap&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+  &lt;span class="n"&gt;problem&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Result of "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;"/"&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s"&gt;" is: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Failure&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"You must've divided by zero or entered something that's not an Int. Try again!"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Info from the exception: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getMessage&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;divide&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;An important property of &lt;b&gt;Try&lt;/b&gt; shown in the above example is its
+ability to pipeline, or chain, operations, catching exceptions
+along the way.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Strictness and Laziness&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Scala collection function like &lt;code&gt;map&lt;/code&gt;, &lt;code&gt;filter&lt;/code&gt; are &lt;b&gt;strict functions&lt;/b&gt;
+  that produce intermediate temporary collections when called in chain.
+&lt;/li&gt;
+&lt;li&gt;a non-strict function may choose &lt;b&gt;not&lt;/b&gt; to evaluate one, or more of
+its arguments, while a strict function will always evaluates its
+arguments.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;if&lt;/code&gt; can be think as a function accepting three parameters. This
+function would be non-strict, since it won't evaluate all of its
+arguments.
+&lt;/li&gt;
+&lt;li&gt;In scala, we can write non-strict functions by accepting some of our
+arguments un-evaluated, for example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;if2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;()=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;()=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Or with pass-by-reference:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;if2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Adding the &lt;code&gt;lazy&lt;/code&gt; keyword to a &lt;code&gt;val&lt;/code&gt; declaration will cause Scala to
+delay evaluation of the right-hand side of the declaration, until it
+is first referenced. It will also cache the result so that
+subsequent references to it don't trigger repeated evaluation.
+&lt;/li&gt;
+&lt;li&gt;A major theme in FP is &lt;i&gt;separation of concerns&lt;/i&gt;. We want to separate
+the description of computations from actually running them.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Laizness lets us separate the description of an expression from
+the evaluation of that expression.
+&lt;/li&gt;
+&lt;li&gt;We may choose to describe a &lt;i&gt;larger&lt;/i&gt; expression than we need, and
+then evaluate only a portion of it.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="nc"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Cons&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Note that &lt;code&gt;||&lt;/code&gt; is non-strict in its second argument.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Purely functional state&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The key to recovering referential transparency is to &lt;b&gt;make the state
+updates explicit&lt;/b&gt;. Don't update the state as a side effect, but
+simply &lt;b&gt;return the new state&lt;/b&gt; along with the value that we are return.
+&lt;/li&gt;
+&lt;li&gt;An example for a random number generator:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;trait&lt;/span&gt; &lt;span class="nc"&gt;RNG&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;nextInt&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;RNG&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Rather than returning only the generated random number, and
+updating some internal state by &lt;i&gt;mmutating&lt;/i&gt; it in place, we return
+the random number &lt;b&gt;and&lt;/b&gt; the new state, leaving the old state
+unmodified.
+&lt;/li&gt;
+&lt;li&gt;It separating the concern of &lt;b&gt;computing&lt;/b&gt; what the next state is
+from the concern of &lt;b&gt;communicating&lt;/b&gt; the new state to the rest of
+the program.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The function has a type of the form &lt;code&gt;RNG =&amp;gt; (A, RNG)&lt;/code&gt;. Functions of
+this type are called &lt;b&gt;state actions&lt;/b&gt; or &lt;b&gt;state transitions&lt;/b&gt; because
+they transform &lt;b&gt;RNG&lt;/b&gt; states from one to the next.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It will be quite tedious and repetitive to passing the state.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;This state actions can be combined using &lt;b&gt;combinators&lt;/b&gt;, which are
+higher-order functions. The combinators will pass the state from one
+action to the next automatically.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>functional programming</category><category>scala</category><guid>https://example.com/posts/reading/functional-programming-in-scala/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Go In Action</title><link>https://example.com/posts/reading/go-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/go-in-action/#sec-1"&gt;Introducing Go&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/go-in-action/#sec-2"&gt;Go quick-start&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/go-in-action/#sec-3"&gt;Package and tooling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/go-in-action/#sec-4"&gt;Arrays, slices, and maps&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Introducing Go&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;Goroutines&lt;/b&gt; are functions that run concurrently with other
+goroutines, including the entry point of your program. In other
+languages, you 'd use threads to accomplish the same thing, but in
+Go, &lt;span class="underline"&gt;many goroutines execute on &lt;b&gt;single thread&lt;/b&gt;&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;In Go, the net/http library has concurrentcy build in using
+goroutings. Each inbound request automatically runs on its own
+goroute.
+&lt;/li&gt;
+&lt;li&gt;Goroutines use less memory that threads and Go runtime will
+automatically schedule the execution of goroutines against a set of
+configured logical processors. &lt;span class="underline"&gt;Each &lt;b&gt;logical processor&lt;/b&gt; is bound to a
+single OS thread&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Channels&lt;/b&gt; are data structures that enable safe data communication
+between goroutines.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Channels&lt;/b&gt; help to enforce the pattern that only one goroutine
+should modify the data at any time.
+&lt;/li&gt;
+&lt;li&gt;It is imortant tonote that channels don't provide data access
+protection between goroutines. If copies of data are exchanged
+through a channel, each goroutine has its own copy and can make any
+changes to that data safely. When pointers to the data are being
+exchanged, each goroutine still need to be synchronized if reads and
+writes will be performed by different goroutines.
+&lt;/li&gt;
+&lt;li&gt;Go developers embed types to reuse functionality in a design pattern
+called &lt;b&gt;composition&lt;/b&gt;. Other languages use composition, but it is
+often deeply tired to inheritance, which make it complicated and
+difficult to use.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Go quick-start&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;If you &lt;code&gt;main&lt;/code&gt; function doesn't exist in package &lt;code&gt;main&lt;/code&gt;, the build
+tools won't produce an executable.
+&lt;/li&gt;
+&lt;li&gt;All code files in a folder must use the same package name, and it is
+common practise to name the package after the folder. A &lt;span class="underline"&gt;package
+defines a unit of compiled code&lt;/span&gt;, and each unit of code represents a package.
+&lt;/li&gt;
+&lt;li&gt;The Go compiler won't let you declare a package to be imported if it
+is not used. The &lt;b&gt;blank identifier&lt;/b&gt; allow the compiler to accept the
+import and call any &lt;code&gt;init&lt;/code&gt; functions that can be found in the
+different code files within that package.
+&lt;/li&gt;
+&lt;li&gt;All &lt;code&gt;init&lt;/code&gt; functions in any code file that are part of the program
+will get called before the &lt;code&gt;main&lt;/code&gt; function.
+&lt;/li&gt;
+&lt;li&gt;By default the logger is set to write to stderr device, however this
+can be changed with:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;log.SetOutput(os.Stdout)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The compiler will always look for the packages you import at the
+locations referenced by the &lt;code&gt;GOROOT&lt;/code&gt; and &lt;code&gt;GOPATH&lt;/code&gt; environment
+variables.
+&lt;/li&gt;
+&lt;li&gt;Variables located outside the scope of any function are considered
+package-level variable.
+&lt;/li&gt;
+&lt;li&gt;Identifiers start with a captial letter are exported, while
+identifiers start with a lowercase letter are unexported.
+&lt;/li&gt;
+&lt;li&gt;In Go, all variables are initialized to their zero value. For
+pointers, the zero value is &lt;code&gt;nil&lt;/code&gt;. For reference types, their
+underlying data structures are initialized to their zero values.
+&lt;/li&gt;
+&lt;li&gt;The short variable declaration operator &lt;code&gt;:=&lt;/code&gt; is used to both declare
+and initialize variables at the same time. The type of each value
+being returned is used by the compiler to determine the type of each
+variable, respectively.
+&lt;/li&gt;
+&lt;li&gt;A good rule of thumb when declaring variables is to use keyword
+&lt;code&gt;var&lt;/code&gt; when declaring variables that will be initialized to their
+zero value, and to use the short variable declaration operator when
+providing extra initialization or making a function call.
+&lt;/li&gt;
+&lt;li&gt;In Go, once the &lt;code&gt;main&lt;/code&gt; function returns, the program terminates. Any
+goroutines that are still running at this time will also be
+terminated by the Go runtime.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WaitGroup&lt;/code&gt; from the &lt;code&gt;sync&lt;/code&gt; package is a great way to track when a
+goroutine is finished performing its work. A &lt;code&gt;WaitGroup&lt;/code&gt; is a
+counting semaphore.
+&lt;/li&gt;
+&lt;li&gt;The keyword &lt;code&gt;range&lt;/code&gt; can be used with arrays, strings, slices, maps
+and channels.
+&lt;/li&gt;
+&lt;li&gt;When use &lt;code&gt;for range&lt;/code&gt; to iterate over a slice, we get two values back
+on each iteration, the first is the index position, and the second
+is a &lt;b&gt;copy&lt;/b&gt; of the value in that element.
+&lt;/li&gt;
+&lt;li&gt;When you have function that returns multiple values, and you don't
+have a need for one, the blank identifier can be used to ignore
+those values:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for _, feed := range feeds {}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;When a key doesn't exist, the map will return the zero value for the
+type of value being stored in the map. When the key does exist, the
+map will return a &lt;b&gt;copy&lt;/b&gt; of the value for that key.
+&lt;/li&gt;
+&lt;li&gt;Go supports closures. The &lt;code&gt;anonymous&lt;/code&gt; function isn't given a copy of
+these variables; it has direct access to the same variables declared
+in the scope of outer functon.
+&lt;/li&gt;
+&lt;li&gt;Tag can be used to add meta data for struct fields:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;type Feed struct {
+	Name string `json: "site"`
+	URI string `json: "link"`
+	Type string `json: "type"`
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+The above example use tag to map a struct with a JSON document.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;The keyword &lt;code&gt;defer&lt;/code&gt; lets us write statement close to where the
+open occurs, which helps with readability and reducing bugs.
+&lt;/li&gt;
+&lt;li&gt;Empty interface:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func (dec *Decoder) Decode (v interface{}) error
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+This is a special type in Go, which allow &lt;code&gt;Decode&lt;/code&gt; method to accept
+any type of value.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;A name conventionin Go for interfaces: if the interface type
+contains only one method, the name of the interface ends with the
+&lt;code&gt;er&lt;/code&gt; suffix.
+&lt;/li&gt;
+&lt;li&gt;The use of a receiver with any function declaration declares a
+method that is bound to the specified reciever type.
+&lt;/li&gt;
+&lt;li&gt;Whether we use a value or pointer of the receiver type to make the
+method call, the compiler will reference or deference the value if
+necessary to support the call.
+&lt;/li&gt;
+&lt;li&gt;It is best practice to declare methods using pointer receivers,
+since many of the methods you implements need to manipulate the
+state of the value being used to make the method call.
+&lt;/li&gt;
+&lt;li&gt;Interface type bcan be assigned to either value or pointer:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var dm defaultMatcher
+//Assign value to interface type Matcher
+var matcher1 Matcher = dm
+//Can also assign the interface type to a pointer
+var matcher2 Matcher = &amp;amp;dm
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Methods declared with pointer receivers can only be called by
+interface type values that contain pointers. Methods declared with
+value receivers can be called by interface type that contain both
+values and points.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Package and tooling&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Go programs are organized into groups of files called packages, so
+that &lt;b&gt;code&lt;/b&gt; has the abitity to be included into other projects as
+&lt;span class="underline"&gt;smaller resuable pieces&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;You cannot have multiple packages in the same directory, nor split a
+package across multiple directories.
+&lt;/li&gt;
+&lt;li&gt;Unique package name is not required, because package is imported
+using its full path. The package name is used as the default name
+when it is imported, but it can be overridden:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;import (
+	"fmt"
+	myfmt "mylib/fmt"
+)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Arrays, slices, and maps&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;When an array is initialized, each individual element that belongs
+to the array is initialized to its zero value.
+&lt;/li&gt;
+&lt;li&gt;Array literal:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;array := [5]int {1,2,3,4,5}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Declaring an array with Go calculating size:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;array := [...]int{1,2,3,4,5}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Declaring an array initializing specific elements:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;array := [5]int{1: 1, 2: 2}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;An array is a value in Gl. This means you can use it in an
+assignment operation. The variable name denotes the entire array,
+and can be assigned to other arrays of the same type:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var array1 [5]string
+array2 :=[5]string{"a", "b", "c", "d", "e"}
+//copy the values from array2 into array1.
+array1=array2
+//after the copy the two array is identical.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The type of an array variable includes both the length and the type
+of data. Only arrays of the same type can be assigned.
+&lt;/li&gt;
+&lt;li&gt;Arrays are &lt;b&gt;always&lt;/b&gt; one-dimensional, but they can be composed to
+create multidimensinal arrays.
+&lt;/li&gt;
+&lt;li&gt;Passing an array between functions can be expensive because array is
+a value and the whole array will be copied.
+&lt;/li&gt;
+&lt;li&gt;An idiomatic way of creating a slice is to use a slice
+literal. Similar to creating an array, excpet don't specify a value
+inside of the [] operator. Remember: &lt;span class="underline"&gt;If a value is specified inside
+the [] operator, an array is created, otherwise, a slice is created&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;A &lt;code&gt;nil&lt;/code&gt; slice represent a slice that doesn't exist:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;//create a nil slice of integres.
+var slice []int
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;An empty slice is different from &lt;code&gt;nil&lt;/code&gt; slice in that its array
+pointer is an empty array, instead of a &lt;code&gt;nil&lt;/code&gt;. It is used to
+represents an empty collection.
+&lt;/li&gt;
+&lt;li&gt;Taking the slice of a slice:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;slice := []int{1,2,3,4,5}
+//create a new slice
+newSlice := slice[1:3]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;A slice can only access indexes up to its length. Accessing outside
+its length will cause a runtime exception.
+&lt;/li&gt;
+&lt;li&gt;By set the capacity of a new slice to be the same as the length, you
+can force the first append operation to detach the new slice from
+the underlying array, which make it safe to change.
+&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;append&lt;/code&gt; is a variadic function. This means you can pass
+multiple values to be appended. If you use the &lt;code&gt;...&lt;/code&gt; operator, you
+can append all the elements of one slice into another:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;s1 := []int{1,2}
+s2 := []int{3,4}
+//s3 : [1,2,3,4]
+s3 := append(s1, s2...)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;It is important to know that &lt;code&gt;range&lt;/code&gt; is making a copy of the value,
+not a reference.
+&lt;/li&gt;
+&lt;li&gt;Passing a slice between two functions requires nothing more than
+passing the slice by value.
+&lt;/li&gt;
+&lt;li&gt;Maps are collections and can be iterated. But maps are unordered
+collections. There is no way to predict the order in which the
+key/value pairs will be returned. &lt;span class="underline"&gt;Every iteration over a map could
+return a different order&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>go</category><guid>https://example.com/posts/reading/go-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Gradle In Action</title><link>https://example.com/posts/reading/gradle-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/gradle-in-action/#sec-1"&gt;Getting started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/gradle-in-action/#sec-2"&gt;Using the command line&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/gradle-in-action/#sec-3"&gt;Using the java plugin&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Getting started&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An hello world example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt; &lt;span class="n"&gt;helloWorld&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;doLast&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;println&lt;/span&gt; &lt;span class="s1"&gt;'Hello world!'&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Execute the build script with &lt;code&gt;gradle -q helloWorld&lt;/code&gt;, the &lt;code&gt;-q&lt;/code&gt;
+    tell Gradle only ouptut the task's output.
+&lt;/li&gt;
+&lt;li&gt;Tasks and actions are important elements of the language.
+&lt;/li&gt;
+&lt;li&gt;An &lt;code&gt;Action&lt;/code&gt; doLast specify it is the last action that's executed
+for a task.
+&lt;/li&gt;
+&lt;li&gt;In a more concise way of same logic using &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt; &lt;span class="n"&gt;helloWorld&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="n"&gt;println&lt;/span&gt; &lt;span class="s1"&gt;'Hello world!'&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Dynamic task definition and task chaining
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;task&lt;/span&gt; &lt;span class="n"&gt;startSession&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;chant&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;chant&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="n"&gt;ant&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;echo&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nl"&gt;message:&lt;/span&gt; &lt;span class="s1"&gt;'Repeat after me...'&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;times&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="n"&gt;task&lt;/span&gt; &lt;span class="s2"&gt;"YayGradle$it"&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt; &lt;span class="s1"&gt;'Gradle rocks'&lt;/span&gt;
+   &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;yayGradle0&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;dependsOn&lt;/span&gt; &lt;span class="n"&gt;startSession&lt;/span&gt;
+&lt;span class="n"&gt;yayGradle2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;dependsOn&lt;/span&gt; &lt;span class="n"&gt;yayGradle1&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;yayGradle0&lt;/span&gt;
+
+&lt;span class="n"&gt;task&lt;/span&gt; &lt;span class="nf"&gt;groupTherapy&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nl"&gt;dependsOn:&lt;/span&gt; &lt;span class="n"&gt;yaygradle2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;task&lt;/code&gt; can be used to dynamically define tasks
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dependsOn&lt;/code&gt; defines dependencies between tasks
+&lt;/li&gt;
+&lt;li&gt;Gradle is tight integrated with Ant. Every script is equipped with
+a property call &lt;code&gt;ant&lt;/code&gt; that grants direct access to Ant tasks
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Using the command line&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;list available tasks of a project: &lt;br&gt;
+  &lt;code&gt;gradle -q tasks&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;list all available properties: &lt;br&gt;
+  &lt;code&gt;gradle properties&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;task execution: can execute multiple tasks in a single build run &lt;br&gt;
+  &lt;code&gt;gradle yayGradle0 groupTherapy&lt;/code&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;will execute the task &lt;code&gt;yayGradle0&lt;/code&gt; first then task &lt;code&gt;groupTherapy&lt;/code&gt; second.
+&lt;/li&gt;
+&lt;li&gt;Tasks are always executed just &lt;b&gt;once&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;Gradle can abbreviate camel-cased task name on the command
+line. So the command below is same as above &lt;br&gt;
+    &lt;code&gt;gradle yG0 gT&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;However, the abbreviation has to be unique
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;exclude&lt;/b&gt; a task and its dependent tasks: &lt;br&gt;
+  &lt;code&gt;gradle groupTherapy -x yayGradle0&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;specify a &lt;b&gt;build file&lt;/b&gt; with &lt;code&gt;-b, --build-file&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;build offline&lt;/b&gt; with &lt;code&gt;offline&lt;/code&gt; to only check the local dependency
+cache for dependencies.
+&lt;/li&gt;
+&lt;li&gt;set property option:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;-D, --system-prop&lt;/code&gt; : set jvm system property
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-P, --project-prop&lt;/code&gt; : set project properties, which are variables
+available in your build script.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;logging: &lt;code&gt;-i, --info&lt;/code&gt;, &lt;code&gt;-s --stacktrace&lt;/code&gt;, &lt;code&gt;-q, --quite&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Gradle daemon: &lt;code&gt;--daemon&lt;/code&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;subsequent invocations of the &lt;code&gt;gradle&lt;/code&gt; command will now reuse the
+daemon process.
+&lt;/li&gt;
+&lt;li&gt;The daemon process will automatically expire after a three-hour
+idle time.
+&lt;/li&gt;
+&lt;li&gt;At any time you can choose to build without using the daemon with
+&lt;code&gt;--no-daemon&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;To stop the daemon &lt;code&gt;gradle --stop&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Using the java plugin&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Tell your project to use the Java plugin: &lt;br&gt;
+  ~apply plugin: 'java'~
+&lt;/li&gt;
+&lt;li&gt;Using &lt;code&gt;build&lt;/code&gt; task to compile, run test and assembles the Jar.
+&lt;/li&gt;
+&lt;li&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>gradle</category><category>java</category><guid>https://example.com/posts/reading/gradle-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Introducing Go</title><link>https://example.com/posts/reading/introducing-go/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-1"&gt;Chapter 1. Getting started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-2"&gt;Chapter 2. Types&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-3"&gt;Chapter 3. Variables&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-4"&gt;Chapter 4. Control Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-5"&gt;Chapter 5. Arrays, Slices, and Maps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-6"&gt;Chapter 6: Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-7"&gt;Chapter 7: Structs and Interfaces&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Chapter 1. Getting started&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The Go toolset uses an environment variable called &lt;code&gt;GOPATH&lt;/code&gt; to find
+Go source code.
+&lt;/li&gt;
+&lt;li&gt;Find document for certain function using &lt;code&gt;godoc&lt;/code&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;godoc fmt Println
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+w  will get document for function &lt;code&gt;Println&lt;/code&gt; in package &lt;code&gt;fmt&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Chapter 2. Types&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Go is a statically typed language. Variables have specific types and
+type cannot change.
+&lt;/li&gt;
+&lt;li&gt;Number Types
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Go’s integer types are &lt;code&gt;uint8&lt;/code&gt;, &lt;code&gt;uint16&lt;/code&gt;, &lt;code&gt;uint32&lt;/code&gt;, &lt;code&gt;uint64&lt;/code&gt;,
+&lt;code&gt;int8&lt;/code&gt;, &lt;code&gt;int16&lt;/code&gt;, &lt;code&gt;int32&lt;/code&gt;, and &lt;code&gt;int64&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;There are also three machine dependent integer types: &lt;code&gt;uint&lt;/code&gt;, &lt;code&gt;int&lt;/code&gt;,
+and &lt;code&gt;uintptr&lt;/code&gt;. They are machine dependent because their size depends
+on the type of architecture you are using.
+&lt;/li&gt;
+&lt;li&gt;Go has two floating-point types: &lt;code&gt;float32&lt;/code&gt; and &lt;code&gt;float64&lt;/code&gt; (also often
+referred to as single precision and double precision,
+respectively).
+&lt;/li&gt;
+&lt;li&gt;For complex numbers, it has: &lt;code&gt;complex64&lt;/code&gt; and &lt;code&gt;complex128&lt;/code&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;String
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;String literals can double quotes "Hello, World" or backticks
+`Hello, World`. Double-quoted strings &lt;b&gt;cannot&lt;/b&gt; contain newlines and
+they allow special escape sequences.
+&lt;/li&gt;
+&lt;li&gt;Common String operations:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Length: &lt;code&gt;len("Hello World")&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Index: ~"Hello World"[​1]~
+&lt;/li&gt;
+&lt;li&gt;Concat: ~"Hello " + "World"~
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Boolean type
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Chapter 3. Variables&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;constant: ~const x string = "Hello, World"~
+&lt;/li&gt;
+&lt;li&gt;Define multiple variables:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var (
+  a = 5
+  b = 10
+  c = 11
+)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Chapter 4. Control Structures&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;for loop:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;i = 0
+for i&amp;lt;=10 {}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for i=0;i&amp;lt;=10;i++ {}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;switch:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;switch i {
+    case 0: ...
+    case 1: ...
+    default: ...
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Chapter 5. Arrays, Slices, and Maps&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Define and using array:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func main() {
+	var x [5]int
+	x[40]=10
+	var total int = 0;
+	for i=0; i&amp;lt;5; i++{
+		total+=x[i]
+	}
+	fmt.Println(total / len(x))
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;A special form of for loop allow:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for _, value:=range x {
+	total +=value
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+A single underscore (_) is used to tell the compiler it(the iterator variable)
+is not needed in the loop
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Shortcut to define array:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;x:=[3]float64{98, 99, 199}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+or in multiple lines:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;x := [4]float64 {
+	98,
+	99,
+	100,
+	102,
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Note that the extra trailing ',' in the last line is required by Go.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Array in Go is fix length, and is actually in the type declaration. Usually
+slice is used, which is a type built on top of an array.
+&lt;/li&gt;
+&lt;li&gt;A slice is a segment of an array. Its length is allowed to change.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var x []float64
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To create a slice, using the &lt;code&gt;make&lt;/code&gt; function:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;x := make([]float64, 5)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+This creates a slice that is associated with an underlying float64 array of
+length 5. Slices are always associated with some array, they can be smaller
+but not longer than the associated array.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Slice can also be created using &lt;code&gt;[low : high]&lt;/code&gt; expression:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;arr := [5]float64 {1,2,3,4,5}
+x := arr[0:5]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+In this expression, both 'low' and 'high' can be omitted.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Map
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var x map[string]int
+x := make(map[string]int)
+
+x["key"] = 10
+fmt.Println(x)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;length of map can change as adding new item to it.
+&lt;/li&gt;
+&lt;li&gt;maps are not sequential.
+&lt;/li&gt;
+&lt;li&gt;can be deleted with &lt;code&gt;delete&lt;/code&gt; function: &lt;code&gt;delete(x,1)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;a map returns the zero value for the value type when the key doesn't exist.
+&lt;/li&gt;
+&lt;li&gt;It can also return two values like:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;name, ok := elements["Un"]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+in which, the &lt;code&gt;name&lt;/code&gt; is the value returned, and &lt;code&gt;ok&lt;/code&gt; tells whether the
+lookup is successful.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;A common pattern in go looks like:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;if name, ok := elements["Un"]; ok{
+	fmt.Println(name, ok)
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Chapter 6: Functions&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Function's return type can be named:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func f2() (r int){
+	r=1
+	return
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Function can return multiple value:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func f() (int, int) {
+	return 5, 6
+}
+func main() {
+	x,y:=f()
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Multiple values are often used to return an error value along with the
+result &lt;code&gt;(x, err := f())&lt;/code&gt;, or a boolean to indicate success &lt;code&gt;(x, ok := f())&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Variadic Functions:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func add(args ...int) int {
+	total := 0
+	for _, v := range args {
+		total += v
+	}
+	return total
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+in this example &lt;code&gt;add&lt;/code&gt; is allowed to be called with multiple
+integers, this parameter is known as a &lt;b&gt;variadic&lt;/b&gt; parameter.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;It is possible to create functions inside function, which creates
+&lt;b&gt;Closure&lt;/b&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func main() {
+	add := func(x, y int) int {
+		  return x+y
+		}
+	fmt.Println(add(1,1))
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+When you create a local function like this, it also has access to
+other local variables.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;defer&lt;/code&gt;: a special statement that schedules a function call to be run
+after the function completes. It basically moves the call to the end
+of the function. It is often used when some resource need to be
+cleaned in some way:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;f, _ := os.Open(filename)
+defer f.Close()
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It keeps the Close() call to Open() so it is easier to understand.
+&lt;/li&gt;
+&lt;li&gt;If there are multiple return statement, the Close() will happen
+before both of them.
+&lt;/li&gt;
+&lt;li&gt;Deferred function will run even if a run-time panic occurs.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;panic&lt;/code&gt; function is used to create a run-time error; we can handle a
+run-time panic with the build-in &lt;code&gt;recover&lt;/code&gt; function.
+&lt;/li&gt;
+&lt;li&gt;recover stops the panic and returns the value that was passed to the
+call to panic.
+&lt;/li&gt;
+&lt;li&gt;Here is the example to use &lt;code&gt;recover&lt;/code&gt; when having &lt;code&gt;panic&lt;/code&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func main() {
+	defer func() {
+		str := recover()
+		fmt.Println(str)
+	}()
+	panic("PANIC")
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;new&lt;/code&gt; takes a type as an argument, allocates enough memory to fit a
+value of that type, and returns a pointer to it. Go is
+garbage-collected so no need to &lt;code&gt;free&lt;/code&gt; explicitly.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Chapter 7: Structs and Interfaces&lt;/h2&gt;
+&lt;/div&gt;</description><category>go</category><guid>https://example.com/posts/reading/introducing-go/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Lean Python</title><link>https://example.com/posts/reading/lean-python/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Getting Started&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Variables
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The first character must be a letter or underscore.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Don't start a variable with a underscore, which is usually used
+for special identifiers.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Additional characters may be alphanumeric or underscore.
+&lt;/li&gt;
+&lt;li&gt;Names are case sensitive.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Assignment
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;text&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'Some Text'&lt;/span&gt;
+&lt;span class="n"&gt;Name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'Mr'&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;' '&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;'Fred'&lt;/span&gt;
+&lt;span class="c1"&gt;# list.&lt;/span&gt;
+&lt;span class="n"&gt;shoppingList&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'ham'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'eggs'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'mushrooms'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="c1"&gt;# multiple assignment.&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;
+&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;myFunc&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="c1"&gt;# when myFunc() returns three values&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Special identifiers, the name will be of the form: \
+&lt;code&gt;_xxx&lt;/code&gt;, &lt;code&gt;__xxx__&lt;/code&gt;, &lt;code&gt;__xxx&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;__name__&lt;/code&gt; special variable specified how the module is called, it
+will be:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The name of the module if imported,
+&lt;/li&gt;
+&lt;li&gt;The string &lt;code&gt;__main__&lt;/code&gt; if executed directly.
+&lt;/li&gt;
+&lt;li&gt;The following code let the interpreter loads your program and runs
+it if necessary
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;'__main__'&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Python Objects&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;All variables have a type which can be seen using the build-in
+&lt;code&gt;type()&lt;/code&gt; function.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;type 'int'&amp;gt;&lt;/span&gt;
+&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'some more text'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;type 'str'&amp;gt;&lt;/span&gt;
+&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;'some'&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  &lt;span class="c1"&gt;# &amp;lt;type list'&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Other types are &lt;code&gt;class&lt;/code&gt;, &lt;code&gt;module&lt;/code&gt;, &lt;code&gt;function&lt;/code&gt;, &lt;code&gt;file&lt;/code&gt;, &lt;code&gt;bool&lt;/code&gt;,
+&lt;code&gt;NoneType&lt;/code&gt; and &lt;code&gt;long&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;The special constants &lt;code&gt;True&lt;/code&gt; and &lt;code&gt;False&lt;/code&gt; are &lt;code&gt;bool&lt;/code&gt; type, special
+constant &lt;code&gt;None&lt;/code&gt; is a &lt;code&gt;NoneType&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Function &lt;code&gt;str()&lt;/code&gt; is used to see a textual definition of any object
+&lt;/li&gt;
+&lt;li&gt;Factory functions are a serials of functions that create variable
+types directly
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;int(4.0)&lt;/code&gt; create integer &lt;code&gt;4&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;str(4)&lt;/code&gt; create string ='4'=
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;list(1,2,3,4,5)&lt;/code&gt; create &lt;code&gt;list [1,2,3,4,5]&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tuple(1,2,3,4)&lt;/code&gt; create tuple &lt;code&gt;(1,2,3,4)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dict(one=1,two=2)&lt;/code&gt; create dictionary &lt;code&gt;{'one': 1, 'two': 2}&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Exponentiation operator: &lt;code&gt;4 ** 3&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Boolean are actually held as integers but have a value of either
+&lt;code&gt;True&lt;/code&gt; or &lt;code&gt;False&lt;/code&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;bool(23)&lt;/code&gt;  : &lt;code&gt;True&lt;/code&gt;, all nonzero integers
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool(0)&lt;/code&gt;  : &lt;code&gt;False&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool('any')&lt;/code&gt; : &lt;code&gt;True&lt;/code&gt;, any string
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool('')&lt;/code&gt; : &lt;code&gt;False&lt;/code&gt;, zero length string
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bool([])&lt;/code&gt; : &lt;code&gt;False&lt;/code&gt;, empty lists
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Sequences: Strings, Lists, and Tuples.
+&lt;/li&gt;
+&lt;li&gt;Tuples value much like a list, but the entries in a tuple are &lt;b&gt;immutable&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;Membership test in sequence:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s1"&gt;'a'&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="s1"&gt;'track'&lt;/span&gt;    &lt;span class="c1"&gt;# True&lt;/span&gt;
+&lt;span class="mi"&gt;9&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# False&lt;/span&gt;
+&lt;span class="s1"&gt;'x'&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="s1"&gt;'next'&lt;/span&gt;  &lt;span class="c1"&gt;# False&lt;/span&gt;
+&lt;span class="s1"&gt;'red'&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'tan'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'pink'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c1"&gt;# True&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Two or more sequences can be added together using &lt;code&gt;+&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Or Using string's &lt;code&gt;join()&lt;/code&gt; method to join a list of strings, or tuple
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="s1"&gt;'-'&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="s1"&gt;'a'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'b'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'c'&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  &lt;span class="c1"&gt;# 'a-b-c'&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;A slice is a convenient way to select a subset of elements in sequence
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;[startIndex:endIndex]&lt;/code&gt; : not including &lt;code&gt;endIndex&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;index of minus value : counting from end. &lt;code&gt;-1&lt;/code&gt; index refer to the
+last element of the sequence.
+&lt;/li&gt;
+&lt;li&gt;either &lt;code&gt;startIndex&lt;/code&gt; or &lt;code&gt;endIndex&lt;/code&gt; can be omitted.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Built-in Sequence Functions: &lt;code&gt;len()&lt;/code&gt;, &lt;code&gt;max()&lt;/code&gt;, &lt;code&gt;min()=， =sum()&lt;/code&gt;,
+&lt;code&gt;sorted()&lt;/code&gt;, &lt;code&gt;reversed()&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;String can be delimt with either single (') or double (")
+quotes. You can embed either quote inside the other.
+&lt;/li&gt;
+&lt;li&gt;Access substring with slices.
+&lt;/li&gt;
+&lt;li&gt;Strings can be compared with &lt;code&gt;&amp;gt;&lt;/code&gt;, &lt;code&gt;&amp;lt;&lt;/code&gt;, &lt;code&gt;==&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;String can be searched using the membership test of sequence.
+&lt;/li&gt;
+&lt;li&gt;Longer pieces of text with embedded new lines can be assigned using
+the triple quotes.
+&lt;/li&gt;
+&lt;li&gt;String formatting can be done using the &lt;code&gt;%&lt;/code&gt; operator
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;ntoys&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="n"&gt;myname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'Fred'&lt;/span&gt;
+&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="si"&gt;%s&lt;/span&gt;&lt;span class="s1"&gt; has &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt; toys'&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;myname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ntoys&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;%c&lt;/code&gt; Single character/string of length 1
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%s&lt;/code&gt; String
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%d&lt;/code&gt; Signed decimal integer
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%f&lt;/code&gt; Floating point number
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%%&lt;/code&gt; Percent character
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Updating Lists with &lt;code&gt;append()&lt;/code&gt; and &lt;code&gt;del&lt;/code&gt; statement
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;myList&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="n"&gt;myList&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Tom'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;myList&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Dick'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;myList&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'Bill'&lt;/span&gt;
+&lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;myList&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Using &lt;code&gt;index()&lt;/code&gt; method to find an entry and returns the offset of
+that entry.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;If the entry cannot be found, it returns an Error.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Dictionary
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;'M'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Monday'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'T'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;'Tuesday'&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'M'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s1"&gt;'Monday'&lt;/span&gt;
+&lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'W'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'Wednesday'&lt;/span&gt;
+&lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;'W'&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wdays&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Program Structure&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;pass&lt;/code&gt; statment is a &lt;i&gt;do nothing&lt;/i&gt; statement, is often useful to show
+explicitly that the program is doing nothing.
+&lt;/li&gt;
+&lt;li&gt;List comprehensions is a way of dynamically creating a list of
+elements in an elegant shorthand.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;squares&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;squares&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;squares&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;span class="n"&gt;evens&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The syntax is &lt;code&gt;[expr for element in iterable if condition]&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A python function can return more than one result: &lt;br&gt;
+  &lt;code&gt;return r1, r2, r3&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;and it can be assigned to multiple value at same time: &lt;br&gt;
+  &lt;code&gt;max, min, average = analyse(numlist)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Named arguments and default value:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;
+&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;fn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Variables defined in module are visible to the functions in the
+module
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Input and Output&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Stdin/Stdout
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;print()&lt;/code&gt; function takes format of:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arg2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;arg3&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sep&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;' '&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Note that in python 2, &lt;code&gt;print&lt;/code&gt; is a statement, not a function.
+&lt;/li&gt;
+&lt;li&gt;The trailing newline can be suppressed by setting the end argument
+to an empty string.
+&lt;/li&gt;
+&lt;li&gt;It is common to use the string formatting feature:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt; plus &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt; makes &lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;input()&lt;/code&gt; function to get data into the program:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;youName&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Enter your name: '&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'You name is'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;yourName&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;If you ask the user for an integer number, you should check the
+text:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Use &lt;code&gt;len(text)&lt;/code&gt; to verify text has been entered.
+&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;text.isdigit()&lt;/code&gt; to check the text is a number.
+&lt;/li&gt;
+&lt;li&gt;Use &lt;code&gt;int(text)&lt;/code&gt; to convert the text to an integer.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Files
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Opening file with: &lt;code&gt;fileobj = open(filename, mode)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Closing file with: &lt;code&gt;fileobj.close()&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Reading file:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;read()&lt;/code&gt; : read the entire contents of the file into a string
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The content can then be split into lines using &lt;code&gt;split('\n')&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Or using &lt;code&gt;readlines()&lt;/code&gt;, which returns a list containing each
+line.
+&lt;/li&gt;
+&lt;li&gt;A good way of cleaning up the newline at the end:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rstrip&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readlines&lt;/span&gt;&lt;span class="p"&gt;()]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;the file object itself is an iterator which can be used:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;fp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fname&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'r'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;eachLine&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# process each line&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;eachLine&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;''&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Writing a file:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;using &lt;code&gt;write()&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;using &lt;code&gt;writelines()&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;both methods do not append trailing newline (='\n'=)
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Accessing File System using the &lt;code&gt;os&lt;/code&gt; module, which must be imported.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Command-Ling arguments can be obtained from &lt;code&gt;sys&lt;/code&gt; module's
+&lt;code&gt;sys.argv&lt;/code&gt;. The first argument (element 0) is the name of the
+program itself.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Using Modules&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The &lt;code&gt;import&lt;/code&gt; statement has format:  &lt;br&gt;
+  &lt;code&gt;import modulename [as name]&lt;/code&gt; &lt;br&gt;
+  &lt;code&gt;from module import name1, name2&lt;/code&gt; &lt;br&gt;
+  &lt;code&gt;from module import *&lt;/code&gt; &lt;br&gt;
+&lt;/li&gt;
+&lt;li&gt;Modules come from the python path (&lt;code&gt;sys.path&lt;/code&gt;), which is a list of
+directories that is set up by the Python installation process.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Object Orientation&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Python doesn't need a &lt;code&gt;new&lt;/code&gt; method: when the object is created,
+Python looks for an &lt;code&gt;__init__()&lt;/code&gt; method to initialize the object.
+&lt;/li&gt;
+&lt;li&gt;The arguments passed through the &lt;code&gt;__init__()&lt;/code&gt; call are used to
+initialize the object attributes.
+&lt;/li&gt;
+&lt;li&gt;The first argument to all the methods in the class is &lt;code&gt;self&lt;/code&gt;, the
+object itself. This argument is used internally in the class and
+is not exposed to the code that calls these method.
+&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;self.&lt;/code&gt; attributes are public.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Exception and Error Handling&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-7"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;try/except&lt;/code&gt; to catch exception
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"input two numbers, the first will be devided by the second"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;afirst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'1st number: '&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;asecond&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;input&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'2nd number: '&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;afirst&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;second&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;asecond&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;quotient&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;first&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;second&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'Quotient 1st/2nd = &lt;/span&gt;&lt;span class="si"&gt;%f&lt;/span&gt;&lt;span class="s1"&gt;'&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;quotient&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;diag&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;diag&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__class__&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;':'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;diag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;It is possible to trap multiple exception types by: &lt;br&gt;
+    &lt;code&gt;except (ValueError, ZeroDivisionError) [as e]:&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-8" class="outline-2"&gt;
+&lt;h2 id="sec-8"&gt;Databases&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-8"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;SQLLite can be used for development or prototyping.
+&lt;/li&gt;
+&lt;li&gt;Database Functions
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Open (or create) a database file&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sqlite3&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# executes a SQL statement&lt;/span&gt;
+&lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;executescript&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# return a cursor&lt;/span&gt;
+&lt;span class="n"&gt;cursor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="c1"&gt;# execute the SQL query that returns rows of data&lt;/span&gt;
+&lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;execute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sql&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="c1"&gt;# return the data as list of rows&lt;/span&gt;
+&lt;span class="n"&gt;rows&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cursor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fetchall&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>python</category><guid>https://example.com/posts/reading/lean-python/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Patterns of Enterprise Application Architecture</title><link>https://example.com/posts/reading/patterns-enterprise-application-architecture/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/patterns-enterprise-application-architecture/#sec-1"&gt;Layering&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/patterns-enterprise-application-architecture/#sec-2"&gt;Organizing Domain Logic&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Layering&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Higher layer uses various services defined by the lower layer, but
+the lower layer is unaware of the higher layer.
+&lt;/li&gt;
+&lt;li&gt;Each layer usually hides its lower layers from the layers above. But
+not all layering architectures are opaque like this, but most are,
+or rather &lt;i&gt;most are mostly opaque&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;Some downsides:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Layers encapsulate some, but not all, things well. As a result you
+sometimes get cascading changes.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Classical example is adding a field that needs to display on the
+UI, must be in the database, and thus must be added to every
+layer in between.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Extra layers can harm performance.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;At every layer things typically need to be transformed from one
+representation to another.
+&lt;/li&gt;
+&lt;li&gt;However, the encapsulation of an underlying function often gives
+you efficiency gains that more than compensate.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Sometime the layers are arranged so that the domain layer completely
+hides the data source from the presentation. More often, however,
+the presentation accesses the data store directly.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Less pure but tends to work better in practice.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Three principal layers:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Presentation &lt;/dt&gt;&lt;dd&gt;provision of services, display of information,
+handling of user request.
+&lt;/dd&gt;
+&lt;dt&gt; Domain &lt;/dt&gt;&lt;dd&gt;Logic that is the real point of the system.
+&lt;/dd&gt;
+&lt;dt&gt; Data Source &lt;/dt&gt;&lt;dd&gt;Communication with databases, messaging systems,
+transaction managers, and other packages.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;Rules of dependencies
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The domain and data source should never be dependent on the presentation.
+&lt;/li&gt;
+&lt;li&gt;Avoid leaking domain logic to presentation layer.
+&lt;/li&gt;
+&lt;li&gt;However, it is often done it this way to be practical.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;With webservice and alike, the user is the client program.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;At this point it becomes apparent that there is a lot of
+similarity between the presentation and data source layers in that
+they both are about &lt;i&gt;connection to the outside world&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Hexagonal Architecture&lt;/b&gt; pattern, which visualizes any system as a
+core surrounded by interfaces to external systems.
+&lt;/li&gt;
+&lt;li&gt;In &lt;b&gt;Hexagonal Architecture&lt;/b&gt; everything external is fundamentally
+an outside interface, and thus it is a &lt;i&gt;symmetrical&lt;/i&gt; view rather
+than an &lt;i&gt;asymmetric&lt;/i&gt; layering scheme.
+&lt;/li&gt;
+&lt;li&gt;The asymmetric view may be useful in that it is a good distinction
+between an interface that you provide as a service to others and
+your use of someone else's service.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Organizing Domain Logic&lt;/h2&gt;
+&lt;/div&gt;</description><category>patterns</category><guid>https://example.com/posts/reading/patterns-enterprise-application-architecture/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Play for Scala</title><link>https://example.com/posts/reading/play-for-scala/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-1"&gt;Play for Scala&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-2"&gt;Protecting against Cross Site Request Forgery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-3"&gt;Proxy settings with a front end HTTP server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-4"&gt;Application configuration.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-5"&gt;Using Slick for database access&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-6"&gt;Binding HTTP data to Scala objects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-7"&gt;Static and compiled assets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-8"&gt;Action composition&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-9"&gt;Routes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Play for Scala&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Defining Route that takes a HTTP request parameter:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;To take a request like &lt;code&gt;http://localhost:9000/hellp?n=World&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;In the route:
+&lt;p class="verse"&gt;
+GET  /hello   controllers.Application.hello(n: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;In the controller
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Ok&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"hello "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Not that the query string parameter n patches the parameter name
+declared in the routes file, not in the hello action method
+parameters.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A template is a Scala function definition that Play will convert to
+a normal Scala code and compile.
+&lt;/li&gt;
+&lt;li&gt;To render a view, with the view file name as &lt;code&gt;hello.scala.html&lt;/code&gt; in
+the views directory:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Ok&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;views&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To redirect:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Redirect&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;routes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;Products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To insert content from another template:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;div class="container"&amp;gt;
+ @content
+ @debug()
+&amp;lt;/div&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Notice the differene between &lt;code&gt;@content&lt;/code&gt; and &lt;code&gt;@debug()&lt;/code&gt;, while
+&lt;code&gt;content&lt;/code&gt; is a variable, and &lt;code&gt;debug&lt;/code&gt; is the template name to be
+included.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;The flash scope:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Most modern frameworks have a flash scope.
+&lt;/li&gt;
+&lt;li&gt;Like the session scope, it is meant to keep data, related to the
+client, outside of the context of a single request.
+&lt;/li&gt;
+&lt;li&gt;The difference is that the flash scope is kept for the next
+request only, after which it is removed.
+&lt;/li&gt;
+&lt;li&gt;Play implements this in the form of a cookie that is cleared on
+every response, except for the response that sets it.
+&lt;/li&gt;
+&lt;li&gt;It is useful to use flash scope to show one-time messages to the
+user.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Protecting against Cross Site Request Forgery&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Cross Site Request Forgery (CSRF) is a security exploit where an
+attacker tricks a victims browser into making a request using the
+victims &lt;b&gt;session&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;Since the session token is send with every request, if an attacker
+can coerce the victims browser to make a request on their behalf,
+the attacker can make request on the user's behalf.
+&lt;/li&gt;
+&lt;li&gt;By default, Play will require a CSRF check when all of the following
+are true:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The request method is not GET, HEAD, or OPTIONS.
+&lt;/li&gt;
+&lt;li&gt;The request has one or more Cookie, or Authorization headers.
+&lt;/li&gt;
+&lt;li&gt;The CORS filter is not configured to trust the request's origin.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Play's primary mechanism for CSRF protection is &lt;code&gt;CSRF&lt;/code&gt; token.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The token gets placed either in the query string, or body of every
+form submitted, and also gets placed in the users session.
+&lt;/li&gt;
+&lt;li&gt;Play then verifies that both tokens are presents and match.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Proxy settings with a front end HTTP server&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Using a front end HTTP server will rarely give you better
+performance than using Play server directly.
+&lt;/li&gt;
+&lt;li&gt;However HTTP servers are very good at handling &lt;b&gt;HTTPs&lt;/b&gt;, &lt;b&gt;conditional
+GET requests&lt;/b&gt; and &lt;b&gt;static assets&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;Many services assume a front end HTTP server is part of you
+architecture.
+&lt;/li&gt;
+&lt;li&gt;When using an HTTP frontal server, request addresses are seen as
+coming from &lt;b&gt;the HTTP server&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;Proxy servers can add a specific header to the request to tell the
+proxied application where the request came from. Most web servers
+will add an &lt;b&gt;X-Forwarded-For&lt;/b&gt; header with the remote client IP Address
+as first argument.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Application configuration.&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Configuration options are set in &lt;code&gt;conf/application.conf&lt;/code&gt; file.
+&lt;/li&gt;
+&lt;li&gt;Play uses the &lt;b&gt;Typesafe config library&lt;/b&gt;, which supports a superset
+of JSON, although plain JSON and Java Properties files are also
+supported.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Comments.
+&lt;/li&gt;
+&lt;li&gt;References to other configuration parameters and system
+environment variables.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Environment variable: &lt;code&gt;db.default.url = ${DATABASE_URL}&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Same &lt;code&gt;${...}&lt;/code&gt; syntax to refer to other configuration variables.
+&lt;p class="verse"&gt;
+log.directory = /var/log&lt;br&gt;
+log.access = ${log.directory}/access.log&lt;br&gt;
+log.errors = ${log.directory}/errors.log&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;File includes: ~include "db-default.conf"~
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Single value will &lt;b&gt;replace&lt;/b&gt; the previous value.
+&lt;/li&gt;
+&lt;li&gt;Object notation can be used to &lt;b&gt;merge&lt;/b&gt; multiple values.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Merge multiple configuration files.
+&lt;/li&gt;
+&lt;li&gt;Specifying an alternative configuration file or URL using system
+properties.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;override a property value: &lt;code&gt;$ start -Ddb.default.url=...&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;override the whole &lt;code&gt;application.conf&lt;/code&gt;, using either relative or
+absolute path:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ run -Dconfig.file&lt;span class="o"&gt;=&lt;/span&gt;conf/production.conf
+$ run -Dconfig.file&lt;span class="o"&gt;=&lt;/span&gt;/etc/products/production.conf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Units specifiers for durations, such as &lt;code&gt;days&lt;/code&gt;, and sizes in bytes,
+such as &lt;code&gt;MB&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;play.api.Configuration&lt;/code&gt; provides type-safe access to
+configuration parameter values:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;supports &lt;code&gt;String&lt;/code&gt;, &lt;code&gt;Int&lt;/code&gt;, &lt;code&gt;Boolean&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Configurations are structured hierarchically. The API allows you
+to get a subconfiguration of the current configuration.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Note that it would be better &lt;b&gt;not to hardcode the version
+information&lt;/b&gt; in the configuration file. Instead, you might get the
+information from a revision control system by writing the output
+of commands like &lt;code&gt;git describe --always&lt;/code&gt; to a file and reading
+that from your application.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Using Slick for database access&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Slick is intended as a Scala-based API for relational database access.
+&lt;/li&gt;
+&lt;li&gt;The idea is that you use it instead of using JDBC directly or adding
+a complex object-relational mapping framework.
+&lt;/li&gt;
+&lt;li&gt;Slick uses Scala language features to allow you to map database
+tables to &lt;b&gt;Scala collections&lt;/b&gt; and to &lt;b&gt;execute queries&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;With scala, this results in less code and cleaner code compared to
+directly using JDBC.
+&lt;/li&gt;
+&lt;li&gt;An example, to map a database table to a &lt;code&gt;Product&lt;/code&gt; data access
+object using Scala code:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;object&lt;/span&gt; &lt;span class="nc"&gt;Product&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Table&lt;/span&gt;&lt;span class="o"&gt;[(&lt;/span&gt;&lt;span class="kt"&gt;Long&lt;/span&gt;, &lt;span class="kt"&gt;String&lt;/span&gt;, &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Products"&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;ean&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Long&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"ean"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;O&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;PrimaryKey&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"name"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"description"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ena&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;products&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;product&lt;/span&gt; &lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="nc"&gt;Product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sortBy&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;Product&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;asc&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="n"&gt;yeild&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;product&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"jdbc:postgresql:/localhost/slick?user=slick&amp;amp;password=slick"&lt;/span&gt;
+&lt;span class="nc"&gt;Database&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;forURL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;driver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"org.postgresql.Driver"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;withSession&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;productList&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Binding HTTP data to Scala objects&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Action methods often have parameters, it is need to be able to map
+HTTP request data to those parameters.
+&lt;/li&gt;
+&lt;li&gt;The routing and the subsequent parameter binding are both part of
+the &lt;b&gt;mapping&lt;/b&gt; between HTTP and Scala's interfaces, which is a
+translation between two very different interface style.
+&lt;/li&gt;
+&lt;li&gt;Play has a number of separate build-in binders for different types,
+and you can also implement your own binders.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Static and compiled assets&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-7"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Architects and web frameworks often take the view that static files
+should be handled differently than generated content in a web
+application's architecture
+&lt;/li&gt;
+&lt;li&gt;In Play, this probably a &lt;b&gt;premature optimization&lt;/b&gt;. If you have high
+performance requirements for serving static content, the best
+approach is probably to use a &lt;b&gt;cache&lt;/b&gt;, or &lt;b&gt;load balancer&lt;/b&gt; in front
+of Play, instead of avoiding serving the files using Play in the
+first place.
+&lt;/li&gt;
+&lt;li&gt;Play provides an &lt;b&gt;assets controller&lt;/b&gt; to serve static files.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-8" class="outline-2"&gt;
+&lt;h2 id="sec-8"&gt;Action composition&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-8"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Action are functions, which means you can compose them to apply
+common functionality to multiple actions.
+&lt;/li&gt;
+&lt;li&gt;For example, you can defined actions for caching and authentication
+and use them like this:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Authenticated&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="nc"&gt;Cached&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+	  &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+	    &lt;span class="c1"&gt;//process request.&lt;/span&gt;
+	  &lt;span class="o"&gt;}&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;This example uses &lt;code&gt;Action&lt;/code&gt; to create an action function that is
+passed as a parameter to &lt;code&gt;Cached&lt;/code&gt;, which returns a new action function.
+&lt;/li&gt;
+&lt;li&gt;This, in turn, is passed as parameter to &lt;code&gt;Authenticated&lt;/code&gt;, which
+decorate the action function again.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-9" class="outline-2"&gt;
+&lt;h2 id="sec-9"&gt;Routes&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-9"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Add an optional page number parameter, with a default value:
+&lt;p class="verse"&gt;
+GET  /products      controllers.Products.list(page: Int ?=1)&lt;br&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The &lt;code&gt;?=&lt;/code&gt; syntax for an optional parameter isn't normal Scala
+syntax, and it is only used in the &lt;code&gt;routes&lt;/code&gt; file.
+&lt;/li&gt;
+&lt;li&gt;Can also use &lt;code&gt;=&lt;/code&gt; for fixed parameter values that aren't specified
+in the URL  &lt;code&gt;(page: Int =1)&lt;/code&gt;,
+&lt;/li&gt;
+&lt;li&gt;and &lt;code&gt;Option&lt;/code&gt; for optional parameters that may or may not be
+include din the query string &lt;code&gt;(page: Option[Int])&lt;/code&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Matching URL path parameters that contain forward slashes:
+&lt;p class="verse"&gt;
+# This route will not work &lt;code&gt;:file&lt;/code&gt; contains forward slashes.&lt;br&gt;
+GET  &lt;i&gt;photo&lt;/i&gt;:file    controllers.Media.photo(file: String)&lt;br&gt;
+# This route will work.&lt;br&gt;
+GET  /photo/*file    controllers.Media.photo(file: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Matching regexp:
+&lt;p class="verse"&gt;
+# This will only match ean conform to the regexp \d{13}&lt;br&gt;
+GET   &lt;i&gt;product/$ean&amp;lt;\d{13}&amp;gt;   controllers.Products.details(ean: Long)&lt;br&gt;
+GET   /product&lt;/i&gt;:alias   controllers.Products.details(alias: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Binding HTTP data
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Play, along with other modern web frameworks such as Spring MVC,
+improves on treating HTTP request parameters as strings by
+performing type conversion &lt;b&gt;before&lt;/b&gt; it attempts to call action.
+&lt;/li&gt;
+&lt;li&gt;Only when type conversion succeeds does Play call the action
+method.
+&lt;/li&gt;
+&lt;li&gt;Binding applies to two kinds of request data:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;URL path parameters
+&lt;/li&gt;
+&lt;li&gt;and query string parameters.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Play defines binders for a number of basic types.
+&lt;/li&gt;
+&lt;li&gt;You can also add binding for custom types, such as your
+application's domain model types, by adding your own &lt;code&gt;Formatter&lt;/code&gt;
+implementation.
+&lt;/li&gt;
+&lt;li&gt;Binding the content of an HTML form to a domain object, using a
+&lt;code&gt;form object&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Generating HTTP calls for actions with reverse routing.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;map a particular action method invocation to the corresponding
+URL.
+&lt;/li&gt;
+&lt;li&gt;avoid hard coding path.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ean&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Long&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ean&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="nc"&gt;Redirect&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;routes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;Products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The reverse route generates a URL in the form of an HTTP call (a
+&lt;code&gt;play.pai.mvc.Call&lt;/code&gt;) for certain action method, including the
+parameter values.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>play</category><category>scala</category><guid>https://example.com/posts/reading/play-for-scala/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

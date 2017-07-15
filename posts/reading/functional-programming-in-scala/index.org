@@ -1,0 +1,248 @@
+#+BEGIN_COMMENT
+.. title: Functional Programming in Scala
+.. slug: functional-programming-in-scala
+.. date: 2017-07-15
+.. tags: scala, functional programming
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Some Basic Ideas
+- FP is based on a simple premise that to construct programs using
+  only *pure functions*. Functions that have /no side effects/.
+- Side effect examples
+  - Reading or Writing to a file
+  - Printing to the console or reading user input
+  - Drawing on the screen
+  - Throwing an excepion or halting with an error
+- Functional programming is a restriction on /how/ to write programs,
+  but not on /what/ programs we can express.
+- Functional programmers often speak of implementing programs with a
+  *pure core* and a thin layer on the outside that handles effects.
+- Finding ways to structure code so that effects occur but aren't
+  *observable*.
+  - mutate data that's declared locally in the body of some function,
+    if we ensure that it can't be referenced outside the function.
+  - write to a file as long as no enclosing function can observe this
+    occurring.
+
+** (Pure) function
+- A function ~f: (A)=>B~ is a computation that relates every value ~a~
+  of type ~A~ to exactly one value ~b~ of type ~B~.
+- Such that ~b~ is determined solely by the value of ~a~.
+- Any changing state of an internal or external process is irrelevant
+  to computing the result.
+- If it really is a ~function~, it will do nothing else.
+- a function has no /observable effect/ on the execution of the
+  program other than to compute the result given its inputs.
+- Function vs Procedure : whether to have side effects.
+- *Referentially Transparent* : the expression can be replaced by its
+  result without changing the meaning of the program.
+  - It forces the invariant that everything a function does is
+    represented by the value that it returns.
+  - This constrains enables a simple and natural mode of reasoning
+    about program evaluation : *substitution model*.
+- Functional programs are often more modular due to this.
+  - Modular programs consist of components that can be understood and
+    reused *independently* of the whole.
+  - Such that the meaning of the whole depends only on the meaning of
+    the components and the rules governing their composition.
+  - That is, they are *composable*.
+
+** Loop without mutating a loop variable
+- An example for looping with recursion:
+  #+BEGIN_SRC scala
+  def factorial(n: Int) : Int ={
+    def go(n: Int, acc: Int)  : Int = {
+      if (n<=0) acc
+      else go(n-1, n*acc)
+    }
+    go(n, 1)
+  }
+  #+END_SRC
+- The argument to ~go~ are the state for the loop. In this case, it is
+  the remaining value ~n~, and the current accumulated factorial ~acc~.
+- To advanced to the next iteration, simply call the ~go~ recursively
+  with the /new loop state/.
+- And to exist the loop, return a value without a recursive call.
+- Scala detects this sort of *self-recursion* and compiles it to the
+  same sort of bytecode as would be emitted for a ~while~ loop, as
+  long as the recursive call is in *tail position*.
+  - This optimization is called tail call elimination.
+  - applied when there is no additional work left to do after the
+    recursive call returns.
+  - annotation ~@tailrec~ can be used to tell Scala compiler about
+    this assumption.
+
+** ADT(algebraic data type)
+- An ADT is a data type defined by one or more data constructors, each
+  of which may contain zero or more arguments.
+- The data type is the *sum*, or *union* of its data constructors
+- And each data constructor is the *product* of its arguments.
+- Hence the name *algebraic data type*
+  - The naming is not coincidental.
+  - There is a deep connection between the "addition" and
+    "multiplication" of types to form an ADT and addition and
+    multiplication of numbers.
+- Algebraic data types can be used to define other data structures.
+- One might object that algebraic data types violate encapsulation by
+  making public the internal representation of type.
+- However in FP, the approach to encapsulation is different, it
+  doesn't typically have delicate mutable state which could lead to
+  bugs or violation of invariants if exposed publicly.
+- ADTs is typically used for situations where the set of cases is
+  closed(known to be fixed)
+
+* Handling Errors
+- Two major problem with exceptions:
+  - Exceptions break referential transparent.
+  - Exceptions are not type-safe.
+- Instead of throwing an exception, we can return a value indicating
+  that an exceptional condition has occurred.
+** Partial function
+- It is not defined for some input.
+- An example:
+  #+BEGIN_SRC scala
+    def mean(xs: Seq[Double]) : Double =
+      if (xs.isEmpty) throw new ArithmeticException("mean of empty list!")
+      else xs.sum / xs.length
+
+    def mean2(xs: Seq[Doubl]) : Option[Double] =
+      if (xs.isEmpty) None
+      else Some(xs.sum / xs.length)
+  #+END_SRC
+** ~Option~, ~Either~ and ~Try~
+- ~filter(f: A=>Boolean): Option[A]~ : can convert successes into
+  failure if the successful value doesn't match the given predicate.
+- ~getOrElse(default: =>B) : B~ : return ~defulat~ if undefined.
+- ~orElse(ob: =>Option[B]) : Option[B]~ : return another Option if the
+  first is undefined. This is often useful when we need to chain
+  together possibly failing computations, trying the second if the
+  first hasn't succeeded.
+- A common idiom is to do ~o.getOrElse(throw new Exception("FAIL"))~
+    to convert the ~None~ case of an Option back to an exception.
+  - use it only if no reasonable program would ever catch the
+      exception.
+- Convert existed function to be Option-aware
+  - ~lift~ of ordinary functions to operate on ~Option~
+      #+BEGIN_SRC scala
+        def lift[A, B](f : A=>B) : Option[A] => Option[B] = _ map f
+        def map2[A,B,C](a : Option[A], b: Option[B](f: (A, B)=> C): Option[C] = {
+          //TODO.
+        }
+        val absO : Option[Double] => Option[Double] = lift(math.abs)
+      #+END_SRC
+  - ~Try~ : a general-purpose function to convert from an
+    exception-based API to an Option-oriented API:
+      #+BEGIN_SRC scala
+        def Try[A](a: =>A): Option[A] =
+          try Some(a)
+          catch { case e: Exception => None }
+      #+END_SRC
+- ~Either~ data type: sometimes just knowing whether a failure
+  occurred is insufficient when more information about failure is
+  wanted. the ~Either~ data type is designed for the purpose.
+    #+BEGIN_SRC scala
+      seal trait Either[+E, +A]
+      case class Left[+E](value: E) extends Either[E, Nothing]
+      case class Right[+A](value: A) extends Either[Nothing, A]
+    #+END_SRC
+  - Both cases carry a value.
+- A common use of ~Either~ is as an alternative to ~Option~ for
+  dealing with possibly missing values.
+  - In this usage, ~None~ is replaced with a ~Left~ which can
+    contain useful information. ~Right~ takes the place of ~Some~.
+  - Convention dictates that ~Left~ is used for failure and ~Right~
+    is used for success.
+- ~Try~ represents a computation that may either result in an
+  exception, or return a successful computed value.
+  - Similar to ~Either~, but semantically different.
+  - Instance of ~Try[T]~, are either an ~Success[T]~ or a ~Failure[t]~
+  - Example:
+    #+BEGIN_SRC scala
+      import scala.io.StdIn
+      import scala.util.{Try, Success, Failure}
+
+      def divide: Try[Int] = {
+        val dividend = Try(StdIn.readLine("Enter an Int that you'd like to divide:\n").toInt)
+        val divisor = Try(StdIn.readLine("Enter an Int that you'd like to divide by:\n").toInt)
+        val problem = dividend.flatMap(x => divisor.map(y => x/y))
+        problem match {
+          case Success(v) =>
+            println("Result of " + dividend.get + "/"+ divisor.get +" is: " + v)
+            Success(v)
+          case Failure(e) =>
+            println("You must've divided by zero or entered something that's not an Int. Try again!")
+            println("Info from the exception: " + e.getMessage)
+            divide
+        }
+      }
+    #+END_SRC
+  - An important property of *Try* shown in the above example is its
+    ability to pipeline, or chain, operations, catching exceptions
+    along the way.
+* Strictness and Laziness
+- Scala collection function like ~map~, ~filter~ are *strict functions*
+  that produce intermediate temporary collections when called in chain.
+- a non-strict function may choose *not* to evaluate one, or more of
+  its arguments, while a strict function will always evaluates its
+  arguments.
+- ~if~ can be think as a function accepting three parameters. This
+  function would be non-strict, since it won't evaluate all of its
+  arguments.
+- In scala, we can write non-strict functions by accepting some of our
+  arguments un-evaluated, for example:
+  #+BEGIN_SRC scala
+  def if2[A](cond: Boolean, onTrue: ()=>A, onFalse: ()=>A): A =
+      if (cond) onTrue() else onFalse()
+  #+END_SRC
+  Or with pass-by-reference:
+  #+BEGIN_SRC scala
+  def if2[A](cond: Boolean, onTrue: => A, onFalse: => A) :A =
+      if (cond) onTrue else onFalse
+  #+END_SRC
+- Adding the ~lazy~ keyword to a ~val~ declaration will cause Scala to
+  delay evaluation of the right-hand side of the declaration, until it
+  is first referenced. It will also cache the result so that
+  subsequent references to it don't trigger repeated evaluation.
+- A major theme in FP is /separation of concerns/. We want to separate
+  the description of computations from actually running them.
+  - Laizness lets us separate the description of an expression from
+    the evaluation of that expression.
+  - We may choose to describe a /larger/ expression than we need, and
+    then evaluate only a portion of it.
+    #+BEGIN_SRC scala
+    def exists(p: A=>Boolean): Boolean = this match {
+        case Cons(h, t) => p(h()) || t().exists(p)
+        case _ => false
+    }
+    #+END_SRC
+    Note that ~||~ is non-strict in its second argument.
+
+* Purely functional state
+- The key to recovering referential transparency is to *make the state
+  updates explicit*. Don't update the state as a side effect, but
+  simply *return the new state* along with the value that we are return.
+- An example for a random number generator:
+  #+BEGIN_SRC scala
+  trait RNG {
+       def nextInt: (Int, RNG)
+  }
+  #+END_SRC
+  - Rather than returning only the generated random number, and
+    updating some internal state by /mmutating/ it in place, we return
+    the random number *and* the new state, leaving the old state
+    unmodified.
+  - It separating the concern of *computing* what the next state is
+    from the concern of *communicating* the new state to the rest of
+    the program.
+- The function has a type of the form ~RNG => (A, RNG)~. Functions of
+  this type are called *state actions* or *state transitions* because
+  they transform *RNG* states from one to the next.
+  - It will be quite tedious and repetitive to passing the state.
+- This state actions can be combined using *combinators*, which are
+  higher-order functions. The combinators will pass the state from one
+  action to the next automatically.

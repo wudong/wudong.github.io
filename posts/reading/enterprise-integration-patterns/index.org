@@ -1,0 +1,270 @@
+#+BEGIN_COMMENT
+.. title: Enterprise Integration Patterns
+.. slug: enterprise-integration-patterns
+.. date: 2017-07-15
+.. tags: patterns
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* The challenges and approaches:
+** Integration solutions's challenges:
+- Networks are unreliable.
+- Networks are slow.
+- Any two applications are different.
+- Change is inevitable.
+
+** Approaches to overcome these challenges:
+- File Transfer: One application writes a file that another later reads.
+- Shared Database
+- Remote Procedure Invocation
+- Messaging: One application publishes a message to a common message
+  channel. Other applications can read the message from the channel at
+  a later time.
+  - The applications must agree on a channel as well as the format of
+    the message.
+  - The communication is *asynchronous*.
+
+* The main concepts
+- *Messaging* is a technology that enables *high-speed*,
+  *asynchronous*, program-to-program communication with *reliable
+  delivery*.
+- *Channels*, also known as queues, are logical pathways that connect
+  the programs and convey messages.
+- *Sender* or *producer* is programs that send message by writing the
+  message to a channel.
+- *Receiver* or *consumer* is programs that receive messages by
+  reading (and deleting) from a channel.
+
+* Messaging System
+- Messaging capabilities are typically provided by a separate software
+  system called *messaging system* or *message-oriented
+  middleware(MOM)*.
+- A messaging system is configured with the channels that define the
+  paths of communication between the applications. The messaging
+  system then coordinates tha messages the sending the receiving of messages.
+- Two important messaging concetps:
+  - Send and forget :: The sender sends the message to the message
+       channel and once that is complete, the sender can go on while
+       the messaging system transmits the message in the
+       background. The sender doesn't have to wait for the receiver to
+       receive and process the message.
+  - Store and forward :: When the sender sends a message, the
+       messaging system *store* the message. It then delivers the
+       message by forwording it to the receiver, where it is stored
+       again.
+- By wrapping the data as a message and storeing it in the messaging
+  system, the applications *delegate* to the messaging system the
+  *responsibility* of delivering the data.
+- The messaging system can act as a *mediator* - as in the Mediator
+  pattern - between all of the programs that can send and receive
+  messages. An application can use it as a *directory* of other
+  applications or services available to integrate with.
+  - The messaging system can be used to provide a high number of
+    distributed connections to a shared resouce, such as a database.
+  - The messaging system can employ *redundant resources* to provide
+    high-availability, balance load, reroute around failed network
+    connections, and tune performance and quality of service.
+- Messaging system can enable *asynchronous communications* and *call
+  back*.
+
+** The challenges of asynchronous messaging
+- Complex programming model :: application logic can no longer be
+     coded ina single method that invokes other methods, but the logic
+     is now split up into a number of event handlers that respond to
+     incoming messages.
+- Sequence issue :: message channels guarantee message delivery, but
+                    not when the message will be delivered. This can
+                    cause messages that are send in sequence to get
+                    out of sequence.
+- Synchronous scenario :: not all application can operate in a
+     send-and-forget mode. Thus many messaging systems need to bridge
+     the gap between synchronous and asynchronous solutions.
+- Performance :: Messaging systems do add some overhead to communication.
+
+* Distributed Applications vs Integration
+- An enterprise application often incorporates an n-tier architecture
+  enabling it to be distributed across several computers.
+- Even through this results in processes on different machines
+  communicating with each other, this is application distribution, not
+  application integration.
+  - The communicating parts are tightly coupled.
+  - Communication between tiers tends to be synchronous.
+  - An application (n-tier or atomic) tends to have human users that
+    will only accept rapid system response.
+- Integrated applications are independent applications that can each
+  run by itself, but coordinate with each other in a loosely coupled way.
+
+* Six Type of Integrations
+- Information Portal :: many business users have to access more than
+     one system to answer a specific question or to perform a single
+     business function. Information portal *aggregate* information
+     from multiple sources into a single display to avoid having the
+     user access multiple system for information.
+- Data Replication :: many business systems require access to the same
+     data. and many of these system are going to have their own data
+     stores.
+- Shared Business Function :: many business applications tend to
+     implement redundant functionality.
+- Service-Oriented Architecture :: shared business functions are often
+     referred to as services.
+  - Managing the services:
+    - service directory
+    - service description/negotiation
+  - SOA blur the line between integration and distributed application.
+  - Because services are available in a consistent manner, SOAs are
+    sometimes referred to as "_service bus architectures_"
+- Disbributed Business Process :: A single business transaction is
+     often spread across many different systems.
+  - In most cases, all relevant functions are incorporated inside
+    existing applications.
+  - What is missing is the *coordination* between the applications.
+  - A *business process management* component can be added to manage the
+    execution of a business function across multiple existing systems.
+- Business-to-Business Integration :: business functions may be
+     available from outside suppliers or business partners.
+  - Communication across the Internet or some other network usually
+    raises new issues related to transport protocols and security.
+
+* Loose coupling
+- The core principle behind loose coupling is to *reduce the
+  assumptions* two parties (components, applications, services,
+  programs, users) make about each other when they exchange
+  information.
+- A great example of tight coupling is a local method invocation.
+- *RPC* or *RMI* is also considered to be _tightly coupled_.
+- Trying to portray remote communication as a variant of a local
+  method invocation is /asking for trouble/. Such architectures
+  typically result in /brittle, hard to maintain and poorly scalable
+  solutions/.
+
+* Messaging Concetps
+- Channels :: Messaing applications transmit data through a Message
+              Channel, a virtual pipe that connects a sender to a receiver.
+- Messages :: An *atomic* packet of data that can be transmitted on a channel.
+- Multi-step delivery :: In the simplest case, the message system
+     delivers a message directly from the sender to the
+     reciever. However, actions often need to be performed on the
+     message after it is sent and before it is received by the final
+     receiver. A *Pipes and Filters* architecture describes how
+     multiple processing steps can be *chained* together using channels.
+- Routing :: A message may have to go through several channels to
+             reach its final destination. When message is send to a
+             *Message Router*, it will determine how to nagivate the
+             channel topology and direct the message to the final
+             receiver, or at least to the next router.
+- Transformation :: Variaous applications may not agree on the format
+                    for the same conceptual data. To reconcile this,
+                    the message must go through an intermediate
+                    filter, a *Message Translator*.
+- Endpoints :: An application doesn't have some build-in capability to
+               interface with the messaging system. The *Message
+               Endpoint* is the bridge code that enable the
+               application to send and receive messages.
+
+* Message Channel
+- Channels are logical addresses in the messaging system; how they are
+  actually implemented depends on the messaging system product and its
+  implementation.
+- Channels are configured by the system administrator so that
+  applications can use.
+- Channels are cheap, but they are not free. Each channel requires
+  memory to represent the messages, persistent channels require disk space.
+- Two kinds of message channels:
+  - Point-to-point channel
+  - Publish-Subscribe channel
+
+* Message
+- A message consists of two basic parts:
+  - Header :: information used by the messaging system that describes
+    the data being transmitted, its origin, its destination, and so on;
+  - Body :: The data being transmitted;
+- Messages concpets:
+  - Command Message :: to invoke a procdure in another application;
+  - Document Message ::  to pass a set of data to another application;
+  - Event Message :: to notify another application of a change in the
+                     application;
+  - Request-Reply :: if other application should send a reply back;
+  - Message Sequence ::  if one application wish to send more
+       information than one message can hold;
+  - Message Expiration :: specify the data is only useful for a
+       limited amount of time;
+
+
+* Pipes-and-Filters
+- The pipes and Filters style use abstract pipes to decouple
+  components from each other. The pipe allows one component to send a
+  message into the pipe so that it can be consumed later by another
+  process that is unkown to the component.
+  - The obvious implementation for such a pipe is the *Message Channel*
+  - Most Message Channels provide language, platform and location
+    independence between the filters.
+  - This affords us the flexibility to move a processing step to a
+    different machine for dependency, maintenance or performance reasons.
+- One potential downsides of a Pipe and Filters architecture is the
+  large number of required channels.
+- Pipeline Processing :: Connecting components with asynchronous
+     Message Channels allow each unit in the chain to operate in its
+     own thread or process. This is called *processing pipeline*
+     because messages flow through the filters. When compared to
+     strictly sequential processing, a processing pipeline can
+     /*significantly* increase system throughput/. \\
+      [[https://www.codeproject.com/KB/architecture/PipesAndFilters/image002.jpg]]
+- Parallel processing :: With the pipeline processing, the overall
+    system throughput is limited by the slowest process in the
+    chain. To improve throughput we can deploy multiple parallel
+    instance of that process to improve throughput.
+- Pipes and Filters share some similarities with the concept of
+  Communicating Sequential Processes(CSPs)
+  - The basic mechanism underlying CSPs is the synchronization of two
+    processes via input-output(I/O).
+  - I/O occurs when process A indicates that it is ready to output to
+    process B and process B states that it is ready to input from
+    process A.
+  - If one of these happens without the other being true, the process
+    is put on a wait queue until the other process is ready.
+
+* Message Router
+- Message based integration solutions deals with individual messages
+  which are not necessarily associated with a single, larger
+  dataset. *As a result*, individual messages are more likely to
+  require *different* series of processing steps.
+- Message Channel decouples the sender and the recevier of a
+  Message. *As a result*, a message channel can contain messages from
+  different sources that may have to be treated differently based on
+  the type of message, or other criteria.
+- Decouple individual processing steps so that messages can be passed
+  to different filters depending on a set of condition.
+- Message Fouter differs from mthe most basic notion of Pipes and
+  Filters in that it connects to multiple outpue channels.
+  - The components surrounding the Message Router are completely
+    unaware of the existence of a Message Router.
+  - A key property of the Message Router is that it does not modify
+    the message content.
+  - Only conerns itself with the destination of the message.
+- While the intent of a Message Router is to decouple filters, it can
+  actually cause the opposite effect.
+  - Message Router needs to have knowledge of all possible message
+    destination in order to send the message to the correct channel.
+  - If the destination change frequently, it turn the Message Router
+    into a *maintaince bottleneck*.
+  - In this case it would be better to let the individual recipients
+    to decide which message they are interested in.
+- Message Router requires the insertion of an additional processing
+  step, it can degrade performance.
+  - Can cause computational overhead if the message itself doesn't
+    really change.
+  - Could turn a Message Router into a *performance bottleneck*.
+- Deliberate use of Message Routers can turn the advantage of loose
+  coupling into a disavantage.
+  - Make it difficul to understand the big picture of the solution.
+  - This is common problem with messaging solutions and the use of
+    routers can exacerbate the problem.
+  - It is difficult to understand which way messages actually flow.
+  - Using *Message History* to inspect messages at runtime which
+    components they traversed.
+
+* Message Translator
+* Message Endpoint

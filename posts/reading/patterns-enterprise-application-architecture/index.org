@@ -1,0 +1,56 @@
+#+BEGIN_COMMENT
+.. title: Patterns of Enterprise Application Architecture
+.. slug: patterns-enterprise-application-architecture
+.. date: 2017-07-15
+.. tags: patterns
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Layering
+- Higher layer uses various services defined by the lower layer, but
+  the lower layer is unaware of the higher layer.
+- Each layer usually hides its lower layers from the layers above. But
+  not all layering architectures are opaque like this, but most are,
+  or rather /most are mostly opaque/.
+- Some downsides:
+  - Layers encapsulate some, but not all, things well. As a result you
+    sometimes get cascading changes.
+    - Classical example is adding a field that needs to display on the
+      UI, must be in the database, and thus must be added to every
+      layer in between.
+  - Extra layers can harm performance.
+    - At every layer things typically need to be transformed from one
+      representation to another.
+    - However, the encapsulation of an underlying function often gives
+      you efficiency gains that more than compensate.
+- Sometime the layers are arranged so that the domain layer completely
+  hides the data source from the presentation. More often, however,
+  the presentation accesses the data store directly.
+  - Less pure but tends to work better in practice.
+- Three principal layers:
+  - Presentation :: provision of services, display of information,
+                    handling of user request.
+  - Domain :: Logic that is the real point of the system.
+  - Data Source :: Communication with databases, messaging systems,
+                   transaction managers, and other packages.
+- Rules of dependencies
+  - The domain and data source should never be dependent on the presentation.
+  - Avoid leaking domain logic to presentation layer.
+  - However, it is often done it this way to be practical.
+- With webservice and alike, the user is the client program.
+  - At this point it becomes apparent that there is a lot of
+    similarity between the presentation and data source layers in that
+    they both are about /connection to the outside world/.
+  - *Hexagonal Architecture* pattern, which visualizes any system as a
+    core surrounded by interfaces to external systems.
+  - In *Hexagonal Architecture* everything external is fundamentally
+    an outside interface, and thus it is a /symmetrical/ view rather
+    than an /asymmetric/ layering scheme.
+  - The asymmetric view may be useful in that it is a good distinction
+    between an interface that you provide as a service to others and
+    your use of someone else's service.
+
+* Organizing Domain Logic

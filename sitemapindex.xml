@@ -7,103 +7,179 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <sitemap>
   <loc>https://example.com/categories/agile-study.xml</loc>
-  <lastmod>2017-07-14T20:57:00Z</lastmod>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/agile.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/akka.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/algorithm.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
-  <loc>https://example.com/categories/angular-javascript.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <loc>https://example.com/categories/algorithms.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/angular.xml</loc>
-  <lastmod>2017-07-14T20:57:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/bash.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
  </sitemap>
  <sitemap>
-  <loc>https://example.com/categories/cat_note.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <loc>https://example.com/categories/cat_books.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/cat_courses.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/cat_notes.xml</loc>
-  <lastmod>2017-07-14T20:58:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/coding-algorithm.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
  </sitemap>
  <sitemap>
-  <loc>https://example.com/categories/design-pattern.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <loc>https://example.com/categories/coding.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/concurrency.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/database.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/ddd.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/deep-learning.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/design.xml</loc>
-  <lastmod>2017-07-14T20:57:00Z</lastmod>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/emacs.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/functional-programming.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/gc.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/git.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/go.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/gradle.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/java-concurrency.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/java-gc.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/java.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/javascript.xml</loc>
-  <lastmod>2017-07-14T20:58:00Z</lastmod>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/linux.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/machine-learning.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/microservice.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/os.xml</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/pattern.xml</loc>
-  <lastmod>2017-07-14T20:57:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/patterns.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/php.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/play.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/programming.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/python.xml</loc>
+  <lastmod>2017-07-15T10:48:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/reactive-stream.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/redis.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/scala.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/soa.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/solr.xml</loc>
-  <lastmod>2017-07-14T20:57:00Z</lastmod>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </sitemap>
+ <sitemap>
+  <loc>https://example.com/categories/spring.xml</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/categories/zookeeper.xml</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/galleries/rss.xml</loc>
@@ -111,10 +187,10 @@
  </sitemap>
  <sitemap>
   <loc>https://example.com/rss.xml</loc>
-  <lastmod>2017-07-14T20:58:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
  <sitemap>
   <loc>https://example.com/sitemap.xml</loc>
-  <lastmod>2017-07-14T21:01:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </sitemap>
 </sitemapindex>

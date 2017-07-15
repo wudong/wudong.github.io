@@ -1,0 +1,601 @@
+#+BEGIN_COMMENT
+.. title: Java Concurrency
+.. slug: java-concurrency
+.. date: 2017-07-14
+.. tags: java, concurrency
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+
+* Java Thread/Concurrency
+
+** Thread
+- Thread's *Execution State* with the ~Thread.getState()~ method
+  returns ~Enum Thread.State~:
+  - NEW :: not yet started
+  - RUNNABLE :: executing
+  - BLOCKED :: A thread that is blocked *waiting for a monitor locks*
+  - WAITING :: waiting *indefinitely* for another thread to perform a
+               particular action. A thread is in this state due to
+               calling one of the following methods:
+    - ~Object.wait()~
+    - ~Thread.join()~
+    - ~LockSupport.park()~
+  - TIMED_WAITING :: waiting with a specified waiting time.
+    - Apart from the timeout version of the above methods,
+      ~Thread.sleep()~ also put thread into this state.
+  - TERMINATED :: exited
+  - Notice the difference between *BLOCKED* and *WAITING*.
+  - Differenct WAITING status:
+    - STATE: *BLOCKED (on object monitor)* : waiting for monitor entry,
+      when using intrinsicLock, i.e., the ~synchronized~ keyword.
+    - STATE: *WAITING (parking)*: waiting on condition, when using locks
+      from ~java.util.concurrent~.
+
+- Thread's priority is taken into consideration by OS's Scheduler.
+  - ~void setPriority(int priority)~ : take value between
+    *Thread.MIN_PRIORITY* and *Thread.MAX_PRIORITY*, and
+    Thread.NORMAL_PRIORITY* identifies the default priority.
+  - On Linux, the default scheduler is *Completely Fair Scheduler*
+    - References:
+      - [[https://en.wikipedia.org/wiki/Completely_Fair_Scheduler]]
+      - [[http://www.informit.com/articles/article.aspx?p=101760]]
+      - [[http://www.linuxjournal.com/magazine/completely-fair-scheduler]]
+    - Use a *red-black tree* (self balanced binary tree) to sort process
+      according to its *execution time*.
+    - Process with lowest execution time is scheduled next to run.
+    - Process running exceeding the max execution time is reinserted
+      into the tree for further scheduling.
+    - If a process spends a lot of its time sleeping, then its spent
+      time value is low and it automatically gets the priority boost
+      when it finally needs it
+  - On Windows, it is *multilevel feedback queue scheduler*
+- A *daemon thread* is a thread that acts as a helper to *nondaemon
+  thread* and *dies* automatically when the application's last
+  nondaemon thread dies so that the application can terminate.
+- Application will not terminate when the nondaemon default main
+  thread terminates until all background nondaemon threads
+  terminate.
+- Interrupting Threads
+  - ~void interrupt()~
+    - If this thread is *blocked* because a call to ~wait()~, ~sleep()~
+      or ~join()~ methods, the thread's *interrupted status* is
+      cleared and *InterruptedException* is thrown.
+    - If this thread is *blocked* in an I/O operation on an
+      *interruptible channel*, the channel will be closed, the
+      interrupt status will be set and the thread will receive a
+      *ClosedByInterruptException*.
+    - If the thread is blocked in a *Selector*, then the interrupt
+      status will be set and it will return immediately from the
+      selection operation. possilby with a non-zero value.
+    - Otherwise the interrupt status is set.
+  - ~static boolean interrupted()~
+    - Test whether the *current* thread has been interrupted. The
+      interrupted status of the thread is cleard by this method.
+  - ~boolean isInterrupted()~
+    - Test whether this thread has been interrupted. The interrupted
+      status of the thread is unaffected by this method.
+- Joining Threads:
+  - ~void join()~ : The calling/current* thread will wait for *this*
+    thread to die. *InterruptedException* is thrown when any thread
+    interrupted the *current* thread.
+  - ~void join(long millis), void join(long millis, int nanos)~ :
+    passing ~0~ to wait indefinitely.
+  - This implementation uses a loop of ~this.wait~ calls conditioned
+    on ~this.isAlive~. As a thread terminates the ~this.notifyAll~
+    method is invoked.
+  - _It is recommended that *applications* not use ~wait~, ~notify~, or
+    ~notifyAll~ on Thread instances_.
+- *Thread.UncaughtExceptionHandler*
+  - A Thread can set a handler when this thread abruptly terminates
+    due to an uncaught exception.
+  - If the thread has not set a handler, its ThreadGroup (which
+    implements the Handler interface) acts as its handler.
+  - *static void setDefaultUncaughtExceptionHandler()* to set a global
+    default handler for all thread and will be called when the thread
+    has no handler set, and when its thread group (including parent
+    thread groups) does not specialize its ~uncaughtException~ method.
+- *ThreadGroup* can forms a tree like structure.
+- Values stored in *thread-local* variables are not related.
+- *InheritableThreadLocal* : When a child thread is created, the child
+  receives *initial values* for all *inheritable thread-local
+  variables* for which the parent has values.
+  - ~protected T childValue(T parentValue)~: method used to calculate the
+    child's initial value as a function of the parent's value at the
+    time the child thread is created. This is called from within the
+    parent thread before the child is started.
+- *java.util.Timer* and *java.util.TimerTask* for simple job scheduler
+  - Timer let you schedule TimerTask for future execution on a
+    background thread, which is known as the /task-execution thread/.
+  - Timer tasks may be scheduled for one-shot execution, or for
+    repeated execution at regular intervals.
+  - Timer scales to large numbers of concurrently scheduled timer
+    tasks. /Thousands of tasks should present no problem/.
+  - Timer can be set as a daemon which will make the /task-execution
+    thread/ a daemon task.
+
+** Synchronization
+- ~counter++~ : although a it might look like a single operation, it
+  is actually three separate operations: read, add 1 and write. It is
+  not thread safe.
+- The compiler, the Java virtual machine (JVM), and the operating
+  system can collaborate to cache a variable in a register or a
+  processor-local cacherather than rely on main memory.
+  - *Each thread* has its *own copy* of the variable.
+  - When one thread writes to this variable, it’s writing to its copy;
+  - Other threads are unlikely to see the update in their copies.
+- Synchronization properties:
+  - mutual exclusion :: each thread is mutually excluded from
+       executing in critical section when another thread is inside the
+       critical section.
+    - the lock is often referred to as *mutex lock*
+  - property of visibility ::  ensures that a thread executing in a
+       critical section always sees the most recent changes to shared variables.
+    - It reads these variable from main memory on entry and writes
+      values to main memory on exit.
+    - In practical terms, on current hardware, this typically causes
+      flushing of the CPU caches when a monitor is acquired and writes
+      to main memory when it is released, both of which are expensive.
+- Synchronisation is implemented using monitors. Each Java object is
+  associated with a monitor, which a thread can *lock* or *unlock*
+  by acquiring and releasing the monitor's lock (a token).
+- When a thread attempts to acquire a lock that it already holds, the
+  request succeeds.
+- ~java.lang.Thread~ has a ~static boolean holdsLock(Object o)~ method
+  that returns ~true~ when the calling thread holds the lock on the
+  Object.
+- A thread that has acquired a lock *doesn't* release this lock when
+  it calls one of the Thread's ~sleep()~ methods.
+- ~volatile~ exhibits the property of *visibility*.
+  - Using volatile, forces all accesses (read or write) to the
+    volatile variable to occur to main memory, effectively keeping the
+    volatile variable out of CPU caches.
+  - Use ~volatile~ only when visibility is an issue.
+  - Only *field* can be declared as volatile, not on local variable.
+  - You can declare ~double~ and ~long~ fields to be ~volatile~, but
+    should avoid on *32-bit* JVMs because it takes two operations to
+    access a ~double~ or ~long~ value.
+  - ~volatile~ field cannot also be declared ~final~. But this isn't a
+    problem because ~final~ field can be safely accessed without
+    synchronization.
+  - ~volatile~ along can be thread unsafe if the operation involve the
+    volatile variable has multiple step. For example:
+    - *check-then-act*
+    - *read-modify-write*
+  - [[http://stackoverflow.com/questions/3519664/difference-between-volatile-and-synchronized-in-java]]
+
+** Waiting and Notification
+- The ~wait/notify~ enables one thread waits for a *condition* to
+  exist. And another thread to create the condition and then notify
+  the waiting thread.
+- ~void wait()~: cause the current thread to wait until another thread
+  invokes the ~notify()~ or ~notifyAll()~, or for some other thread to
+  interrupt the current thread while waiting.
+- ~void notify()~: Wake up a *single* thread that's waiting on this
+  object's monitor.
+  - If more than one threads are waiting on this object,
+    one(arbitrary) of them is chosen.
+  - The awakened thread will not be able to proceed until the current
+    thread relinquishes the lock on this object.
+  - A thread releases ownership of the monitor associated with the
+    object whose ~wait()~ method is called.
+- This API leverages an object's *condition queue*, which is a
+  data structure that stores threads waiting for a condition to exists.
+  - The waiting threads are known as the *wait set*.
+  - Because the condition queue is tightly bound to an object's lock,
+    all methods in this API must be called from within a synchronized
+    context. The current thread must be the owner of the object's
+    monitor.
+    #+BEGIN_SRC java
+      synchronized(obj){
+          while (<condition does not hold)
+              obj.wait();
+          //perform an action that's appropriate to condition.
+      }
+    #+END_SRC
+    - Because of the possibility of *spurious wakeups*, a thread might
+      wakes up without being notified, interrupted, or timingout),
+      ~wait()~ is called from within the ~while~ loop.
+    - Never call a ~wait()~ outside a loop.
+  - Otherwise *java.lang.IllegalMonitorStateException* is thrown.
+- In *java.util.concurrent.locks.Condition*, it factors out these
+  Object's monitor methods into distinct objects to give the effect of
+  having multiple *wait-sets* per object, by combining them with the
+  use of arbitrary *Lock* implementations.
+- Where a *Lock* replaces the use of ~synchronized~ methods and
+  statements, a *Condition* replaces the use of the Object monitor
+  methods.
+
+** Concurrency Utilities and Executors
+- The *ExecutorService* extends *Executor*, is typically implemented
+  by a thread pool.
+  - ~invokeAll~, ~invokeAny~ perform the bulk execution, executing a
+    collection of tasks and then waiting for at least one, or all, to
+    complete.
+- *CompletionService* interface and its implementation
+  *ExecutorCompletionService*, arranges that submitted tasks are, upon
+  completion, placed on a queue accessible using
+  - ~take()~: which will block until a result is available.
+  - ~poll()~: which will return ~null~ if no result is available.
+
+** Synchronizers
+- Countdown Latches : causes one or more threads to wait at a /gate/
+  until another thread open this gate, at which point these other
+  threads can continue.
+  - ~void await(), void await(long timeout, TimeUnit unit)~
+  - ~void countDown()~
+- Cyclic Barriers : lets a set of threads wait for each other to reach
+  a common barrier point.
+  - Useful in *parallel decomposition* scenarios, where a lengthy task
+    is divided into subtasks whose individual results are later merged
+    into the overall result of the task.
+  - The barrier is /cyclic/ because it can be reused after the waiting
+    threads are released.
+  - ~CyclicBarrier(int parties)~ : specific number of parties( threads
+    working toward a common goal)
+  - ~CyclicBarrier(int parties, Runnable barrierAction)~ : the
+    barrierAction is executed when the barrier is /tripped/.
+  - ~int await(), int ~await(long timeout, TimeUnit unit)~ : force
+    the calling thread to wait until all parties have invoked
+    ~await()~ on this cyclic barrier.
+    - the method return the arrival index of the calling thread, where
+      a index  ~getParties() -1~ indicates the first thread to arrive,
+      and ~zero~ indicates the last thread to arrive (countdown).
+    - The calling thread will *also stop waiting* when it, or *another
+      waiting thread* is interrupted, timeout, or ~reset()~ is called
+      on this cyclic barrier.
+    - If the calling thread on wait is interrupted, this thread will
+      throw *InterruptedException*, while other waiting thread will
+      throw *BrokenBarrierException*
+  - ~boolean isBroken()~ : return ~true~ when one or more parties
+    broke out of this barrier because of interruption or timeout
+    since the cyclic barrier was constructed, or last reset.
+  - ~void reset()~ : reset the barrier to its initial state. If any
+    parties are currently waiting at the barrier, they will return
+    with a *BrokenBarrierException*.
+- Exchangers :provides a synchronization point where threads can swap
+  objects.
+  - Each thread presents some boject on entry to the exchanger's
+    ~exchange()~ method, matches with a partner thread, and receives
+    its partner's object on return.
+  - Useful in applications such as genetic algorithms and pipeline
+    design.
+  - ~java.util.concurrent.Exchanger<V>~ has ~V exchange(V x)~ method:
+    wait for another thread to arrive at this exchange point and then
+    transfer the given object to it, receiving the other thread's
+    object in return.
+    - If another thread is already waiting at the exchange point:
+      - It is resumed for thread-scheduling purposes and receives the
+        object passed in by the calling thread.
+      - The current threads return immediately.
+- Semaphores : maintains a set of *permits* for restricting the member
+  of threads that can access a limited resource.
+  - A thread attempting to acquire a permit when no permits are
+    available blocks until some other thread releases a permit.
+  - Semaphores whose values can be more than 1 are known as *counting
+    semaphores*
+  - Semaphores whoese value can be only 0 or 1 are known as *binary
+    semaphores*, or *mutexes*.
+  - Semaphore can set to be fair (fairness policy) :
+    - when ~false~, i.e., not fair, it makes no guarantees about the
+      order in which threads acquire permites.
+    - when ~true~, it guarantees the order as in FIFO, i.e., the first
+      thread invoking ~acquire()~ will get the permit first.
+    - Generally, semaphores used to control resource access should be
+      initialized as fair (*by default, it is not*) to ensure that no
+      therad is starved out from accessing a resource.
+    - When using semaphores for other kinds of synchronization
+      control, the throughput advantages of unfair ordering often
+      outweight fairness considerations.
+    - ~void acquire()~, ~void acquire(int permits)~
+    - ~boolean tryAcquire()~, ~boolean tryAcquire(int permits)~:
+      acquire permits only when they are available at the time of
+      invocation.
+    - ~boolean tryAcquire(long timeOut, TimeUnit unit)~
+    - ~void release()~, ~void release(int permits)~
+    - ~void acquireUninterruptibly()~
+    - ~int drainPermits()~: accquire and return a count of all permits
+      that are immediately available.
+    -
+- Phasers : is a more flexible cyclic barrier.
+  - Is sueful when we have some concurrent tasks divided in steps. And
+    this class enable us to synchronize the threads at the end of each
+    steps.
+    - so no thread starts its next step until all the threads
+      have finished the previous one.
+  - Let a group of threads wait on a barrier; these threads continue
+    after the last thread arrives.
+  - Cyclic barrier coordinates a *fixed* number of threads, while a
+    phaser can coordiantes a *variable number* of threads, which can
+    register at any time.
+  - A *phase* is the phaser's /current state/, and this state is
+    identified by an integer-based *phase number*.
+  - ~Phaser(int nthreads)~ : constructor creates a phaser that
+    initially coordiates ~nthreads~ threads, and whose /phase number/ is
+    initially set to ~0~.
+  - ~int register()~ : add a new unarrived thread to this phaser and
+    returns the phase number to classify the arrival.
+  - ~int arriveAndAwaitAdvance()~ : records arrival and *wait* for the
+    phaser to advance. Return the phase number to which the arrival
+    applies.
+  - ~int arriveAndDeregister()~ : arrives at this phaser and
+    deregister from it without waiting for others to arrive, reducing
+    the number of threads required to avdance in future phases.
+  - TODO. need to have better understanding.
+
+** The Locking Framework
+- ~synchronized~ keyword is to wrap *critical sections*. JVM supports
+  synchronization via monitors and the ~monitorenter~ and
+  ~monitorexit~ JVM instructions.
+  - Every Java object is associated with a monitor, which is *a mutual
+    exclusion* construct.
+  - When a thread locks a monitor in multicore/multiprocessor
+    environment, the value of shared variables that are stored in main
+    memory are read into the *local memory* or *cache memory* of the
+    thread.
+  - When a thread unlock the monitor while leaving the critical section,
+    the values in its copies are written back to main memory.
+- The more flexible *Lock* interface:
+  - ~void lock()~ : doesn't allow for interruption.
+  - ~void lockInterruptibly()~ : allow for interruption.
+  - ~boolean tryLock()~, ~boolean tryLock(long time, TimeUnit unit)~ :
+    timeout, or interrupted.
+  - ~void unlock()~
+- *ReentrantLock* class implements the *Lock* interface.
+  - It is a reentrant mutual exclusion lock.
+  - This lock is associated with a hold count.
+    - When a thread holds the lock and *reacquires* the lock, the hold
+      count increase by 1.
+    - When unlock from the thread, the hold count is decreased by 1.
+    - The lock is released when the count reaches 0.
+    - This is why it is called a *reentrant* lock.
+  - ReentrantLock also support a fair ordering policy, by default
+    false.
+  - ~boolean isHeldByCurrentThread()~ return true when the lock is
+    hold by the current thread.
+- *Condition* interface factors out Object's wait and notification
+  methods into distinct condition objects.
+  - ~await()~ : wait to be signalled by the same condition.
+    - The lock associated with this Condition is automatically
+      released and the current thread become disabled for thread
+      scheduling purpose and lies dormant until one of the following
+      four things happens:
+      - ~signal()~ called and the current thead happens to be chose to
+        be awaken.
+      - ~signalAll()~ called.
+      - Is interrupted.
+      - A /spurious wakeup/ occurs: this is why the await normally
+        need to be wrapped in while loop.
+    - In all cases, before ~await()~ can return, the current thread
+      must *re-acquire* the lock associated with this condition. The
+      thread is guaranteed to hold this lock when the method return.
+  - ~signal()~, ~signalAll()~
+  - The two methods are protected with the lock to ensure mutual
+    exclusion.
+  - the ~await()~ is normally wrapped in a while loop on the checked
+    condition.
+- The Lock replaces synchronized methods, Condition replaces Object's
+  wait/notification methods.
+- A Condition instance is intrinsically bound to a lock. To obtain a
+  Condition instance for a certain Lock instance, use the Lock's
+  ~newCondition()~ method.
+- Multiple condition can be created from a Lock.
+- Example:
+  #+BEGIN_SRC java
+    class BoundedBuffer {
+        final Lock lock = new ReentrantLock();
+        final Condition notFull  = lock.newCondition();
+        final Condition notEmpty = lock.newCondition();
+
+        final Object[] items = new Object[100];
+        int putptr, takeptr, count;
+
+        public void put(Object x) throws InterruptedException {
+            lock.lock();
+            try {
+                while (count == items.length)
+                    notFull.await();
+                items[putptr] = x;
+                if (++putptr == items.length) putptr = 0;
+                ++count;
+                notEmpty.signal();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        public Object take() throws InterruptedException {
+            lock.lock();
+            try {
+                while (count == 0)
+                    notEmpty.await();
+                Object x = items[takeptr];
+                if (++takeptr == items.length) takeptr = 0;
+                --count;
+                notFull.signal();
+                return x;
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+
+  #+END_SRC
+- *ReadWriteLock* interface defines a pair of locks: one for read-only
+  operations and one for write operations.
+  - The read lock may be held simultaneously by multiple reader
+    threads as long as there are no writes.
+  - The write lock is exclusive: only a single thread can modify
+    shared data.
+- *ReadWriteLock* is implemented by the *ReentrantReadWriteLock*
+  class.
+- *StampedLock* is another implementation of *ReadWriteLock*. The main
+  differences are:
+  - StampedLock allow optimistic locking for read operations.
+  - ReentrantReadWriteLock are reentrant while stampedlock are not.
+  - When the readers are much more than writers, the StampedLock can
+    significantly improve performance.
+
+** LockSupport
+- This class associates with each thread that uses it, *a permit* (in
+  the sense of the Semaphore class).
+  - A call to ~static void park()~ return immediately if the permit is available,
+    consuming it in the process; otherwise it *may* block.
+  - A call to ~static void unpark(Thread thread)~, if it was not
+    already available.
+  - ~park()~ will return if the caller's thread was interrupted, and
+    timeout versions are supported
+  - The ~park()~ method may also return at any other time, for "*no
+    reason*", so in general must be invoked within a loop that
+    rechecks condition upon return.
+  - In this sense, ~park~ serves as an optimization of a *busy wait*
+    that doesn't waste as much time spining, but must be paired with
+    an ~unpark~ to be effective.
+- Unlike Semaphore's permits, permits of LockSupport are associated
+  with threads (i.e. permit is given to a particular thread) and
+  doesn't accumulate, i.e. there can be only one permit per thread,
+  when thread consumes the permit, it disappears).
+- You can give permit to a thread by calling unpark(). When permit is
+  available, the parked thread consumes it and exits a park() method.
+
+** Concurrent Collections
+- The concurrent collections return *weakly-consistent iterators*:
+  - An elements that is removed after iteration starts but hasn't yet
+    been returned via the iterator's ~next()~ method *won't* be
+    returned.
+  - An element that's added after iteration starts *may or may not* be
+    returned.
+  - No element is returned more than once during the iteration of a
+    collection, regardless of changes made to the collection during
+    iteration.
+- *BlockingQueue*'s implementation:
+  - *ArrayBlockingQueue*
+  - *LinkedBlockingQueue*
+  - *PriorityBlockingQueue*
+  - *SynchronousQueue*
+  - *DelayQueue*
+  - *LinkedTransferQueue*
+- *ConcurrentMap*'s additional methods:
+  - ~V putIfAbsent(K key, V value)~ : combines the ~containsKey~ and
+    ~put~ for a atomic operation.
+  - ~boolean remove(Object key, Object value)~ : remove the entry for
+    a key only if currently mapped to a given value.
+  - ~boolean replace(K key, V oldValue, V newValue)~: replace the
+    entry for a key only if currently mapped to a given value.
+
+** Atomic Variables
+- The atomic classes extends the notion of ~volatile~ values, fields,
+  and array elements to those that also provide an atomic conditional
+  update so that external synchronisation isn't required.
+- The atomic arrays: *AtomicIntegerArray*, *AtomicLongArray* and
+  *AtomicReferenceArray*. Its elements may be updated atomically.
+- For scalability problem in the context of maintaining a single
+  *count*, a *sum* or some other value with the possibility of updates
+  from many threads:
+  - Internally employ contention-reduction techniques that provide
+    huge throughput improvements compared to atomic variables.
+  - *DoubleAccumulator* and *LongAccumulator*: Take a BinaryOperator
+  - *DoubleAdder* and *LongAdder*: provides analogy of the
+    functionality of the accumulators for the common special case of
+    maintaining counts and sums.
+  - ~new LongAdder()~ is equivalent to \\
+    ~new LongAccumulator ((x+y)->x+y), 0l)~
+- Java's low-level synchronisation mechanism impacts hardware
+  utilisation and scalability in the following ways:
+  - *Contended synchronisation* where multiple threads constantly
+    competing for a lock, is expensive and throughput suffers as a result.
+    - The expense is caused mainly by the frequent *context switching*.
+    - Each *context switch* operation can take many processor cycles to
+      complete.
+    - Modern JVM make *uncontended synchronisation* inexpensive.
+  - When a thread holding a lock is delayed (because of a scheduling
+    delay for example), no thread that requires that lock makes any progress.
+- ~volatile~ cannot be used as a synchronization alternative.
+  - ~volatile~ variables only solve the visibility problem.
+  - Cannot be used to safely implement the atomic *read-modify-write*
+    sequence.
+- Compare-and-Swap(CAS) is an *uninterruptible* microprocessor specific
+  instruction that :
+  1. Read value with an expected value,
+  2. Store a new value in the memory location if the read value matches
+     the expected value.
+  3. Otherwise, nothing is done.
+- CAS supports atomic *read-modify-write* sequences:
+  1. Read value ~x~ from address ~A~
+  2. Perform a multistep computation on ~x~ to drive a new value ~y~
+  3. Use CAS to change ghe value of ~A~ from ~x~ to ~y~.
+  4. CAS succeeds when ~A~'s value hasn't changed while performing
+     these steps.
+  5. This is normally wrapped in a while loop to repeat until success.
+- *ReentrantLock* offers better performance than ~synchronized~ under
+  high thread contention.
+  - its synchronization is managed by a subclass of
+    ~java.util.concurrent.locks.AbstractQueuedSynchronizer~,
+  - which in turn, leverages the ~sun.mics.Unsafe~ class and its
+    ~compareAndSwapInt()~ CAS method.
+- The atomic variable classes also leverage CAS with a method:
+  ~boolean compareAndSet(expectedValue, updateValue)~.
+
+** Fork/Join
+- Fork/Join consists of a special *executor service* and *thread
+  pool*:
+  - The executor service makes a task available to the framework,
+  - And this task is broken into smaller tasks that are forked
+    (executed by different threads) from the pool.
+  - A task waits until joined (its subtasks finish).
+- TODO
+
+** CompletionService
+- A service that decouples the production of new tasks from the
+  consumption of the tasks' results *in the order* they complete.
+  - Producer ~submit~
+  - Consumer ~poll~ or ~take~
+- ~poll()~ : Retrieves and removes the Future representing the next
+  completed task, or ~null~ if none are present.
+- ~poll(long timeout, TimeUnit unit)~: waiting if necessary.
+- ~take()~ : block if none are yet present.
+- Difference between executor service and completion service:
+  - ExecutorService provides an incoming queue for tasks and provides
+    workers threads.
+  - CompletionService provides an incoming queue for tasks, worker
+    threads, *and* an output queue for storing task results.
+
+** Testing Concurrent Applications
+- Monitoring *ReentrantLock* with its methods:
+  - ~protected Thead getOwner()~ : return the Thread that currently
+    owns this lock, or null if not owned.
+    - Noticed that this is a protected method, so to use it one will
+      need to extend.
+  - ~protected getQueuedThreads()~ : return the collection containing
+    the threads that may be waiting to acquire this lock.
+  - ~protected getWaitingThreads(Condition condition)~ : return the
+    collection containing the threads that may be waiting ont he given
+    condition associated with this lock.
+  - ~isHeldbycurrentthread()~ queries if this lock is hold by the
+    current thread.
+  - ~isLocked()~ : indicating if this lock is owned by a thread.
+- *MultithreadedTC* is a library for testing concurrent application.
+  - It features a *metronome/clock* that is used to provide *fine control*
+    over *the sequence of activities* in multiple threads.
+  - It supports test cases that execise a *specific* interleaving of
+    the threads.
+  - It is motivited by the *principle* that /cuncurrent application
+    shoul be built using *small concurrent abstractions*/ such as
+    /bounded buffers/, /semaphores/ and /latches/.
+    - Separating the concurrency logic from the rest of the application
+      logic in this way makes it easier to understand and test
+      concurrent applications.
+    - Since these abstractions are small, it should be possible to
+      *deterministically* test every *significant* interleaving in
+      separate tests.
+  - It uses an internal clock:
+    - the clock only advances to the next tick when all threads are
+      blocked.
+    - waitForTick(1) : makes thread block until the clock reaches tick
+      1 before assuming. The interger received in this method is used
+      to control the order of execution.
+    - assertTick(1) : assert that the clock is in tick 1.

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about machine learning)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/machine-learning.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:32:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Thoughtful machine learning</title><link>https://example.com/posts/reading/thoughtful-machine-learning/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/thoughtful-machine-learning/#sec-1"&gt;K-Nearest Neighbours Classification&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/thoughtful-machine-learning/#sec-2"&gt;Naive Bayesian Classification&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/thoughtful-machine-learning/#sec-2-0-1"&gt;Spam Filter using naive bayesian classification&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/thoughtful-machine-learning/#sec-3"&gt;Nerual Networks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/thoughtful-machine-learning/#sec-4"&gt;Hidden Markov Models&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;K-Nearest Neighbours Classification&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;p&gt;
+K-Nearest Neighbour is one of the best algorithms for classifying data
+sets. It is lazy and nonparametric.
+&lt;/p&gt;
+
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A &lt;b&gt;perceptual hash (pHash)&lt;/b&gt; is a fingerprint of a multimedia file
+derived from various features from its content. Unlike cryptographic
+hash functions, where small changes in input leading to drastic
+changes in the putput, &lt;span class="underline"&gt;perceptual hashes are "close" to another if
+the features are similar&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;Hamming distance: between two strings of equal length is the number
+of positions at which the corresponding symbols are different. It
+measures the minimum number of substitutions required to change one
+string into the other.
+&lt;/li&gt;
+&lt;li&gt;How to pick K:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It is usually domain specific;
+&lt;/li&gt;
+&lt;li&gt;Choose a K that is low enough to avoid noise;
+&lt;/li&gt;
+&lt;li&gt;Iterate through a couple of possbile Ks unitl finding a suitable
+error with &lt;b&gt;cross validation&lt;/b&gt;, given the training set.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Naive Bayesian Classification&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;Conditional Probablities&lt;/b&gt; is a measure of the probablitity of an
+event given that another event has occured:
+&lt;p&gt;
+\begin{equation} P(A|B) = \frac{P(A \cap B)}{P(B)} \end{equation}
+Note that this is a &lt;b&gt;definition but not a theoretical result&lt;/b&gt;. We just
+denote the quantity \(P(A\cap B)/P(B)\) as \(P(A|B)\)
+and call it the conditional probability of A given B.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;In statistical inference, &lt;b&gt;Conditional Probablities&lt;/b&gt; is an update of
+the probablitity of an event based on new information.
+&lt;/li&gt;
+&lt;li&gt;Inverse conditional probablity (aka Bayes's Theorem):
+&lt;p&gt;
+\begin{equation} P(A\mid B) = \frac{P(B \mid A) \, P(A)}{P(B)}
+\end{equation}
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Naive Bayesian classifier assume the independence assumptions
+between the features.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2-0-1" class="outline-4"&gt;
+&lt;h4 id="sec-2-0-1"&gt;Spam Filter using naive bayesian classification&lt;/h4&gt;
+&lt;div class="outline-text-4" id="text-2-0-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A tokenizer to extract words into a stream, instead of an array, to
+keep a low memory usage.
+&lt;/li&gt;
+&lt;li&gt;For all word in each training email, the filter will adjust the
+probabilities each word will appear in spam or ham.
+&lt;/li&gt;
+&lt;li&gt;The word probablities (also known as likelihood functions) are used
+to compute the probablitity that an email with a particular set of
+words in it belongs to either category.
+&lt;/li&gt;
+&lt;li&gt;With the native bayesian classification, the score for spam based on
+word can be simplified as:
+\begin{equation}
+  Score(spam, W_1, W_2, ..., W_n) = P(spam)P(W_1|spam)P(W_2|spam)...P(W_n|spam)
+\end{equation}
+&lt;p&gt;
+which is then divided some normalizing constant Z.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Cross-validation to minimizing false positives (instead of error)
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Nerual Networks&lt;/h2&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Hidden Markov Models&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;p&gt;
+Hidden Markov Models can be either supervised or unsupervised, and
+also are called Markovian due to theire reliance on a Markov
+Model. They work well where there doesn't need to be a lot of
+historical information built into the model.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithm</category><category>machine learning</category><guid>https://example.com/posts/reading/thoughtful-machine-learning/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

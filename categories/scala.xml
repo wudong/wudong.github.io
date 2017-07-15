@@ -1,5 +1,1627 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about scala)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/scala.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Jul 2017 20:53:57 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Scala Note</title><link>https://example.com/posts/scala-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about scala)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/scala.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:32:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Akka In Action</title><link>https://example.com/posts/reading/akka-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/akka-in-action/#sec-1"&gt;Actors: a quick overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/akka-in-action/#sec-2"&gt;The reactive Manifesto&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/akka-in-action/#sec-3"&gt;Scaling with AKKA&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Actors: a quick overview&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Actors are a lot like message queues without the configuration and
+message broker installation overhead.
+&lt;/li&gt;
+&lt;li&gt;Actors don't "Do" anything unless they are sent a message.
+&lt;/li&gt;
+&lt;li&gt;Messages are immutable.
+&lt;/li&gt;
+&lt;li&gt;Actors receive messages one at a time and execute some behavior
+whenever a message is received.
+&lt;/li&gt;
+&lt;li&gt;Everything a actor does is executed asynchronously.
+&lt;/li&gt;
+&lt;li&gt;Actors aren't like threads, but messages sent to them are pushed
+through on a thread at some point in time.
+&lt;/li&gt;
+&lt;li&gt;How actors are connected to threads is configurable.
+&lt;/li&gt;
+&lt;li&gt;A message could be processed locally on some available thread, or
+remotely on another server.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;The reactive Manifesto&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Blocking I/O limits opportunities for parallelism, so nonblocking
+I/O is preferred.
+&lt;/li&gt;
+&lt;li&gt;Synchronous interaction limits opportunities for parallelism, so
+asynchornous interaction is preferred.
+&lt;/li&gt;
+&lt;li&gt;Polling reduce opportunity to use fewer resources, so an
+event-driven style is preferred.
+&lt;/li&gt;
+&lt;li&gt;If one node can bring down all other nodes, that's a waste of
+resources. So you need isolation of errors (resilience) to avoid
+losing all your work.
+&lt;/li&gt;
+&lt;li&gt;System need to be elastic: if there are less demand, you want to use
+fewer resources. If there is more demand, use more resources, but
+never more than required.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Scaling with AKKA&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The current state of the Converstaion can be rebuilt by &lt;b&gt;replaying&lt;/b&gt;
+the events that occurred to the im-momory Conversation, so it can
+continue where it left off.
+&lt;/li&gt;
+&lt;li&gt;This type of database is often called a &lt;b&gt;journal&lt;/b&gt;, and the technique
+is known as &lt;b&gt;event sourcing&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;The journal become a uniform service. All it needs to do is store
+all events in sequence, and make it possible to retrieve the events
+in the same sequence as they were written to the journal.
+&lt;/li&gt;
+&lt;li&gt;It is hard to imagine how we could keep the conversations consistent
+across many servers. and what would happen if there were too many
+conversations to fit in one server?
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;divide the conversations over the servers in a predictable way, or
+keep track of where every conversation lives.
+&lt;/li&gt;
+&lt;li&gt;This is called &lt;b&gt;sharding&lt;/b&gt;, or &lt;b&gt;partitioning&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;We can keep using the simple in-memory model of Conversations if
+we have a generic event-sourced journal and a way to indicate how
+Conversations should be partitioned.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>akka</category><category>scala</category><guid>https://example.com/posts/reading/akka-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Coursea Scala</title><link>https://example.com/posts/courses/coursea-scala/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/courses/coursea-scala/#sec-1"&gt;Currying&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Currying&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Multiple Parameter Lists
+The definition of functions that return functions is so useful in
+functional programming that there is a special syntax for it in Scala.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;)(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;sum&lt;/code&gt;'s type will be: &lt;code&gt;(Int =&amp;gt; Int) =&amp;gt; (Int, Int) =&amp;gt; Int&lt;/code&gt;, namely,
+it takes a function of type &lt;code&gt;(Int =&amp;gt; Int)&lt;/code&gt; and return a function
+of type &lt;code&gt;(Int, Int) =&amp;gt; Int&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Note that the &lt;b&gt;functional types associated to the right&lt;/b&gt;. So that:
+&lt;code&gt;Int =&amp;gt; Int =&amp;gt; Int&lt;/code&gt; is equivalent to &lt;code&gt;Int =&amp;gt; (Int =&amp;gt; Int)&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>scala</category><guid>https://example.com/posts/courses/coursea-scala/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Functional Programming in Scala</title><link>https://example.com/posts/reading/functional-programming-in-scala/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1"&gt;Some Basic Ideas&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-1"&gt;(Pure) function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-2"&gt;Loop without mutating a loop variable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-1-3"&gt;ADT(algebraic data type)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2"&gt;Handling Errors&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2-1"&gt;Partial function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-2-2"&gt;&lt;code&gt;Option&lt;/code&gt;, &lt;code&gt;Either&lt;/code&gt; and &lt;code&gt;Try&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-3"&gt;Strictness and Laziness&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/functional-programming-in-scala/#sec-4"&gt;Purely functional state&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Some Basic Ideas&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;FP is based on a simple premise that to construct programs using
+only &lt;b&gt;pure functions&lt;/b&gt;. Functions that have &lt;i&gt;no side effects&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;Side effect examples
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Reading or Writing to a file
+&lt;/li&gt;
+&lt;li&gt;Printing to the console or reading user input
+&lt;/li&gt;
+&lt;li&gt;Drawing on the screen
+&lt;/li&gt;
+&lt;li&gt;Throwing an excepion or halting with an error
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Functional programming is a restriction on &lt;i&gt;how&lt;/i&gt; to write programs,
+but not on &lt;i&gt;what&lt;/i&gt; programs we can express.
+&lt;/li&gt;
+&lt;li&gt;Functional programmers often speak of implementing programs with a
+&lt;b&gt;pure core&lt;/b&gt; and a thin layer on the outside that handles effects.
+&lt;/li&gt;
+&lt;li&gt;Finding ways to structure code so that effects occur but aren't
+&lt;b&gt;observable&lt;/b&gt;.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;mutate data that's declared locally in the body of some function,
+if we ensure that it can't be referenced outside the function.
+&lt;/li&gt;
+&lt;li&gt;write to a file as long as no enclosing function can observe this
+occurring.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-1" class="outline-3"&gt;
+&lt;h3 id="sec-1-1"&gt;(Pure) function&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A function &lt;code&gt;f: (A)=&amp;gt;B&lt;/code&gt; is a computation that relates every value &lt;code&gt;a&lt;/code&gt;
+  of type &lt;code&gt;A&lt;/code&gt; to exactly one value &lt;code&gt;b&lt;/code&gt; of type &lt;code&gt;B&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Such that &lt;code&gt;b&lt;/code&gt; is determined solely by the value of &lt;code&gt;a&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Any changing state of an internal or external process is irrelevant
+to computing the result.
+&lt;/li&gt;
+&lt;li&gt;If it really is a &lt;code&gt;function&lt;/code&gt;, it will do nothing else.
+&lt;/li&gt;
+&lt;li&gt;a function has no &lt;i&gt;observable effect&lt;/i&gt; on the execution of the
+program other than to compute the result given its inputs.
+&lt;/li&gt;
+&lt;li&gt;Function vs Procedure : whether to have side effects.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Referentially Transparent&lt;/b&gt; : the expression can be replaced by its
+result without changing the meaning of the program.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It forces the invariant that everything a function does is
+represented by the value that it returns.
+&lt;/li&gt;
+&lt;li&gt;This constrains enables a simple and natural mode of reasoning
+about program evaluation : &lt;b&gt;substitution model&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Functional programs are often more modular due to this.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Modular programs consist of components that can be understood and
+reused &lt;b&gt;independently&lt;/b&gt; of the whole.
+&lt;/li&gt;
+&lt;li&gt;Such that the meaning of the whole depends only on the meaning of
+the components and the rules governing their composition.
+&lt;/li&gt;
+&lt;li&gt;That is, they are &lt;b&gt;composable&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-2" class="outline-3"&gt;
+&lt;h3 id="sec-1-2"&gt;Loop without mutating a loop variable&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An example for looping with recursion:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;factorial&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;={&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;  &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;acc&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;acc&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="n"&gt;go&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The argument to &lt;code&gt;go&lt;/code&gt; are the state for the loop. In this case, it is
+the remaining value &lt;code&gt;n&lt;/code&gt;, and the current accumulated factorial &lt;code&gt;acc&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;To advanced to the next iteration, simply call the &lt;code&gt;go&lt;/code&gt; recursively
+with the &lt;i&gt;new loop state&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;And to exist the loop, return a value without a recursive call.
+&lt;/li&gt;
+&lt;li&gt;Scala detects this sort of &lt;b&gt;self-recursion&lt;/b&gt; and compiles it to the
+same sort of bytecode as would be emitted for a &lt;code&gt;while&lt;/code&gt; loop, as
+long as the recursive call is in &lt;b&gt;tail position&lt;/b&gt;.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;This optimization is called tail call elimination.
+&lt;/li&gt;
+&lt;li&gt;applied when there is no additional work left to do after the
+recursive call returns.
+&lt;/li&gt;
+&lt;li&gt;annotation &lt;code&gt;@tailrec&lt;/code&gt; can be used to tell Scala compiler about
+this assumption.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-3" class="outline-3"&gt;
+&lt;h3 id="sec-1-3"&gt;ADT(algebraic data type)&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An ADT is a data type defined by one or more data constructors, each
+of which may contain zero or more arguments.
+&lt;/li&gt;
+&lt;li&gt;The data type is the &lt;b&gt;sum&lt;/b&gt;, or &lt;b&gt;union&lt;/b&gt; of its data constructors
+&lt;/li&gt;
+&lt;li&gt;And each data constructor is the &lt;b&gt;product&lt;/b&gt; of its arguments.
+&lt;/li&gt;
+&lt;li&gt;Hence the name &lt;b&gt;algebraic data type&lt;/b&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The naming is not coincidental.
+&lt;/li&gt;
+&lt;li&gt;There is a deep connection between the "addition" and
+"multiplication" of types to form an ADT and addition and
+multiplication of numbers.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Algebraic data types can be used to define other data structures.
+&lt;/li&gt;
+&lt;li&gt;One might object that algebraic data types violate encapsulation by
+making public the internal representation of type.
+&lt;/li&gt;
+&lt;li&gt;However in FP, the approach to encapsulation is different, it
+doesn't typically have delicate mutable state which could lead to
+bugs or violation of invariants if exposed publicly.
+&lt;/li&gt;
+&lt;li&gt;ADTs is typically used for situations where the set of cases is
+closed(known to be fixed)
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Handling Errors&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Two major problem with exceptions:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Exceptions break referential transparent.
+&lt;/li&gt;
+&lt;li&gt;Exceptions are not type-safe.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Instead of throwing an exception, we can return a value indicating
+that an exceptional condition has occurred.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-2-1" class="outline-3"&gt;
+&lt;h3 id="sec-2-1"&gt;Partial function&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It is not defined for some input.
+&lt;/li&gt;
+&lt;li&gt;An example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Seq&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Double&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isEmpty&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;throw&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;ArithmeticException&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"mean of empty list!"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;mean2&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Seq&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Doubl&lt;/span&gt;&lt;span class="o"&gt;])&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;isEmpty&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="nc"&gt;None&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="nc"&gt;Some&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-2-2" class="outline-3"&gt;
+&lt;h3 id="sec-2-2"&gt;&lt;code&gt;Option&lt;/code&gt;, &lt;code&gt;Either&lt;/code&gt; and &lt;code&gt;Try&lt;/code&gt;&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;filter(f: A=&amp;gt;Boolean): Option[A]&lt;/code&gt; : can convert successes into
+failure if the successful value doesn't match the given predicate.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;getOrElse(default: =&amp;gt;B) : B&lt;/code&gt; : return &lt;code&gt;defulat&lt;/code&gt; if undefined.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;orElse(ob: =&amp;gt;Option[B]) : Option[B]&lt;/code&gt; : return another Option if the
+first is undefined. This is often useful when we need to chain
+together possibly failing computations, trying the second if the
+first hasn't succeeded.
+&lt;/li&gt;
+&lt;li&gt;A common idiom is to do &lt;code&gt;o.getOrElse(throw new Exception("FAIL"))&lt;/code&gt;
+    to convert the &lt;code&gt;None&lt;/code&gt; case of an Option back to an exception.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;use it only if no reasonable program would ever catch the
+exception.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Convert existed function to be Option-aware
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;lift&lt;/code&gt; of ordinary functions to operate on &lt;code&gt;Option&lt;/code&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;lift&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;, &lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt; &lt;span class="n"&gt;map&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;map2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;,&lt;span class="kt"&gt;B&lt;/span&gt;,&lt;span class="kt"&gt;C&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;],&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;B&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;C&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="c1"&gt;//TODO.&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;absO&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Double&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lift&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abs&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Try&lt;/code&gt; : a general-purpose function to convert from an
+exception-based API to an Option-oriented API:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Option&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt;
+  &lt;span class="k"&gt;try&lt;/span&gt; &lt;span class="nc"&gt;Some&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Exception&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;None&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Either&lt;/code&gt; data type: sometimes just knowing whether a failure
+occurred is insufficient when more information about failure is
+wanted. the &lt;code&gt;Either&lt;/code&gt; data type is designed for the purpose.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;seal&lt;/span&gt; &lt;span class="k"&gt;trait&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+E&lt;/span&gt;, &lt;span class="kt"&gt;+A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="nc"&gt;case&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Left&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+E&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;E&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;E&lt;/span&gt;, &lt;span class="kt"&gt;Nothing&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Right&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;+A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Either&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Nothing&lt;/span&gt;, &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Both cases carry a value.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A common use of &lt;code&gt;Either&lt;/code&gt; is as an alternative to &lt;code&gt;Option&lt;/code&gt; for
+dealing with possibly missing values.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In this usage, &lt;code&gt;None&lt;/code&gt; is replaced with a &lt;code&gt;Left&lt;/code&gt; which can
+contain useful information. &lt;code&gt;Right&lt;/code&gt; takes the place of &lt;code&gt;Some&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Convention dictates that &lt;code&gt;Left&lt;/code&gt; is used for failure and &lt;code&gt;Right&lt;/code&gt;
+    is used for success.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Try&lt;/code&gt; represents a computation that may either result in an
+exception, or return a successful computed value.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Similar to &lt;code&gt;Either&lt;/code&gt;, but semantically different.
+&lt;/li&gt;
+&lt;li&gt;Instance of &lt;code&gt;Try[T]&lt;/code&gt;, are either an &lt;code&gt;Success[T]&lt;/code&gt; or a &lt;code&gt;Failure[t]&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scala.io.StdIn&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;scala.util.&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nc"&gt;Failure&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;divide&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;StdIn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Enter an Int that you'd like to divide:\n"&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;toInt&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Try&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;StdIn&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Enter an Int that you'd like to divide by:\n"&lt;/span&gt;&lt;span class="o"&gt;).&lt;/span&gt;&lt;span class="n"&gt;toInt&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;problem&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatMap&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+  &lt;span class="n"&gt;problem&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Result of "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;dividend&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s"&gt;"/"&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s"&gt;" is: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="nc"&gt;Success&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Failure&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"You must've divided by zero or entered something that's not an Int. Try again!"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Info from the exception: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getMessage&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;divide&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;An important property of &lt;b&gt;Try&lt;/b&gt; shown in the above example is its
+ability to pipeline, or chain, operations, catching exceptions
+along the way.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Strictness and Laziness&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Scala collection function like &lt;code&gt;map&lt;/code&gt;, &lt;code&gt;filter&lt;/code&gt; are &lt;b&gt;strict functions&lt;/b&gt;
+  that produce intermediate temporary collections when called in chain.
+&lt;/li&gt;
+&lt;li&gt;a non-strict function may choose &lt;b&gt;not&lt;/b&gt; to evaluate one, or more of
+its arguments, while a strict function will always evaluates its
+arguments.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;if&lt;/code&gt; can be think as a function accepting three parameters. This
+function would be non-strict, since it won't evaluate all of its
+arguments.
+&lt;/li&gt;
+&lt;li&gt;In scala, we can write non-strict functions by accepting some of our
+arguments un-evaluated, for example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;if2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;()=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;()=&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Or with pass-by-reference:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;if2&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt;&lt;span class="kt"&gt;A&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;cond&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;onTrue&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;onFalse&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Adding the &lt;code&gt;lazy&lt;/code&gt; keyword to a &lt;code&gt;val&lt;/code&gt; declaration will cause Scala to
+delay evaluation of the right-hand side of the declaration, until it
+is first referenced. It will also cache the result so that
+subsequent references to it don't trigger repeated evaluation.
+&lt;/li&gt;
+&lt;li&gt;A major theme in FP is &lt;i&gt;separation of concerns&lt;/i&gt;. We want to separate
+the description of computations from actually running them.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Laizness lets us separate the description of an expression from
+the evaluation of that expression.
+&lt;/li&gt;
+&lt;li&gt;We may choose to describe a &lt;i&gt;larger&lt;/i&gt; expression than we need, and
+then evaluate only a portion of it.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;A&lt;/span&gt;&lt;span class="o"&gt;=&amp;gt;&lt;/span&gt;&lt;span class="nc"&gt;Boolean&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Boolean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;Cons&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;h&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="o"&gt;().&lt;/span&gt;&lt;span class="n"&gt;exists&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Note that &lt;code&gt;||&lt;/code&gt; is non-strict in its second argument.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Purely functional state&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The key to recovering referential transparency is to &lt;b&gt;make the state
+updates explicit&lt;/b&gt;. Don't update the state as a side effect, but
+simply &lt;b&gt;return the new state&lt;/b&gt; along with the value that we are return.
+&lt;/li&gt;
+&lt;li&gt;An example for a random number generator:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;trait&lt;/span&gt; &lt;span class="nc"&gt;RNG&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;nextInt&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;RNG&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Rather than returning only the generated random number, and
+updating some internal state by &lt;i&gt;mmutating&lt;/i&gt; it in place, we return
+the random number &lt;b&gt;and&lt;/b&gt; the new state, leaving the old state
+unmodified.
+&lt;/li&gt;
+&lt;li&gt;It separating the concern of &lt;b&gt;computing&lt;/b&gt; what the next state is
+from the concern of &lt;b&gt;communicating&lt;/b&gt; the new state to the rest of
+the program.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The function has a type of the form &lt;code&gt;RNG =&amp;gt; (A, RNG)&lt;/code&gt;. Functions of
+this type are called &lt;b&gt;state actions&lt;/b&gt; or &lt;b&gt;state transitions&lt;/b&gt; because
+they transform &lt;b&gt;RNG&lt;/b&gt; states from one to the next.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It will be quite tedious and repetitive to passing the state.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;This state actions can be combined using &lt;b&gt;combinators&lt;/b&gt;, which are
+higher-order functions. The combinators will pass the state from one
+action to the next automatically.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>functional programming</category><category>scala</category><guid>https://example.com/posts/reading/functional-programming-in-scala/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Play for Scala</title><link>https://example.com/posts/reading/play-for-scala/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-1"&gt;Play for Scala&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-2"&gt;Protecting against Cross Site Request Forgery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-3"&gt;Proxy settings with a front end HTTP server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-4"&gt;Application configuration.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-5"&gt;Using Slick for database access&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-6"&gt;Binding HTTP data to Scala objects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-7"&gt;Static and compiled assets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-8"&gt;Action composition&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-9"&gt;Routes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Play for Scala&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Defining Route that takes a HTTP request parameter:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;To take a request like &lt;code&gt;http://localhost:9000/hellp?n=World&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;In the route:
+&lt;p class="verse"&gt;
+GET  /hello   controllers.Application.hello(n: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;In the controller
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Ok&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"hello "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Not that the query string parameter n patches the parameter name
+declared in the routes file, not in the hello action method
+parameters.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A template is a Scala function definition that Play will convert to
+a normal Scala code and compile.
+&lt;/li&gt;
+&lt;li&gt;To render a view, with the view file name as &lt;code&gt;hello.scala.html&lt;/code&gt; in
+the views directory:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Ok&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;views&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To redirect:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Redirect&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;routes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;Products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To insert content from another template:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;div class="container"&amp;gt;
+ @content
+ @debug()
+&amp;lt;/div&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Notice the differene between &lt;code&gt;@content&lt;/code&gt; and &lt;code&gt;@debug()&lt;/code&gt;, while
+&lt;code&gt;content&lt;/code&gt; is a variable, and &lt;code&gt;debug&lt;/code&gt; is the template name to be
+included.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;The flash scope:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Most modern frameworks have a flash scope.
+&lt;/li&gt;
+&lt;li&gt;Like the session scope, it is meant to keep data, related to the
+client, outside of the context of a single request.
+&lt;/li&gt;
+&lt;li&gt;The difference is that the flash scope is kept for the next
+request only, after which it is removed.
+&lt;/li&gt;
+&lt;li&gt;Play implements this in the form of a cookie that is cleared on
+every response, except for the response that sets it.
+&lt;/li&gt;
+&lt;li&gt;It is useful to use flash scope to show one-time messages to the
+user.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Protecting against Cross Site Request Forgery&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Cross Site Request Forgery (CSRF) is a security exploit where an
+attacker tricks a victims browser into making a request using the
+victims &lt;b&gt;session&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;Since the session token is send with every request, if an attacker
+can coerce the victims browser to make a request on their behalf,
+the attacker can make request on the user's behalf.
+&lt;/li&gt;
+&lt;li&gt;By default, Play will require a CSRF check when all of the following
+are true:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The request method is not GET, HEAD, or OPTIONS.
+&lt;/li&gt;
+&lt;li&gt;The request has one or more Cookie, or Authorization headers.
+&lt;/li&gt;
+&lt;li&gt;The CORS filter is not configured to trust the request's origin.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Play's primary mechanism for CSRF protection is &lt;code&gt;CSRF&lt;/code&gt; token.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The token gets placed either in the query string, or body of every
+form submitted, and also gets placed in the users session.
+&lt;/li&gt;
+&lt;li&gt;Play then verifies that both tokens are presents and match.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Proxy settings with a front end HTTP server&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Using a front end HTTP server will rarely give you better
+performance than using Play server directly.
+&lt;/li&gt;
+&lt;li&gt;However HTTP servers are very good at handling &lt;b&gt;HTTPs&lt;/b&gt;, &lt;b&gt;conditional
+GET requests&lt;/b&gt; and &lt;b&gt;static assets&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;Many services assume a front end HTTP server is part of you
+architecture.
+&lt;/li&gt;
+&lt;li&gt;When using an HTTP frontal server, request addresses are seen as
+coming from &lt;b&gt;the HTTP server&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;Proxy servers can add a specific header to the request to tell the
+proxied application where the request came from. Most web servers
+will add an &lt;b&gt;X-Forwarded-For&lt;/b&gt; header with the remote client IP Address
+as first argument.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Application configuration.&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Configuration options are set in &lt;code&gt;conf/application.conf&lt;/code&gt; file.
+&lt;/li&gt;
+&lt;li&gt;Play uses the &lt;b&gt;Typesafe config library&lt;/b&gt;, which supports a superset
+of JSON, although plain JSON and Java Properties files are also
+supported.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Comments.
+&lt;/li&gt;
+&lt;li&gt;References to other configuration parameters and system
+environment variables.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Environment variable: &lt;code&gt;db.default.url = ${DATABASE_URL}&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Same &lt;code&gt;${...}&lt;/code&gt; syntax to refer to other configuration variables.
+&lt;p class="verse"&gt;
+log.directory = /var/log&lt;br&gt;
+log.access = ${log.directory}/access.log&lt;br&gt;
+log.errors = ${log.directory}/errors.log&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;File includes: ~include "db-default.conf"~
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Single value will &lt;b&gt;replace&lt;/b&gt; the previous value.
+&lt;/li&gt;
+&lt;li&gt;Object notation can be used to &lt;b&gt;merge&lt;/b&gt; multiple values.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Merge multiple configuration files.
+&lt;/li&gt;
+&lt;li&gt;Specifying an alternative configuration file or URL using system
+properties.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;override a property value: &lt;code&gt;$ start -Ddb.default.url=...&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;override the whole &lt;code&gt;application.conf&lt;/code&gt;, using either relative or
+absolute path:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ run -Dconfig.file&lt;span class="o"&gt;=&lt;/span&gt;conf/production.conf
+$ run -Dconfig.file&lt;span class="o"&gt;=&lt;/span&gt;/etc/products/production.conf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Units specifiers for durations, such as &lt;code&gt;days&lt;/code&gt;, and sizes in bytes,
+such as &lt;code&gt;MB&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;play.api.Configuration&lt;/code&gt; provides type-safe access to
+configuration parameter values:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;supports &lt;code&gt;String&lt;/code&gt;, &lt;code&gt;Int&lt;/code&gt;, &lt;code&gt;Boolean&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Configurations are structured hierarchically. The API allows you
+to get a subconfiguration of the current configuration.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Note that it would be better &lt;b&gt;not to hardcode the version
+information&lt;/b&gt; in the configuration file. Instead, you might get the
+information from a revision control system by writing the output
+of commands like &lt;code&gt;git describe --always&lt;/code&gt; to a file and reading
+that from your application.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Using Slick for database access&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Slick is intended as a Scala-based API for relational database access.
+&lt;/li&gt;
+&lt;li&gt;The idea is that you use it instead of using JDBC directly or adding
+a complex object-relational mapping framework.
+&lt;/li&gt;
+&lt;li&gt;Slick uses Scala language features to allow you to map database
+tables to &lt;b&gt;Scala collections&lt;/b&gt; and to &lt;b&gt;execute queries&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;With scala, this results in less code and cleaner code compared to
+directly using JDBC.
+&lt;/li&gt;
+&lt;li&gt;An example, to map a database table to a &lt;code&gt;Product&lt;/code&gt; data access
+object using Scala code:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;object&lt;/span&gt; &lt;span class="nc"&gt;Product&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Table&lt;/span&gt;&lt;span class="o"&gt;[(&lt;/span&gt;&lt;span class="kt"&gt;Long&lt;/span&gt;, &lt;span class="kt"&gt;String&lt;/span&gt;, &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Products"&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;ean&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Long&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"ean"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;O&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;PrimaryKey&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"name"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"description"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ena&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;products&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;product&lt;/span&gt; &lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="nc"&gt;Product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sortBy&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;Product&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;asc&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="n"&gt;yeild&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;product&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"jdbc:postgresql:/localhost/slick?user=slick&amp;amp;password=slick"&lt;/span&gt;
+&lt;span class="nc"&gt;Database&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;forURL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;driver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"org.postgresql.Driver"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;withSession&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;productList&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Binding HTTP data to Scala objects&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Action methods often have parameters, it is need to be able to map
+HTTP request data to those parameters.
+&lt;/li&gt;
+&lt;li&gt;The routing and the subsequent parameter binding are both part of
+the &lt;b&gt;mapping&lt;/b&gt; between HTTP and Scala's interfaces, which is a
+translation between two very different interface style.
+&lt;/li&gt;
+&lt;li&gt;Play has a number of separate build-in binders for different types,
+and you can also implement your own binders.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Static and compiled assets&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-7"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Architects and web frameworks often take the view that static files
+should be handled differently than generated content in a web
+application's architecture
+&lt;/li&gt;
+&lt;li&gt;In Play, this probably a &lt;b&gt;premature optimization&lt;/b&gt;. If you have high
+performance requirements for serving static content, the best
+approach is probably to use a &lt;b&gt;cache&lt;/b&gt;, or &lt;b&gt;load balancer&lt;/b&gt; in front
+of Play, instead of avoiding serving the files using Play in the
+first place.
+&lt;/li&gt;
+&lt;li&gt;Play provides an &lt;b&gt;assets controller&lt;/b&gt; to serve static files.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-8" class="outline-2"&gt;
+&lt;h2 id="sec-8"&gt;Action composition&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-8"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Action are functions, which means you can compose them to apply
+common functionality to multiple actions.
+&lt;/li&gt;
+&lt;li&gt;For example, you can defined actions for caching and authentication
+and use them like this:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Authenticated&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="nc"&gt;Cached&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+	  &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+	    &lt;span class="c1"&gt;//process request.&lt;/span&gt;
+	  &lt;span class="o"&gt;}&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;This example uses &lt;code&gt;Action&lt;/code&gt; to create an action function that is
+passed as a parameter to &lt;code&gt;Cached&lt;/code&gt;, which returns a new action function.
+&lt;/li&gt;
+&lt;li&gt;This, in turn, is passed as parameter to &lt;code&gt;Authenticated&lt;/code&gt;, which
+decorate the action function again.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-9" class="outline-2"&gt;
+&lt;h2 id="sec-9"&gt;Routes&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-9"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Add an optional page number parameter, with a default value:
+&lt;p class="verse"&gt;
+GET  /products      controllers.Products.list(page: Int ?=1)&lt;br&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The &lt;code&gt;?=&lt;/code&gt; syntax for an optional parameter isn't normal Scala
+syntax, and it is only used in the &lt;code&gt;routes&lt;/code&gt; file.
+&lt;/li&gt;
+&lt;li&gt;Can also use &lt;code&gt;=&lt;/code&gt; for fixed parameter values that aren't specified
+in the URL  &lt;code&gt;(page: Int =1)&lt;/code&gt;,
+&lt;/li&gt;
+&lt;li&gt;and &lt;code&gt;Option&lt;/code&gt; for optional parameters that may or may not be
+include din the query string &lt;code&gt;(page: Option[Int])&lt;/code&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Matching URL path parameters that contain forward slashes:
+&lt;p class="verse"&gt;
+# This route will not work &lt;code&gt;:file&lt;/code&gt; contains forward slashes.&lt;br&gt;
+GET  &lt;i&gt;photo&lt;/i&gt;:file    controllers.Media.photo(file: String)&lt;br&gt;
+# This route will work.&lt;br&gt;
+GET  /photo/*file    controllers.Media.photo(file: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Matching regexp:
+&lt;p class="verse"&gt;
+# This will only match ean conform to the regexp \d{13}&lt;br&gt;
+GET   &lt;i&gt;product/$ean&amp;lt;\d{13}&amp;gt;   controllers.Products.details(ean: Long)&lt;br&gt;
+GET   /product&lt;/i&gt;:alias   controllers.Products.details(alias: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Binding HTTP data
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Play, along with other modern web frameworks such as Spring MVC,
+improves on treating HTTP request parameters as strings by
+performing type conversion &lt;b&gt;before&lt;/b&gt; it attempts to call action.
+&lt;/li&gt;
+&lt;li&gt;Only when type conversion succeeds does Play call the action
+method.
+&lt;/li&gt;
+&lt;li&gt;Binding applies to two kinds of request data:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;URL path parameters
+&lt;/li&gt;
+&lt;li&gt;and query string parameters.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Play defines binders for a number of basic types.
+&lt;/li&gt;
+&lt;li&gt;You can also add binding for custom types, such as your
+application's domain model types, by adding your own &lt;code&gt;Formatter&lt;/code&gt;
+implementation.
+&lt;/li&gt;
+&lt;li&gt;Binding the content of an HTML form to a domain object, using a
+&lt;code&gt;form object&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Generating HTTP calls for actions with reverse routing.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;map a particular action method invocation to the corresponding
+URL.
+&lt;/li&gt;
+&lt;li&gt;avoid hard coding path.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ean&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Long&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ean&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="nc"&gt;Redirect&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;routes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;Products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The reverse route generates a URL in the form of an HTTP call (a
+&lt;code&gt;play.pai.mvc.Call&lt;/code&gt;) for certain action method, including the
+parameter values.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>play</category><category>scala</category><guid>https://example.com/posts/reading/play-for-scala/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Programming in scala</title><link>https://example.com/posts/reading/programming-in-scala/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/programming-in-scala/#sec-1"&gt;Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/programming-in-scala/#sec-2"&gt;Class and Trait&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/programming-in-scala/#sec-3"&gt;Pattern Matching&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Function&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Define function:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;
+     &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;If a function consists of just one statement, the curly braces can
+be omitted.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;max2&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Scala's Unit type is similar to Java's void type.
+&lt;/li&gt;
+&lt;li&gt;Functions are first class constructs; for example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foreach&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+In this case, a function literal that take one parameter named &lt;code&gt;arg&lt;/code&gt;
+is passed in; the body of the function is &lt;code&gt;println(arg)&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;In the above example, Scala infers the type of arg to be String,
+since String is the element type of the array on which you are
+calling foreach. but you can also do more explicitly:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foreach&lt;/span&gt;&lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;If a function literal consists of one statement that takes a single
+argument, you dont need to explicitly name and specify the argument. Thus
+the following code also works:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;foreach&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The traditional for loop can be written as like:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt; &lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+the arg to the left of &amp;lt;- is a val, not a var: arg can't be
+reassigned inside the body of the for expression.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;The generic in scala:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;greetingStrings&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;Array&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+and to access the array content using parentheses, not square
+brackets as in Java:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;greetStrings&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Hello"&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+The for expression that access the array:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;grentStrings&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;As a &lt;b&gt;general rule&lt;/b&gt; in scala:  if a method takes only one parameter,
+you can call it without a dot or a parentheses. In the above example
+the &lt;code&gt;to&lt;/code&gt; in is actually a method that takes one Int argument. thus 0 to
+2 is actually a method call &lt;code&gt;(0).to(2)&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Note that this syntax only works if you explicitly specify the
+receiver of the method call. You cannot write &lt;code&gt;println 10&lt;/code&gt;, but you
+can write &lt;code&gt;Console println 10&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;Scala doesn't technically have operator overloading, because it
+doesn't actually have operators in the traditional sense. Instead,
+characters such as +, -, * and / can be used in method names.
+&lt;/li&gt;
+&lt;li&gt;When you &lt;b&gt;apply parentheses&lt;/b&gt; surrounding one or more values to a
+variable, Scala will transform the code into an invocation of a
+method named &lt;code&gt;apply&lt;/code&gt; on that variable. So &lt;code&gt;greetStrings(i)&lt;/code&gt; gets
+transformed into &lt;code&gt;greetStrings.apply(i)&lt;/code&gt;. Thus accessing an element of
+an array in Scala is &lt;i&gt;simply a method&lt;/i&gt; call like any other.
+&lt;/li&gt;
+&lt;li&gt;Similarly, when an assignment is made to a variable to which
+&lt;b&gt;parentheses and one more arguments&lt;/b&gt; have been applied, the compiler
+will transform that into an invocation of an &lt;code&gt;update&lt;/code&gt; method. Thus 
+&lt;code&gt;greetString(0) = 1&lt;/code&gt; is transformed into: &lt;code&gt;greetStrings.update(0, 1)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;To create and initialise arrays more easily:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;numNames&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Array&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"zero"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"one"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"two"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+In this case, Scala will actually call a &lt;b&gt;factory method&lt;/b&gt;, named
+&lt;code&gt;apply&lt;/code&gt;, on Array type.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Scala's array is a &lt;b&gt;mutable&lt;/b&gt; sequence of objects that all share the
+same type. Array[String] contains only strings; Although you can't
+change the length of an array, you can change its element values. 
+&lt;/li&gt;
+&lt;li&gt;For an immutable sequence of objects that share the same type, you
+can use Scala's List class. &lt;code&gt;scala.List&lt;/code&gt;, differs from Java's
+java.util.List type in that Scala Lists are always &lt;b&gt;immutable&lt;/b&gt;, in a
+sense that, when you call a method on a list that might seem by its
+name to imply the list will mutate, &lt;span class="underline"&gt;it instead creates and returns a
+new list with the new value&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;If a method is used in operator notation, such as &lt;code&gt;a*b&lt;/code&gt;, the method is
+invoked on the left operand, as in &lt;code&gt;a.*(b)&lt;/code&gt;, unless the method name
+ends in a &lt;b&gt;colon&lt;/b&gt;, where the method is invoked on the right operand.
+&lt;/li&gt;
+&lt;li&gt;Scala's List can contains only same type elements, while &lt;b&gt;tuple&lt;/b&gt; can
+contains different types. To instantiate a new tuple that holds some
+objects:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;99&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"Lu"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Scala infers the type of the tuple to be Tuple2[Int, String] and
+gives that type to variable pair. Note that these -N numbers
+function to &lt;i&gt;access the element of a tuple&lt;/i&gt; is &lt;b&gt;1&lt;/b&gt; based,  instead of
+zero-based.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;When dealing with map:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;treasureMap&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Map&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Int&lt;/span&gt;, &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;treasuremap&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt;  &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="s"&gt;"Go to island."&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+the method ~-&amp;gt;~ can be applied on any object in scala, which will
+produce a &lt;b&gt;two element tuple&lt;/b&gt;.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Both &lt;code&gt;set&lt;/code&gt; and &lt;code&gt;map&lt;/code&gt; in Scala have mutable version and immutable
+version, which resides in different package. When no import is used,
+Scala will choose to use the immutable version.
+&lt;/li&gt;
+&lt;li&gt;One telltale sign is that if code contains any vars, it is probably
+in an imperative style. Thus one way to move towards a functional
+style, is to try to program without vars. The reason Scala
+encourages a functional style, in fact, is that the functional style
+can help you write more understandable, less error-prone
+&lt;/li&gt;
+&lt;li&gt;Another telltale sign of a function with side effects is that its
+result type is Unit.
+&lt;/li&gt;
+&lt;li&gt;One important characteristic of method parameters in Scala is that
+they are vals, not vars. so you cannot reassign a parameter inside a
+method in Scala.
+&lt;/li&gt;
+&lt;li&gt;The recommended style for methods is to avoid having explicit, and
+especially multiple, return statement. Instead, think of &lt;span class="underline"&gt;each method
+as an expression that yields one value, which is returned&lt;/span&gt;. This
+philosophy will encourage you to &lt;b&gt;make methods quite small&lt;/b&gt;, to factor
+large methods into multiple smaller ones.
+&lt;/li&gt;
+&lt;li&gt;Methods with a result type of &lt;code&gt;Unit&lt;/code&gt;, are executed for their side
+affects. Another way to express such methods is to leave off the
+result type and the equals sign, and enclose the body of the method
+in curly braces. In this form, the method looks like a
+procedure. For example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Byte&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Whenever you leave off the equals sign before the body of a
+function, its &lt;i&gt;result type will definitely be &lt;code&gt;Unit&lt;/code&gt;&lt;/i&gt;. This is true no
+matter what the body contains, because Scala can/will convert any
+type to Unit.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Scala includes a special syntax for &lt;b&gt;raw strings&lt;/b&gt;, which is started
+and ended with three double quotation marks in a row. Inside a raw
+string, | (pipe) at the front of each line and then a method
+stripMargin can be called to remove the white space.
+&lt;/li&gt;
+&lt;li&gt;Whenever you call a method that takes multiple arguments using
+operator notation, you have to place those arguments in
+parentheses. For example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="n"&gt;indexOf&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="sc"&gt;'o'&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Prefix operators&lt;/b&gt; are a shorthand way of invoking methods. In this
+case, the name of the method has &lt;b&gt;unary_&lt;/b&gt; pretended to the operator
+character. For example, &lt;code&gt;-2.0&lt;/code&gt; will be translated to
+&lt;code&gt;(2.0).unary_-&lt;/code&gt;. The &lt;i&gt;only identifiers&lt;/i&gt; that can be used as prefix
+operators are &lt;b&gt;+, -, ! and ~&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Postfix operators&lt;/b&gt; are methods take no arguments, when they are
+&lt;span class="underline"&gt;invoked without a dot or parentheses&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;In scala, you can also leave off empty parentheses on method
+calls. The &lt;i&gt;convention&lt;/i&gt; is that you &lt;span class="underline"&gt;include parentheses if the mouthed
+has side effects&lt;/span&gt;, such as &lt;code&gt;println()&lt;/code&gt;, but you can &lt;span class="underline"&gt;leave them off if
+the method has no side effects&lt;/span&gt;, such as &lt;code&gt;toLowerCase&lt;/code&gt; invoked on a
+String.
+&lt;/li&gt;
+&lt;li&gt;Any method that ends in a ":" character is invoked on its right
+operand, passing in the left operand. 
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Class and Trait&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;Object equality&lt;/b&gt; is compared with &lt;code&gt;==&lt;/code&gt; or &lt;code&gt;!=&lt;/code&gt;. To comparing &lt;b&gt;reference
+equality&lt;/b&gt;, use method &lt;code&gt;eq&lt;/code&gt; and &lt;code&gt;ne&lt;/code&gt;. However, eq and ne only apply to
+objects that directly map to Java objects.
+&lt;/li&gt;
+&lt;li&gt;When a &lt;b&gt;singleton&lt;/b&gt; object shares the same name with a class, it is
+called that class's &lt;i&gt;companion object&lt;/i&gt;; and you must define both the
+class and its companion object &lt;i&gt;in the same source file&lt;/i&gt;. &lt;span class="underline"&gt;A class and
+its companion object can assess each other's private members&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;Ond difference between classes and singleton objects is that
+singleton objects cannot take parameters, cause you can't
+instantiate a single object with the new keyword. 
+&lt;/li&gt;
+&lt;li&gt;Each singleton object is implemented as an instance of a synthetic
+class referenced from a static variable, so they have the same
+initialisation semantics as java statics. In particular, a singleton
+object is initialised the first time some code access it. 
+&lt;/li&gt;
+&lt;li&gt;Scala implicitly imports members of packages &lt;code&gt;java.lang&lt;/code&gt; and &lt;code&gt;scala&lt;/code&gt;, as
+well as the member of a singleton object named &lt;b&gt;&lt;code&gt;Predef&lt;/code&gt;&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;If a class doesn't have a body, u don't need to specify empty curly
+braces. The identifiers in the parentheses after the class name are
+called &lt;b&gt;class parameters&lt;/b&gt;. Scala compiler will gather up these
+class parameters and create a &lt;b&gt;primary constructor&lt;/b&gt; that takes the
+same two parameters. For example:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Rational&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+class parameters can be used directly in the body of the class.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;The scala compiler will compile any code you place in the class
+body, &lt;span class="underline"&gt;which isn't part of a field or a method definition&lt;/span&gt;, into the
+&lt;b&gt;primary constructor&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;To override a method:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;override&lt;/span&gt; &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;toString&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="s"&gt;"/"&lt;/span&gt; &lt;span class="nc"&gt;_d&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Check preconditions, using &lt;code&gt;require&lt;/code&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;require&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+&lt;code&gt;IllegalArgumentException&lt;/code&gt; will be raised when the condition fail.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Class parameters can only be access by &lt;code&gt;this&lt;/code&gt; object.
+&lt;/li&gt;
+&lt;li&gt;In scala, constructors other than the primary constructor are called
+&lt;b&gt;auxiliary constructors&lt;/b&gt;, and it is defined like: 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;  &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; 
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Scala can do implicit conversion of type by:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;implicit&lt;/span&gt; &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;intToRational&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nc"&gt;Rational&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Note that for an implicit conversion to work, it needs to be in
+scape. if the implicit method definition inside class Rational, it
+won't be in scope in the interpreter.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Scala's control structures are &lt;code&gt;if&lt;/code&gt;, &lt;code&gt;while&lt;/code&gt;, &lt;code&gt;for&lt;/code&gt;, &lt;code&gt;try&lt;/code&gt;, &lt;code&gt;match&lt;/code&gt; and
+&lt;code&gt;function calls&lt;/code&gt;. /Almost all Scala's control structures result in some
+value/. 
+&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;while&lt;/code&gt; and &lt;code&gt;do-while&lt;/code&gt; constructs are called "loops", not
+expressions, because &lt;i&gt;they don't result in an interesting value&lt;/i&gt;. The
+type of result is &lt;b&gt;Unit&lt;/b&gt;. Only one value exists for type Unit, it is
+called unit value and is written &lt;b&gt;()&lt;/b&gt;. &lt;i&gt;The exists of () is how Scala's
+Unit different from Java's void&lt;/i&gt;. 
+&lt;/li&gt;
+&lt;li&gt;While in Java, &lt;i&gt;assignment results in the value assigned&lt;/i&gt;, in Scala
+&lt;b&gt;assignment always results in unit value ()&lt;/b&gt;. Thus for example this
+bit of code won't work:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;readLine&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="s"&gt;""&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;println&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+It will cause infinite loop; cause any thing compared with a () will
+result in true.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;for expression with a filter:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;filesHere&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;endsWith&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;".scala"&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt; &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+more than one filters can be includes. 
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;for expression can have more than one &amp;lt;- to get nested "loops". 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;filesHere&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;endsWith&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;".scala"&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="k"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="n"&gt;fileLines&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;trim&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;matches&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pattern&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt; &lt;span class="o"&gt;..&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Mid-stream variable bindings in for expression:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+ &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="k"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="n"&gt;filesHere&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;endsWith&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;".scala"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+ &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="k"&gt;&amp;lt;-&lt;/span&gt;&lt;span class="n"&gt;fileLInes&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+ &lt;span class="n"&gt;trimmed&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;trim&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;trimmed&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;matches&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pattern&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}...&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;for .. yield...&lt;/code&gt; to produce new collections. 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+   &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;filesHere&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;endsWith&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;".scala"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="k"&gt;yield&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+the type of resulting collection is based on the kind of collection processed.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;In scala, &lt;i&gt;throw is an expression that has a result type of
+&lt;b&gt;Nothing&lt;/b&gt;&lt;/i&gt;, although when throw happens, the result type is never
+evaluated.
+&lt;/li&gt;
+&lt;li&gt;As with most Scala control structures, &lt;code&gt;try-catch-finally&lt;/code&gt; results in
+a value. If an exception is thrown but not caught, the expression
+has not result al all; &lt;i&gt;The value computed in the finally clause, if
+there is one, is dropped&lt;/i&gt;. Usually finally clauses do some kind of
+clean up; they should not normally change the value computers in the
+main body or a catch cause. 
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;match&lt;/code&gt; expression also result in a value. 
+&lt;/li&gt;
+&lt;li&gt;Scala don't have break and continue.
+&lt;/li&gt;
+&lt;li&gt;A &lt;code&gt;function literal&lt;/code&gt; is compiled into a class that when instantiated
+at runtime is a function value. Function literals exists in the
+source code where function values exist as objects at runtime. 
+&lt;/li&gt;
+&lt;li&gt;To make a &lt;code&gt;function literal&lt;/code&gt; even more concise, you can use
+&lt;i&gt;underscores as placeholders&lt;/i&gt; for one or &lt;b&gt;more&lt;/b&gt; parameters, so long as
+&lt;span class="underline"&gt;each parameter appears only one time within the function&lt;/span&gt;
+literal. for example: ~ _ &amp;gt; 0~ is same as &lt;code&gt;x =&amp;gt; x&amp;gt;0&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;If the compiler cannot know enough of the type of the parameter when
+placeholder is used, the type can be specified: 
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="k"&gt;_:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+(&lt;/span&gt;&lt;span class="k"&gt;_:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Multiple underscores means &lt;i&gt;multiple parameters&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;You can also replace an entire parameter list with an underscore.
+&lt;/li&gt;
+&lt;li&gt;The function value (the object) that's created at runtime from this
+function literal is called a &lt;code&gt;closure&lt;/code&gt;. The name arises from the act
+of "closing" the function literal by "capturing" the hidings of its
+free variables. A function literal with no free variables is called
+a closed term; and any function literal with free variables, such as
+(x: Int) =&amp;gt; x + more,  is an open term. 
+&lt;/li&gt;
+&lt;li&gt;What happens if the free variables are changed after the closure is
+created? In Scala, the answer is that closure sees the
+change. Change made by the closure to a captured variable are
+visible outside the closure.
+&lt;/li&gt;
+&lt;li&gt;Scala allows you to indicate that the last parameter to a function
+may be repeated. This allow clients to pass variable length argument
+lists to the function.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;echo&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String*&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt; &lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The type of args inside the echo function String* is actually
+Array[String]. &lt;i&gt;However you cannot pass a Array[String] into that
+function directly&lt;/i&gt;. To accomplish this, you will need to append the
+array argument with an colon and an _* symbol, like:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;array&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Array&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"A"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"B"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;echo&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;array&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt;&lt;span class="kt"&gt;*&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+This notation tells the compiler to pass each element of array as
+its own argument to echo, rather than all of it as a single
+argument. 
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;You can use Named arguments to change the order the parameter is
+passed into a function:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;speed&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Float&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Float&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Float&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;distance&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;
+&lt;span class="n"&gt;speed&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="k"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;distance&lt;/span&gt;&lt;span class="k"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;You can also define default parameter values for function
+parameters. The argument for such a parameter can optionally be
+omitted from a function call, in which case the corresponding
+argument will be filled with the default.
+&lt;/li&gt;
+&lt;li&gt;In any method invocation in Scala in which you are passing in
+exactly one argument, you can opt to &lt;i&gt;use curly braces to surround
+the argument instead of parentheses&lt;/i&gt;. This enable client programmers
+to &lt;span class="underline"&gt;write function literals between curly braces&lt;/span&gt;. 
+&lt;/li&gt;
+&lt;li&gt;In scala, &lt;b&gt;by-name parameter&lt;/b&gt; to &lt;b&gt;delay the function call&lt;/b&gt; when
+passing function value; the function value is not evaluated at the
+point of function application, but instead is &lt;i&gt;evaluated at each use
+within the function&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Case classes&lt;/b&gt; are regular classes which export their constructor
+parameters and which provide a recursive decomposition mechanism
+via pattern matching. It makes only sense to &lt;i&gt;define case classes if
+&lt;b&gt;pattern matching&lt;/b&gt; is used to decompose data structures&lt;/i&gt;. 
+&lt;/li&gt;
+&lt;li&gt;Scala does not require that the new primitive is used to
+facilitate the construction of case classes.
+&lt;/li&gt;
+&lt;li&gt;Similar to  interfaces  in Java, traits are used to define object
+types by specifying the signature of the supported methods. Unlike
+Java, Scala allows traits to be partially implemented; i.e. it is
+possible to define default implementations for some methods. In
+contrast to  classes, traits may not have &lt;i&gt;constructor parameters&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;Scala is very liberal when it comes to mixing &lt;b&gt;parameterless&lt;/b&gt;
+  and &lt;b&gt;empty-paren&lt;/b&gt; methods.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In particular, you can override a
+parameterless method with an empty-paren method, and vice versa.
+&lt;/li&gt;
+&lt;li&gt;you can also leave off the empty parentheses on an invocation of
+any function that takes no arguments. 
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;In Scala, any class will implicitly extends from scala.AnyRef, which
+is same as class java.lang.Object.
+&lt;/li&gt;
+&lt;li&gt;Filed can be used to override an &lt;b&gt;parameterless&lt;/b&gt; method. But on the
+other hand, it is &lt;i&gt;forbidden to define a field and method with the
+same name in the same class, whereas it is allowed in Java&lt;/i&gt;. 
+&lt;/li&gt;
+&lt;li&gt;A parametric filed for class:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ArrayElement&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;
+   &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;contents&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Array&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Element&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;combine  the  definition  of a class parameter and a
+field.
+&lt;/li&gt;
+&lt;li&gt;You can also prefix a class parameter with &lt;code&gt;var&lt;/code&gt;, in which case
+the corresponding field would be reassignable.
+&lt;/li&gt;
+&lt;li&gt;It is possible to add modifiers such as &lt;code&gt;private&lt;/code&gt;, &lt;code&gt;protected&lt;/code&gt;, or
+&lt;code&gt;override&lt;/code&gt; to these parametric fields, just as you can do for any
+other class member.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Invoking superclass constructors:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;LineElement&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;ArrayElement&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;Array&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;)){&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;For override modifier, Scala requires such a modifier for all
+ members that override a concrete member in a parent
+class. the modifier is optional if a member implements an
+abstract member with the same name. The modifier is forbidden if a
+member doesn't not override or implement some other member in a base
+class.
+&lt;/li&gt;
+&lt;li&gt;Traits let you modify the methods of a class, and they do so in a
+way that allow you to stack those modifications with each other. 
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Stackable modification&lt;/b&gt; of traits:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class="k"&gt;trait&lt;/span&gt; &lt;span class="nc"&gt;Doubling&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;IntQueue&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="k"&gt;abstract&lt;/span&gt; &lt;span class="k"&gt;override&lt;/span&gt; &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;put&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="k"&gt;super&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;put&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;super()&lt;/code&gt; calls in traits are dynamically bound. it will work as
+long as the traits is mixed in after another trait or class that
+gives a concrete definition to the method.
+&lt;/li&gt;
+&lt;li&gt;To tell the compiler you are doing this on purpose, you must mark
+such methods as abstract override. This combination of modifiers
+is only allowed for members of traits, not classes. 
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;When you call a method on a class with several  mixed-in traits, the
+method in the &lt;b&gt;right furthest&lt;/b&gt; traits will be called. If it has a
+&lt;code&gt;super()&lt;/code&gt; call, the left  to  it will be called, and so on. The
+&lt;i&gt;order of mixed-in traits is important&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;Scala compiler adds a &lt;b&gt;copy&lt;/b&gt; method to a case class for making
+copied instance that are same except one or two attributes are
+different. The method works by using named and default parameters:
+&lt;code&gt;op.copy(operator = "-")&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Pattern Matching&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Scala's match never "fall through" into the next case. If none of
+the patterns match, an exception named "MatchError" is thrown.
+&lt;/li&gt;
+&lt;li&gt;A constant pattern matches only itself. Any literal can be used as a
+constant.
+&lt;/li&gt;
+&lt;li&gt;Any &lt;code&gt;val&lt;/code&gt; or &lt;b&gt;singleton object&lt;/b&gt; can be used as a constant. For
+example, &lt;code&gt;Nil&lt;/code&gt;, a singleton object, is a pattern that matches only
+empty List.
+&lt;/li&gt;
+&lt;li&gt;A &lt;b&gt;variable pattern&lt;/b&gt; matches &lt;i&gt;any object&lt;/i&gt;, just like a &lt;b&gt;wildcard&lt;/b&gt; but
+Scala bind the variable to whatever the object is. 
+&lt;/li&gt;
+&lt;li&gt;How does Scala compiler know that "Pi" is a constant imported from
+scala.math, and not a variable that stands for the selector value
+itself? Scala uses a s impel  lexical rule for disambiguation:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;a simple name starting with a lowercase letter is taken to be a
+pattern variable;
+&lt;/li&gt;
+&lt;li&gt;all other references  are taken to be constants. 
+&lt;/li&gt;
+&lt;li&gt;Lower case  constant identifier  can be treated in pattern match with
+a back tick syntax. back tick can also be used to treat a keyword as
+an ordinary identifier: &lt;br&gt;
+    &lt;code&gt;Tread.`yield`()&lt;/code&gt; treats yield as an identifier rather than a
+keyword.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;You can match against sequence type like List or Array just like you
+match against case classes. you can also match against tuples.
+&lt;/li&gt;
+&lt;li&gt;Typed pattern can be used as a convenient replacement for type tests
+and type casts:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;generalSize&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Any&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;
+     &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Map&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="k"&gt;_&lt;/span&gt;, &lt;span class="k"&gt;_&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;
+     &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="k"&gt;_&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Alternatively: &lt;code&gt;expr.isInstanceOf[String]&lt;/code&gt; and
+&lt;code&gt;expr.asInstanceOf[String]&lt;/code&gt; can be used.
+&lt;/li&gt;
+&lt;li&gt;Scala restricts patterns to be linear: a pattern variable may only
+appear once in a pattern. However you can use &lt;b&gt;pattern guard&lt;/b&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;simplifyAdd&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Expr&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt; &lt;span class="k"&gt;match&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="nc"&gt;BinOp&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"+"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="nc"&gt;BinOp&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"*"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nc"&gt;Number&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="o"&gt;))&lt;/span&gt;
+     &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;
+  &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+The guard can be an arbitrary boolean expression. 
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;A sealed class cannot have any new subclasses added except the ones
+in the same file. This will help the scala compiler to detect the
+missing cases in a pattern match.
+&lt;/li&gt;
+
+&lt;li&gt;&lt;b&gt;Implicit conversion&lt;/b&gt; are governed by the following rules:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Only definitions marked implicit are available. 
+&lt;/li&gt;
+&lt;li&gt;An inserted implicit conversion must be in scope as a single
+identifier, or be associated with the source or target type of the
+conversion.
+&lt;/li&gt;
+&lt;li&gt;The compiler will also book look implicit definitions in the
+companion object of the source or expected target type of the
+conversion. There is no need to import the conversion separately
+into your
+&lt;/li&gt;
+&lt;li&gt;Only one implicit is tried at a time, however, the restriction can
+be circumvent by having implicits take implicit parameters. 
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>scala</category><guid>https://example.com/posts/reading/programming-in-scala/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Scala Note</title><link>https://example.com/posts/notes/scala-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-1"&gt;Currying and Partially Applied Functions&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-1-1"&gt;Assign an existing function/method to a function variable&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-1-2"&gt;Partially applied function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-1-3"&gt;Curried Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-1-4"&gt;Currying existing functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-1-5"&gt;Dependency Injection with Currying and partial function application&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-2"&gt;Predef&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-3"&gt;Type System in Scala&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-4"&gt;Partial Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-5"&gt;Scala collections topic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-6"&gt;Core Library&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-6-1"&gt;Strings&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-7"&gt;Monoid&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-7-1"&gt;Mappings Between Monoids&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-7-2"&gt;Monoids Composition&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-8"&gt;Monad in Scala&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9"&gt;Scala Cookbook&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-1"&gt;Scala package&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-2"&gt;How for loops are translated&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-3"&gt;Control structures&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-3-1"&gt;Break and Continue&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-3-2"&gt;Switch and Match&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-3-3"&gt;Try and catch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-4"&gt;Class, Object and Trait&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-5"&gt;Functional Programming&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-6"&gt;Collections&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-6-1"&gt;Seq implementation: Vector and ArrayBuffer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-6-2"&gt;Loop counters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-6-3"&gt;Iterators&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-6-4"&gt;Splitting sequences into subset&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-9-6-5"&gt;&lt;span class="todo TODO"&gt;TODO&lt;/span&gt; 10.22. Merging Collections sequential&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-10"&gt;What to leave implicit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-11"&gt;SBT&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-11-1"&gt;SBT as a Task Engine&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/scala-note/#sec-11-2"&gt;Declarative DSL&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Currying and Partially Applied Functions&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -1659,4 +3281,4 @@ declared by the plugins.
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>scala</category><guid>https://example.com/posts/scala-note/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>scala</category><guid>https://example.com/posts/notes/scala-note/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

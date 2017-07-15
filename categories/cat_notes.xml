@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about Notes)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/cat_notes.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Fri, 14 Jul 2017 21:05:14 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Agile Note</title><link>https://example.com/posts/agile-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about Notes)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/cat_notes.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:32:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Agile Note</title><link>https://example.com/posts/notes/agile-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/agile-notes/#sec-1"&gt;Practices of an Agile Developer&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/agile-notes/#sec-2"&gt;Restrospective&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Practices of an Agile Developer&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;
@@ -75,7 +85,17 @@ about it.
 
 &lt;div id="outline-container-sec-2" class="outline-2"&gt;
 &lt;h2 id="sec-2"&gt;Restrospective&lt;/h2&gt;
-&lt;/div&gt;</description><category>agile study</category><guid>https://example.com/posts/agile-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Angular 2 Note</title><link>https://example.com/posts/angular-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>agile</category><guid>https://example.com/posts/notes/agile-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Angular 2 Note</title><link>https://example.com/posts/notes/angular-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/angular-notes/#sec-1"&gt;Modules (NgModule)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/angular-notes/#sec-2"&gt;Testing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Modules (NgModule)&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;
@@ -211,7 +231,18 @@ should emulate such calls, for example, with &lt;b&gt;Jasmine&lt;/b&gt; spy:
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>angular</category><category>javascript</category><guid>https://example.com/posts/angular-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Bash Note</title><link>https://example.com/posts/Bash-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>angular</category><category>javascript</category><guid>https://example.com/posts/notes/angular-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Bash Note</title><link>https://example.com/posts/notes/Bash-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/Bash-notes/#sec-1"&gt;Bash array and its loop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/Bash-notes/#sec-2"&gt;Using &lt;code&gt;trap&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/Bash-notes/#sec-3"&gt;SIGTERM vs. SIGKILL&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Bash array and its loop&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;
@@ -358,7 +389,20 @@ on it.
 &lt;li&gt;
 &lt;/li&gt;&lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>bash</category><guid>https://example.com/posts/Bash-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Coding Questions</title><link>https://example.com/posts/coding-questions/</link><dc:creator>Warren Liu</dc:creator><description>&lt;ul class="org-ul"&gt;
+&lt;/div&gt;</description><category>bash</category><guid>https://example.com/posts/notes/Bash-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Coding Questions</title><link>https://example.com/posts/notes/coding-questions/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/coding-questions/#sec-1"&gt;Some Coding Questions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Some Coding Questions&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
 &lt;li&gt;String rotation: &lt;br&gt;
   Use &lt;b&gt;substring()&lt;/b&gt; only to determine if a string is a rotation
 of the other.
@@ -376,7 +420,19 @@ has value smaller than &lt;code&gt;x&lt;/code&gt; comes before the those larger 
 &lt;/li&gt;
 
 &lt;li&gt;
-&lt;/li&gt;&lt;/ul&gt;</description><category>coding algorithm</category><guid>https://example.com/posts/coding-questions/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Solr Note</title><link>https://example.com/posts/solr-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>algorithm</category><category>coding</category><guid>https://example.com/posts/notes/coding-questions/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Solr Note</title><link>https://example.com/posts/notes/solr-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/solr-notes/#sec-1"&gt;ZooKeepers used for SolrCloud&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/solr-notes/#sec-2"&gt;SolrCloud Concepts&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;ZooKeepers used for SolrCloud&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;
@@ -502,7 +558,24 @@ down.
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>solr</category><guid>https://example.com/posts/solr-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>ZooKeeper Note</title><link>https://example.com/posts/zookeeper-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>solr</category><guid>https://example.com/posts/notes/solr-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>ZooKeeper Note</title><link>https://example.com/posts/notes/zookeeper-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/zookeeper-notes/#sec-1"&gt;Note on ZooKeeper&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/zookeeper-notes/#sec-1-1"&gt;Concepts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/zookeeper-notes/#sec-1-2"&gt;Simple API&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/zookeeper-notes/#sec-1-3"&gt;Implementation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/zookeeper-notes/#sec-1-4"&gt;&lt;span class="todo TODO"&gt;TODO&lt;/span&gt; Programmer's Guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/zookeeper-notes/#sec-1-5"&gt;&lt;span class="todo TODO"&gt;TODO&lt;/span&gt; Java API&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Note on ZooKeeper&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;/div&gt;&lt;div id="outline-container-sec-1-1" class="outline-3"&gt;
@@ -653,7 +726,47 @@ syncing followers with leaders.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>zookeeper</category><guid>https://example.com/posts/zookeeper-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Algorithms Note</title><link>https://example.com/posts/algorithms-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>zookeeper</category><guid>https://example.com/posts/notes/zookeeper-notes/</guid><pubDate>Fri, 14 Jul 2017 15:28:48 GMT</pubDate></item><item><title>Algorithms Note</title><link>https://example.com/posts/notes/algorithms-notes/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-1"&gt;KdTree&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-1-1"&gt;Construction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-1-2"&gt;Adding elements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-1-3"&gt;Removing elements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-1-4"&gt;Nearest neighbour search with k-d tree&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-2"&gt;Selection algorithm&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-2-1"&gt;Selection by sorting.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-2-2"&gt;Partition based selection&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-3"&gt;Dynamic Programming&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-4"&gt;Backtracking&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-4-1"&gt;Description of the method&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-4-2"&gt;The algorithm:&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-5"&gt;Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-6"&gt;Threaded Binary Tree&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-7"&gt;Tires&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-7-1"&gt;The Problem&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-7-2"&gt;What is a Trie&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-7-3"&gt;Complexity&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-7-4"&gt;Example&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/algorithms-notes/#sec-8"&gt;SkipList&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;KdTree&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;p&gt;
@@ -1171,7 +1284,32 @@ dropping down vertically to the next lower list.
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>algorithm</category><guid>https://example.com/posts/algorithms-notes/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Design Pattern Note</title><link>https://example.com/posts/design-pattern/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>algorithm</category><guid>https://example.com/posts/notes/algorithms-notes/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Design Pattern Note</title><link>https://example.com/posts/notes/design-pattern/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/design-pattern/#sec-1"&gt;Concurrency Design Pattern&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/design-pattern/#sec-1-1"&gt;Active Object&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/design-pattern/#sec-2"&gt;Architectural Pattern&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/design-pattern/#sec-2-1"&gt;Naked objects&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/design-pattern/#sec-3"&gt;Architectural Style&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/design-pattern/#sec-3-1"&gt;Layered Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/design-pattern/#sec-3-2"&gt;Hexagonal Architecture.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/design-pattern/#sec-3-3"&gt;Onion Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Concurrency Design Pattern&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;/div&gt;&lt;div id="outline-container-sec-1-1" class="outline-3"&gt;
@@ -1218,7 +1356,17 @@ invocation and a scheduler for handling requests.
 &lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>design</category><category>pattern</category><guid>https://example.com/posts/design-pattern/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Emacs Note</title><link>https://example.com/posts/emacs-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;/div&gt;</description><category>design</category><category>pattern</category><guid>https://example.com/posts/notes/design-pattern/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Emacs Note</title><link>https://example.com/posts/notes/emacs-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/notes/emacs-note/#sec-1"&gt;Emacs Notes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
 &lt;h2 id="sec-1"&gt;Emacs Notes&lt;/h2&gt;
 &lt;div class="outline-text-2" id="text-1"&gt;
 &lt;ul class="org-ul"&gt;
@@ -1270,9 +1418,9 @@ C-x 8 RET unicode&lt;br&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>emacs</category><guid>https://example.com/posts/emacs-note/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Git Note</title><link>https://example.com/posts/git-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;ul class="org-ul"&gt;
+&lt;/div&gt;</description><category>emacs</category><guid>https://example.com/posts/notes/emacs-note/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Git Note</title><link>https://example.com/posts/notes/git-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;ul class="org-ul"&gt;
 &lt;li&gt;remove a file from the index
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git rm --cached &lt;span class="o"&gt;[&lt;/span&gt;file&lt;span class="o"&gt;]&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</description><category>git</category><guid>https://example.com/posts/git-note/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>
+&lt;/ul&gt;</description><category>git</category><guid>https://example.com/posts/notes/git-note/</guid><pubDate>Thu, 13 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

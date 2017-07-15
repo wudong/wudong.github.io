@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>https://example.com/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/2017/</loc>
@@ -15,23 +15,31 @@
  </url>
  <url>
   <loc>https://example.com/archive.html</loc>
-  <lastmod>2017-07-14T21:01:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/</loc>
-  <lastmod>2017-07-14T20:57:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/agile-study/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
+  <loc>https://example.com/categories/agile/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/akka/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://example.com/categories/algorithm/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/angular-javascript/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <loc>https://example.com/categories/algorithms/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/angular/</loc>
@@ -42,8 +50,12 @@
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/cat_note/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <loc>https://example.com/categories/cat_books/</loc>
+  <lastmod>2017-07-15T10:40:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/cat_courses/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/cat_notes/</loc>
@@ -54,8 +66,24 @@
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/design-pattern/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
+  <loc>https://example.com/categories/coding/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/concurrency/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/database/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/ddd/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/deep-learning/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/design/</loc>
@@ -66,8 +94,24 @@
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
+  <loc>https://example.com/categories/functional-programming/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/gc/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://example.com/categories/git/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/go/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/gradle/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/java-concurrency/</loc>
@@ -90,32 +134,64 @@
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
+  <loc>https://example.com/categories/machine-learning/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://example.com/categories/microservice/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/os/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/pattern/</loc>
   <lastmod>2017-07-14T20:57:00Z</lastmod>
  </url>
  <url>
+  <loc>https://example.com/categories/patterns/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://example.com/categories/php/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/play/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/programming/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
+  <loc>https://example.com/categories/python/</loc>
+  <lastmod>2017-07-15T10:40:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://example.com/categories/reactive-stream/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/redis/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/scala/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
+  <loc>https://example.com/categories/soa/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://example.com/categories/solr/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/categories/spring/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/categories/zookeeper/</loc>
@@ -127,11 +203,19 @@
  </url>
  <url>
   <loc>https://example.com/index-1.html</loc>
-  <lastmod>2017-07-14T21:01:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/index-2.html</loc>
-  <lastmod>2017-07-14T21:01:00Z</lastmod>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/index-3.html</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/index-4.html</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/listings/</loc>
@@ -156,6 +240,18 @@
  <url>
   <loc>https://example.com/posts/coding-questions/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/courses/coursea-scala/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/courses/deep-learning/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/courses/domain-driven-design/</loc>
+  <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/posts/design-pattern/</loc>
@@ -206,6 +302,98 @@
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
+  <loc>https://example.com/posts/notes/Bash-notes/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/agile-notes/</loc>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/algorithms-notes/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/angular-notes/</loc>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/coding-questions/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/design-pattern/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/emacs-note/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/git-note/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/java-8-topics/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/java-concurrency/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/java-hotspot-gc/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/java-interview-questions/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/java-problems/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/java-troubleshooting/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/javascript-note/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/linux-notes/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/microservices-note/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/php-note/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/programming-note/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/reactive-stream/</loc>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/scala-note/</loc>
+  <lastmod>2017-07-15T10:50:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/solr-notes/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/notes/zookeeper-notes/</loc>
+  <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
   <loc>https://example.com/posts/php-note/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
@@ -216,6 +404,70 @@
  <url>
   <loc>https://example.com/posts/reactive-stream/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/akka-in-action/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/deep-learning/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/enterprise-integration-patterns/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/functional-programming-in-scala/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/go-in-action/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/gradle-in-action/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/introducing-go/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/lean-python/</loc>
+  <lastmod>2017-07-15T10:40:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/patterns-enterprise-application-architecture/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/play-for-scala/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/programming-in-scala/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/redis-in-action/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/service-design-patterns/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/soa-patterns/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/spring-integration-in-action/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://example.com/posts/reading/thoughtful-machine-learning/</loc>
+  <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
   <loc>https://example.com/posts/scala-note/</loc>

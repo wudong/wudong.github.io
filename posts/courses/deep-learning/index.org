@@ -1,0 +1,37 @@
+#+BEGIN_COMMENT
+.. title: Deap Learning in Udacity
+.. slug: deep-learning
+.. date: 2017-07-15
+.. tags: deep learning
+.. category: Courses
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Deep Learning in udacity.com
+
+- Classification for Detection:
+  *To change a detection problem to a classification problem*.
+  For example, to detect pedestrian from an image, use a classifier to
+  classify small patches of image into two classes: pedestrain and
+  non-pedestrain. Then run the classifier over the images's patches.
+- Classification for Ranking:
+  Use a classifier that ranks the pair (query, webpage) as input and
+  classify the pair as relevant/not levant. Search Engine can use the
+  classifier for only promising candidate webpages.
+
+* Logistic Classifier
+- A logistic classifier called linear classifier. It applies an linear
+  function to the input to generate its predictions.
+- Using *SOFTMAX* function to turn the output score to probabilities, in which
+  the correct class will hve a probablitity close to 1 and otherwise
+  close to 0.
+  - Also called normalized exponential function, it "squashes" a
+    arbitrary k-dimensinal vector of real values to a k-dimensinal
+    vector of real values in the range of (0,1) that add up to 1.
+  - The function:
+     \begin{equation}
+     \sigma(\mathbf{z})_j = \frac{e^{z_j}}{\sum_{k=1}^K e^{z_k}}  \text{for } j=1..k
+     \end{equation}

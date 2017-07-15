@@ -1,0 +1,1919 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scala Note | Warren Liu</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="https://example.com/posts/notes/scala-note/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Warren Liu">
+<link rel="next" href="../reactive-stream/" title="Reactive Streams" type="text/html">
+<meta property="og:site_name" content="Warren Liu">
+<meta property="og:title" content="Scala Note">
+<meta property="og:url" content="https://example.com/posts/notes/scala-note/">
+<meta property="og:description" content="Table of Contents
+
+
+Currying and Partially Applied Functions
+
+Assign an existing function/method to a function variable
+Partially applied function
+Curried Function
+Currying existing functions
+Dependen">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-07-14T00:00:00+01:00">
+<meta property="article:tag" content="scala">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://example.com/">
+
+                <span id="blog-title">Warren Liu</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Scala Note</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Warren Liu
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" itemprop="datePublished" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li>
+<a href="#sec-1">Currying and Partially Applied Functions</a>
+<ul>
+<li><a href="#sec-1-1">Assign an existing function/method to a function variable</a></li>
+<li><a href="#sec-1-2">Partially applied function</a></li>
+<li><a href="#sec-1-3">Curried Function</a></li>
+<li><a href="#sec-1-4">Currying existing functions</a></li>
+<li><a href="#sec-1-5">Dependency Injection with Currying and partial function application</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Predef</a></li>
+<li><a href="#sec-3">Type System in Scala</a></li>
+<li><a href="#sec-4">Partial Function</a></li>
+<li><a href="#sec-5">Scala collections topic</a></li>
+<li>
+<a href="#sec-6">Core Library</a>
+<ul>
+<li><a href="#sec-6-1">Strings</a></li>
+</ul>
+</li>
+<li>
+<a href="#sec-7">Monoid</a>
+<ul>
+<li><a href="#sec-7-1">Mappings Between Monoids</a></li>
+<li><a href="#sec-7-2">Monoids Composition</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">Monad in Scala</a></li>
+<li>
+<a href="#sec-9">Scala Cookbook</a>
+<ul>
+<li><a href="#sec-9-1">Scala package</a></li>
+<li><a href="#sec-9-2">How for loops are translated</a></li>
+<li>
+<a href="#sec-9-3">Control structures</a>
+<ul>
+<li><a href="#sec-9-3-1">Break and Continue</a></li>
+<li><a href="#sec-9-3-2">Switch and Match</a></li>
+<li><a href="#sec-9-3-3">Try and catch</a></li>
+</ul>
+</li>
+<li><a href="#sec-9-4">Class, Object and Trait</a></li>
+<li><a href="#sec-9-5">Functional Programming</a></li>
+<li>
+<a href="#sec-9-6">Collections</a>
+<ul>
+<li><a href="#sec-9-6-1">Seq implementation: Vector and ArrayBuffer</a></li>
+<li><a href="#sec-9-6-2">Loop counters</a></li>
+<li><a href="#sec-9-6-3">Iterators</a></li>
+<li><a href="#sec-9-6-4">Splitting sequences into subset</a></li>
+<li><a href="#sec-9-6-5"><span class="todo TODO">TODO</span> 10.22. Merging Collections sequential</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-10">What to leave implicit</a></li>
+<li>
+<a href="#sec-11">SBT</a>
+<ul>
+<li><a href="#sec-11-1">SBT as a Task Engine</a></li>
+<li><a href="#sec-11-2">Declarative DSL</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Currying and Partially Applied Functions</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="http://danielwestheide.com/blog/2013/01/30/the-neophytes-guide-to-scala-part-11-currying-and-partially-applied-functions.html">http://danielwestheide.com/blog/2013/01/30/the-neophytes-guide-to-scala-part-11-currying-and-partially-applied-functions.html</a>
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Assign an existing function/method to a function variable</h3>
+<div class="outline-text-3" id="text-1-1">
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">scala</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span> <span class="k">_</span>
+<span class="c1">// or</span>
+<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">scala</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="o">(</span><span class="k">_</span><span class="o">)</span>
+</pre></div>
+<p>
+This is called a partially applied function.
+</p>
+
+<p>
+If attemp to assign the cos function/method to a variable:
+</p>
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">scala</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span>
+</pre></div>
+<p>
+It will be an error saying missing arguments for the method.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Partially applied function</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Passing to a function fewer arguments than it has in its
+declaration. Scala does not throw an exception when you provide fewer
+arguments to the function, it simply applies them and returns a new
+function with rest of arguments that need to be passed.
+</p>
+
+<p>
+Some example with partial apply functions in scala.
+</p>
+<div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Email</span><span class="o">(</span>
+  <span class="n">subject</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span>
+  <span class="n">text</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="c1">//type define the EmailFilter as a predicate on email.</span>
+<span class="k">type</span> <span class="kt">EmailFilter</span> <span class="o">=</span> <span class="nc">Email</span> <span class="k">=&gt;</span> <span class="nc">Boolean</span>
+<span class="c1">//another type define on two integers</span>
+<span class="k">type</span> <span class="kt">IntPairPred</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Int</span><span class="o">,</span> <span class="nc">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Boolean</span>
+<span class="c1">//with this type, we can have the following predicate.</span>
+<span class="k">val</span> <span class="n">gt</span><span class="k">:</span> <span class="kt">IntPairPred</span> <span class="o">=</span> <span class="k">_</span> <span class="o">&gt;</span> <span class="k">_</span>
+<span class="k">val</span> <span class="n">ge</span><span class="k">:</span> <span class="kt">IntPairPred</span> <span class="o">=</span> <span class="k">_</span> <span class="o">&gt;=</span> <span class="k">_</span>
+<span class="k">val</span> <span class="n">lt</span><span class="k">:</span> <span class="kt">IntPairPred</span> <span class="o">=</span> <span class="k">_</span> <span class="o">&lt;</span> <span class="k">_</span>
+<span class="k">val</span> <span class="n">le</span><span class="k">:</span> <span class="kt">IntPairPred</span> <span class="o">=</span> <span class="k">_</span> <span class="o">&lt;=</span> <span class="k">_</span>
+<span class="k">val</span> <span class="n">eq</span><span class="k">:</span> <span class="kt">IntPairPred</span> <span class="o">=</span> <span class="k">_</span> <span class="o">==</span> <span class="k">_</span>
+
+<span class="c1">//a constrain based on the size of email and a relationship to a given integer n.</span>
+<span class="k">def</span> <span class="n">sizeConstraint</span><span class="o">(</span><span class="n">pred</span><span class="k">:</span> <span class="kt">IntPairPred</span><span class="o">,</span> <span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">)</span> <span class="k">=</span> <span class="n">pred</span><span class="o">(</span><span class="n">email</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">length</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span>
+
+<span class="c1">//to get a EmailFilter with a given IntPairPred, we can partially apply</span>
+<span class="c1">//the size constraint with the given IntPairFred</span>
+<span class="k">val</span> <span class="n">minimumSize</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Email</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="n">sizeConstraint</span><span class="o">(</span><span class="n">ge</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Int</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Email</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">maximumSize</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Email</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="n">sizeConstraint</span><span class="o">(</span><span class="n">le</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Int</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Email</span><span class="o">)</span>
+
+<span class="c1">//or, given the size:</span>
+<span class="k">val</span> <span class="n">constr20</span><span class="k">:</span> <span class="o">(</span><span class="kt">IntPairPred</span><span class="o">,</span> <span class="kt">Email</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="n">sizeConstraint</span><span class="o">(</span><span class="k">_:</span> <span class="kt">IntPairPred</span><span class="o">,</span> <span class="mi">20</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Email</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">constr30</span><span class="k">:</span> <span class="o">(</span><span class="kt">IntPairPred</span><span class="o">,</span> <span class="kt">Email</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="n">sizeConstraint</span><span class="o">(</span><span class="k">_:</span> <span class="kt">IntPairPred</span><span class="o">,</span> <span class="mi">30</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Email</span><span class="o">)</span>
+
+<span class="c1">//then we can have the EmailFilters by further partial apply the above function.</span>
+<span class="k">val</span> <span class="n">min20</span><span class="k">:</span> <span class="kt">EmailFilter</span> <span class="o">=</span> <span class="n">minimumSize</span><span class="o">(</span><span class="mi">20</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Email</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">max20</span><span class="k">:</span> <span class="kt">EmailFilter</span> <span class="o">=</span> <span class="n">maximumSize</span><span class="o">(</span><span class="mi">20</span><span class="o">,</span> <span class="k">_:</span> <span class="kt">Email</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Curried Function</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Methods in Scala can have more than one parameter list.
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">sizeConstraint</span><span class="o">(</span><span class="n">pred</span><span class="k">:</span> <span class="kt">IntPairPred</span><span class="o">)(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)(</span><span class="n">email</span><span class="k">:</span> <span class="kt">Email</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span>
+  <span class="n">pred</span><span class="o">(</span><span class="n">email</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">size</span><span class="o">,</span> <span class="n">n</span><span class="o">)</span>
+</pre></div>
+
+<p>
+And the type of it would be:
+</p>
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">sizeConstraintFn</span><span class="k">:</span> <span class="kt">IntPairPred</span> <span class="o">=&gt;</span> <span class="nc">Int</span> <span class="k">=&gt;</span> <span class="nc">Email</span> <span class="k">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="n">sizeConstraint</span>
+</pre></div>
+
+<p>
+Such a chain of one-parameter functions is called a curried function.
+With this curried function, we could more easily get the EmailFilter:
+</p>
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">min20</span><span class="k">:</span> <span class="kt">Email</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="n">sizeConstraintFn</span><span class="o">(</span><span class="n">ge</span><span class="o">)(</span><span class="mi">20</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">max20</span><span class="k">:</span> <span class="kt">Email</span> <span class="o">=&gt;</span> <span class="nc">Boolean</span> <span class="k">=</span> <span class="n">sizeConstraintFn</span><span class="o">(</span><span class="n">le</span><span class="o">)(</span><span class="mi">20</span><span class="o">)</span>
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Currying existing functions</h3>
+<div class="outline-text-3" id="text-1-4">
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">sum</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="k">_</span> <span class="o">+</span> <span class="k">_</span>
+<span class="k">val</span> <span class="n">sumCurried</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span> <span class="k">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="n">sum</span><span class="o">.</span><span class="n">curried</span>
+
+<span class="c1">// or</span>
+<span class="k">def</span> <span class="n">sum</span><span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="k">val</span> <span class="n">sum2</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="o">(</span><span class="nc">Int</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="nc">Int</span> <span class="k">=</span> <span class="o">(</span><span class="n">sum</span> <span class="k">_</span><span class="o">).</span><span class="n">curried</span>
+</pre></div>
+<p>
+To do the reverse, you could use <b>Function.uncurried</b>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Dependency Injection with Currying and partial function application</h3>
+<div class="outline-text-3" id="text-1-5">
+<div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">User</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+
+<span class="k">trait</span> <span class="nc">EmailRepository</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">getMails</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">,</span> <span class="n">unread</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Email</span><span class="o">]</span>
+<span class="o">}</span>
+
+<span class="k">trait</span> <span class="nc">FilterRepository</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">getEmailFilter</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">)</span><span class="k">:</span> <span class="kt">EmailFilter</span>
+<span class="o">}</span>
+
+<span class="k">trait</span> <span class="nc">MailboxService</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">getNewMails</span><span class="o">(</span><span class="n">emailRepo</span><span class="k">:</span> <span class="kt">EmailRepository</span><span class="o">)(</span><span class="n">filterRepo</span><span class="k">:</span> <span class="kt">FilterRepository</span><span class="o">)(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">)</span> <span class="k">=</span>
+    <span class="n">emailRepo</span><span class="o">.</span><span class="n">getMails</span><span class="o">(</span><span class="n">user</span><span class="o">,</span> <span class="kc">true</span><span class="o">).</span><span class="n">filter</span><span class="o">(</span><span class="n">filterRepo</span><span class="o">.</span><span class="n">getEmailFilter</span><span class="o">(</span><span class="n">user</span><span class="o">))</span>
+  <span class="k">val</span> <span class="n">newMails</span><span class="k">:</span> <span class="kt">User</span> <span class="o">=&gt;</span> <span class="nc">Seq</span><span class="o">[</span><span class="kt">Email</span><span class="o">]</span>
+<span class="o">}</span>
+</pre></div>
+
+<p>
+We need an object that extends MailboxService. The idea is to
+implement <code>newMails</code> by currying the <code>getNewMails</code> method and fixing it
+with concrete implementations of the dependencies, <b>EmailRepository</b> and
+<b>FilterRepository</b>:
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">MockEmailRepository</span> <span class="k">extends</span> <span class="nc">EmailRepository</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">getMails</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">,</span> <span class="n">unread</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Email</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Nil</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">MockFilterRepository</span> <span class="k">extends</span> <span class="nc">FilterRepository</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">getEmailFilter</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">)</span><span class="k">:</span> <span class="kt">EmailFilter</span> <span class="o">=</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">true</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">MailboxServiceWithMockDeps</span> <span class="k">extends</span> <span class="nc">MailboxService</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">newMails</span><span class="k">:</span> <span class="o">(</span><span class="kt">User</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="nc">Seq</span><span class="o">[</span><span class="kt">Email</span><span class="o">]</span> <span class="k">=</span>
+    <span class="n">getNewMails</span><span class="o">(</span><span class="nc">MockEmailRepository</span><span class="o">)(</span><span class="nc">MockFilterRepository</span><span class="o">)</span> <span class="k">_</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Predef</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Variants of <b>assert</b> intended for use with static analysis tools are
+also provided: <b>assume</b>, <b>require</b> and <b>ensuring</b>.
+</li>
+<li>require and ensuring are intended for use as a means of
+<b>design-by-contract</b> style specification of <i>pre- and post-conditions</i>
+on functions, with the intention that these specifications could be
+consumed by a static analysis tool.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">addNaturals</span><span class="o">(</span><span class="n">nats</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="n">require</span><span class="o">(</span><span class="n">nats</span> <span class="n">forall</span> <span class="o">(</span><span class="k">_</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">),</span> <span class="s">"List contains negative numbers"</span><span class="o">)</span>
+  <span class="n">nats</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="mi">0</span><span class="o">)(</span><span class="k">_</span> <span class="o">+</span> <span class="k">_</span><span class="o">)</span>
+<span class="o">}</span> <span class="n">ensuring</span><span class="o">(</span><span class="k">_</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+</pre></div>
+<ul class="org-ul">
+<li>
+<b>require</b> is distinct from assert in that if the condition fails,
+then the <i>caller of the function</i> is to blame rather than a <i>logical
+error</i> having been made within function itself.
+</li>
+<li>
+<b>ensuring</b> is a form of assert that declares the guarantee the
+function is providing with regards to its return value.
+</li>
+</ul>
+</li>
+<li>
+<code>def ??? : Nothing ~ : ~???</code> can be used for marking methods that
+remain to be implemented.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Type System in Scala</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>
+<code>Nothing</code> : is a <b>subtype</b> of every other type (including
+<code>Scala.Null</code>); there exist no instances of this type.
+<ul class="org-ul">
+<li>value <code>scala.collection.immutable.Nil</code> is defined of type
+<code>List[Nothing]</code>. Because List are <b>covariant</b> in Scala, this make
+<code>scala.collection.immutable.Nil</code> an instance of <code>List[T]</code>, <i>for any
+element of type <code>T</code></i>.
+</li>
+<li>Another usage for <code>Nothing</code> is the return type for methods which
+<b>never</b> return normally. For example, the <code>error</code> method in in
+<code>scala.sys</code> which always throws an exception.
+</li>
+</ul>
+</li>
+<li>
+<code>Null</code> is a subtype of all *reference types*(<code>AnyRef</code>); its only
+instance is the <code>null</code> reference. Since <code>Null</code> is not a subtype of <b>value
+types</b>, <code>null</code> is not a member of any such type. For instance, it is
+<i>not possible to assign <code>nul~l to a variable of type ~scala.Int</code></i>.
+</li>
+<li>
+<code>Option</code>
+<ul class="org-ul">
+<li>The most idiomatic way to use an <code>Option</code> is to treat it as a
+collection or monand and use <code>map</code>, <code>flatMap</code>, <code>filter</code>, or
+<code>foreach</code>:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">name</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="n">request</span> <span class="n">getParameter</span> <span class="s">"name"</span>
+<span class="k">val</span> <span class="n">upper</span> <span class="k">=</span> <span class="n">name</span> <span class="n">map</span> <span class="o">{</span> <span class="k">_</span><span class="o">.</span><span class="n">trim</span> <span class="o">}</span> <span class="n">filter</span> <span class="o">{</span> <span class="k">_</span><span class="o">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span> <span class="o">}</span> <span class="n">map</span> <span class="o">{</span> <span class="k">_</span><span class="o">.</span><span class="n">toUpperCase</span> <span class="o">}</span>
+<span class="n">println</span><span class="o">(</span><span class="n">upper</span> <span class="n">getOrElse</span> <span class="s">""</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>Note that this is equivalent to:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">upper</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+  <span class="n">name</span> <span class="k">&lt;-</span> <span class="n">request</span> <span class="n">getParameter</span> <span class="s">"name"</span>
+  <span class="n">trimmed</span> <span class="k">&lt;-</span> <span class="nc">Some</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">trim</span><span class="o">)</span>
+  <span class="n">upper</span> <span class="k">&lt;-</span> <span class="nc">Some</span><span class="o">(</span><span class="n">trimmed</span><span class="o">.</span><span class="n">toUpperCAse</span><span class="o">)</span> <span class="k">if</span> <span class="n">trimmed</span><span class="o">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">0</span>
+<span class="o">}</span> <span class="n">yeild</span> <span class="n">upper</span>
+</pre></div>
+</li>
+<li>the less-idiomatic way is via pattern matching:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">nameMaybe</span> <span class="k">=</span> <span class="n">request</span> <span class="n">getParameter</span> <span class="s">"name"</span>
+<span class="n">nameMaybe</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">name</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">name</span><span class="o">.</span><span class="n">trim</span><span class="o">.</span><span class="n">toUppercase</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">None</span> <span class="k">=&gt;</span> <span class="n">println</span> <span class="o">(</span><span class="s">"No name value"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Using <code>fold[B](ifEmpty:=&gt;B)(f: (A)=&gt;B) : B</code>
+returns the result of applying <code>f</code> to this Option's value if it is
+nonempty, otherwise, evaluates expression <code>ifEmpty</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Partial Function</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>
+<code>PartialFunction[-A, +B] extends (A)=&gt;B</code> is a unary function where
+the domain does not necessarily include all values of type A. The
+function <code>isDefinedAt</code> allows to test dynamically if a value is in
+the domain of the function:
+</li>
+<li>It is the responsibility of the caller to call isDefinedAt before
+calling apply, because if isDefinedAt is false, it is not
+guaranteed apply will throw an exception to indicate an error
+condition.
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">sample</span> <span class="k">=</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">10</span>
+<span class="k">val</span> <span class="n">isEven</span><span class="k">:</span> <span class="kt">PartialFunction</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="n">x</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="s">" is even"</span>
+<span class="o">}</span>
+
+<span class="c1">//the method collect can use isDefinedAt to select which members to collect</span>
+<span class="k">val</span> <span class="n">eventNumbers</span> <span class="k">=</span> <span class="n">sample</span> <span class="n">collect</span> <span class="n">isEven</span>
+
+<span class="k">val</span> <span class="n">isOld</span> <span class="k">:</span> <span class="kt">PartialFunction</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">String</span><span class="o">]</span><span class="k">=</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="n">x</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">=&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="s">" is old"</span>
+<span class="o">}</span>
+
+<span class="c1">//the method orElse allows chaining of another partial function</span>
+<span class="c1">//to handle input outside the declared domain.</span>
+<span class="k">val</span> <span class="n">numbers</span> <span class="k">=</span> <span class="n">sample</span> <span class="n">map</span> <span class="o">(</span><span class="n">isEven</span> <span class="n">orElse</span> <span class="n">isOld</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>A block with bunch of <code>case</code> inside in one way of defining an
+<b>partial functions</b>, as opposed to "total" functions:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">fraction</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">PartialFunction</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">apply</span><span class="o">(</span><span class="n">d</span><span class="k">:</span><span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="mi">42</span><span class="o">/</span><span class="n">d</span>
+  <span class="k">def</span> <span class="n">isDefinedAt</span><span class="o">(</span><span class="n">d</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">d</span><span class="o">!=</span><span class="mi">0</span>
+<span class="o">}</span>
+
+<span class="c1">//this can also be defined as:</span>
+<span class="k">val</span> <span class="n">fraction</span> <span class="k">:</span> <span class="kt">PartialFunction</span><span class="o">[</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">]</span> <span class="k">=</span>
+  <span class="o">{</span> <span class="k">case</span> <span class="n">d</span><span class="k">:</span> <span class="kt">Int</span> <span class="kt">if</span> <span class="kt">d!=</span><span class="err">0</span> <span class="o">=&gt;</span> <span class="mi">42</span> <span class="o">/</span> <span class="n">d</span><span class="o">}</span>
+</pre></div>
+</li>
+<li>The difference in behavior between <code>collect</code> and <code>man</code>, which is
+that <code>clllect</code> expects a partial function, and automatically
+filters out the values that are not in the function domain.
+</li>
+<li>In Scala any instance of <code>Seq</code> or <code>Map</code> (but not Set) is actually a
+<b>partial function</b> so that its domain lies inside the Seq's length
+or Map's key set.
+</li>
+<li>
+<b>PartialFunction</b> trait supports the <code>lift</code> method, which converts
+the partial function to a normal function that doesn't crash by
+return the result as an Option.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Scala collections topic</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>List vs Array
+<ul class="org-ul">
+<li>Array is mutable, meaning you can change the values of each
+index. An immutable analog of <code>Array</code> is <code>IndexedSeq</code>
+</li>
+<li>List is immutable, and a new list is created everytime you do a modification.
+</li>
+<li>
+<code>Array[A]</code> is literally a Java array, a <code>List[A]</code> is an immutable data
+structure that is either <code>Nil</code> or consists of a pair <code>(A, List[A])</code>.
+</li>
+</ul>
+</li>
+<li>Ways to iterate through a collection: <code>fold</code>, <code>reduce</code>, <code>scan</code>
+<ul class="org-ul">
+<li>
+<code>fold[A1 &gt;: A]: (z: A1)(op: (A1, A1) =&gt; A1 ): A1</code> : takes a initial
+seed value and then operate on the sequence.
+<ul class="org-ul">
+<li>
+<code>foldLeft[B](z: B)(op: (B, A) =&gt; B): B</code> and <code>foldRight</code> can have
+a different return type than the sequence element type.
+</li>
+</ul>
+</li>
+<li>
+<code>scan</code>: works like <code>fold</code> but return a sequence instead of final value.
+</li>
+<li>
+<code>reduce[A1 &gt;: A](op: (A1, A1) =&gt; A1) : A1</code> : takes no initial
+seed, but just an binary operator.
+</li>
+</ul>
+</li>
+<li>Trait <code>Traversable</code>: it is the <b>top</b> of the collection
+hierarchy. All its operations are guarantee to be performed in a
+<b>single-threaded</b> manner.
+<ul class="org-ul">
+<li>
+<code>collect</code> : The collection obtained from applying the partial
+function <code>f</code> to every element in xs for which it is defined and
+collecting the results.
+</li>
+<li>String operations <code>mkString</code>, <code>addString</code>, <code>stringPrefix</code>, which give
+alternative ways of converting a collection to a string.
+</li>
+</ul>
+</li>
+<li>
+<code>Stream</code> is like <code>List</code>, except that its elements are computed
+lazily. Because Stream elements are computed lazily, a <code>Stream</code> can
+be infinitely long.
+<ul class="org-ul">
+<li>
+<code>Stream</code> can be constructed with the <code>#::</code> method:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">stream</span> <span class="k">=</span> <span class="mi">1</span>  <span class="o">#::</span> <span class="mi">2</span>  <span class="o">#::</span> <span class="mi">3</span>  <span class="o">#::</span> <span class="nc">Stream</span><span class="o">.</span><span class="n">emtpy</span>
+<span class="k">val</span> <span class="n">stream2</span> <span class="k">=</span> <span class="o">(</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">10000000</span> <span class="o">).</span><span class="n">toStream</span>
+</pre></div>
+</li>
+<li>Be careful with methods that aren’t transformers. Calls to the
+strict methods are evaluated immediately and can easily cause OutOfMemory:
+<ul class="org-ul">
+<li>
+<code>stream.max</code>
+</li>
+<li>
+<code>stream.size</code>
+</li>
+<li>
+<code>stream.sum</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sorting a sequential collection
+<ul class="org-ul">
+<li>Sorting methods defined on
+<dl class="org-dl">
+<dt> <code>sorted()</code> </dt>
+<dd>sort the list using the natural ordering, based on
+the implicit Ordering passed.
+</dd>
+<dt> <code>sortBy()</code> </dt>
+<dd>sort by a given attribute using the attribute's
+type. <code>personList.sortBy(_.age)</code>
+</dd>
+<dt> <code>sortWith()</code> </dt>
+<dd>Takes a comparator function.
+</dd>
+</dl>
+</li>
+<li>Mix in the <b>Ordered</b> trait, and implement a <code>compare</code> method,
+giving the type a <b>single way</b> to order itself.
+</li>
+<li>Trait <b>Ordering</b>'s instance represent a <b>strategy</b> for sorting
+instance of a type.
+</li>
+<li>
+<code>scala.util.Sorting.quickSort</code> sort Array in place:
+<div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">AgeOrdering</span> <span class="k">extends</span> <span class="nc">Ordering</span><span class="o">[</span><span class="kt">Person</span><span class="o">]{</span>
+    <span class="k">def</span> <span class="n">compare</span> <span class="o">(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Person</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Person</span><span class="o">)</span> <span class="k">=</span> <span class="n">a</span><span class="o">.</span><span class="n">age</span> <span class="n">compare</span> <span class="n">b</span><span class="o">.</span><span class="n">age</span>
+<span class="o">}</span>
+<span class="nc">Sorting</span><span class="o">.</span><span class="n">quickSort</span><span class="o">(</span><span class="n">people</span><span class="o">)(</span><span class="nc">AgeOrdering</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>
+<b>Ordering</b> and <b>Ordered</b> both provide the same functionality, but
+in different way.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Core Library</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">Strings</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>object equality test with <code>==</code> method, which is defined on
+<code>AnyRef</code>. It will check for <code>null</code> values for you before calling
+<code>equals</code> method. You don't have to check for <code>null</code> when comparing
+</li>
+<li>String <b>interpolation</b>, precede string with the letter <code>s</code> <br>
+  ~s"$name is $age years old"~ <br><ul class="org-ul">
+<li>This creates a <b>processed</b> string literal. and <code>s</code> is actually a
+method.
+</li>
+<li>
+<code>f</code> string interpolator using printf style formatting. <br>
+    ~f"$name weights $weight%.2f pounds"
+</li>
+<li>
+<code>raw</code> string interpolator performs no escaping of literlas within
+the string.
+</li>
+</ul>
+</li>
+<li>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Monoid</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Monoid is an <b>algebric structure</b>. Given a type <code>T</code>, a binary operation
+<code>Op:(T,T) =&gt; T</code>, and an instance <code>Zero: T</code>, with the properties that
+will be specified below, the triple <code>(T, Op, Zero)</code> is called a
+<b>monoid</b>. Here are the properties:
+</p>
+<dl class="org-dl">
+<dt> Neutral element </dt>
+<dd>
+<code>Zero Op a == a Op Zero == a</code>
+</dd>
+<dt> Associativity </dt>
+<dd>
+<code>(a Op b) Op c == a Op (b Op c)</code>
+</dd>
+</dl>
+</div>
+
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">Mappings Between Monoids</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+For two monoids, <code>(A, OpA, ZeroA)</code> and <code>(B, OpB, ZeroB)</code>, we define a
+<b>mapping</b> from one monoid to another as a function: <code>f: A =&gt; B</code>, such
+that:
+</p>
+<ul class="org-ul">
+<li>
+<code>f(ZeroA) = ZeroB</code>
+</li>
+<li>
+<code>f(x OpA y)</code> = <code>f(x) OpB f(y)</code>
+</li>
+</ul>
+<p>
+**In Scala
+To define a monoid in Scala, we declare the following
+</p>
+<div class="highlight"><pre><span></span>trait Monoid[T] {
+ def Zero: T
+ def op: (T,T) =&gt; T
+}
+</pre></div>
+</div>
+</div>
+
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2">Monoids Composition</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>Monoids <b>compose well</b>; for example a tuple of monoids is itself a
+monoid, as such it’s simple to define a monoid for a complex type
+once monoids for its constituents types exists.
+</li>
+<li>Given a Monoid of <code>A</code>, we can have a Monoid for <code>Option[A]</code>:
+<div class="highlight"><pre><span></span><span class="k">implicit</span> <span class="k">def</span> <span class="n">optionMonoid</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="k">implicit</span> <span class="n">am</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]]</span> <span class="k">=</span>
+  <span class="k">new</span> <span class="nc">Monoid</span><span class="o">[</span><span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]]</span> <span class="o">{</span>
+    <span class="k">def</span> <span class="n">id</span> <span class="k">=</span> <span class="nc">None</span>
+    <span class="k">def</span> <span class="n">op</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="n">y</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="k">match</span><span class="o">{</span>
+      <span class="k">case</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="nc">None</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">x</span>
+      <span class="k">case</span> <span class="o">(</span><span class="nc">None</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">y</span>
+      <span class="k">case</span> <span class="o">(</span><span class="nc">Some</span><span class="o">(</span><span class="n">x</span><span class="o">),</span> <span class="nc">Some</span><span class="o">(</span><span class="n">y</span><span class="o">))</span> <span class="k">=&gt;</span> <span class="nc">Some</span><span class="o">(</span><span class="n">am</span><span class="o">.</span><span class="n">op</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">))</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</pre></div>
+</li>
+<li>Given a Monoid of <code>B</code>, we can have a Monoid for <b>functions</b> return <code>B</code>.
+<div class="highlight"><pre><span></span><span class="k">implicit</span> <span class="k">def</span> <span class="n">functionMonoid</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="k">implicit</span> <span class="n">bm</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">B</span><span class="o">])</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">A</span> <span class="k">=&gt;</span> <span class="kt">B</span><span class="o">]</span> <span class="k">=</span>
+  <span class="k">new</span> <span class="nc">Monoid</span><span class="o">[(</span><span class="kt">A</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="kt">B</span><span class="o">]</span> <span class="o">{</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="n">id</span> <span class="k">=</span> <span class="n">A</span><span class="k">=&gt;</span><span class="n">bm</span><span class="o">.</span><span class="n">id</span>
+    <span class="k">override</span> <span class="k">def</span> <span class="n">op</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="n">B</span><span class="o">,</span> <span class="n">y</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="n">B</span><span class="o">)</span> <span class="k">=</span> <span class="o">{</span>
+      <span class="n">a</span> <span class="k">=&gt;</span> <span class="n">bm</span><span class="o">.</span><span class="n">op</span><span class="o">(</span><span class="n">x</span><span class="o">(</span><span class="n">a</span><span class="o">),</span> <span class="n">y</span><span class="o">(</span><span class="n">a</span><span class="o">))</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</pre></div>
+</li>
+<li>To collaspe a bunch of values using Monoid:
+<div class="highlight"><pre><span></span><span class="k">implicit</span> <span class="k">def</span> <span class="n">fold</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">la</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">A</span><span class="o">])(</span><span class="k">implicit</span> <span class="n">am</span><span class="k">:</span> <span class="kt">Monoid</span><span class="o">[</span><span class="kt">A</span><span class="o">])</span> <span class="k">:</span> <span class="kt">A</span> <span class="o">=</span>
+<span class="n">la</span><span class="o">.</span><span class="n">foldLeft</span><span class="o">(</span><span class="n">am</span><span class="o">.</span><span class="n">id</span><span class="o">)(</span><span class="n">am</span><span class="o">.</span><span class="n">op</span><span class="o">)</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Monad in Scala</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>Monad can be think of as <b>Wrappers</b>, taking a object and wrap it
+with a monad.
+</li>
+<li>Monad provides us with two operations:
+<dl class="org-dl">
+<dt> identity </dt>
+<dd>
+<code>unit</code> in Scala
+</dd>
+<dt> bind </dt>
+<dd>
+<code>flatMap</code> in Scala
+</dd>
+</dl>
+</li>
+<li>Scala doesn't provide Monad type build-in, to model Monad:
+<div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">Monad</span><span class="o">[</span><span class="kt">A</span><span class="o">]{</span>
+  <span class="k">def</span> <span class="n">flatMap</span><span class="o">[</span><span class="kt">B</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">A</span><span class="o">=&gt;</span><span class="nc">Monad</span><span class="o">[</span><span class="kt">B</span><span class="o">])</span><span class="k">:</span> <span class="kt">Monad</span><span class="o">[</span><span class="kt">B</span><span class="o">]</span>
+<span class="o">}</span>
+<span class="k">def</span> <span class="n">unit</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">x</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Monad</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span>
+</pre></div>
+</li>
+<li>
+<code>unit</code> simply performs the wrapping part: given a value of type <code>A</code>,
+it will return a value of type <code>Monad[A]</code>
+</li>
+<li>Although scala doesn't have a Monad type, but that doesn't mean
+there are no monads in Scala. Monad is not a class or a trait; it is
+a concept. Every <b>wrapper</b> that provides us with the two operations
+is essentially a monad.
+</li>
+<li>For a monand, it should follow:
+<dl class="org-dl">
+<dt> left-identity law </dt>
+<dd>
+<code>unit(x).flatMap(f) == f(x)</code>
+</dd>
+<dt> right-identity law </dt>
+<dd>
+<code>m.flatMap(unit) == m</code>
+</dd>
+<dt> associatity law </dt>
+<dd>
+<code>m.flatMap(f).flatMap(g) == m.flatMap( x=&gt;
+       f(x).flatMap(g))</code>
+</dd>
+</dl>
+</li>
+<li>Some examples:
+<div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">User</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">child</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span>
+<span class="o">}</span>
+
+<span class="k">object</span> <span class="nc">UserService</span><span class="o">{</span>
+  <span class="k">def</span> <span class="n">loadUser</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">User</span><span class="o">]</span> <span class="k">=</span> <span class="o">{...}</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">getChild</span> <span class="k">=</span> <span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">User</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">user</span><span class="o">.</span><span class="n">child</span>
+
+<span class="c1">//load a user from the service and get its grandchild.</span>
+<span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="nc">UserService</span><span class="o">.</span><span class="n">loadUser</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">getChild</span><span class="o">)</span>
+  <span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">getChild</span><span class="o">)</span>
+
+<span class="c1">//for-comprehension is basically syntax sugar for mapping</span>
+<span class="c1">//flatMapping and filtering.</span>
+<span class="k">val</span> <span class="n">result</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+  <span class="n">user</span> <span class="k">&lt;-</span> <span class="nc">UserService</span><span class="o">.</span><span class="n">loadUser</span><span class="o">(</span><span class="s">"name"</span><span class="o">)</span>
+  <span class="n">userChild</span> <span class="k">&lt;-</span> <span class="n">user</span><span class="o">.</span><span class="n">child</span>
+  <span class="n">userGrandChild</span> <span class="k">&lt;-</span> <span class="n">userChild</span><span class="o">.</span><span class="n">child</span>
+<span class="o">}</span> <span class="k">yield</span> <span class="n">userGrandChild</span>
+</pre></div>
+</li>
+<li>
+<b>Future</b> also defines <code>flatMap</code>, which can be chained in a similar
+way as in the above code.
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><a href="file:///Users/wudong/Dropbox/ebooks/langs/scala/Scala%20Cookbook%20(2013).pdf">Scala Cookbook</a></h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1">Scala package</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>Put common code in package object. to make functions, fields, and
+other code available at a <b>package</b> level, without requiring a class
+or object.
+<ul class="org-ul">
+<li>put the code in a file named <b>package.scala</b>
+</li>
+<li>using <code>package object model {}</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2">How for loops are translated</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li>A simple <code>for</code> loop that iterates over a collection is translated to
+a <code>foreach</code> method call on the collection
+</li>
+<li>A <code>for</code> loop with a <b>guard</b> is translated to a sequence of a
+<code>withFilter</code> method call on the collection followed by a <code>foreach</code> call.
+</li>
+<li>A <code>for</code> loop with a <code>yield</code> expression is translated to a <code>map</code>
+  method call on the collection.
+</li>
+<li>A <code>for</code> loop with a <code>yield</code> expression and a guard is translated to
+a <code>withFilter</code> method call on the collection, followed by a <code>map</code>
+method call.
+</li>
+<li>Using <code>scalac -Xprint:parse Main.scala</code> can be used to demonstrate
+the translation.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3">Control structures</h3>
+<div class="outline-text-3" id="text-9-3">
+</div>
+<div id="outline-container-sec-9-3-1" class="outline-4">
+<h4 id="sec-9-3-1">Break and Continue</h4>
+<div class="outline-text-4" id="text-9-3-1">
+<ul class="org-ul">
+<li>Scala doesn't have <code>break</code> and <code>continue</code> keywords. Similar
+functionality can be implemented through <code>scala.util.control.Breaks</code>
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">util.control.Breaks._</span>
+
+<span class="n">breakable</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">10</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">println</span><span class="o">(</span><span class="n">i</span><span class="o">)</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="o">)</span> <span class="n">break</span> <span class="c1">// break out of the for loop</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="n">until</span> <span class="n">searchMe</span><span class="o">.</span><span class="n">length</span><span class="o">){</span>
+  <span class="n">breakable</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">searchFound</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">break</span> <span class="c1">// break out the breakable, continue outside loop.</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>
+<code>break</code> essentially raise an exception which will be catch by the
+<code>breakable</code>, both of this are methods defined in
+<code>scala.util.control.Breaks</code>:
+<div class="highlight"><pre><span></span><span class="k">private</span> <span class="k">val</span> <span class="n">breakException</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">BreakControl</span>
+<span class="k">def</span> <span class="n">break</span><span class="o">()</span> <span class="k">:</span> <span class="kt">Nothing</span> <span class="o">=</span> <span class="o">{</span> <span class="k">throw</span> <span class="n">breakException</span><span class="o">}</span>
+<span class="k">def</span> <span class="n">breakable</span> <span class="o">(</span><span class="n">op</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="nc">Unit</span><span class="o">){</span>
+  <span class="k">try</span> <span class="o">{</span>
+    <span class="n">op</span>
+  <span class="o">}</span><span class="k">catch</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="n">ex</span><span class="k">:</span> <span class="kt">BreakControl</span> <span class="o">=&gt;</span> <span class="k">if</span> <span class="o">(</span><span class="n">ex</span> <span class="n">ne</span> <span class="n">breakException</span><span class="o">)</span> <span class="k">throw</span> <span class="n">ex</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Nested loops and labeled breaks
+<div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.util.control._</span>
+
+<span class="k">val</span> <span class="nc">Inner</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Breaks</span>
+<span class="k">val</span> <span class="nc">Outer</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Breaks</span>
+<span class="nc">Outer</span><span class="o">.</span><span class="n">breakable</span> <span class="o">{</span>
+  <span class="k">for</span> <span class="o">(</span><span class="n">i</span> <span class="k">&lt;-</span> <span class="mi">1</span> <span class="n">to</span> <span class="mi">5</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">Inner</span><span class="o">.</span><span class="n">breakable</span> <span class="o">{</span>
+      <span class="k">for</span> <span class="o">(</span><span class="n">j</span> <span class="k">&lt;-</span> <span class="sc">'a'</span> <span class="n">to</span> <span class="sc">'e'</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">==</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">==</span> <span class="sc">'c'</span><span class="o">)</span> <span class="nc">Inner</span><span class="o">.</span><span class="n">break</span> <span class="k">else</span> <span class="n">println</span> <span class="o">(</span><span class="s">s"i: </span><span class="si">$i</span><span class="s">, j : </span><span class="si">$j</span><span class="s">"</span><span class="o">)</span>
+	<span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span><span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">==</span> <span class="sc">'b'</span><span class="o">)</span> <span class="nc">Outer</span><span class="o">.</span><span class="n">break</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-3-2" class="outline-4">
+<h4 id="sec-9-3-2">Switch and Match</h4>
+<div class="outline-text-4" id="text-9-3-2">
+<ul class="org-ul">
+<li>Use Scala match expression like a Java <code>switch</code> statement.
+</li>
+<li>
+<code>@switch</code> annotation provides a warning at compile time if the
+switch can't compiled to a <b>tableswitch</b> or <b>lookupswitch</b>, which is
+better for performance, because it results in a branch table rather
+than a decision tree.
+</li>
+<li>One case statement can match multiple conditions:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">i</span> <span class="k">=</span> <span class="mi">5</span>
+<span class="n">i</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="mi">1</span> <span class="o">|</span> <span class="mi">3</span> <span class="o">|</span> <span class="mi">5</span> <span class="o">|</span> <span class="mi">7</span> <span class="o">|</span> <span class="mi">9</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">"old"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="mi">2</span> <span class="o">|</span> <span class="mi">4</span> <span class="o">|</span> <span class="mi">6</span> <span class="o">|</span> <span class="mi">8</span> <span class="o">|</span> <span class="mi">10</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">"old"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+This same syntax works with strings and other types.
+</p>
+</li>
+<li>Accessing the value of the default case in match:
+<div class="highlight"><pre><span></span><span class="n">i</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="mi">0</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">"1"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="mi">1</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">"2"</span><span class="o">)</span>
+  <span class="k">case</span> <span class="n">others</span> <span class="k">=&gt;</span> <span class="n">println</span> <span class="o">(</span><span class="s">"you give me : "</span><span class="o">+</span> <span class="n">others</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>Instead of using a <code>_</code> <b>wildcard</b> character, assign a variable name to
+the default case.
+</li>
+<li>It is important to provide a default match, otherwise a
+<b>MatchError</b> will be raised.
+</li>
+</ul>
+</li>
+<li>Sequence patterns in match:
+<div class="highlight"><pre><span></span><span class="n">x</span> <span class="k">match</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="nc">List</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="k">_</span><span class="o">,</span> <span class="k">_</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="s">"a three element list with 0 as the first element"</span>
+  <span class="k">case</span> <span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="k">_</span><span class="o">*)</span> <span class="k">=&gt;</span> <span class="s">"a list begining with 1, having any number of elements"</span>
+  <span class="k">case</span> <span class="nc">Vector</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="k">_</span><span class="o">*)</span> <span class="k">=&gt;</span> <span class="s">"a vector begining with 1, having any number of elements"</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Adding variable patterns, to assign the variable to the matched
+pattern value:
+<div class="highlight"><pre><span></span><span class="k">case</span> <span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="o">=&gt;</span> <span class="s">s"it is a list: </span><span class="si">$list</span><span class="s">"</span>
+<span class="c1">//or</span>
+<span class="k">case</span> <span class="n">list</span> <span class="k">@</span> <span class="nc">List</span> <span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="k">_</span><span class="o">*)</span> <span class="k">=&gt;</span> <span class="s">s"also a list: </span><span class="si">$list</span><span class="s">"</span>
+<span class="c1">//</span>
+<span class="k">case</span> <span class="n">x</span> <span class="k">@</span> <span class="nc">Some</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="s">s"</span><span class="si">$x</span><span class="s">"</span>  <span class="c1">//same as below to get the value.</span>
+<span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="n">x</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="s">s"</span><span class="si">$x</span><span class="s">"</span>
+<span class="k">case</span> <span class="nc">Some</span><span class="o">(</span><span class="k">_</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="s">"got Some some"</span> <span class="c1">//work but can't access the Some</span>
+</pre></div>
+</li>
+<li>Type parameter cannot be matched because of type erasure.
+</li>
+<li>List in a Match Expression:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">listToString</span><span class="o">(</span><span class="n">list</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="n">list</span> <span class="k">match</span><span class="o">{</span>
+  <span class="k">case</span> <span class="n">s</span> <span class="o">::</span> <span class="n">rest</span> <span class="k">=&gt;</span> <span class="n">s</span> <span class="o">+</span> <span class="s">" "</span> <span class="o">+</span> <span class="n">listToString</span><span class="o">(</span><span class="n">rest</span><span class="o">)</span>
+  <span class="k">case</span> <span class="nc">Nil</span> <span class="k">=&gt;</span> <span class="s">""</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>Don't forget to handle the <code>Nil</code> case, or you will get an MatchError
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-3-3" class="outline-4">
+<h4 id="sec-9-3-3">Try and catch</h4>
+<div class="outline-text-4" id="text-9-3-3">
+<ul class="org-ul">
+<li>Declaring a variable vefore using it:
+<ul class="org-ul">
+<li>In general, declare your field as an Option before the try/catch
+block then create a Some inside the try clause.
+</li>
+<li>Forget about the existence of <code>null</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-9-4" class="outline-3">
+<h3 id="sec-9-4">Class, Object and Trait</h3>
+<div class="outline-text-3" id="text-9-4">
+<ul class="org-ul">
+<li>When to use an abstract class.
+<ul class="org-ul">
+<li>You want to create a base class that requires constructor
+arguments. Traits don't allow constructor parameters.
+</li>
+<li>The code will be called from Java code.
+</li>
+</ul>
+</li>
+<li>Case class generates a <code>copy</code> method and can be used as:
+<div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Employee</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">loc</span><span class="k">:</span> <span class="kt">String</span><span class="o">,</span> <span class="n">role</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">fred</span> <span class="k">=</span> <span class="nc">Employee</span><span class="o">(</span><span class="s">"Fred"</span><span class="o">,</span> <span class="s">"Anchorage"</span><span class="o">,</span> <span class="s">"Salesman"</span><span class="o">)</span>
+<span class="k">val</span> <span class="n">joe</span> <span class="k">=</span> <span class="n">fred</span><span class="o">.</span><span class="n">copy</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"Joe"</span><span class="o">,</span> <span class="n">role</span><span class="o">=</span><span class="s">"Mechanic"</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>The concept of a "inner class" is different in Scala than in Java.
+<ul class="org-ul">
+<li>In Java, the inner classes are members of the enclosing <b>class</b>,
+</li>
+<li>In Scala, the inner classes are bound to the outer <b>object</b> instances.
+</li>
+</ul>
+</li>
+<li>Method scope is public by default, but can have:
+<ul class="org-ul">
+<li>Object-private scope
+</li>
+<li>Private
+</li>
+<li>Package
+</li>
+<li>Package-specific
+</li>
+<li>Protected
+</li>
+</ul>
+</li>
+<li>Tuples can be used in this way:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">getStockInfo</span> <span class="k">=</span> <span class="o">(</span><span class="s">"NFLX"</span><span class="o">,</span> <span class="mf">100.00</span><span class="o">)</span>
+<span class="k">val</span> <span class="o">(</span><span class="n">symbol</span><span class="o">,</span> <span class="n">currentPrice</span><span class="o">)</span> <span class="k">=</span> <span class="n">getStockInfo</span>
+</pre></div>
+</li>
+<li>Method takes Variable-Argument fields, to take zeor or more parameters:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">printAll</span><span class="o">(</span><span class="n">strings</span><span class="k">:</span> <span class="kt">String*</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">strings</span><span class="o">.</span><span class="n">foreach</span><span class="o">(</span><span class="n">println</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>use _* to adape a sequence
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">fruits</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="s">"apple"</span><span class="o">,</span> <span class="s">"banana"</span><span class="o">)</span>
+<span class="n">printAll</span><span class="o">(</span><span class="n">fruits</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>To declare a method can throw an exception, use the <code>@throws</code>
+  annotation.
+<div class="highlight"><pre><span></span><span class="nd">@throws</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">IOException</span><span class="o">])</span>
+<span class="nd">@throws</span><span class="o">(</span><span class="n">classOf</span><span class="o">[</span><span class="kt">Exception</span><span class="o">])</span>
+<span class="k">def</span> <span class="n">play</span> <span class="o">{</span>
+  <span class="c1">//exception throwing code here</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>The <code>@throws</code> is the Scala way of providing the throws method
+signature to Java consumers.
+</li>
+<li>Whether the comsumers are using Scala or Java, it is a good
+practise to declare the Exceptions you are throwing in the code.
+</li>
+</ul>
+</li>
+<li>If your class can be extended, specify <b>this.type</b> as the return
+type of fluent style methods.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">setFirstName</span><span class="o">(</span><span class="n">firstName</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span><span class="k">:</span> <span class="kt">this.</span><span class="k">type</span> <span class="o">=</span> <span class="o">{</span>
+  <span class="n">fname</span> <span class="k">=</span> <span class="n">firstName</span>
+  <span class="k">this</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Import can be placed almost anywhere inside a program to limit the
+scope of the import.
+</li>
+<li>It is possible to limit which classes can use a Trait by
+inheritance:
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">StarfleetComponent</span>
+<span class="k">trait</span> <span class="nc">WarpCore</span> <span class="k">extends</span> <span class="nc">StarfleetComponent</span>
+</pre></div>
+<ul class="org-ul">
+<li>With the <code>extends</code> keyword, the Trait can only be mixed into
+classes that extend the type.
+</li>
+<li>As long as a class, and a trait <b>share the same superclass</b>, the
+code will compile.
+</li>
+</ul>
+</li>
+<li>Another way of the limiting:
+<div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">MyTrait</span> <span class="o">{</span>
+  <span class="k">this:</span> <span class="kt">BaseType</span> <span class="o">=&gt;</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>This will make <code>MyTrait</code> can only be mixed into a class that is a
+subclass of a type named <code>BaseType</code>.
+</li>
+<li>This is refered as <b>self type</b>
+</li>
+<li>It is also possbile to require multiple other types.
+<div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">WarpCore</span> <span class="o">{</span>
+  <span class="k">this:</span> <span class="kt">Starship</span> <span class="kt">with</span> <span class="kt">WarpCoreEjector</span> <span class="kt">with</span> <span class="kt">FireExtinguisher</span> <span class="o">=&gt;</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Similarily, you can allow a trait to be mixed into a type that has a
+method(or multiple methods) with given signatures. This is known as
+<b>structure type</b>
+<div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">WarpCore</span> <span class="o">{</span>
+  <span class="k">this:</span> <span class="o">{</span>
+     <span class="kt">def</span> <span class="kt">ejectWarpCore</span><span class="o">(</span><span class="kt">password:</span> <span class="kt">String</span><span class="o">)</span> <span class="kt">:</span> <span class="kt">Boolean</span>
+     <span class="kt">def</span> <span class="kt">startWarpCore:</span> <span class="kt">Unit</span>
+  <span class="o">}</span> <span class="k">=&gt;</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>It is possbile to add trait to an object instance when the object is created.
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DavidBanner</span>
+<span class="k">trait</span> <span class="nc">Angry</span> <span class="o">{</span>
+  <span class="n">println</span><span class="o">(</span><span class="s">"you don't like me"</span><span class="o">)</span>
+<span class="o">}</span>
+<span class="k">object</span> <span class="nc">Test</span> <span class="k">extends</span> <span class="nc">App</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">hulk</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">DavidBanner</span> <span class="k">with</span> <span class="nc">Angry</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+<p>
+*
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-9-5" class="outline-3">
+<h3 id="sec-9-5">Functional Programming</h3>
+<div class="outline-text-3" id="text-9-5">
+<ul class="org-ul">
+<li>Function Literals:
+<ul class="org-ul">
+<li>Scala let you use the <code>_</code> wildcard instead of a variable name when
+the parameter appears only once in your function.
+</li>
+<li>If a function literal consists of <b>one statement</b> that takes a
+single argument, you need not explicitly name and specify the
+argument.
+</li>
+<li>Examples:
+<div class="highlight"><pre><span></span><span class="n">x</span><span class="o">.</span><span class="n">foreach</span> <span class="o">(</span><span class="n">i</span><span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="n">i</span><span class="o">))</span>
+<span class="c1">//same as</span>
+<span class="n">x</span><span class="o">.</span><span class="n">foreach</span> <span class="o">(</span><span class="n">println</span><span class="o">(</span><span class="k">_</span><span class="o">))</span>
+<span class="c1">//save as</span>
+<span class="n">x</span><span class="o">.</span><span class="n">foreach</span> <span class="o">(</span><span class="n">println</span><span class="o">)</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Function variables and values.
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">double</span> <span class="k">=</span> <span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=&gt;</span>  <span class="o">{</span><span class="n">i</span> <span class="o">*</span> <span class="mi">2</span><span class="o">}</span>
+<span class="n">double</span><span class="o">(</span><span class="mi">2</span><span class="o">)</span> <span class="c1">// 4</span>
+</pre></div>
+<ul class="org-ul">
+<li>The variable <code>double</code> is an instance of a function, known as a
+<code>function value</code>.
+</li>
+<li>The functio instance can be called just like calling a method.
+</li>
+</ul>
+</li>
+<li>Using a method like an anonymous function:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">modFunction</span> <span class="k">:</span> <span class="kt">Int</span><span class="o">=&gt;</span><span class="nc">Boolean</span> <span class="k">=</span> <span class="n">i</span><span class="k">=&gt;</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">def</span> <span class="n">modMethod</span><span class="o">(</span><span class="n">i</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span><span class="mi">0</span>
+<span class="n">list</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">modMethod</span><span class="o">)</span>
+<span class="n">list</span><span class="o">.</span><span class="n">filter</span><span class="o">(</span><span class="n">modFunction</span><span class="o">)</span>
+</pre></div>
+<ul class="org-ul">
+<li>At a coding level, a <code>modMethod</code> is a <code>method</code> defined in a class.
+</li>
+<li>
+<code>modFunction</code> is a <code>function</code> that's assigned to a variable, in
+this case, it is an instance of the <code>Function1 trait</code>.
+</li>
+<li>Assign an existing function/method to a function variable.
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">scala</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span> <span class="k">_</span>
+<span class="c1">//or</span>
+<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">scala</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="o">(</span><span class="k">_</span><span class="o">)</span>
+<span class="c1">// c: Double =&gt; Double = &lt;function1&gt;</span>
+<span class="n">c</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span> <span class="c1">// 1.0</span>
+<span class="c1">//causing error, not assignable.</span>
+<span class="k">val</span> <span class="n">c</span> <span class="k">=</span> <span class="n">scala</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">cos</span>
+</pre></div>
+<ul class="org-ul">
+<li>This is called a partially applied function.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-6" class="outline-3">
+<h3 id="sec-9-6">Collections</h3>
+<div class="outline-text-3" id="text-9-6">
+<ul class="org-ul">
+<li>
+<code>Traversable</code> trait lets you traverse an entire collection in terms
+of a <code>foreach</code> method.
+</li>
+<li>
+<code>Iterable</code> trait defines an <code>iterator</code>, which lets you loop through
+a collection's element one at a time.
+<ul class="org-ul">
+<li>When using an iterator, the collection can be traversed only once,
+beacuse each element is consumed during the iteration process.
+</li>
+</ul>
+</li>
+<li>
+<code>Seq</code>
+<ul class="org-ul">
+<li>
+<code>IndexedSeq</code>: indicates the random access of elements is efficent.
+<ul class="org-ul">
+<li>By default, specifying that you want an IndexedSeq, a <code>Vector</code>
+      is created.
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="nc">IndexedSeq</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+<span class="c1">//x : IndexedSeq[Int] = Vector(1,2,3)</span>
+</pre></div>
+</li>
+<li>Implementation includes:
+<ul class="org-ul">
+<li>
+<code>StringBuilder</code>, <code>String</code>
+</li>
+<li>
+<code>Range</code>, <code>Vector</code>
+</li>
+<li>
+<code>Array</code>: backed by a Java array, its elements are mutable, but
+it can't change in size.
+</li>
+<li>
+<code>ArrayBuffer</code>, mutable.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<code>LinearSeq</code>: implied that the collection can be efficiently split
+into <code>head</code> and <code>tail</code> components.
+<ul class="org-ul">
+<li>Creating a <code>LinearSeq</code> creates a <code>List</code>
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">x</span> <span class="k">=</span> <span class="nc">LinearSeq</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+<span class="c1">//x : LinearSeq[Int] = List(1,2,3)</span>
+</pre></div>
+</li>
+<li>Implementation includes:
+<ul class="org-ul">
+<li>
+<code>List</code>, <code>LinkedList</code>, <code>MutableList</code>
+</li>
+<li>
+<code>Queue</code>, <code>Stack</code>, <code>Stream</code>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<code>Buffer</code> is are mutable <code>Seq</code>
+<ul class="org-ul">
+<li>Implemented by <code>ArrayBuffer</code>, <code>ListBuffer</code>.
+</li>
+</ul>
+</li>
+<li>Scala's general purpose sequential collections:
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="left">
+<col class="left">
+<col class="left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="left"> </th>
+<th scope="col" class="left">Immutable</th>
+<th scope="col" class="left">Mutable</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">Indexed</td>
+<td class="left">Vector</td>
+<td class="left">ArrayBuffer</td>
+</tr>
+<tr>
+<td class="left">Linear</td>
+<td class="left">List</td>
+<td class="left">ListBuffer</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<code>Map</code>:
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="left">
+<col class="left">
+<col class="left">
+<col class="left">
+</colgroup>
+<thead><tr>
+<th scope="col" class="left"> </th>
+<th scope="col" class="left">Immutable</th>
+<th scope="col" class="left">Mutable</th>
+<th scope="col" class="left">Descripton</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">HashMap</td>
+<td class="left">Y</td>
+<td class="left">Y</td>
+<td class="left"> </td>
+</tr>
+<tr>
+<td class="left">LinkedHashMap</td>
+<td class="left"> </td>
+<td class="left">Y</td>
+<td class="left">elements returned by the order of insertation</td>
+</tr>
+<tr>
+<td class="left">ListMap</td>
+<td class="left">Y</td>
+<td class="left">Y</td>
+<td class="left">map implemented using a list</td>
+</tr>
+<tr>
+<td class="left">Map</td>
+<td class="left">Y</td>
+<td class="left">Y</td>
+<td class="left">The base map trait.</td>
+</tr>
+<tr>
+<td class="left">SortedMap</td>
+<td class="left">Y</td>
+<td class="left"> </td>
+<td class="left">base trait</td>
+</tr>
+<tr>
+<td class="left">TreeMap</td>
+<td class="left">Y</td>
+<td class="left"> </td>
+<td class="left">a red-black tree implmentation.</td>
+</tr>
+<tr>
+<td class="left">WeakHashMap</td>
+<td class="left"> </td>
+<td class="left">Y</td>
+<td class="left"> </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<code>Set</code>
+</li>
+<li>
+<code>Enumeration</code> : A finite collection of constant values.
+</li>
+<li>
+<code>Iterator</code> : isn't a collection but gives a way to access the
+elements in a collection.
+<ul class="org-ul">
+<li>defined many methods in a normal collection class.
+</li>
+<li>can convert an iterator to a collection when needed.
+</li>
+</ul>
+</li>
+<li>Strict and lazy collections
+<ul class="org-ul">
+<li>A <b>transformer method</b> is a method that constructs a new
+collection from an existing collection.
+<ul class="org-ul">
+<li>map, filter, reverse, etc.
+</li>
+</ul>
+</li>
+<li>In a <code>strict</code> collection, memory for the elements is allocated
+immediately, and all of its elements are immediately evaluated
+when a transformer method is invoked.
+</li>
+<li>In a <code>lazy</code> collection, memory for the elements is not allocated
+immediately, and transformer methods do not construct new elements
+until they are demanded.
+</li>
+<li>All of the collection classes except <code>Stream</code> are strict.
+</li>
+<li>Other collection classes can be converted to a lazy collection by
+creating a <code>view</code> on the collection.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-9-6-1" class="outline-4">
+<h4 id="sec-9-6-1">Seq implementation: Vector and ArrayBuffer</h4>
+<div class="outline-text-4" id="text-9-6-1">
+<ul class="org-ul">
+<li>Make <code>Vector</code> the "Go to" Immutable sequence: fast, general-purpose,
+immutable, sequential collection type.
+</li>
+<li>Make <code>ArrayBuffer</code> the "Go to" Mutable sequence.
+</li>
+<li>Use <code>ListBuffer</code> if you need a mutable sequential collection that
+works more like a List, i.e., a linear sequence rather than an
+indexed sequence).
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-6-2" class="outline-4">
+<h4 id="sec-9-6-2">Loop counters</h4>
+<div class="outline-text-4" id="text-9-6-2">
+<ul class="org-ul">
+<li>Using <code>zipWithIndex</code> or <code>zip</code> to create Loop counters.
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">days</span> <span class="k">=</span> <span class="nc">Arrays</span><span class="o">(</span><span class="s">"Sunday"</span><span class="o">,</span> <span class="s">"Monday"</span><span class="o">,</span> <span class="s">"Tuesday"</span><span class="o">,</span> <span class="s">"Wednesday"</span><span class="o">,</span>
+  <span class="s">"Thursday"</span><span class="o">,</span> <span class="s">"Friday"</span><span class="o">,</span> <span class="s">"Saturday"</span><span class="o">)</span>
+<span class="n">days</span><span class="o">.</span><span class="n">zipWithIndex</span><span class="o">.</span><span class="n">foreach</span> <span class="o">{</span>
+  <span class="k">case</span> <span class="o">(</span><span class="n">day</span><span class="o">,</span> <span class="n">count</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">println</span><span class="o">(</span><span class="s">"$count is $day"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>When using <code>zipWithIndex</code>, the counter always starts at 0.
+</li>
+<li>Can also use <code>zip</code> method with a <code>Stream</code> to create a counter with a
+starting value:
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="o">((</span><span class="n">day</span><span class="o">,</span> <span class="n">count</span><span class="o">)</span> <span class="k">&lt;-</span> <span class="n">days</span><span class="o">.</span><span class="n">zip</span><span class="o">(</span><span class="nc">Stream</span> <span class="n">from</span> <span class="mi">1</span><span class="o">))</span> <span class="o">{</span>
+  <span class="n">println</span><span class="o">(</span><span class="s">s"day </span><span class="si">$count</span><span class="s"> is </span><span class="si">$day</span><span class="s">"</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-6-3" class="outline-4">
+<h4 id="sec-9-6-3">Iterators</h4>
+<div class="outline-text-4" id="text-9-6-3">
+<ul class="org-ul">
+<li>An iterator isn't a collection; instead, it gives you a way to
+access the elements in a collection, one by one.
+<ul class="org-ul">
+<li>
+<code>next()</code> : throw <code>NoSuchElementException</code> when no more element.
+</li>
+<li>
+<code>hasNext()</code>
+</li>
+</ul>
+</li>
+<li>An important part of using an iterator is knowing that it is
+<b>exhausted</b> after you use it.
+</li>
+<li>As you access each element, you <b>mutate</b> the iterator, and the
+previous element is discarded.
+</li>
+<li>Can convert to a collection when needed:
+<div class="highlight"><pre><span></span><span class="k">val</span> <span class="n">it</span> <span class="k">=</span> <span class="nc">Iterator</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>
+<span class="n">it</span><span class="o">.</span><span class="n">toArray</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-6-4" class="outline-4">
+<h4 id="sec-9-6-4">Splitting sequences into subset</h4>
+<div class="outline-text-4" id="text-9-6-4">
+<ul class="org-ul">
+<li>
+<code>groupBy</code> create a Map
+</li>
+<li>
+<code>partition</code>
+</li>
+<li>
+<code>span(p)</code> : the longest prefix whose elements satisfy <code>p</code>
+</li>
+<li>
+<code>splitAt(i: Int)</code>
+</li>
+<li>
+<code>sliding(size, step)</code> : works by passing a "sliding window" over the
+original sequence, returning the sequence of a length given by
+<code>size</code>. The <code>step</code> lets you skip over elements.
+</li>
+<li>
+<code>unzip</code> is a handy companion to partition.
+<ul class="org-ul">
+<li>Partition divides a traversable into two traversables by a boolean predicate.
+</li>
+<li>Unzip divides a traversable into two by dividing each element into
+two parts (each becomes an element in one traversable).
+</li>
+<li>If an element is a Tuple2 then each tuple is divided into two
+otherwise a function is required to divide an element into two.
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="k">case</span> <span class="k">class</span> <span class="nc">Item</span><span class="o">(</span><span class="n">size</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">value</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span>
+<span class="nc">List</span><span class="o">(</span><span class="nc">Item</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">"bac"</span><span class="o">),</span> <span class="nc">Item</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">"bla"</span><span class="o">),</span> <span class="nc">Item</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">"bbb"</span><span class="o">)).</span><span class="n">unzip</span> <span class="o">{</span>
+  <span class="n">item</span><span class="k">=&gt;</span> <span class="o">(</span><span class="n">item</span><span class="o">.</span><span class="n">size</span><span class="o">,</span> <span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-6-5" class="outline-4">
+<h4 id="sec-9-6-5">
+<span class="todo TODO">TODO</span> 10.22. Merging Collections sequential</h4>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><a href="https://www.youtube.com/watch?v=Oij5V7LQJsA">What to leave implicit</a></h2>
+<div class="outline-text-2" id="text-10">
+<ul class="org-ul">
+<li>Traditional ways to express context
+<ul class="org-ul">
+<li>Globals, rigid if immutable, unsave if mutable.
+</li>
+<li>Monkey patching ??
+</li>
+<li>Dependency injection, at runtime (Srping, Guice), or with macros
+(MacWire, Scala framework).
+</li>
+<li>Cake pattern, close coupling + recursion.
+</li>
+</ul>
+</li>
+<li>Functional Way: parameterize all the things
+<ul class="org-ul">
+<li>No side effect
+</li>
+<li>type safe
+</li>
+<li>fine-grained control
+</li>
+<li>However:
+<ul class="org-ul">
+<li>sea of parameters,
+</li>
+<li>most of which hardly ever change
+</li>
+<li>repetitive, boring, prone to mistakes
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Implicits to help with the problems.
+<ul class="org-ul">
+<li>if there is one feature that makes Scala "Scala", it is implicit.
+</li>
+</ul>
+</li>
+<li>Implicits ground rules:
+<ul class="org-ul">
+<li>If you do not give an argument to an implicit parameter, one will
+be provided by the compiler.
+</li>
+<li>Eligible are all implicit values that are <b>visible</b> at the point
+of call.
+</li>
+<li>If there are more than one eligible candidate, the most specific
+one is chosen.
+</li>
+<li>If there is no unique most specific candidate, an *ambiguity
+error~ is reported by compiler.
+</li>
+</ul>
+</li>
+<li>Implicit conversions
+</li>
+<li>Implicit classes: shorthand for defining a new class and an implicit
+conversion into it.
+<div class="highlight"><pre><span></span><span class="k">implicit</span> <span class="k">class</span> <span class="nc">C</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">T</span><span class="o">)</span> <span class="o">{...}</span>
+<span class="c1">//is expands to a implicit conversion from T to C</span>
+<span class="k">class</span> <span class="nc">C</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">T</span><span class="o">)</span> <span class="o">{...}</span>
+<span class="k">implicit</span> <span class="k">def</span> <span class="n">C</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">T</span><span class="o">)</span> <span class="k">=</span> <span class="k">new</span> <span class="n">C</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>Implicits leverage what the compiler know about your code.
+<ul class="org-ul">
+<li>remove repetition and boilerplate.
+</li>
+<li>can hurt readability if taken too far.
+</li>
+</ul>
+</li>
+<li>Implicits Patterns
+<ul class="org-ul">
+<li>Extension methods: adding new methods to existing type.
+</li>
+<li>
+<b>Late Trait Implementation</b>, making existing classes implement new
+traits without changing their code. <i>It was the original reason
+for implicits in Scala</i>.
+<div class="highlight"><pre><span></span><span class="k">implicit</span> <span class="k">class</span> <span class="nc">StringDeco</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Ordered</span><span class="o">[</span><span class="kt">String</span><span class="o">]</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="o">&lt;</span> <span class="o">(</span><span class="n">other</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="o">???</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Implicit parameters: close the type as far as we can, using type
+safety to have finer grain control.
+<ul class="org-ul">
+<li>establish context
+<ul class="org-ul">
+<li>security checking with the current user
+</li>
+<li>set configurations
+</li>
+<li>inject dependencies
+</li>
+</ul>
+</li>
+<li>model capabilities
+</li>
+<li>implement type classes
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>
+Ref <a href="https://jazzy.id.au/2015/03/03/sbt-task-engine.html">https://jazzy.id.au/2015/03/03/sbt-task-engine.html</a>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11">SBT</h2>
+<div class="outline-text-2" id="text-11">
+</div>
+<div id="outline-container-sec-11-1" class="outline-3">
+<h3 id="sec-11-1">SBT as a Task Engine</h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li>SBT is a task engine.
+<ul class="org-ul">
+<li>A task may be dependent on other tasks
+</li>
+<li>Any task from any point in the build may be redifined.
+</li>
+<li>New tasks can be easily added.
+</li>
+<li>Similar to <b>make</b> and <b>ant</b>
+</li>
+</ul>
+</li>
+<li>SBT tasks produce an output value, and are able to consume the
+output value of the tasks they depend on.
+<ul class="org-ul">
+<li>whereas <b>make</b> and <b>ant</b> just modify the file system.
+</li>
+</ul>
+</li>
+<li>
+<code>inspect</code> command let you inspect a task. An example :
+<p class="verse">
+&gt; inspect sources<br>
+[info] Task: scala.collection.Seq[java.io.File]<br>
+[info] Description:<br>
+[info]  All sources, both managed and unmanaged.<br>
+[info] Provided by:<br>
+[info]  {<a href="file:///Users/jroper/sbt-fun/%7Dsbt-fun/compile:sources">file:///Users/jroper/sbt-fun/}sbt-fun/compile:sources</a><br>
+[info] Defined at:<br>
+[info]  (sbt.Defaults) Defaults.scala:188<br>
+[info] Dependencies:<br>
+[info]  compile:unmanagedSources<br>
+[info]  compile:managedSources<br>
+[info] Delegates:<br>
+[info]  compile:sources<br>
+[info]  *:sources<br>
+[info]  {.}/compile:sources<br>
+[info]  {.}/*:sources<br>
+[info]  <b><i>compile:sources<br>
+[info]  *</i></b>:sources<br>
+[info] Related:<br>
+[info]  test:sources<br></p>
+<ul class="org-ul">
+<li>
+<code>Task: scala.collection.Seq[java.io.File]</code> : it is a task that
+produces a sequence of files.
+</li>
+<li>
+<code>inspect tree sources</code> to inspect the whole tree of tasks.
+</li>
+</ul>
+</li>
+<li>
+<code>Setting</code> is a special kind of task
+<p class="verse">
+compile:scalaSource = src/main/scala<br></p>
+<ul class="org-ul">
+<li>
+<code>Setting</code> get executed once per <b>session</b>, when sbt is started.
+</li>
+<li>
+<code>Task</code> get executed once per <b>execution</b>.
+</li>
+<li>
+<code>Setting</code> can only depend on other settings, not <code>Task</code>.
+</li>
+<li>In general, they can be considered the same thing. <code>Setting</code> are
+just small optimization so that they don't have to be executed
+every time.
+</li>
+</ul>
+</li>
+<li>A task can be scoped, by <code>configuration</code>, <code>project</code> and <code>task</code>.
+<ul class="org-ul">
+<li>When a task depends on another task, it can depend on that task in
+a particular scope.
+</li>
+<li>The two main configuration scope are <code>comiple</code> and <code>test</code>.
+</li>
+<li>
+<code>sources</code> depends on <code>compile:managedSources</code>, it means it depends
+on <code>managedSources</code> in the <code>compile</code> scope.
+</li>
+<li>When you don't specify a scope, sbt will choose a default scope.
+</li>
+<li>We could do <code>inspect tree test:sources</code> to inspect the task in the
+specific scope.
+</li>
+<li>If the scope is <code>*</code>, it means it is an <b>unscoped</b> task/setting.
+</li>
+<li>As a sbt build can have multiple project, and each project can
+have its own set of settings. The tasks can be further scoped by
+the project name.
+<ul class="org-ul">
+<li>For example <code>sbt-fun/compile:surces</code> is the task in the
+<code>compile</code> scope from the <code>sbt-fun</code> project.
+</li>
+<li>
+<code>*/*/:excludeFilter</code> is a <b>global</b> or for the entire build, with
+no configuration scope, and no project scope.
+</li>
+</ul>
+</li>
+<li>Task can also be scoped by another task: same task key can be used
+and explicitly configured for many tasks.
+<ul class="org-ul">
+<li>syntax: <code>unmanagedSources::includeFilter</code>, means the task
+<code>includeFilter</code> is scoped to the <code>unmanagedSources</code> task.z
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Scope fallback: When a task declares a dependency, sbt will try and
+satisfy that dependency with the <b>most specific</b> task it has for it,
+but
+<ul class="org-ul">
+<li>if no task is defined at that specific scope, it will fallback
+to a <b>less specific</b> scope.
+</li>
+<li>The general approach that sbt takes in its predefined task
+dependency trees is to
+<ul class="org-ul">
+<li>depend on tasks at a very specific scope,
+</li>
+<li>but define them at the most general scope that makes sense,
+</li>
+<li>allowing tasks to be overridden in a blanket fashion, but at a
+very fine grained level when required.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>sbt tasks execution are <b>paralleled by default</b>.
+<ul class="org-ul">
+<li>Two tasks that have no dependency on each other can, and will be
+executed in parallel.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-11-2" class="outline-3">
+<h3 id="sec-11-2">Declarative DSL</h3>
+<div class="outline-text-3" id="text-11-2">
+<ul class="org-ul">
+<li>
+<code>TaskKey</code>: is a string (the name) and a type (what the task produce).
+<ul class="org-ul">
+<li>
+<code>sources</code> task has a name of ~"sources"~ and a type of <code>Seq[File]</code>
+</li>
+<li>Tasks key is uniquely defined by its <b>name</b>.
+</li>
+<li>Different Task keys with the same name but different type are not
+allowed.
+</li>
+<li>
+<code>SettingKey</code> is setting as in only executed once per session.
+</li>
+</ul>
+</li>
+<li>A <b>setting</b> as in a task declaration is
+<ul class="org-ul">
+<li>a <b>task or setting key</b>,
+</li>
+<li>potentially scoped,
+</li>
+<li>which some association behaviour.
+</li>
+</ul>
+</li>
+<li>Most of the settings are coming from sbt plugins.
+<ul class="org-ul">
+<li>
+<code>JvmPlugin</code> plugin defines all the settings necessary for building
+a Java or Scala program.
+</li>
+<li>Plugin settings are executed before the settings in your build
+file.
+</li>
+<li>Any settings declare in your build file will override the settings
+declared by the plugins.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/scala/" rel="tag">scala</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="next">
+                <a href="../reactive-stream/" rel="next" title="Reactive Streams">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:n.tesla@example.com">Warren Liu</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

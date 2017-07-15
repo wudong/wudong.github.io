@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about go)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/go.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:19:50 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Go In Action</title><link>https://example.com/posts/reading/go-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/go-in-action/#sec-1"&gt;Introducing Go&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/go-in-action/#sec-2"&gt;Go quick-start&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/go-in-action/#sec-3"&gt;Package and tooling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/go-in-action/#sec-4"&gt;Arrays, slices, and maps&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Introducing Go&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;Goroutines&lt;/b&gt; are functions that run concurrently with other
+goroutines, including the entry point of your program. In other
+languages, you 'd use threads to accomplish the same thing, but in
+Go, &lt;span class="underline"&gt;many goroutines execute on &lt;b&gt;single thread&lt;/b&gt;&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;In Go, the net/http library has concurrentcy build in using
+goroutings. Each inbound request automatically runs on its own
+goroute.
+&lt;/li&gt;
+&lt;li&gt;Goroutines use less memory that threads and Go runtime will
+automatically schedule the execution of goroutines against a set of
+configured logical processors. &lt;span class="underline"&gt;Each &lt;b&gt;logical processor&lt;/b&gt; is bound to a
+single OS thread&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Channels&lt;/b&gt; are data structures that enable safe data communication
+between goroutines.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Channels&lt;/b&gt; help to enforce the pattern that only one goroutine
+should modify the data at any time.
+&lt;/li&gt;
+&lt;li&gt;It is imortant tonote that channels don't provide data access
+protection between goroutines. If copies of data are exchanged
+through a channel, each goroutine has its own copy and can make any
+changes to that data safely. When pointers to the data are being
+exchanged, each goroutine still need to be synchronized if reads and
+writes will be performed by different goroutines.
+&lt;/li&gt;
+&lt;li&gt;Go developers embed types to reuse functionality in a design pattern
+called &lt;b&gt;composition&lt;/b&gt;. Other languages use composition, but it is
+often deeply tired to inheritance, which make it complicated and
+difficult to use.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Go quick-start&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;If you &lt;code&gt;main&lt;/code&gt; function doesn't exist in package &lt;code&gt;main&lt;/code&gt;, the build
+tools won't produce an executable.
+&lt;/li&gt;
+&lt;li&gt;All code files in a folder must use the same package name, and it is
+common practise to name the package after the folder. A &lt;span class="underline"&gt;package
+defines a unit of compiled code&lt;/span&gt;, and each unit of code represents a package.
+&lt;/li&gt;
+&lt;li&gt;The Go compiler won't let you declare a package to be imported if it
+is not used. The &lt;b&gt;blank identifier&lt;/b&gt; allow the compiler to accept the
+import and call any &lt;code&gt;init&lt;/code&gt; functions that can be found in the
+different code files within that package.
+&lt;/li&gt;
+&lt;li&gt;All &lt;code&gt;init&lt;/code&gt; functions in any code file that are part of the program
+will get called before the &lt;code&gt;main&lt;/code&gt; function.
+&lt;/li&gt;
+&lt;li&gt;By default the logger is set to write to stderr device, however this
+can be changed with:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;log.SetOutput(os.Stdout)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The compiler will always look for the packages you import at the
+locations referenced by the &lt;code&gt;GOROOT&lt;/code&gt; and &lt;code&gt;GOPATH&lt;/code&gt; environment
+variables.
+&lt;/li&gt;
+&lt;li&gt;Variables located outside the scope of any function are considered
+package-level variable.
+&lt;/li&gt;
+&lt;li&gt;Identifiers start with a captial letter are exported, while
+identifiers start with a lowercase letter are unexported.
+&lt;/li&gt;
+&lt;li&gt;In Go, all variables are initialized to their zero value. For
+pointers, the zero value is &lt;code&gt;nil&lt;/code&gt;. For reference types, their
+underlying data structures are initialized to their zero values.
+&lt;/li&gt;
+&lt;li&gt;The short variable declaration operator &lt;code&gt;:=&lt;/code&gt; is used to both declare
+and initialize variables at the same time. The type of each value
+being returned is used by the compiler to determine the type of each
+variable, respectively.
+&lt;/li&gt;
+&lt;li&gt;A good rule of thumb when declaring variables is to use keyword
+&lt;code&gt;var&lt;/code&gt; when declaring variables that will be initialized to their
+zero value, and to use the short variable declaration operator when
+providing extra initialization or making a function call.
+&lt;/li&gt;
+&lt;li&gt;In Go, once the &lt;code&gt;main&lt;/code&gt; function returns, the program terminates. Any
+goroutines that are still running at this time will also be
+terminated by the Go runtime.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WaitGroup&lt;/code&gt; from the &lt;code&gt;sync&lt;/code&gt; package is a great way to track when a
+goroutine is finished performing its work. A &lt;code&gt;WaitGroup&lt;/code&gt; is a
+counting semaphore.
+&lt;/li&gt;
+&lt;li&gt;The keyword &lt;code&gt;range&lt;/code&gt; can be used with arrays, strings, slices, maps
+and channels.
+&lt;/li&gt;
+&lt;li&gt;When use &lt;code&gt;for range&lt;/code&gt; to iterate over a slice, we get two values back
+on each iteration, the first is the index position, and the second
+is a &lt;b&gt;copy&lt;/b&gt; of the value in that element.
+&lt;/li&gt;
+&lt;li&gt;When you have function that returns multiple values, and you don't
+have a need for one, the blank identifier can be used to ignore
+those values:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for _, feed := range feeds {}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;When a key doesn't exist, the map will return the zero value for the
+type of value being stored in the map. When the key does exist, the
+map will return a &lt;b&gt;copy&lt;/b&gt; of the value for that key.
+&lt;/li&gt;
+&lt;li&gt;Go supports closures. The &lt;code&gt;anonymous&lt;/code&gt; function isn't given a copy of
+these variables; it has direct access to the same variables declared
+in the scope of outer functon.
+&lt;/li&gt;
+&lt;li&gt;Tag can be used to add meta data for struct fields:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;type Feed struct {
+	Name string `json: "site"`
+	URI string `json: "link"`
+	Type string `json: "type"`
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+The above example use tag to map a struct with a JSON document.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;The keyword &lt;code&gt;defer&lt;/code&gt; lets us write statement close to where the
+open occurs, which helps with readability and reducing bugs.
+&lt;/li&gt;
+&lt;li&gt;Empty interface:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func (dec *Decoder) Decode (v interface{}) error
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+This is a special type in Go, which allow &lt;code&gt;Decode&lt;/code&gt; method to accept
+any type of value.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;A name conventionin Go for interfaces: if the interface type
+contains only one method, the name of the interface ends with the
+&lt;code&gt;er&lt;/code&gt; suffix.
+&lt;/li&gt;
+&lt;li&gt;The use of a receiver with any function declaration declares a
+method that is bound to the specified reciever type.
+&lt;/li&gt;
+&lt;li&gt;Whether we use a value or pointer of the receiver type to make the
+method call, the compiler will reference or deference the value if
+necessary to support the call.
+&lt;/li&gt;
+&lt;li&gt;It is best practice to declare methods using pointer receivers,
+since many of the methods you implements need to manipulate the
+state of the value being used to make the method call.
+&lt;/li&gt;
+&lt;li&gt;Interface type bcan be assigned to either value or pointer:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var dm defaultMatcher
+//Assign value to interface type Matcher
+var matcher1 Matcher = dm
+//Can also assign the interface type to a pointer
+var matcher2 Matcher = &amp;amp;dm
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Methods declared with pointer receivers can only be called by
+interface type values that contain pointers. Methods declared with
+value receivers can be called by interface type that contain both
+values and points.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Package and tooling&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Go programs are organized into groups of files called packages, so
+that &lt;b&gt;code&lt;/b&gt; has the abitity to be included into other projects as
+&lt;span class="underline"&gt;smaller resuable pieces&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;You cannot have multiple packages in the same directory, nor split a
+package across multiple directories.
+&lt;/li&gt;
+&lt;li&gt;Unique package name is not required, because package is imported
+using its full path. The package name is used as the default name
+when it is imported, but it can be overridden:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;import (
+	"fmt"
+	myfmt "mylib/fmt"
+)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Arrays, slices, and maps&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;When an array is initialized, each individual element that belongs
+to the array is initialized to its zero value.
+&lt;/li&gt;
+&lt;li&gt;Array literal:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;array := [5]int {1,2,3,4,5}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Declaring an array with Go calculating size:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;array := [...]int{1,2,3,4,5}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Declaring an array initializing specific elements:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;array := [5]int{1: 1, 2: 2}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;An array is a value in Gl. This means you can use it in an
+assignment operation. The variable name denotes the entire array,
+and can be assigned to other arrays of the same type:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var array1 [5]string
+array2 :=[5]string{"a", "b", "c", "d", "e"}
+//copy the values from array2 into array1.
+array1=array2
+//after the copy the two array is identical.
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The type of an array variable includes both the length and the type
+of data. Only arrays of the same type can be assigned.
+&lt;/li&gt;
+&lt;li&gt;Arrays are &lt;b&gt;always&lt;/b&gt; one-dimensional, but they can be composed to
+create multidimensinal arrays.
+&lt;/li&gt;
+&lt;li&gt;Passing an array between functions can be expensive because array is
+a value and the whole array will be copied.
+&lt;/li&gt;
+&lt;li&gt;An idiomatic way of creating a slice is to use a slice
+literal. Similar to creating an array, excpet don't specify a value
+inside of the [] operator. Remember: &lt;span class="underline"&gt;If a value is specified inside
+the [] operator, an array is created, otherwise, a slice is created&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;A &lt;code&gt;nil&lt;/code&gt; slice represent a slice that doesn't exist:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;//create a nil slice of integres.
+var slice []int
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;An empty slice is different from &lt;code&gt;nil&lt;/code&gt; slice in that its array
+pointer is an empty array, instead of a &lt;code&gt;nil&lt;/code&gt;. It is used to
+represents an empty collection.
+&lt;/li&gt;
+&lt;li&gt;Taking the slice of a slice:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;slice := []int{1,2,3,4,5}
+//create a new slice
+newSlice := slice[1:3]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;A slice can only access indexes up to its length. Accessing outside
+its length will cause a runtime exception.
+&lt;/li&gt;
+&lt;li&gt;By set the capacity of a new slice to be the same as the length, you
+can force the first append operation to detach the new slice from
+the underlying array, which make it safe to change.
+&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;append&lt;/code&gt; is a variadic function. This means you can pass
+multiple values to be appended. If you use the &lt;code&gt;...&lt;/code&gt; operator, you
+can append all the elements of one slice into another:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;s1 := []int{1,2}
+s2 := []int{3,4}
+//s3 : [1,2,3,4]
+s3 := append(s1, s2...)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;It is important to know that &lt;code&gt;range&lt;/code&gt; is making a copy of the value,
+not a reference.
+&lt;/li&gt;
+&lt;li&gt;Passing a slice between two functions requires nothing more than
+passing the slice by value.
+&lt;/li&gt;
+&lt;li&gt;Maps are collections and can be iterated. But maps are unordered
+collections. There is no way to predict the order in which the
+key/value pairs will be returned. &lt;span class="underline"&gt;Every iteration over a map could
+return a different order&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>go</category><guid>https://example.com/posts/reading/go-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Introducing Go</title><link>https://example.com/posts/reading/introducing-go/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-1"&gt;Chapter 1. Getting started&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-2"&gt;Chapter 2. Types&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-3"&gt;Chapter 3. Variables&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-4"&gt;Chapter 4. Control Structures&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-5"&gt;Chapter 5. Arrays, Slices, and Maps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-6"&gt;Chapter 6: Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/introducing-go/#sec-7"&gt;Chapter 7: Structs and Interfaces&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Chapter 1. Getting started&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The Go toolset uses an environment variable called &lt;code&gt;GOPATH&lt;/code&gt; to find
+Go source code.
+&lt;/li&gt;
+&lt;li&gt;Find document for certain function using &lt;code&gt;godoc&lt;/code&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;godoc fmt Println
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+w  will get document for function &lt;code&gt;Println&lt;/code&gt; in package &lt;code&gt;fmt&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Chapter 2. Types&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Go is a statically typed language. Variables have specific types and
+type cannot change.
+&lt;/li&gt;
+&lt;li&gt;Number Types
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Go’s integer types are &lt;code&gt;uint8&lt;/code&gt;, &lt;code&gt;uint16&lt;/code&gt;, &lt;code&gt;uint32&lt;/code&gt;, &lt;code&gt;uint64&lt;/code&gt;,
+&lt;code&gt;int8&lt;/code&gt;, &lt;code&gt;int16&lt;/code&gt;, &lt;code&gt;int32&lt;/code&gt;, and &lt;code&gt;int64&lt;/code&gt;.
+&lt;/li&gt;
+&lt;li&gt;There are also three machine dependent integer types: &lt;code&gt;uint&lt;/code&gt;, &lt;code&gt;int&lt;/code&gt;,
+and &lt;code&gt;uintptr&lt;/code&gt;. They are machine dependent because their size depends
+on the type of architecture you are using.
+&lt;/li&gt;
+&lt;li&gt;Go has two floating-point types: &lt;code&gt;float32&lt;/code&gt; and &lt;code&gt;float64&lt;/code&gt; (also often
+referred to as single precision and double precision,
+respectively).
+&lt;/li&gt;
+&lt;li&gt;For complex numbers, it has: &lt;code&gt;complex64&lt;/code&gt; and &lt;code&gt;complex128&lt;/code&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;String
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;String literals can double quotes "Hello, World" or backticks
+`Hello, World`. Double-quoted strings &lt;b&gt;cannot&lt;/b&gt; contain newlines and
+they allow special escape sequences.
+&lt;/li&gt;
+&lt;li&gt;Common String operations:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Length: &lt;code&gt;len("Hello World")&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Index: ~"Hello World"[​1]~
+&lt;/li&gt;
+&lt;li&gt;Concat: ~"Hello " + "World"~
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Boolean type
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Chapter 3. Variables&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;constant: ~const x string = "Hello, World"~
+&lt;/li&gt;
+&lt;li&gt;Define multiple variables:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var (
+  a = 5
+  b = 10
+  c = 11
+)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Chapter 4. Control Structures&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;for loop:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;i = 0
+for i&amp;lt;=10 {}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for i=0;i&amp;lt;=10;i++ {}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;switch:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;switch i {
+    case 0: ...
+    case 1: ...
+    default: ...
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Chapter 5. Arrays, Slices, and Maps&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Define and using array:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func main() {
+	var x [5]int
+	x[40]=10
+	var total int = 0;
+	for i=0; i&amp;lt;5; i++{
+		total+=x[i]
+	}
+	fmt.Println(total / len(x))
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;A special form of for loop allow:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;for _, value:=range x {
+	total +=value
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+A single underscore (_) is used to tell the compiler it(the iterator variable)
+is not needed in the loop
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Shortcut to define array:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;x:=[3]float64{98, 99, 199}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+or in multiple lines:
+&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;x := [4]float64 {
+	98,
+	99,
+	100,
+	102,
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Note that the extra trailing ',' in the last line is required by Go.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Array in Go is fix length, and is actually in the type declaration. Usually
+slice is used, which is a type built on top of an array.
+&lt;/li&gt;
+&lt;li&gt;A slice is a segment of an array. Its length is allowed to change.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var x []float64
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To create a slice, using the &lt;code&gt;make&lt;/code&gt; function:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;x := make([]float64, 5)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+This creates a slice that is associated with an underlying float64 array of
+length 5. Slices are always associated with some array, they can be smaller
+but not longer than the associated array.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Slice can also be created using &lt;code&gt;[low : high]&lt;/code&gt; expression:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;arr := [5]float64 {1,2,3,4,5}
+x := arr[0:5]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+In this expression, both 'low' and 'high' can be omitted.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Map
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var x map[string]int
+x := make(map[string]int)
+
+x["key"] = 10
+fmt.Println(x)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;length of map can change as adding new item to it.
+&lt;/li&gt;
+&lt;li&gt;maps are not sequential.
+&lt;/li&gt;
+&lt;li&gt;can be deleted with &lt;code&gt;delete&lt;/code&gt; function: &lt;code&gt;delete(x,1)&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;a map returns the zero value for the value type when the key doesn't exist.
+&lt;/li&gt;
+&lt;li&gt;It can also return two values like:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;name, ok := elements["Un"]
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+in which, the &lt;code&gt;name&lt;/code&gt; is the value returned, and &lt;code&gt;ok&lt;/code&gt; tells whether the
+lookup is successful.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;A common pattern in go looks like:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;if name, ok := elements["Un"]; ok{
+	fmt.Println(name, ok)
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Chapter 6: Functions&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Function's return type can be named:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func f2() (r int){
+	r=1
+	return
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Function can return multiple value:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func f() (int, int) {
+	return 5, 6
+}
+func main() {
+	x,y:=f()
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Multiple values are often used to return an error value along with the
+result &lt;code&gt;(x, err := f())&lt;/code&gt;, or a boolean to indicate success &lt;code&gt;(x, ok := f())&lt;/code&gt;.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Variadic Functions:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func add(args ...int) int {
+	total := 0
+	for _, v := range args {
+		total += v
+	}
+	return total
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+in this example &lt;code&gt;add&lt;/code&gt; is allowed to be called with multiple
+integers, this parameter is known as a &lt;b&gt;variadic&lt;/b&gt; parameter.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;It is possible to create functions inside function, which creates
+&lt;b&gt;Closure&lt;/b&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func main() {
+	add := func(x, y int) int {
+		  return x+y
+		}
+	fmt.Println(add(1,1))
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+When you create a local function like this, it also has access to
+other local variables.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;defer&lt;/code&gt;: a special statement that schedules a function call to be run
+after the function completes. It basically moves the call to the end
+of the function. It is often used when some resource need to be
+cleaned in some way:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;f, _ := os.Open(filename)
+defer f.Close()
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It keeps the Close() call to Open() so it is easier to understand.
+&lt;/li&gt;
+&lt;li&gt;If there are multiple return statement, the Close() will happen
+before both of them.
+&lt;/li&gt;
+&lt;li&gt;Deferred function will run even if a run-time panic occurs.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;panic&lt;/code&gt; function is used to create a run-time error; we can handle a
+run-time panic with the build-in &lt;code&gt;recover&lt;/code&gt; function.
+&lt;/li&gt;
+&lt;li&gt;recover stops the panic and returns the value that was passed to the
+call to panic.
+&lt;/li&gt;
+&lt;li&gt;Here is the example to use &lt;code&gt;recover&lt;/code&gt; when having &lt;code&gt;panic&lt;/code&gt;:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;func main() {
+	defer func() {
+		str := recover()
+		fmt.Println(str)
+	}()
+	panic("PANIC")
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;new&lt;/code&gt; takes a type as an argument, allocates enough memory to fit a
+value of that type, and returns a pointer to it. Go is
+garbage-collected so no need to &lt;code&gt;free&lt;/code&gt; explicitly.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Chapter 7: Structs and Interfaces&lt;/h2&gt;
+&lt;/div&gt;</description><category>go</category><guid>https://example.com/posts/reading/introducing-go/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

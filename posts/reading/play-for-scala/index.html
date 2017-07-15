@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Play for Scala | Warren Liu</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="https://example.com/posts/reading/play-for-scala/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Warren Liu">
+<link rel="prev" href="../programming-in-scala/" title="Programming in scala" type="text/html">
+<link rel="next" href="../patterns-enterprise-application-architecture/" title="Patterns of Enterprise Application Architecture" type="text/html">
+<meta property="og:site_name" content="Warren Liu">
+<meta property="og:title" content="Play for Scala">
+<meta property="og:url" content="https://example.com/posts/reading/play-for-scala/">
+<meta property="og:description" content="Table of Contents
+
+
+Play for Scala
+Protecting against Cross Site Request Forgery
+Proxy settings with a front end HTTP server
+Application configuration.
+Using Slick for database access
+Binding HTTP dat">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-07-15T00:00:00+01:00">
+<meta property="article:tag" content="play">
+<meta property="article:tag" content="scala">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://example.com/">
+
+                <span id="blog-title">Warren Liu</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Play for Scala</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Warren Liu
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" itemprop="datePublished" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Play for Scala</a></li>
+<li><a href="#sec-2">Protecting against Cross Site Request Forgery</a></li>
+<li><a href="#sec-3">Proxy settings with a front end HTTP server</a></li>
+<li><a href="#sec-4">Application configuration.</a></li>
+<li><a href="#sec-5">Using Slick for database access</a></li>
+<li><a href="#sec-6">Binding HTTP data to Scala objects</a></li>
+<li><a href="#sec-7">Static and compiled assets</a></li>
+<li><a href="#sec-8">Action composition</a></li>
+<li><a href="#sec-9">Routes</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Play for Scala</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Defining Route that takes a HTTP request parameter:
+<ul class="org-ul">
+<li>To take a request like <code>http://localhost:9000/hellp?n=World</code>
+</li>
+<li>In the route:
+<p class="verse">
+GET  /hello   controllers.Application.hello(n: String)<br></p>
+</li>
+<li>In the controller
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">hello</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+  <span class="nc">Ok</span><span class="o">(</span><span class="s">"hello "</span> <span class="o">+</span> <span class="n">name</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>Not that the query string parameter n patches the parameter name
+declared in the routes file, not in the hello action method
+parameters.
+</li>
+</ul>
+</li>
+<li>A template is a Scala function definition that Play will convert to
+a normal Scala code and compile.
+</li>
+<li>To render a view, with the view file name as <code>hello.scala.html</code> in
+the views directory:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">hello</span><span class="o">(</span><span class="n">name</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+  <span class="nc">Ok</span><span class="o">(</span><span class="n">views</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">hello</span><span class="o">(</span><span class="n">name</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>To redirect:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">index</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+  <span class="nc">Redirect</span><span class="o">(</span><span class="n">routes</span><span class="o">.</span><span class="nc">Products</span><span class="o">.</span><span class="n">list</span><span class="o">())</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>To insert content from another template:
+<div class="highlight"><pre><span></span>&lt;div class="container"&gt;
+ @content
+ @debug()
+&lt;/div&gt;
+</pre></div>
+<p>
+Notice the differene between <code>@content</code> and <code>@debug()</code>, while
+<code>content</code> is a variable, and <code>debug</code> is the template name to be
+included.
+</p>
+</li>
+<li>The flash scope:
+<ul class="org-ul">
+<li>Most modern frameworks have a flash scope.
+</li>
+<li>Like the session scope, it is meant to keep data, related to the
+client, outside of the context of a single request.
+</li>
+<li>The difference is that the flash scope is kept for the next
+request only, after which it is removed.
+</li>
+<li>Play implements this in the form of a cookie that is cleared on
+every response, except for the response that sets it.
+</li>
+<li>It is useful to use flash scope to show one-time messages to the
+user.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Protecting against Cross Site Request Forgery</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Cross Site Request Forgery (CSRF) is a security exploit where an
+attacker tricks a victims browser into making a request using the
+victims <b>session</b>.
+</li>
+<li>Since the session token is send with every request, if an attacker
+can coerce the victims browser to make a request on their behalf,
+the attacker can make request on the user's behalf.
+</li>
+<li>By default, Play will require a CSRF check when all of the following
+are true:
+<ul class="org-ul">
+<li>The request method is not GET, HEAD, or OPTIONS.
+</li>
+<li>The request has one or more Cookie, or Authorization headers.
+</li>
+<li>The CORS filter is not configured to trust the request's origin.
+</li>
+</ul>
+</li>
+<li>Play's primary mechanism for CSRF protection is <code>CSRF</code> token.
+<ul class="org-ul">
+<li>The token gets placed either in the query string, or body of every
+form submitted, and also gets placed in the users session.
+</li>
+<li>Play then verifies that both tokens are presents and match.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Proxy settings with a front end HTTP server</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Using a front end HTTP server will rarely give you better
+performance than using Play server directly.
+</li>
+<li>However HTTP servers are very good at handling <b>HTTPs</b>, <b>conditional
+GET requests</b> and <b>static assets</b>
+</li>
+<li>Many services assume a front end HTTP server is part of you
+architecture.
+</li>
+<li>When using an HTTP frontal server, request addresses are seen as
+coming from <b>the HTTP server</b>.
+</li>
+<li>Proxy servers can add a specific header to the request to tell the
+proxied application where the request came from. Most web servers
+will add an <b>X-Forwarded-For</b> header with the remote client IP Address
+as first argument.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Application configuration.</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Configuration options are set in <code>conf/application.conf</code> file.
+</li>
+<li>Play uses the <b>Typesafe config library</b>, which supports a superset
+of JSON, although plain JSON and Java Properties files are also
+supported.
+<ul class="org-ul">
+<li>Comments.
+</li>
+<li>References to other configuration parameters and system
+environment variables.
+<ul class="org-ul">
+<li>Environment variable: <code>db.default.url = ${DATABASE_URL}</code>
+</li>
+<li>Same <code>${...}</code> syntax to refer to other configuration variables.
+<p class="verse">
+log.directory = /var/log<br>
+log.access = ${log.directory}/access.log<br>
+log.errors = ${log.directory}/errors.log<br></p>
+</li>
+</ul>
+</li>
+<li>File includes: ~include "db-default.conf"~
+<ul class="org-ul">
+<li>Single value will <b>replace</b> the previous value.
+</li>
+<li>Object notation can be used to <b>merge</b> multiple values.
+</li>
+</ul>
+</li>
+<li>Merge multiple configuration files.
+</li>
+<li>Specifying an alternative configuration file or URL using system
+properties.
+<ul class="org-ul">
+<li>override a property value: <code>$ start -Ddb.default.url=...</code>
+</li>
+<li>override the whole <code>application.conf</code>, using either relative or
+absolute path:
+<div class="highlight"><pre><span></span>$ run -Dconfig.file<span class="o">=</span>conf/production.conf
+$ run -Dconfig.file<span class="o">=</span>/etc/products/production.conf
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Units specifiers for durations, such as <code>days</code>, and sizes in bytes,
+such as <code>MB</code>
+</li>
+<li>
+<code>play.api.Configuration</code> provides type-safe access to
+configuration parameter values:
+<ul class="org-ul">
+<li>supports <code>String</code>, <code>Int</code>, <code>Boolean</code>
+</li>
+<li>Configurations are structured hierarchically. The API allows you
+to get a subconfiguration of the current configuration.
+</li>
+</ul>
+</li>
+<li>Note that it would be better <b>not to hardcode the version
+information</b> in the configuration file. Instead, you might get the
+information from a revision control system by writing the output
+of commands like <code>git describe --always</code> to a file and reading
+that from your application.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Using Slick for database access</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Slick is intended as a Scala-based API for relational database access.
+</li>
+<li>The idea is that you use it instead of using JDBC directly or adding
+a complex object-relational mapping framework.
+</li>
+<li>Slick uses Scala language features to allow you to map database
+tables to <b>Scala collections</b> and to <b>execute queries</b>
+</li>
+<li>With scala, this results in less code and cleaner code compared to
+directly using JDBC.
+</li>
+<li>An example, to map a database table to a <code>Product</code> data access
+object using Scala code:
+<div class="highlight"><pre><span></span><span class="k">object</span> <span class="nc">Product</span> <span class="k">extends</span> <span class="nc">Table</span><span class="o">[(</span><span class="kt">Long</span>, <span class="kt">String</span>, <span class="kt">String</span><span class="o">)]</span> <span class="o">(</span><span class="s">"Products"</span><span class="o">){</span>
+  <span class="k">def</span> <span class="n">ean</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">Long</span><span class="o">](</span><span class="s">"ean"</span><span class="o">,</span> <span class="n">O</span><span class="o">.</span><span class="nc">PrimaryKey</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">name</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"name"</span><span class="o">)</span>
+  <span class="k">def</span> <span class="n">description</span> <span class="k">=</span> <span class="n">column</span><span class="o">[</span><span class="kt">String</span><span class="o">](</span><span class="s">"description"</span><span class="o">)</span>
+  <span class="k">def</span> <span class="o">*</span> <span class="k">=</span> <span class="n">ena</span> <span class="o">~</span> <span class="n">name</span> <span class="o">~</span> <span class="n">description</span>
+<span class="o">}</span>
+
+<span class="k">val</span> <span class="n">products</span> <span class="k">=</span> <span class="k">for</span> <span class="o">{</span>
+  <span class="n">product</span> <span class="k">&lt;-</span> <span class="nc">Product</span><span class="o">.</span><span class="n">sortBy</span><span class="o">(</span><span class="nc">Product</span> <span class="k">=&gt;</span> <span class="n">product</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">asc</span><span class="o">)</span>
+<span class="o">}</span> <span class="n">yeild</span> <span class="o">(</span><span class="n">product</span><span class="o">)</span>
+
+<span class="k">val</span> <span class="n">url</span> <span class="k">=</span> <span class="s">"jdbc:postgresql:/localhost/slick?user=slick&amp;password=slick"</span>
+<span class="nc">Database</span><span class="o">.</span><span class="n">forURL</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">driver</span><span class="o">=</span><span class="s">"org.postgresql.Driver"</span><span class="o">)</span> <span class="n">withSession</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">productList</span> <span class="k">=</span> <span class="n">products</span><span class="o">.</span><span class="n">list</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Binding HTTP data to Scala objects</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Action methods often have parameters, it is need to be able to map
+HTTP request data to those parameters.
+</li>
+<li>The routing and the subsequent parameter binding are both part of
+the <b>mapping</b> between HTTP and Scala's interfaces, which is a
+translation between two very different interface style.
+</li>
+<li>Play has a number of separate build-in binders for different types,
+and you can also implement your own binders.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Static and compiled assets</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>Architects and web frameworks often take the view that static files
+should be handled differently than generated content in a web
+application's architecture
+</li>
+<li>In Play, this probably a <b>premature optimization</b>. If you have high
+performance requirements for serving static content, the best
+approach is probably to use a <b>cache</b>, or <b>load balancer</b> in front
+of Play, instead of avoiding serving the files using Play in the
+first place.
+</li>
+<li>Play provides an <b>assets controller</b> to serve static files.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Action composition</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>Action are functions, which means you can compose them to apply
+common functionality to multiple actions.
+</li>
+<li>For example, you can defined actions for caching and authentication
+and use them like this:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">list</span> <span class="k">=</span> <span class="nc">Authenticated</span> <span class="o">{</span>
+     <span class="nc">Cached</span> <span class="o">{</span>
+	  <span class="nc">Action</span> <span class="o">{</span>
+	    <span class="c1">//process request.</span>
+	  <span class="o">}</span>
+     <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>This example uses <code>Action</code> to create an action function that is
+passed as a parameter to <code>Cached</code>, which returns a new action function.
+</li>
+<li>This, in turn, is passed as parameter to <code>Authenticated</code>, which
+decorate the action function again.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Routes</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>Add an optional page number parameter, with a default value:
+<p class="verse">
+GET  /products      controllers.Products.list(page: Int ?=1)<br></p>
+<ul class="org-ul">
+<li>The <code>?=</code> syntax for an optional parameter isn't normal Scala
+syntax, and it is only used in the <code>routes</code> file.
+</li>
+<li>Can also use <code>=</code> for fixed parameter values that aren't specified
+in the URL  <code>(page: Int =1)</code>,
+</li>
+<li>and <code>Option</code> for optional parameters that may or may not be
+include din the query string <code>(page: Option[Int])</code>.
+</li>
+</ul>
+</li>
+<li>Matching URL path parameters that contain forward slashes:
+<p class="verse">
+# This route will not work <code>:file</code> contains forward slashes.<br>
+GET  <i>photo</i>:file    controllers.Media.photo(file: String)<br>
+# This route will work.<br>
+GET  /photo/*file    controllers.Media.photo(file: String)<br></p>
+</li>
+<li>Matching regexp:
+<p class="verse">
+# This will only match ean conform to the regexp \d{13}<br>
+GET   <i>product/$ean&lt;\d{13}&gt;   controllers.Products.details(ean: Long)<br>
+GET   /product</i>:alias   controllers.Products.details(alias: String)<br></p>
+</li>
+<li>Binding HTTP data
+<ul class="org-ul">
+<li>Play, along with other modern web frameworks such as Spring MVC,
+improves on treating HTTP request parameters as strings by
+performing type conversion <b>before</b> it attempts to call action.
+</li>
+<li>Only when type conversion succeeds does Play call the action
+method.
+</li>
+<li>Binding applies to two kinds of request data:
+<ul class="org-ul">
+<li>URL path parameters
+</li>
+<li>and query string parameters.
+</li>
+</ul>
+</li>
+<li>Play defines binders for a number of basic types.
+</li>
+<li>You can also add binding for custom types, such as your
+application's domain model types, by adding your own <code>Formatter</code>
+implementation.
+</li>
+<li>Binding the content of an HTML form to a domain object, using a
+<code>form object</code>
+</li>
+</ul>
+</li>
+<li>Generating HTTP calls for actions with reverse routing.
+<ul class="org-ul">
+<li>map a particular action method invocation to the corresponding
+URL.
+</li>
+<li>avoid hard coding path.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">delete</span><span class="o">(</span><span class="n">ean</span><span class="k">:</span> <span class="kt">Long</span><span class="o">)</span> <span class="k">=</span> <span class="nc">Action</span> <span class="o">{</span>
+  <span class="nc">Product</span><span class="o">.</span><span class="n">delete</span><span class="o">(</span><span class="n">ean</span><span class="o">)</span>
+  <span class="nc">Redirect</span><span class="o">(</span><span class="n">routes</span><span class="o">.</span><span class="nc">Products</span><span class="o">.</span><span class="n">list</span><span class="o">())</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>The reverse route generates a URL in the form of an HTTP call (a
+<code>play.pai.mvc.Call</code>) for certain action method, including the
+parameter values.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/play/" rel="tag">play</a></li>
+            <li><a class="tag p-category" href="../../../categories/scala/" rel="tag">scala</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../programming-in-scala/" rel="prev" title="Programming in scala">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../patterns-enterprise-application-architecture/" rel="next" title="Patterns of Enterprise Application Architecture">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:n.tesla@example.com">Warren Liu</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

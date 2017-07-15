@@ -1,0 +1,173 @@
+#+BEGIN_COMMENT
+.. title: Redis in Action
+.. slug: redis-in-action
+.. date: 2017-07-15
+.. tags: redis, database
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Getting to know Redis
+- Redis is a in-memory non-relational database.
+  - Data storage options: strings, lists, sets, hashes, sorted sets
+  - additional features: publish/subscribe, master/slave replication,
+    disk persistence, and scripting(stored procedures)
+- Redis has two forms of persistence for writing in-memory data to
+  disk in a compact format
+  * a point-in-time dump when conditions are met, or when one of the
+    two /dump-to-disk/ commands is called.
+  * use an /append-only/ file that writes every command that alters
+    data in Redis to disk as it happens. append-only writing can be
+    configured to never sync, sync once per second, or sync at the
+    completion of every operation.
+- Redis support master/slave replication where slaves connect to the
+  master and receive an initial copy of the full database.
+  - As writes are performed on the master, they are sent to all
+    connected slaves for updating the slave datasets in real time.
+  - Client can connect to any slave for reads.
+- Redis data structures:
+  - STRING: key->string
+    - *GET*, *SET*, *DEL*
+  - LIST: key->An ordered sequence of strings
+    - push items to the front and back: *LPUSH*/*RPUSH*
+    - pop items from the front and back: *LPOP*/*RPOP*
+    - fetch an item at given position: *LINDEX*
+    - fetch a range of item with: *LRANGE*
+  - SET: key->Set of string
+    - Use a hashtable to keep all string unique (although there are no
+      associated values)
+    - add and remove items by value with: *SADD* and *SREM*
+    - check if it is a member: *SISMEMBER*
+    - get the entire set: *SMEMBERS. tthis can be slow for large sets.
+    - set operations: *SINTER*, *SUNION*, *SDIFF*
+  - HASH: key->hashtable
+    - Can consider a Redis HASH as being similar to a document in a
+      document store.
+    - operation is defined on a key of Redis, then a sub-key of the hashtable.
+    - *HSET*, *HGET*, *HGETALL*, *HDEL*
+  - ZSET: key->Set of string with a score for sorting.
+    - Like HASH, ZSET hold a type of key and value, the keys are
+      unique and the values (called scores) are limited to float-point numbers.
+    - add/remove: *ZADD*, *ZREM*
+    - fetches items from their positions in sorted order: *ZRANGE*
+    - fetches items based on a range of scores: *ZRANGEBYSCORE*
+
+* Anatomy of Redis web application
+
+** Login Cookies and Shopping cart
+- Two common methods of stroing login information in cookies: a /signed
+  cookie/ or a /token cookie/.
+  - Signed cookies ::  typically store the user's name, ID, last
+       logged in, and whatever else service may find useful. Cookies
+       also includes a *signature* that allows the server to /verify/
+       that information the browser sent hasn't been altered.
+  - Token cookies :: use a series of random bytes as the data in the
+                     cookie. On the server, the token is used as a key
+                     to look up the user who owns that token.
+- Most relational databases are limited to inserting, updating, or
+  deleting *roughly 200-2000* individual rows every second per
+  database server.
+  - Bulk inserts/updates/deletes can be performed faster.
+  - But for normal customer faced web application, a customer will
+    only update a small handful of rows for each web page view, so
+    higher-speed bulk operation doesn't help.
+- Redis's HASH datastructure is a good fit to implements token
+  cookies and shopping carts.
+  - Performance is about /*10-100* times/ over a typical relational
+    database in this context
+
+** Web page caching
+- The majority of the pages that are served don't change much on a
+  regular basis.
+- Middleware can be easily used to add a layer of cache for requested response.
+- This could reduce the latency for a data-heavy page from maybe
+  *20-50ms*, down to one round trip to Redis, which is normally /*1ms*
+  for a local connection/, and under /*5ms* for computers in the same
+  data center/.
+
+** Database row caching
+- Cache database rows in preparation for a heavy load, we will:
+  - have a *daemon* function that will run continuously
+  - to cache specific database rows in Redis and updating them on a
+    variable schedule.
+
+* Commands in Redis
+** String
+- In Redis, STRINGs are used to store three types of values:
+  - Byte string values
+  - Integer values
+  - Floating-point values
+- When setting a STRING value in Redis, if that value could be
+  interpreted as a base-10 integer or a floating-point value, the
+  *INCR* and *DECR* related command can be used to manipulate the
+  value.
+- Integer/Float-point values can be increase/decerase by an numeric
+  value (integer turning into float as necessary)
+  - INCR :: increments the value stored at the key by 1
+  - DECR :: decrements the value stored at the key by 1
+  - INCRBY :: increments by specified integer value
+  - DECRBY :: decrements by specified integer value
+  - INCRBYFLOAT :: increments by specified float value.
+- STRINGs can also be manuplated with commands:
+  - *APPEND*
+  - *GETRANGE*, *SETRANGE* : get/set substring with given offset value
+  - *GETBIT*, *SETBIT* : treat the byte string as bit string
+  - *BITCOUNT* : count 1 bits in the string.
+  - *BITOP* : performs *AND* *OR* *XOR* or *NOT*
+
+** Lists
+- LIST store an ordered sequence of STRING value
+- Commonly used LIST commands
+  - RPUSH, LPUSH, RPOP, LPOP
+  - LINDEX, LRANGE
+  - *LTRIM* : trims the list to only include items in the given range.
+** Sets
+** Hashes
+** ZSets
+
+** Publish/Subscribe
+- In Redis, the pub/sub concept has been included through the use of
+  five commands:
+  - SUBSCRIBE channel :: subscribe to the given channels
+  - UNSUBSCRIBE channel :: unsubscribe to the given channels
+  - PUBLISH channel message::  publish a message to the given channel
+  - PSUBSCRIBE pattern :: subscribes to messages broadcase to channels
+       that match the given pattern
+  - PUNSUBSCRIBE :: unsubscribe the above.
+
+** Basic Transaction in Redis
+- A basic transaction involving *MULTI* and *EXEC* is meant to provide
+  the opportunity for one client to execute multiple commands without
+  other clients being able to interrupt them.
+- It isn't the same as a relational database which can be executed
+  partially, and then rolled back or committed.
+- To perform a transaction:
+  - first call MULTI, when seeing it, Redis will queue up commands
+    from that same connection until it sees an EXEC.
+  - followed by any sequence of commands, all commands will be queued,
+    without execution.
+  - followed by EXEC, Redis will execute all the queued commands
+    sequentially without interruption.
+
+** Expiring keys
+- data can be explicitly with *DEL* command,
+- or can be removed after a specified timeout, or expiration.
+- Related commands are:
+  - EXPIRE key-name seconds :: set the key to expire in the given
+       number of *seconds*.
+  - EXPIREAT key-name timestamp :: set to expire at tht given time.
+  - TTL key-name :: get the remaining time before key expire.
+  - PERSIST key-name :: remove the expiration from the key.
+  - PTTL, PEXPIRE, PEXPIREAT :: accept parameters in *milliseconds*.
+
+* Keeping data safe and ensuring performance
+** Persistence options
+- Two different ways of persisting data to disk:
+  - snapshotting :: take the data as it exists at one moment in time
+                    and writes it to disk.
+  - AOF (append-only file)  :: copy incoming write commands to disk as
+       they happen.
+  - both methods can be used together, separately, or not at all.
+-

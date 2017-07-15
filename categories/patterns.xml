@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about patterns)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/patterns.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:19:50 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Enterprise Integration Patterns</title><link>https://example.com/posts/reading/enterprise-integration-patterns/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-1"&gt;The challenges and approaches:&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-1-1"&gt;Integration solutions's challenges:&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-1-2"&gt;Approaches to overcome these challenges:&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-2"&gt;The main concepts&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-3"&gt;Messaging System&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-3-1"&gt;The challenges of asynchronous messaging&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-4"&gt;Distributed Applications vs Integration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-5"&gt;Six Type of Integrations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-6"&gt;Loose coupling&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-7"&gt;Messaging Concetps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-8"&gt;Message Channel&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-9"&gt;Message&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-10"&gt;Pipes-and-Filters&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-11"&gt;Message Router&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-12"&gt;Message Translator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/enterprise-integration-patterns/#sec-13"&gt;Message Endpoint&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;The challenges and approaches:&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;/div&gt;&lt;div id="outline-container-sec-1-1" class="outline-3"&gt;
+&lt;h3 id="sec-1-1"&gt;Integration solutions's challenges:&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Networks are unreliable.
+&lt;/li&gt;
+&lt;li&gt;Networks are slow.
+&lt;/li&gt;
+&lt;li&gt;Any two applications are different.
+&lt;/li&gt;
+&lt;li&gt;Change is inevitable.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1-2" class="outline-3"&gt;
+&lt;h3 id="sec-1-2"&gt;Approaches to overcome these challenges:&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-1-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;File Transfer: One application writes a file that another later reads.
+&lt;/li&gt;
+&lt;li&gt;Shared Database
+&lt;/li&gt;
+&lt;li&gt;Remote Procedure Invocation
+&lt;/li&gt;
+&lt;li&gt;Messaging: One application publishes a message to a common message
+channel. Other applications can read the message from the channel at
+a later time.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The applications must agree on a channel as well as the format of
+the message.
+&lt;/li&gt;
+&lt;li&gt;The communication is &lt;b&gt;asynchronous&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;The main concepts&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;Messaging&lt;/b&gt; is a technology that enables &lt;b&gt;high-speed&lt;/b&gt;,
+&lt;b&gt;asynchronous&lt;/b&gt;, program-to-program communication with &lt;b&gt;reliable
+delivery&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Channels&lt;/b&gt;, also known as queues, are logical pathways that connect
+the programs and convey messages.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Sender&lt;/b&gt; or &lt;b&gt;producer&lt;/b&gt; is programs that send message by writing the
+message to a channel.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Receiver&lt;/b&gt; or &lt;b&gt;consumer&lt;/b&gt; is programs that receive messages by
+reading (and deleting) from a channel.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Messaging System&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Messaging capabilities are typically provided by a separate software
+system called &lt;b&gt;messaging system&lt;/b&gt; or &lt;b&gt;message-oriented
+middleware(MOM)&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;A messaging system is configured with the channels that define the
+paths of communication between the applications. The messaging
+system then coordinates tha messages the sending the receiving of messages.
+&lt;/li&gt;
+&lt;li&gt;Two important messaging concetps:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Send and forget &lt;/dt&gt;&lt;dd&gt;The sender sends the message to the message
+channel and once that is complete, the sender can go on while
+the messaging system transmits the message in the
+background. The sender doesn't have to wait for the receiver to
+receive and process the message.
+&lt;/dd&gt;
+&lt;dt&gt; Store and forward &lt;/dt&gt;&lt;dd&gt;When the sender sends a message, the
+messaging system &lt;b&gt;store&lt;/b&gt; the message. It then delivers the
+message by forwording it to the receiver, where it is stored
+again.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;By wrapping the data as a message and storeing it in the messaging
+system, the applications &lt;b&gt;delegate&lt;/b&gt; to the messaging system the
+&lt;b&gt;responsibility&lt;/b&gt; of delivering the data.
+&lt;/li&gt;
+&lt;li&gt;The messaging system can act as a &lt;b&gt;mediator&lt;/b&gt; - as in the Mediator
+pattern - between all of the programs that can send and receive
+messages. An application can use it as a &lt;b&gt;directory&lt;/b&gt; of other
+applications or services available to integrate with.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The messaging system can be used to provide a high number of
+distributed connections to a shared resouce, such as a database.
+&lt;/li&gt;
+&lt;li&gt;The messaging system can employ &lt;b&gt;redundant resources&lt;/b&gt; to provide
+high-availability, balance load, reroute around failed network
+connections, and tune performance and quality of service.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Messaging system can enable &lt;b&gt;asynchronous communications&lt;/b&gt; and &lt;b&gt;call
+back&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3-1" class="outline-3"&gt;
+&lt;h3 id="sec-3-1"&gt;The challenges of asynchronous messaging&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-3-1"&gt;
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Complex programming model &lt;/dt&gt;&lt;dd&gt;application logic can no longer be
+coded ina single method that invokes other methods, but the logic
+is now split up into a number of event handlers that respond to
+incoming messages.
+&lt;/dd&gt;
+&lt;dt&gt; Sequence issue &lt;/dt&gt;&lt;dd&gt;message channels guarantee message delivery, but
+not when the message will be delivered. This can
+cause messages that are send in sequence to get
+out of sequence.
+&lt;/dd&gt;
+&lt;dt&gt; Synchronous scenario &lt;/dt&gt;&lt;dd&gt;not all application can operate in a
+send-and-forget mode. Thus many messaging systems need to bridge
+the gap between synchronous and asynchronous solutions.
+&lt;/dd&gt;
+&lt;dt&gt; Performance &lt;/dt&gt;&lt;dd&gt;Messaging systems do add some overhead to communication.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Distributed Applications vs Integration&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;An enterprise application often incorporates an n-tier architecture
+enabling it to be distributed across several computers.
+&lt;/li&gt;
+&lt;li&gt;Even through this results in processes on different machines
+communicating with each other, this is application distribution, not
+application integration.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The communicating parts are tightly coupled.
+&lt;/li&gt;
+&lt;li&gt;Communication between tiers tends to be synchronous.
+&lt;/li&gt;
+&lt;li&gt;An application (n-tier or atomic) tends to have human users that
+will only accept rapid system response.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Integrated applications are independent applications that can each
+run by itself, but coordinate with each other in a loosely coupled way.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Six Type of Integrations&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Information Portal &lt;/dt&gt;&lt;dd&gt;many business users have to access more than
+one system to answer a specific question or to perform a single
+business function. Information portal &lt;b&gt;aggregate&lt;/b&gt; information
+from multiple sources into a single display to avoid having the
+user access multiple system for information.
+&lt;/dd&gt;
+&lt;dt&gt; Data Replication &lt;/dt&gt;&lt;dd&gt;many business systems require access to the same
+data. and many of these system are going to have their own data
+stores.
+&lt;/dd&gt;
+&lt;dt&gt; Shared Business Function &lt;/dt&gt;&lt;dd&gt;many business applications tend to
+implement redundant functionality.
+&lt;/dd&gt;
+&lt;dt&gt; Service-Oriented Architecture &lt;/dt&gt;&lt;dd&gt;shared business functions are often
+referred to as services.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Managing the services:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;service directory
+&lt;/li&gt;
+&lt;li&gt;service description/negotiation
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SOA blur the line between integration and distributed application.
+&lt;/li&gt;
+&lt;li&gt;Because services are available in a consistent manner, SOAs are
+sometimes referred to as "&lt;sub&gt;service&lt;/sub&gt; bus architectures_"
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;dt&gt; Disbributed Business Process &lt;/dt&gt;&lt;dd&gt;A single business transaction is
+often spread across many different systems.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In most cases, all relevant functions are incorporated inside
+existing applications.
+&lt;/li&gt;
+&lt;li&gt;What is missing is the &lt;b&gt;coordination&lt;/b&gt; between the applications.
+&lt;/li&gt;
+&lt;li&gt;A &lt;b&gt;business process management&lt;/b&gt; component can be added to manage the
+execution of a business function across multiple existing systems.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;dt&gt; Business-to-Business Integration &lt;/dt&gt;&lt;dd&gt;business functions may be
+available from outside suppliers or business partners.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Communication across the Internet or some other network usually
+raises new issues related to transport protocols and security.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Loose coupling&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The core principle behind loose coupling is to &lt;b&gt;reduce the
+assumptions&lt;/b&gt; two parties (components, applications, services,
+programs, users) make about each other when they exchange
+information.
+&lt;/li&gt;
+&lt;li&gt;A great example of tight coupling is a local method invocation.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;RPC&lt;/b&gt; or &lt;b&gt;RMI&lt;/b&gt; is also considered to be &lt;span class="underline"&gt;tightly coupled&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;Trying to portray remote communication as a variant of a local
+method invocation is &lt;i&gt;asking for trouble&lt;/i&gt;. Such architectures
+typically result in &lt;i&gt;brittle, hard to maintain and poorly scalable
+solutions&lt;/i&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Messaging Concetps&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-7"&gt;
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Channels &lt;/dt&gt;&lt;dd&gt;Messaing applications transmit data through a Message
+Channel, a virtual pipe that connects a sender to a receiver.
+&lt;/dd&gt;
+&lt;dt&gt; Messages &lt;/dt&gt;&lt;dd&gt;An &lt;b&gt;atomic&lt;/b&gt; packet of data that can be transmitted on a channel.
+&lt;/dd&gt;
+&lt;dt&gt; Multi-step delivery &lt;/dt&gt;&lt;dd&gt;In the simplest case, the message system
+delivers a message directly from the sender to the
+reciever. However, actions often need to be performed on the
+message after it is sent and before it is received by the final
+receiver. A &lt;b&gt;Pipes and Filters&lt;/b&gt; architecture describes how
+multiple processing steps can be &lt;b&gt;chained&lt;/b&gt; together using channels.
+&lt;/dd&gt;
+&lt;dt&gt; Routing &lt;/dt&gt;&lt;dd&gt;A message may have to go through several channels to
+reach its final destination. When message is send to a
+&lt;b&gt;Message Router&lt;/b&gt;, it will determine how to nagivate the
+channel topology and direct the message to the final
+receiver, or at least to the next router.
+&lt;/dd&gt;
+&lt;dt&gt; Transformation &lt;/dt&gt;&lt;dd&gt;Variaous applications may not agree on the format
+for the same conceptual data. To reconcile this,
+the message must go through an intermediate
+filter, a &lt;b&gt;Message Translator&lt;/b&gt;.
+&lt;/dd&gt;
+&lt;dt&gt; Endpoints &lt;/dt&gt;&lt;dd&gt;An application doesn't have some build-in capability to
+interface with the messaging system. The &lt;b&gt;Message
+Endpoint&lt;/b&gt; is the bridge code that enable the
+application to send and receive messages.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-8" class="outline-2"&gt;
+&lt;h2 id="sec-8"&gt;Message Channel&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-8"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Channels are logical addresses in the messaging system; how they are
+actually implemented depends on the messaging system product and its
+implementation.
+&lt;/li&gt;
+&lt;li&gt;Channels are configured by the system administrator so that
+applications can use.
+&lt;/li&gt;
+&lt;li&gt;Channels are cheap, but they are not free. Each channel requires
+memory to represent the messages, persistent channels require disk space.
+&lt;/li&gt;
+&lt;li&gt;Two kinds of message channels:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Point-to-point channel
+&lt;/li&gt;
+&lt;li&gt;Publish-Subscribe channel
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-9" class="outline-2"&gt;
+&lt;h2 id="sec-9"&gt;Message&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-9"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A message consists of two basic parts:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Header &lt;/dt&gt;&lt;dd&gt;information used by the messaging system that describes
+the data being transmitted, its origin, its destination, and so on;
+&lt;/dd&gt;
+&lt;dt&gt; Body &lt;/dt&gt;&lt;dd&gt;The data being transmitted;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;Messages concpets:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Command Message &lt;/dt&gt;&lt;dd&gt;to invoke a procdure in another application;
+&lt;/dd&gt;
+&lt;dt&gt; Document Message &lt;/dt&gt;&lt;dd&gt;to pass a set of data to another application;
+&lt;/dd&gt;
+&lt;dt&gt; Event Message &lt;/dt&gt;&lt;dd&gt;to notify another application of a change in the
+application;
+&lt;/dd&gt;
+&lt;dt&gt; Request-Reply &lt;/dt&gt;&lt;dd&gt;if other application should send a reply back;
+&lt;/dd&gt;
+&lt;dt&gt; Message Sequence &lt;/dt&gt;&lt;dd&gt;if one application wish to send more
+information than one message can hold;
+&lt;/dd&gt;
+&lt;dt&gt; Message Expiration &lt;/dt&gt;&lt;dd&gt;specify the data is only useful for a
+limited amount of time;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-10" class="outline-2"&gt;
+&lt;h2 id="sec-10"&gt;Pipes-and-Filters&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-10"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The pipes and Filters style use abstract pipes to decouple
+components from each other. The pipe allows one component to send a
+message into the pipe so that it can be consumed later by another
+process that is unkown to the component.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The obvious implementation for such a pipe is the &lt;b&gt;Message Channel&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;Most Message Channels provide language, platform and location
+independence between the filters.
+&lt;/li&gt;
+&lt;li&gt;This affords us the flexibility to move a processing step to a
+different machine for dependency, maintenance or performance reasons.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;One potential downsides of a Pipe and Filters architecture is the
+large number of required channels.
+&lt;/li&gt;
+&lt;li id="Pipeline Processing"&gt;Connecting components with asynchronous
+Message Channels allow each unit in the chain to operate in its
+own thread or process. This is called &lt;b&gt;processing pipeline&lt;/b&gt;
+because messages flow through the filters. When compared to
+strictly sequential processing, a processing pipeline can
+&lt;i&gt;&lt;b&gt;significantly&lt;/b&gt; increase system throughput&lt;/i&gt;. &lt;br&gt;
+      &lt;img src="https://www.codeproject.com/KB/architecture/PipesAndFilters/image002.jpg" alt="image002.jpg"&gt;
+&lt;/li&gt;
+&lt;li id="Parallel processing"&gt;With the pipeline processing, the overall
+system throughput is limited by the slowest process in the
+chain. To improve throughput we can deploy multiple parallel
+instance of that process to improve throughput.
+&lt;/li&gt;
+&lt;li&gt;Pipes and Filters share some similarities with the concept of
+Communicating Sequential Processes(CSPs)
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The basic mechanism underlying CSPs is the synchronization of two
+processes via input-output(I/O).
+&lt;/li&gt;
+&lt;li&gt;I/O occurs when process A indicates that it is ready to output to
+process B and process B states that it is ready to input from
+process A.
+&lt;/li&gt;
+&lt;li&gt;If one of these happens without the other being true, the process
+is put on a wait queue until the other process is ready.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-11" class="outline-2"&gt;
+&lt;h2 id="sec-11"&gt;Message Router&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-11"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Message based integration solutions deals with individual messages
+which are not necessarily associated with a single, larger
+dataset. &lt;b&gt;As a result&lt;/b&gt;, individual messages are more likely to
+require &lt;b&gt;different&lt;/b&gt; series of processing steps.
+&lt;/li&gt;
+&lt;li&gt;Message Channel decouples the sender and the recevier of a
+Message. &lt;b&gt;As a result&lt;/b&gt;, a message channel can contain messages from
+different sources that may have to be treated differently based on
+the type of message, or other criteria.
+&lt;/li&gt;
+&lt;li&gt;Decouple individual processing steps so that messages can be passed
+to different filters depending on a set of condition.
+&lt;/li&gt;
+&lt;li&gt;Message Fouter differs from mthe most basic notion of Pipes and
+Filters in that it connects to multiple outpue channels.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The components surrounding the Message Router are completely
+unaware of the existence of a Message Router.
+&lt;/li&gt;
+&lt;li&gt;A key property of the Message Router is that it does not modify
+the message content.
+&lt;/li&gt;
+&lt;li&gt;Only conerns itself with the destination of the message.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;While the intent of a Message Router is to decouple filters, it can
+actually cause the opposite effect.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Message Router needs to have knowledge of all possible message
+destination in order to send the message to the correct channel.
+&lt;/li&gt;
+&lt;li&gt;If the destination change frequently, it turn the Message Router
+into a &lt;b&gt;maintaince bottleneck&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;In this case it would be better to let the individual recipients
+to decide which message they are interested in.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Message Router requires the insertion of an additional processing
+step, it can degrade performance.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Can cause computational overhead if the message itself doesn't
+really change.
+&lt;/li&gt;
+&lt;li&gt;Could turn a Message Router into a &lt;b&gt;performance bottleneck&lt;/b&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Deliberate use of Message Routers can turn the advantage of loose
+coupling into a disavantage.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Make it difficul to understand the big picture of the solution.
+&lt;/li&gt;
+&lt;li&gt;This is common problem with messaging solutions and the use of
+routers can exacerbate the problem.
+&lt;/li&gt;
+&lt;li&gt;It is difficult to understand which way messages actually flow.
+&lt;/li&gt;
+&lt;li&gt;Using &lt;b&gt;Message History&lt;/b&gt; to inspect messages at runtime which
+components they traversed.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-12" class="outline-2"&gt;
+&lt;h2 id="sec-12"&gt;Message Translator&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-13" class="outline-2"&gt;
+&lt;h2 id="sec-13"&gt;Message Endpoint&lt;/h2&gt;
+&lt;/div&gt;</description><category>patterns</category><guid>https://example.com/posts/reading/enterprise-integration-patterns/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Patterns of Enterprise Application Architecture</title><link>https://example.com/posts/reading/patterns-enterprise-application-architecture/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/patterns-enterprise-application-architecture/#sec-1"&gt;Layering&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/patterns-enterprise-application-architecture/#sec-2"&gt;Organizing Domain Logic&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Layering&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Higher layer uses various services defined by the lower layer, but
+the lower layer is unaware of the higher layer.
+&lt;/li&gt;
+&lt;li&gt;Each layer usually hides its lower layers from the layers above. But
+not all layering architectures are opaque like this, but most are,
+or rather &lt;i&gt;most are mostly opaque&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;Some downsides:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Layers encapsulate some, but not all, things well. As a result you
+sometimes get cascading changes.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Classical example is adding a field that needs to display on the
+UI, must be in the database, and thus must be added to every
+layer in between.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Extra layers can harm performance.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;At every layer things typically need to be transformed from one
+representation to another.
+&lt;/li&gt;
+&lt;li&gt;However, the encapsulation of an underlying function often gives
+you efficiency gains that more than compensate.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Sometime the layers are arranged so that the domain layer completely
+hides the data source from the presentation. More often, however,
+the presentation accesses the data store directly.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Less pure but tends to work better in practice.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Three principal layers:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Presentation &lt;/dt&gt;&lt;dd&gt;provision of services, display of information,
+handling of user request.
+&lt;/dd&gt;
+&lt;dt&gt; Domain &lt;/dt&gt;&lt;dd&gt;Logic that is the real point of the system.
+&lt;/dd&gt;
+&lt;dt&gt; Data Source &lt;/dt&gt;&lt;dd&gt;Communication with databases, messaging systems,
+transaction managers, and other packages.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;Rules of dependencies
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The domain and data source should never be dependent on the presentation.
+&lt;/li&gt;
+&lt;li&gt;Avoid leaking domain logic to presentation layer.
+&lt;/li&gt;
+&lt;li&gt;However, it is often done it this way to be practical.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;With webservice and alike, the user is the client program.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;At this point it becomes apparent that there is a lot of
+similarity between the presentation and data source layers in that
+they both are about &lt;i&gt;connection to the outside world&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Hexagonal Architecture&lt;/b&gt; pattern, which visualizes any system as a
+core surrounded by interfaces to external systems.
+&lt;/li&gt;
+&lt;li&gt;In &lt;b&gt;Hexagonal Architecture&lt;/b&gt; everything external is fundamentally
+an outside interface, and thus it is a &lt;i&gt;symmetrical&lt;/i&gt; view rather
+than an &lt;i&gt;asymmetric&lt;/i&gt; layering scheme.
+&lt;/li&gt;
+&lt;li&gt;The asymmetric view may be useful in that it is a good distinction
+between an interface that you provide as a service to others and
+your use of someone else's service.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Organizing Domain Logic&lt;/h2&gt;
+&lt;/div&gt;</description><category>patterns</category><guid>https://example.com/posts/reading/patterns-enterprise-application-architecture/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>Service Design Patterns</title><link>https://example.com/posts/reading/service-design-patterns/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/service-design-patterns/#sec-1"&gt;Web Service API Styles&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Distributed objects typically maintained state between client
+calls. This lead to a number of problems that hindered scalability.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Server memory utilization degraded with increased client load.
+&lt;/li&gt;
+&lt;li&gt;Effective load-balancing techniques were more difficult to
+implement and manage because session state was often reserved for
+the client.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Unless a sophisticated infrastructure like shared memory cache
+was used to access the client's session from any server.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Server had to implement a strategy to release the memory allocated
+for a specific client instance.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In most cases the server relied on the client to notify it when
+it was down.
+&lt;/li&gt;
+&lt;li&gt;If the client crashed, it will be problematic.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Possibly more important than the problem of latency is the fact that
+web service calls typically entail distributed communications. This
+means that client and service developers alike must be prepared to
+handle partial failures.
+&lt;/li&gt;
+&lt;li&gt;In light of these inherent risks, developers and architects should
+&lt;b&gt;first&lt;/b&gt; explore the alternatives.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A .NET client could host a JVM, load a Java library into the JVM,
+and communicate with the target classes through JNI.
+&lt;/li&gt;
+&lt;li&gt;Web services should therefore be reserved for situations in which
+out-of-process and cross-machine calls "make sense".
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Web Service API Styles&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;RPC API: How can client execute remote procedures over HTTP.
+&lt;/li&gt;
+&lt;li&gt;Message API: How can clients send commands, notifications or other
+information to remote systems over HTTP while avoiding direct
+coupling to the remote procedures.
+&lt;/li&gt;
+&lt;li&gt;Resource API: How can a client manipulate data managed by a remote
+system, avoid direct coupling to remote procedures, and minimize the
+need for &lt;b&gt;domain-specific&lt;/b&gt; API.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>patterns</category><guid>https://example.com/posts/reading/service-design-patterns/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item><item><title>SOA Patterns</title><link>https://example.com/posts/reading/soa-patterns/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/soa-patterns/#sec-1"&gt;Solving SOA pains with patterns&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Solving SOA pains with patterns&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Defining software architecutre:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Software architecture is the collection of fundamental decisions
+about a software product or solution designed to meet the
+project's quality attributes (the architectural requirements).
+&lt;/li&gt;
+&lt;li&gt;The architecture includes the main components, their main
+attributes, and their collaboration to meet the quality attributes.
+&lt;/li&gt;
+&lt;li&gt;Arehitecture can, and usually should, be expressed in several
+levels of abstraction, where the number of levels depends on the
+project's size and complexity.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Some comments about software architecture:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Architecture represents the set of earliest design decisions that
+are both hardest to change and most critical to get right.
+&lt;/li&gt;
+&lt;li&gt;Architecture is an attribute of every system.
+&lt;/li&gt;
+&lt;li&gt;Architecture breaks a system into components and sets boundaries.
+&lt;/li&gt;
+&lt;li&gt;Architecture is about relationships and component interactions.
+&lt;/li&gt;
+&lt;li&gt;Architecture explains the retionale behind the choices. Also it
+can be benefical to understand what alternatives were weighed and
+abandoned.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The unit of communicationin SOA is the &lt;code&gt;message&lt;/code&gt;.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;RPC often requires the caller to have intimate knowledge of the
+other system's implementation details. With messaging, this isn't
+the case.
+&lt;/li&gt;
+&lt;li&gt;Messages have both a header and a body (the payload).
+&lt;/li&gt;
+&lt;li&gt;Messages can come in may different forms:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;HTTP GET messages,
+&lt;/li&gt;
+&lt;li&gt;Simple Object Access Protocol (SOAP) messages,
+&lt;/li&gt;
+&lt;li&gt;Java Message Service (JMS) messages,
+&lt;/li&gt;
+&lt;li&gt;Simple Mail Transfer Protocol (SMTP) messages.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>patterns</category><category>soa</category><guid>https://example.com/posts/reading/soa-patterns/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

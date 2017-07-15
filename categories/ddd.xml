@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about ddd)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/ddd.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:32:22 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Domain Driven Design in Practise</title><link>https://example.com/posts/courses/domain-driven-design/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/courses/domain-driven-design/#sec-1"&gt;Domain Driven Design&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Domain Driven Design&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Types of equality
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Reference: same address in memory
+&lt;/li&gt;
+&lt;li&gt;Structural: all of their members match
+&lt;/li&gt;
+&lt;li&gt;Identifier: id field
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Entity vs Value Object
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Entity : Identifier and Reference equality
+&lt;/li&gt;
+&lt;li&gt;Value Object: Structural and Reference equality
+&lt;/li&gt;
+&lt;li&gt;Entity: each has its own identity, while value object doesn't have
+a id field.
+&lt;/li&gt;
+&lt;li&gt;Value object can be treated interchangeably.
+&lt;/li&gt;
+&lt;li&gt;Value object should be immutable, Entity are almost always
+mutable.
+&lt;/li&gt;
+&lt;li&gt;Lifespan
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Value object should always belong to Entity object.
+&lt;/li&gt;
+&lt;li&gt;There should be at lease one entity that owns a value object.
+&lt;/li&gt;
+&lt;li&gt;Value object doesn't have their own table in the database.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;An concept can be a value object in one domain model but an entity
+in another domain.
+&lt;/li&gt;
+&lt;li&gt;Prefer value objects to entities
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Value objects are light-weight, easy to work with.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Most&lt;/b&gt; of the business logic should be &lt;i&gt;captured in value object&lt;/i&gt;,
+&lt;/li&gt;
+&lt;li&gt;Entity are acts as &lt;b&gt;wrapper&lt;/b&gt; for value object and provider
+high level business logic.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Entity Base class
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Having an interface as an entity base class is most of time a bad idea.
+&lt;/li&gt;
+&lt;li&gt;Interface cannot have logic, which will introduce code
+duplication.
+&lt;/li&gt;
+&lt;li&gt;Interface introduce a &lt;b&gt;can-do&lt;/b&gt; relationship while class
+inheritance introduce a &lt;b&gt;is-a&lt;/b&gt;  relationship.
+&lt;/li&gt;
+&lt;li&gt;Using abstract base class for entity base class and implements
+some common function for id and equality.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Value object base class
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>ddd</category><guid>https://example.com/posts/courses/domain-driven-design/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

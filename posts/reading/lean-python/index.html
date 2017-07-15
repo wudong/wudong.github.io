@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lean Python | Warren Liu</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="https://example.com/posts/reading/lean-python/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Warren Liu">
+<link rel="prev" href="../patterns-enterprise-application-architecture/" title="Patterns of Enterprise Application Architecture" type="text/html">
+<link rel="next" href="../gradle-in-action/" title="Gradle In Action" type="text/html">
+<meta property="og:site_name" content="Warren Liu">
+<meta property="og:title" content="Lean Python">
+<meta property="og:url" content="https://example.com/posts/reading/lean-python/">
+<meta property="og:description" content="Getting Started
+
+
+Variables
+
+The first character must be a letter or underscore.
+
+Don't start a variable with a underscore, which is usually used
+for special identifiers.
+
+
+
+Additional characters may ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-07-15T00:00:00+01:00">
+<meta property="article:tag" content="python">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://example.com/">
+
+                <span id="blog-title">Warren Liu</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Lean Python</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Warren Liu
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" itemprop="datePublished" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Getting Started</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Variables
+<ul class="org-ul">
+<li>The first character must be a letter or underscore.
+<ul class="org-ul">
+<li>Don't start a variable with a underscore, which is usually used
+for special identifiers.
+</li>
+</ul>
+</li>
+<li>Additional characters may be alphanumeric or underscore.
+</li>
+<li>Names are case sensitive.
+</li>
+</ul>
+</li>
+<li>Assignment
+<div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s1">'Some Text'</span>
+<span class="n">Name</span> <span class="o">=</span> <span class="s1">'Mr'</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="s1">'Fred'</span>
+<span class="c1"># list.</span>
+<span class="n">shoppingList</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ham'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">,</span> <span class="s1">'mushrooms'</span><span class="p">]</span>
+<span class="c1"># multiple assignment.</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+<span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">myFunc</span><span class="p">()</span> <span class="c1"># when myFunc() returns three values</span>
+</pre></div>
+</li>
+<li>Special identifiers, the name will be of the form: \
+<code>_xxx</code>, <code>__xxx__</code>, <code>__xxx</code>
+</li>
+<li>
+<code>__name__</code> special variable specified how the module is called, it
+will be:
+<ul class="org-ul">
+<li>The name of the module if imported,
+</li>
+<li>The string <code>__main__</code> if executed directly.
+</li>
+<li>The following code let the interpreter loads your program and runs
+it if necessary
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span> <span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Python Objects</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>All variables have a type which can be seen using the build-in
+<code>type()</code> function.
+<div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># &lt;type 'int'&gt;</span>
+<span class="nb">type</span><span class="p">(</span><span class="s1">'some more text'</span><span class="p">)</span>  <span class="c1"># &lt;type 'str'&gt;</span>
+<span class="nb">type</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">'some'</span><span class="p">])</span>  <span class="c1"># &lt;type list'&gt;</span>
+</pre></div>
+</li>
+<li>Other types are <code>class</code>, <code>module</code>, <code>function</code>, <code>file</code>, <code>bool</code>,
+<code>NoneType</code> and <code>long</code>
+</li>
+<li>The special constants <code>True</code> and <code>False</code> are <code>bool</code> type, special
+constant <code>None</code> is a <code>NoneType</code>
+</li>
+<li>Function <code>str()</code> is used to see a textual definition of any object
+</li>
+<li>Factory functions are a serials of functions that create variable
+types directly
+<ul class="org-ul">
+<li>
+<code>int(4.0)</code> create integer <code>4</code>
+</li>
+<li>
+<code>str(4)</code> create string ='4'=
+</li>
+<li>
+<code>list(1,2,3,4,5)</code> create <code>list [1,2,3,4,5]</code>
+</li>
+<li>
+<code>tuple(1,2,3,4)</code> create tuple <code>(1,2,3,4)</code>
+</li>
+<li>
+<code>dict(one=1,two=2)</code> create dictionary <code>{'one': 1, 'two': 2}</code>
+</li>
+</ul>
+</li>
+<li>Exponentiation operator: <code>4 ** 3</code>
+</li>
+<li>Boolean are actually held as integers but have a value of either
+<code>True</code> or <code>False</code>
+<ul class="org-ul">
+<li>
+<code>bool(23)</code>  : <code>True</code>, all nonzero integers
+</li>
+<li>
+<code>bool(0)</code>  : <code>False</code>
+</li>
+<li>
+<code>bool('any')</code> : <code>True</code>, any string
+</li>
+<li>
+<code>bool('')</code> : <code>False</code>, zero length string
+</li>
+<li>
+<code>bool([])</code> : <code>False</code>, empty lists
+</li>
+</ul>
+</li>
+<li>Sequences: Strings, Lists, and Tuples.
+</li>
+<li>Tuples value much like a list, but the entries in a tuple are <b>immutable</b>
+</li>
+<li>Membership test in sequence:
+<div class="highlight"><pre><span></span><span class="s1">'a'</span> <span class="ow">in</span> <span class="s1">'track'</span>    <span class="c1"># True</span>
+<span class="mi">9</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># False</span>
+<span class="s1">'x'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s1">'next'</span>  <span class="c1"># False</span>
+<span class="s1">'red'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'tan'</span><span class="p">,</span> <span class="s1">'pink'</span><span class="p">]</span>  <span class="c1"># True</span>
+</pre></div>
+</li>
+<li>Two or more sequences can be added together using <code>+</code>
+</li>
+<li>Or Using string's <code>join()</code> method to join a list of strings, or tuple
+<div class="highlight"><pre><span></span><span class="s1">'-'</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">))</span>  <span class="c1"># 'a-b-c'</span>
+</pre></div>
+</li>
+<li>A slice is a convenient way to select a subset of elements in sequence
+<ul class="org-ul">
+<li>
+<code>[startIndex:endIndex]</code> : not including <code>endIndex</code>
+</li>
+<li>index of minus value : counting from end. <code>-1</code> index refer to the
+last element of the sequence.
+</li>
+<li>either <code>startIndex</code> or <code>endIndex</code> can be omitted.
+</li>
+</ul>
+</li>
+<li>Built-in Sequence Functions: <code>len()</code>, <code>max()</code>, <code>min()=， =sum()</code>,
+<code>sorted()</code>, <code>reversed()</code>
+</li>
+<li>String can be delimt with either single (') or double (")
+quotes. You can embed either quote inside the other.
+</li>
+<li>Access substring with slices.
+</li>
+<li>Strings can be compared with <code>&gt;</code>, <code>&lt;</code>, <code>==</code>.
+</li>
+<li>String can be searched using the membership test of sequence.
+</li>
+<li>Longer pieces of text with embedded new lines can be assigned using
+the triple quotes.
+</li>
+<li>String formatting can be done using the <code>%</code> operator
+<div class="highlight"><pre><span></span><span class="n">ntoys</span>  <span class="o">=</span> <span class="mi">4</span>
+<span class="n">myname</span> <span class="o">=</span> <span class="s1">'Fred'</span>
+<span class="s1">'</span><span class="si">%s</span><span class="s1"> has </span><span class="si">%d</span><span class="s1"> toys'</span> <span class="o">%</span> <span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">ntoys</span><span class="p">)</span>
+</pre></div>
+<ul class="org-ul">
+<li>
+<code>%c</code> Single character/string of length 1
+</li>
+<li>
+<code>%s</code> String
+</li>
+<li>
+<code>%d</code> Signed decimal integer
+</li>
+<li>
+<code>%f</code> Floating point number
+</li>
+<li>
+<code>%%</code> Percent character
+</li>
+</ul>
+</li>
+<li>Updating Lists with <code>append()</code> and <code>del</code> statement
+<div class="highlight"><pre><span></span><span class="n">myList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">myList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="n">myList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Dick'</span><span class="p">)</span>
+<span class="n">myList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s1">'Bill'</span>
+<span class="k">del</span> <span class="n">myList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</li>
+<li>Using <code>index()</code> method to find an entry and returns the offset of
+that entry.
+<ul class="org-ul">
+<li>If the entry cannot be found, it returns an Error.
+</li>
+</ul>
+</li>
+<li>Dictionary
+<div class="highlight"><pre><span></span><span class="n">wdays</span><span class="o">=</span><span class="p">{</span><span class="s1">'M'</span><span class="p">:</span> <span class="s1">'Monday'</span><span class="p">,</span> <span class="s1">'T'</span><span class="p">:</span> <span class="s1">'Tuesday'</span><span class="p">}</span>
+<span class="n">wdays</span><span class="p">[</span><span class="s1">'M'</span><span class="p">]</span><span class="o">==</span><span class="s1">'Monday'</span>
+<span class="n">wdays</span><span class="p">[</span><span class="s1">'W'</span><span class="p">]</span><span class="o">=</span><span class="s1">'Wednesday'</span>
+<span class="k">del</span> <span class="n">wdays</span><span class="p">[</span><span class="s1">'W'</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">wdays</span><span class="p">)</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Program Structure</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>
+<code>pass</code> statment is a <i>do nothing</i> statement, is often useful to show
+explicitly that the program is doing nothing.
+</li>
+<li>List comprehensions is a way of dynamically creating a list of
+elements in an elegant shorthand.
+<div class="highlight"><pre><span></span><span class="n">squares</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+    <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="p">)</span>
+<span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)]</span>
+<span class="n">evens</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+<ul class="org-ul">
+<li>The syntax is <code>[expr for element in iterable if condition]</code>
+</li>
+</ul>
+</li>
+<li>A python function can return more than one result: <br><code>return r1, r2, r3</code>.
+</li>
+<li>and it can be assigned to multiple value at same time: <br><code>max, min, average = analyse(numlist)</code>
+</li>
+<li>Named arguments and default value:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">c</span>
+<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>Variables defined in module are visible to the functions in the
+module
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Input and Output</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Stdin/Stdout
+<ul class="org-ul">
+<li>
+<code>print()</code> function takes format of:
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="o">...</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>Note that in python 2, <code>print</code> is a statement, not a function.
+</li>
+<li>The trailing newline can be suppressed by setting the end argument
+to an empty string.
+</li>
+<li>It is common to use the string formatting feature:
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">'</span><span class="si">%d</span><span class="s1"> plus </span><span class="si">%d</span><span class="s1"> makes </span><span class="si">%d</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</li>
+<li>Use <code>input()</code> function to get data into the program:
+<div class="highlight"><pre><span></span><span class="n">youName</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'Enter your name: '</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">'You name is'</span><span class="p">,</span> <span class="n">yourName</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>If you ask the user for an integer number, you should check the
+text:
+<ul class="org-ul">
+<li>Use <code>len(text)</code> to verify text has been entered.
+</li>
+<li>Use <code>text.isdigit()</code> to check the text is a number.
+</li>
+<li>Use <code>int(text)</code> to convert the text to an integer.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Files
+<ul class="org-ul">
+<li>Opening file with: <code>fileobj = open(filename, mode)</code>
+</li>
+<li>Closing file with: <code>fileobj.close()</code>
+</li>
+<li>Reading file:
+<ul class="org-ul">
+<li>
+<code>read()</code> : read the entire contents of the file into a string
+<ul class="org-ul">
+<li>The content can then be split into lines using <code>split('\n')</code>
+</li>
+</ul>
+</li>
+<li>Or using <code>readlines()</code>, which returns a list containing each
+line.
+</li>
+<li>A good way of cleaning up the newline at the end:
+<div class="highlight"><pre><span></span><span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
+</pre></div>
+</li>
+<li>the file object itself is an iterator which can be used:
+<div class="highlight"><pre><span></span><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">eachLine</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="c1"># process each line</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">eachLine</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Writing a file:
+<ul class="org-ul">
+<li>using <code>write()</code>
+</li>
+<li>using <code>writelines()</code>
+</li>
+<li>both methods do not append trailing newline (='\n'=)
+</li>
+</ul>
+</li>
+<li>Accessing File System using the <code>os</code> module, which must be imported.
+</li>
+</ul>
+</li>
+<li>Command-Ling arguments can be obtained from <code>sys</code> module's
+<code>sys.argv</code>. The first argument (element 0) is the name of the
+program itself.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Using Modules</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>The <code>import</code> statement has format:  <br><code>import modulename [as name]</code> <br><code>from module import name1, name2</code> <br><code>from module import *</code> <br>
+</li>
+<li>Modules come from the python path (<code>sys.path</code>), which is a list of
+directories that is set up by the Python installation process.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Object Orientation</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Python doesn't need a <code>new</code> method: when the object is created,
+Python looks for an <code>__init__()</code> method to initialize the object.
+</li>
+<li>The arguments passed through the <code>__init__()</code> call are used to
+initialize the object attributes.
+</li>
+<li>The first argument to all the methods in the class is <code>self</code>, the
+object itself. This argument is used internally in the class and
+is not exposed to the code that calls these method.
+</li>
+<li>The <code>self.</code> attributes are public.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Exception and Error Handling</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>
+<code>try/except</code> to catch exception
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"input two numbers, the first will be devided by the second"</span><span class="p">)</span>
+
+<span class="n">afirst</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'1st number: '</span><span class="p">)</span>
+<span class="n">asecond</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'2nd number: '</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">first</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">afirst</span><span class="p">)</span>
+    <span class="n">second</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">asecond</span><span class="p">)</span>
+    <span class="n">quotient</span> <span class="o">=</span> <span class="n">first</span> <span class="o">/</span> <span class="n">second</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">'Quotient 1st/2nd = </span><span class="si">%f</span><span class="s1">'</span> <span class="o">%</span> <span class="n">quotient</span> <span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">diag</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">diag</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">':'</span><span class="p">,</span> <span class="n">diag</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>It is possible to trap multiple exception types by: <br><code>except (ValueError, ZeroDivisionError) [as e]:</code>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Databases</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>SQLLite can be used for development or prototyping.
+</li>
+<li>Database Functions
+<div class="highlight"><pre><span></span><span class="c1"># Open (or create) a database file</span>
+<span class="n">conn</span>  <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="c1"># executes a SQL statement</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="c1"># return a cursor</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="c1"># execute the SQL query that returns rows of data</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="c1"># return the data as list of rows</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/python/" rel="tag">python</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../patterns-enterprise-application-architecture/" rel="prev" title="Patterns of Enterprise Application Architecture">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../gradle-in-action/" rel="next" title="Gradle In Action">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:n.tesla@example.com">Warren Liu</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

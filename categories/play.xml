@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about play)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/play.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:19:51 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Play for Scala</title><link>https://example.com/posts/reading/play-for-scala/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-1"&gt;Play for Scala&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-2"&gt;Protecting against Cross Site Request Forgery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-3"&gt;Proxy settings with a front end HTTP server&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-4"&gt;Application configuration.&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-5"&gt;Using Slick for database access&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-6"&gt;Binding HTTP data to Scala objects&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-7"&gt;Static and compiled assets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-8"&gt;Action composition&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/play-for-scala/#sec-9"&gt;Routes&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Play for Scala&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Defining Route that takes a HTTP request parameter:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;To take a request like &lt;code&gt;http://localhost:9000/hellp?n=World&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;In the route:
+&lt;p class="verse"&gt;
+GET  /hello   controllers.Application.hello(n: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;In the controller
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Ok&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"hello "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;Not that the query string parameter n patches the parameter name
+declared in the routes file, not in the hello action method
+parameters.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;A template is a Scala function definition that Play will convert to
+a normal Scala code and compile.
+&lt;/li&gt;
+&lt;li&gt;To render a view, with the view file name as &lt;code&gt;hello.scala.html&lt;/code&gt; in
+the views directory:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Ok&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;views&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hello&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To redirect:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Redirect&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;routes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;Products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To insert content from another template:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;div class="container"&amp;gt;
+ @content
+ @debug()
+&amp;lt;/div&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;
+Notice the differene between &lt;code&gt;@content&lt;/code&gt; and &lt;code&gt;@debug()&lt;/code&gt;, while
+&lt;code&gt;content&lt;/code&gt; is a variable, and &lt;code&gt;debug&lt;/code&gt; is the template name to be
+included.
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;The flash scope:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Most modern frameworks have a flash scope.
+&lt;/li&gt;
+&lt;li&gt;Like the session scope, it is meant to keep data, related to the
+client, outside of the context of a single request.
+&lt;/li&gt;
+&lt;li&gt;The difference is that the flash scope is kept for the next
+request only, after which it is removed.
+&lt;/li&gt;
+&lt;li&gt;Play implements this in the form of a cookie that is cleared on
+every response, except for the response that sets it.
+&lt;/li&gt;
+&lt;li&gt;It is useful to use flash scope to show one-time messages to the
+user.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Protecting against Cross Site Request Forgery&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Cross Site Request Forgery (CSRF) is a security exploit where an
+attacker tricks a victims browser into making a request using the
+victims &lt;b&gt;session&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;Since the session token is send with every request, if an attacker
+can coerce the victims browser to make a request on their behalf,
+the attacker can make request on the user's behalf.
+&lt;/li&gt;
+&lt;li&gt;By default, Play will require a CSRF check when all of the following
+are true:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The request method is not GET, HEAD, or OPTIONS.
+&lt;/li&gt;
+&lt;li&gt;The request has one or more Cookie, or Authorization headers.
+&lt;/li&gt;
+&lt;li&gt;The CORS filter is not configured to trust the request's origin.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Play's primary mechanism for CSRF protection is &lt;code&gt;CSRF&lt;/code&gt; token.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The token gets placed either in the query string, or body of every
+form submitted, and also gets placed in the users session.
+&lt;/li&gt;
+&lt;li&gt;Play then verifies that both tokens are presents and match.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Proxy settings with a front end HTTP server&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Using a front end HTTP server will rarely give you better
+performance than using Play server directly.
+&lt;/li&gt;
+&lt;li&gt;However HTTP servers are very good at handling &lt;b&gt;HTTPs&lt;/b&gt;, &lt;b&gt;conditional
+GET requests&lt;/b&gt; and &lt;b&gt;static assets&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;Many services assume a front end HTTP server is part of you
+architecture.
+&lt;/li&gt;
+&lt;li&gt;When using an HTTP frontal server, request addresses are seen as
+coming from &lt;b&gt;the HTTP server&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;Proxy servers can add a specific header to the request to tell the
+proxied application where the request came from. Most web servers
+will add an &lt;b&gt;X-Forwarded-For&lt;/b&gt; header with the remote client IP Address
+as first argument.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Application configuration.&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Configuration options are set in &lt;code&gt;conf/application.conf&lt;/code&gt; file.
+&lt;/li&gt;
+&lt;li&gt;Play uses the &lt;b&gt;Typesafe config library&lt;/b&gt;, which supports a superset
+of JSON, although plain JSON and Java Properties files are also
+supported.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Comments.
+&lt;/li&gt;
+&lt;li&gt;References to other configuration parameters and system
+environment variables.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Environment variable: &lt;code&gt;db.default.url = ${DATABASE_URL}&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Same &lt;code&gt;${...}&lt;/code&gt; syntax to refer to other configuration variables.
+&lt;p class="verse"&gt;
+log.directory = /var/log&lt;br&gt;
+log.access = ${log.directory}/access.log&lt;br&gt;
+log.errors = ${log.directory}/errors.log&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;File includes: ~include "db-default.conf"~
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Single value will &lt;b&gt;replace&lt;/b&gt; the previous value.
+&lt;/li&gt;
+&lt;li&gt;Object notation can be used to &lt;b&gt;merge&lt;/b&gt; multiple values.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Merge multiple configuration files.
+&lt;/li&gt;
+&lt;li&gt;Specifying an alternative configuration file or URL using system
+properties.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;override a property value: &lt;code&gt;$ start -Ddb.default.url=...&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;override the whole &lt;code&gt;application.conf&lt;/code&gt;, using either relative or
+absolute path:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ run -Dconfig.file&lt;span class="o"&gt;=&lt;/span&gt;conf/production.conf
+$ run -Dconfig.file&lt;span class="o"&gt;=&lt;/span&gt;/etc/products/production.conf
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Units specifiers for durations, such as &lt;code&gt;days&lt;/code&gt;, and sizes in bytes,
+such as &lt;code&gt;MB&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;play.api.Configuration&lt;/code&gt; provides type-safe access to
+configuration parameter values:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;supports &lt;code&gt;String&lt;/code&gt;, &lt;code&gt;Int&lt;/code&gt;, &lt;code&gt;Boolean&lt;/code&gt;
+&lt;/li&gt;
+&lt;li&gt;Configurations are structured hierarchically. The API allows you
+to get a subconfiguration of the current configuration.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Note that it would be better &lt;b&gt;not to hardcode the version
+information&lt;/b&gt; in the configuration file. Instead, you might get the
+information from a revision control system by writing the output
+of commands like &lt;code&gt;git describe --always&lt;/code&gt; to a file and reading
+that from your application.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-5" class="outline-2"&gt;
+&lt;h2 id="sec-5"&gt;Using Slick for database access&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-5"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Slick is intended as a Scala-based API for relational database access.
+&lt;/li&gt;
+&lt;li&gt;The idea is that you use it instead of using JDBC directly or adding
+a complex object-relational mapping framework.
+&lt;/li&gt;
+&lt;li&gt;Slick uses Scala language features to allow you to map database
+tables to &lt;b&gt;Scala collections&lt;/b&gt; and to &lt;b&gt;execute queries&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;With scala, this results in less code and cleaner code compared to
+directly using JDBC.
+&lt;/li&gt;
+&lt;li&gt;An example, to map a database table to a &lt;code&gt;Product&lt;/code&gt; data access
+object using Scala code:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;object&lt;/span&gt; &lt;span class="nc"&gt;Product&lt;/span&gt; &lt;span class="k"&gt;extends&lt;/span&gt; &lt;span class="nc"&gt;Table&lt;/span&gt;&lt;span class="o"&gt;[(&lt;/span&gt;&lt;span class="kt"&gt;Long&lt;/span&gt;, &lt;span class="kt"&gt;String&lt;/span&gt;, &lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;)]&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Products"&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;ean&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;Long&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"ean"&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;O&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;PrimaryKey&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"name"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;column&lt;/span&gt;&lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="kt"&gt;String&lt;/span&gt;&lt;span class="o"&gt;](&lt;/span&gt;&lt;span class="s"&gt;"description"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ena&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;products&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="n"&gt;product&lt;/span&gt; &lt;span class="k"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="nc"&gt;Product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sortBy&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nc"&gt;Product&lt;/span&gt; &lt;span class="k"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;asc&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt; &lt;span class="n"&gt;yeild&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;product&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"jdbc:postgresql:/localhost/slick?user=slick&amp;amp;password=slick"&lt;/span&gt;
+&lt;span class="nc"&gt;Database&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;forURL&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;driver&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;"org.postgresql.Driver"&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="n"&gt;withSession&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="k"&gt;val&lt;/span&gt; &lt;span class="n"&gt;productList&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="n"&gt;products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-6" class="outline-2"&gt;
+&lt;h2 id="sec-6"&gt;Binding HTTP data to Scala objects&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Action methods often have parameters, it is need to be able to map
+HTTP request data to those parameters.
+&lt;/li&gt;
+&lt;li&gt;The routing and the subsequent parameter binding are both part of
+the &lt;b&gt;mapping&lt;/b&gt; between HTTP and Scala's interfaces, which is a
+translation between two very different interface style.
+&lt;/li&gt;
+&lt;li&gt;Play has a number of separate build-in binders for different types,
+and you can also implement your own binders.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-7" class="outline-2"&gt;
+&lt;h2 id="sec-7"&gt;Static and compiled assets&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-7"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Architects and web frameworks often take the view that static files
+should be handled differently than generated content in a web
+application's architecture
+&lt;/li&gt;
+&lt;li&gt;In Play, this probably a &lt;b&gt;premature optimization&lt;/b&gt;. If you have high
+performance requirements for serving static content, the best
+approach is probably to use a &lt;b&gt;cache&lt;/b&gt;, or &lt;b&gt;load balancer&lt;/b&gt; in front
+of Play, instead of avoiding serving the files using Play in the
+first place.
+&lt;/li&gt;
+&lt;li&gt;Play provides an &lt;b&gt;assets controller&lt;/b&gt; to serve static files.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-8" class="outline-2"&gt;
+&lt;h2 id="sec-8"&gt;Action composition&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-8"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Action are functions, which means you can compose them to apply
+common functionality to multiple actions.
+&lt;/li&gt;
+&lt;li&gt;For example, you can defined actions for caching and authentication
+and use them like this:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Authenticated&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+     &lt;span class="nc"&gt;Cached&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+	  &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+	    &lt;span class="c1"&gt;//process request.&lt;/span&gt;
+	  &lt;span class="o"&gt;}&lt;/span&gt;
+     &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;This example uses &lt;code&gt;Action&lt;/code&gt; to create an action function that is
+passed as a parameter to &lt;code&gt;Cached&lt;/code&gt;, which returns a new action function.
+&lt;/li&gt;
+&lt;li&gt;This, in turn, is passed as parameter to &lt;code&gt;Authenticated&lt;/code&gt;, which
+decorate the action function again.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-9" class="outline-2"&gt;
+&lt;h2 id="sec-9"&gt;Routes&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-9"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Add an optional page number parameter, with a default value:
+&lt;p class="verse"&gt;
+GET  /products      controllers.Products.list(page: Int ?=1)&lt;br&gt;
+&lt;/p&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The &lt;code&gt;?=&lt;/code&gt; syntax for an optional parameter isn't normal Scala
+syntax, and it is only used in the &lt;code&gt;routes&lt;/code&gt; file.
+&lt;/li&gt;
+&lt;li&gt;Can also use &lt;code&gt;=&lt;/code&gt; for fixed parameter values that aren't specified
+in the URL  &lt;code&gt;(page: Int =1)&lt;/code&gt;,
+&lt;/li&gt;
+&lt;li&gt;and &lt;code&gt;Option&lt;/code&gt; for optional parameters that may or may not be
+include din the query string &lt;code&gt;(page: Option[Int])&lt;/code&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Matching URL path parameters that contain forward slashes:
+&lt;p class="verse"&gt;
+# This route will not work &lt;code&gt;:file&lt;/code&gt; contains forward slashes.&lt;br&gt;
+GET  &lt;i&gt;photo&lt;/i&gt;:file    controllers.Media.photo(file: String)&lt;br&gt;
+# This route will work.&lt;br&gt;
+GET  /photo/*file    controllers.Media.photo(file: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Matching regexp:
+&lt;p class="verse"&gt;
+# This will only match ean conform to the regexp \d{13}&lt;br&gt;
+GET   &lt;i&gt;product/$ean&amp;lt;\d{13}&amp;gt;   controllers.Products.details(ean: Long)&lt;br&gt;
+GET   /product&lt;/i&gt;:alias   controllers.Products.details(alias: String)&lt;br&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Binding HTTP data
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Play, along with other modern web frameworks such as Spring MVC,
+improves on treating HTTP request parameters as strings by
+performing type conversion &lt;b&gt;before&lt;/b&gt; it attempts to call action.
+&lt;/li&gt;
+&lt;li&gt;Only when type conversion succeeds does Play call the action
+method.
+&lt;/li&gt;
+&lt;li&gt;Binding applies to two kinds of request data:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;URL path parameters
+&lt;/li&gt;
+&lt;li&gt;and query string parameters.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Play defines binders for a number of basic types.
+&lt;/li&gt;
+&lt;li&gt;You can also add binding for custom types, such as your
+application's domain model types, by adding your own &lt;code&gt;Formatter&lt;/code&gt;
+implementation.
+&lt;/li&gt;
+&lt;li&gt;Binding the content of an HTML form to a domain object, using a
+&lt;code&gt;form object&lt;/code&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Generating HTTP calls for actions with reverse routing.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;map a particular action method invocation to the corresponding
+URL.
+&lt;/li&gt;
+&lt;li&gt;avoid hard coding path.
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ean&lt;/span&gt;&lt;span class="k"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;Long&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="k"&gt;=&lt;/span&gt; &lt;span class="nc"&gt;Action&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+  &lt;span class="nc"&gt;Product&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;delete&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ean&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+  &lt;span class="nc"&gt;Redirect&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;routes&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;Products&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="o"&gt;())&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;The reverse route generates a URL in the form of an HTTP call (a
+&lt;code&gt;play.pai.mvc.Call&lt;/code&gt;) for certain action method, including the
+parameter values.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>play</category><category>scala</category><guid>https://example.com/posts/reading/play-for-scala/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

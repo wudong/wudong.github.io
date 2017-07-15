@@ -1,0 +1,27 @@
+#+BEGIN_COMMENT
+.. title: Coding Questions
+.. slug: coding-questions
+.. date: 2017-07-14 16:28:48 UTC+01:00
+.. tags: coding, algorithm
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Some Coding Questions
+
+- String rotation: \\
+  Use *substring()* only to determine if a string is a rotation
+  of the other.
+
+- Return k-th to last element (last k element) of a singlely linked list
+
+- Delete middle node in a singely linke list, given only access to
+  that node.
+
+- Partition a linked list around a value ~x~, so that the node that
+  has value smaller than ~x~ comes before the those larger than ~x~.
+
+-

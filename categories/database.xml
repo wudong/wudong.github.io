@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about database)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/database.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:19:51 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Redis in Action</title><link>https://example.com/posts/reading/redis-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-1"&gt;Getting to know Redis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-2"&gt;Anatomy of Redis web application&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-2-1"&gt;Login Cookies and Shopping cart&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-2-2"&gt;Web page caching&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-2-3"&gt;Database row caching&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3"&gt;Commands in Redis&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-1"&gt;String&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-2"&gt;Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-3"&gt;Sets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-4"&gt;Hashes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-5"&gt;ZSets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-6"&gt;Publish/Subscribe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-7"&gt;Basic Transaction in Redis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-8"&gt;Expiring keys&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-4"&gt;Keeping data safe and ensuring performance&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-4-1"&gt;Persistence options&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Getting to know Redis&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Redis is a in-memory non-relational database.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Data storage options: strings, lists, sets, hashes, sorted sets
+&lt;/li&gt;
+&lt;li&gt;additional features: publish/subscribe, master/slave replication,
+disk persistence, and scripting(stored procedures)
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Redis has two forms of persistence for writing in-memory data to
+disk in a compact format
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;a point-in-time dump when conditions are met, or when one of the
+two &lt;i&gt;dump-to-disk&lt;/i&gt; commands is called.
+&lt;/li&gt;
+&lt;li&gt;use an &lt;i&gt;append-only&lt;/i&gt; file that writes every command that alters
+data in Redis to disk as it happens. append-only writing can be
+configured to never sync, sync once per second, or sync at the
+completion of every operation.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Redis support master/slave replication where slaves connect to the
+master and receive an initial copy of the full database.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;As writes are performed on the master, they are sent to all
+connected slaves for updating the slave datasets in real time.
+&lt;/li&gt;
+&lt;li&gt;Client can connect to any slave for reads.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Redis data structures:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;STRING: key-&amp;gt;string
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;GET&lt;/b&gt;, &lt;b&gt;SET&lt;/b&gt;, &lt;b&gt;DEL&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;LIST: key-&amp;gt;An ordered sequence of strings
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;push items to the front and back: &lt;b&gt;LPUSH*/*RPUSH&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;pop items from the front and back: &lt;b&gt;LPOP*/*RPOP&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;fetch an item at given position: &lt;b&gt;LINDEX&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;fetch a range of item with: &lt;b&gt;LRANGE&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SET: key-&amp;gt;Set of string
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Use a hashtable to keep all string unique (although there are no
+associated values)
+&lt;/li&gt;
+&lt;li&gt;add and remove items by value with: &lt;b&gt;SADD&lt;/b&gt; and &lt;b&gt;SREM&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;check if it is a member: &lt;b&gt;SISMEMBER&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;get the entire set: *SMEMBERS. tthis can be slow for large sets.
+&lt;/li&gt;
+&lt;li&gt;set operations: &lt;b&gt;SINTER&lt;/b&gt;, &lt;b&gt;SUNION&lt;/b&gt;, &lt;b&gt;SDIFF&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;HASH: key-&amp;gt;hashtable
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Can consider a Redis HASH as being similar to a document in a
+document store.
+&lt;/li&gt;
+&lt;li&gt;operation is defined on a key of Redis, then a sub-key of the hashtable.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;HSET&lt;/b&gt;, &lt;b&gt;HGET&lt;/b&gt;, &lt;b&gt;HGETALL&lt;/b&gt;, &lt;b&gt;HDEL&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ZSET: key-&amp;gt;Set of string with a score for sorting.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Like HASH, ZSET hold a type of key and value, the keys are
+unique and the values (called scores) are limited to float-point numbers.
+&lt;/li&gt;
+&lt;li&gt;add/remove: &lt;b&gt;ZADD&lt;/b&gt;, &lt;b&gt;ZREM&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;fetches items from their positions in sorted order: &lt;b&gt;ZRANGE&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;fetches items based on a range of scores: &lt;b&gt;ZRANGEBYSCORE&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Anatomy of Redis web application&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;/div&gt;&lt;div id="outline-container-sec-2-1" class="outline-3"&gt;
+&lt;h3 id="sec-2-1"&gt;Login Cookies and Shopping cart&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Two common methods of stroing login information in cookies: a &lt;i&gt;signed
+cookie&lt;/i&gt; or a &lt;i&gt;token cookie&lt;/i&gt;.
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Signed cookies &lt;/dt&gt;&lt;dd&gt;typically store the user's name, ID, last
+logged in, and whatever else service may find useful. Cookies
+also includes a &lt;b&gt;signature&lt;/b&gt; that allows the server to &lt;i&gt;verify&lt;/i&gt;
+that information the browser sent hasn't been altered.
+&lt;/dd&gt;
+&lt;dt&gt; Token cookies &lt;/dt&gt;&lt;dd&gt;use a series of random bytes as the data in the
+cookie. On the server, the token is used as a key
+to look up the user who owns that token.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;Most relational databases are limited to inserting, updating, or
+deleting &lt;b&gt;roughly 200-2000&lt;/b&gt; individual rows every second per
+database server.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Bulk inserts/updates/deletes can be performed faster.
+&lt;/li&gt;
+&lt;li&gt;But for normal customer faced web application, a customer will
+only update a small handful of rows for each web page view, so
+higher-speed bulk operation doesn't help.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Redis's HASH datastructure is a good fit to implements token
+cookies and shopping carts.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Performance is about &lt;i&gt;&lt;b&gt;10-100&lt;/b&gt; times&lt;/i&gt; over a typical relational
+database in this context
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2-2" class="outline-3"&gt;
+&lt;h3 id="sec-2-2"&gt;Web page caching&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The majority of the pages that are served don't change much on a
+regular basis.
+&lt;/li&gt;
+&lt;li&gt;Middleware can be easily used to add a layer of cache for requested response.
+&lt;/li&gt;
+&lt;li&gt;This could reduce the latency for a data-heavy page from maybe
+&lt;b&gt;20-50ms&lt;/b&gt;, down to one round trip to Redis, which is normally &lt;i&gt;&lt;b&gt;1ms&lt;/b&gt;
+for a local connection&lt;/i&gt;, and under &lt;i&gt;&lt;b&gt;5ms&lt;/b&gt; for computers in the same
+data center&lt;/i&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2-3" class="outline-3"&gt;
+&lt;h3 id="sec-2-3"&gt;Database row caching&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-2-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Cache database rows in preparation for a heavy load, we will:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;have a &lt;b&gt;daemon&lt;/b&gt; function that will run continuously
+&lt;/li&gt;
+&lt;li&gt;to cache specific database rows in Redis and updating them on a
+variable schedule.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Commands in Redis&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;/div&gt;&lt;div id="outline-container-sec-3-1" class="outline-3"&gt;
+&lt;h3 id="sec-3-1"&gt;String&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-3-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In Redis, STRINGs are used to store three types of values:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Byte string values
+&lt;/li&gt;
+&lt;li&gt;Integer values
+&lt;/li&gt;
+&lt;li&gt;Floating-point values
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;When setting a STRING value in Redis, if that value could be
+interpreted as a base-10 integer or a floating-point value, the
+&lt;b&gt;INCR&lt;/b&gt; and &lt;b&gt;DECR&lt;/b&gt; related command can be used to manipulate the
+value.
+&lt;/li&gt;
+&lt;li&gt;Integer/Float-point values can be increase/decerase by an numeric
+value (integer turning into float as necessary)
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; INCR &lt;/dt&gt;&lt;dd&gt;increments the value stored at the key by 1
+&lt;/dd&gt;
+&lt;dt&gt; DECR &lt;/dt&gt;&lt;dd&gt;decrements the value stored at the key by 1
+&lt;/dd&gt;
+&lt;dt&gt; INCRBY &lt;/dt&gt;&lt;dd&gt;increments by specified integer value
+&lt;/dd&gt;
+&lt;dt&gt; DECRBY &lt;/dt&gt;&lt;dd&gt;decrements by specified integer value
+&lt;/dd&gt;
+&lt;dt&gt; INCRBYFLOAT &lt;/dt&gt;&lt;dd&gt;increments by specified float value.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;STRINGs can also be manuplated with commands:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;APPEND&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;GETRANGE&lt;/b&gt;, &lt;b&gt;SETRANGE&lt;/b&gt; : get/set substring with given offset value
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;GETBIT&lt;/b&gt;, &lt;b&gt;SETBIT&lt;/b&gt; : treat the byte string as bit string
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;BITCOUNT&lt;/b&gt; : count 1 bits in the string.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;BITOP&lt;/b&gt; : performs &lt;b&gt;AND&lt;/b&gt; &lt;b&gt;OR&lt;/b&gt; &lt;b&gt;XOR&lt;/b&gt; or &lt;b&gt;NOT&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3-2" class="outline-3"&gt;
+&lt;h3 id="sec-3-2"&gt;Lists&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-3-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;LIST store an ordered sequence of STRING value
+&lt;/li&gt;
+&lt;li&gt;Commonly used LIST commands
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;RPUSH, LPUSH, RPOP, LPOP
+&lt;/li&gt;
+&lt;li&gt;LINDEX, LRANGE
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;LTRIM&lt;/b&gt; : trims the list to only include items in the given range.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-3-3" class="outline-3"&gt;
+&lt;h3 id="sec-3-3"&gt;Sets&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-3-4" class="outline-3"&gt;
+&lt;h3 id="sec-3-4"&gt;Hashes&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id="outline-container-sec-3-5" class="outline-3"&gt;
+&lt;h3 id="sec-3-5"&gt;ZSets&lt;/h3&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3-6" class="outline-3"&gt;
+&lt;h3 id="sec-3-6"&gt;Publish/Subscribe&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-3-6"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In Redis, the pub/sub concept has been included through the use of
+five commands:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; SUBSCRIBE channel &lt;/dt&gt;&lt;dd&gt;subscribe to the given channels
+&lt;/dd&gt;
+&lt;dt&gt; UNSUBSCRIBE channel &lt;/dt&gt;&lt;dd&gt;unsubscribe to the given channels
+&lt;/dd&gt;
+&lt;dt&gt; (no term) &lt;/dt&gt;&lt;dd&gt;PUBLISH channel message::  publish a message to the given channel
+&lt;/dd&gt;
+&lt;dt&gt; PSUBSCRIBE pattern &lt;/dt&gt;&lt;dd&gt;subscribes to messages broadcase to channels
+that match the given pattern
+&lt;/dd&gt;
+&lt;dt&gt; PUNSUBSCRIBE &lt;/dt&gt;&lt;dd&gt;unsubscribe the above.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3-7" class="outline-3"&gt;
+&lt;h3 id="sec-3-7"&gt;Basic Transaction in Redis&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-3-7"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A basic transaction involving &lt;b&gt;MULTI&lt;/b&gt; and &lt;b&gt;EXEC&lt;/b&gt; is meant to provide
+the opportunity for one client to execute multiple commands without
+other clients being able to interrupt them.
+&lt;/li&gt;
+&lt;li&gt;It isn't the same as a relational database which can be executed
+partially, and then rolled back or committed.
+&lt;/li&gt;
+&lt;li&gt;To perform a transaction:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;first call MULTI, when seeing it, Redis will queue up commands
+from that same connection until it sees an EXEC.
+&lt;/li&gt;
+&lt;li&gt;followed by any sequence of commands, all commands will be queued,
+without execution.
+&lt;/li&gt;
+&lt;li&gt;followed by EXEC, Redis will execute all the queued commands
+sequentially without interruption.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3-8" class="outline-3"&gt;
+&lt;h3 id="sec-3-8"&gt;Expiring keys&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-3-8"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;data can be explicitly with &lt;b&gt;DEL&lt;/b&gt; command,
+&lt;/li&gt;
+&lt;li&gt;or can be removed after a specified timeout, or expiration.
+&lt;/li&gt;
+&lt;li&gt;Related commands are:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; EXPIRE key-name seconds &lt;/dt&gt;&lt;dd&gt;set the key to expire in the given
+number of &lt;b&gt;seconds&lt;/b&gt;.
+&lt;/dd&gt;
+&lt;dt&gt; EXPIREAT key-name timestamp &lt;/dt&gt;&lt;dd&gt;set to expire at tht given time.
+&lt;/dd&gt;
+&lt;dt&gt; TTL key-name &lt;/dt&gt;&lt;dd&gt;get the remaining time before key expire.
+&lt;/dd&gt;
+&lt;dt&gt; PERSIST key-name &lt;/dt&gt;&lt;dd&gt;remove the expiration from the key.
+&lt;/dd&gt;
+&lt;dt&gt; PTTL, PEXPIRE, PEXPIREAT &lt;/dt&gt;&lt;dd&gt;accept parameters in &lt;b&gt;milliseconds&lt;/b&gt;.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-4" class="outline-2"&gt;
+&lt;h2 id="sec-4"&gt;Keeping data safe and ensuring performance&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-4"&gt;
+&lt;/div&gt;&lt;div id="outline-container-sec-4-1" class="outline-3"&gt;
+&lt;h3 id="sec-4-1"&gt;Persistence options&lt;/h3&gt;
+&lt;div class="outline-text-3" id="text-4-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Two different ways of persisting data to disk:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; snapshotting &lt;/dt&gt;&lt;dd&gt;take the data as it exists at one moment in time
+and writes it to disk.
+&lt;/dd&gt;
+&lt;dt&gt; AOF (append-only file)  &lt;/dt&gt;&lt;dd&gt;copy incoming write commands to disk as
+they happen.
+&lt;/dd&gt;
+&lt;dt&gt; (no term) &lt;/dt&gt;&lt;dd&gt;both methods can be used together, separately, or not at all.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;/li&gt;&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>database</category><category>redis</category><guid>https://example.com/posts/reading/redis-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

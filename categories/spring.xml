@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about spring)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/spring.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:19:51 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Spring Integration in Action</title><link>https://example.com/posts/reading/spring-integration-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+&lt;h2&gt;Table of Contents&lt;/h2&gt;
+&lt;div id="text-table-of-contents"&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/spring-integration-in-action/#sec-1"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/spring-integration-in-action/#sec-2"&gt;Enterprise integration fundamentals&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://example.com/posts/reading/spring-integration-in-action/#sec-3"&gt;Messages and Channels&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div id="outline-container-sec-1" class="outline-2"&gt;
+&lt;h2 id="sec-1"&gt;Introduction&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-1"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Spring Integration consists of two parts:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;At its core, a &lt;i&gt;messaging framework&lt;/i&gt; that supports lightweight,
+event-driven interactions &lt;b&gt;within&lt;/b&gt; an application.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The components in it would exist within the scope of a single
+Spring application context.
+&lt;/li&gt;
+&lt;li&gt;They would exchange messages in a lightweight manner because
+they are running in the same instance of a JVM.
+&lt;/li&gt;
+&lt;li&gt;No serialization is needed, most messages will contain POJO
+instances as their payloads.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;On top of the core, an adapter-based platform that support
+flexible integration of application across the enterprise.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Adapters are used to map the content from outbound messages into
+the format that some external system expectes.
+&lt;/li&gt;
+&lt;li&gt;map inbound content from those external systems into messages.
+&lt;/li&gt;
+&lt;li&gt;In Spring Integration 2.0, following adapters are supported:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Filesystem, FTP, or SFTP
+&lt;/li&gt;
+&lt;li&gt;UDP, TCP
+&lt;/li&gt;
+&lt;li&gt;HTTP (REST)
+&lt;/li&gt;
+&lt;li&gt;Web services (SOAP)
+&lt;/li&gt;
+&lt;li&gt;Main (POP3, IMAP, SMTP)
+&lt;/li&gt;
+&lt;li&gt;Java Message Service (JMS)
+&lt;/li&gt;
+&lt;li&gt;Java Database Connectivity (JDBC)
+&lt;/li&gt;
+&lt;li&gt;Java Management Extension (JMX)
+&lt;/li&gt;
+&lt;li&gt;Remote Method Invocation (RMI)
+&lt;/li&gt;
+&lt;li&gt;Really Simple Syndication (RSS) feeds
+&lt;/li&gt;
+&lt;li&gt;Twitter
+&lt;/li&gt;
+&lt;li&gt;Extensible Messaging and Presence Protocol (XMPP)
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;In Spring Integration:
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Channel Adapter &lt;/dt&gt;&lt;dd&gt;any unidirectional inbound &lt;b&gt;OR&lt;/b&gt; outbound adapter.
+&lt;/dd&gt;
+&lt;dt&gt; Messaging Gateway &lt;/dt&gt;&lt;dd&gt;bidirectional, or request-reply adapter.
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Message Channels
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Although the most important characteristic of any channel is that
+it &lt;i&gt;logically&lt;/i&gt; decouples producers from consumers, there are a
+number of &lt;i&gt;practical&lt;/i&gt; implementation options
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;A channel implementation might dispatch messages directly to
+&lt;b&gt;passive&lt;/b&gt; consumers within the &lt;i&gt;&lt;b&gt;same&lt;/b&gt; thread of control&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;A channel might buffer messages in a queue whose
+reference is shared by producer and an &lt;b&gt;active&lt;/b&gt; consumer such
+that the send and receive operations each occur within &lt;i&gt;&lt;b&gt;different&lt;/b&gt;
+threads of control&lt;/i&gt;.
+&lt;/li&gt;
+&lt;li&gt;Channels might be classified according to whether messages are
+delivered to a single endpoint (point-to-point), or to any
+endpoint that is listening to the channel (publish-subscribe).
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Channels can be categorized based on two dimension
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;type of handoff : synchronous, or asynchronous
+&lt;/li&gt;
+&lt;li&gt;type of delivery
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Point-to-point
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Each single message is received by exactly &lt;b&gt;one&lt;/b&gt; consumer.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Competing Consumers&lt;/b&gt;: Multiple comsumers can compete for
+messages from a single channel.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Publish-subscribe: delivers the same message to zero or more
+subscribers.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The drawback of it is tha tthe sender isn't informed about
+message delivery or failure to the same extent as in
+point-to-point configurations.
+&lt;/li&gt;
+&lt;li&gt;Often require failure-handling patterns such as &lt;b&gt;Idempotent
+Receiver&lt;/b&gt; or &lt;b&gt;Compensating Transactions&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Message Endpoints
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Channel Adapter
+&lt;/li&gt;
+&lt;li&gt;Message Gateway
+&lt;/li&gt;
+&lt;li id="Service Activator"&gt;is a component that invokes a service based
+on an incoming message and sends an outbound message based on
+the return value of this service invocation.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In Spring Integration, it is constrained to local method calls.
+&lt;/li&gt;
+&lt;li&gt;Can be think of as a method-invoking outbound gateway.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li id="Router"&gt;determines the next channel a message should be send to
+based on the incomming message.
+&lt;/li&gt;
+&lt;li id="Splitter"&gt;receives one message and splits it into multiple
+messages that are send to its output channels.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Useful whenever the act of processing message content can be
+split into multiple steps and executed by different consumers at
+the same time.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li id="Aggregator"&gt;waits for a group of correlated messages and merges
+them together when the group is completed.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;The correlation of the messages typically is based on a
+&lt;b&gt;correlation ID&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;A splitter and an aggregator are often used in a symmetric setup.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-2" class="outline-2"&gt;
+&lt;h2 id="sec-2"&gt;Enterprise integration fundamentals&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-2"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Identifying highly coupled system
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;One measure could be how many user types a class references. When
+a class is referencing &lt;i&gt;many user types&lt;/i&gt;, it is considered &lt;span class="underline"&gt;highly coupled&lt;/span&gt;.
+&lt;/li&gt;
+&lt;li&gt;A general way of defining coupling is as a measure of how
+connected the parts of a system are or how many assumptions the
+components of the system make about each other.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Event-driven architecture
+&lt;dl class="org-dl"&gt;
+&lt;dt&gt; Staged event-driven architecture (SEDA) &lt;/dt&gt;&lt;dd&gt;events are communicated via
+channels that can act as buffers in periods of high throughput.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;generally respond better to significant &lt;i&gt;spikes in load&lt;/i&gt;.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;Synchronous and asynchronous communication
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;In Spring Integration, simple configuration option allow you
+switch between the two without channing the overall logical design
+of the application.
+&lt;/li&gt;
+&lt;li&gt;With an increased load, the synchronous communication has few alternatives:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Trying to accomodate all requests as they arrive, which will
+crash the system.
+&lt;/li&gt;
+&lt;li&gt;Throttling some of the requests to bring the load to a bearable level.
+&lt;/li&gt;
+&lt;li&gt;The application will eventually fail, when the load increases.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Unlike synchronous calls when the load of the system is controlled
+by the &lt;b&gt;requesting side&lt;/b&gt;, in asynchronous model, the load of the
+system is controllered by the &lt;b&gt;service provider's side&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;Asynchronous communication has the obvious advantages in terms of
+&lt;i&gt;scalabiity&lt;/i&gt; and &lt;i&gt;robustness&lt;/i&gt;, but it brings in &lt;b&gt;complexity&lt;/b&gt;.
+&lt;/li&gt;
+&lt;li&gt;In Spring Integration, the two interaction model is determined by
+the type of channel that is used for transferring the messages
+between then endpoints
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;DirectChannel&lt;/b&gt; for synchronous
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;QueueChannel&lt;/b&gt; for asynchronous
+&lt;/li&gt;
+&lt;li&gt;The interaction model doesn't affect the logical design of the
+system on how many channels, what endpoints, and how they are connected.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id="outline-container-sec-3" class="outline-2"&gt;
+&lt;h2 id="sec-3"&gt;Messages and Channels&lt;/h2&gt;
+&lt;div class="outline-text-2" id="text-3"&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Three types of messages based on the role they fulfill:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;Document messages that contain only information
+&lt;/li&gt;
+&lt;li&gt;Command messages that instruct the recipient to perform various operations
+&lt;/li&gt;
+&lt;li&gt;Event messages that indicate notable occurrences in the system and
+to which the recipient may react.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The &lt;b&gt;Message&amp;lt;T&amp;gt;&lt;/b&gt; interface
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;interface&lt;/span&gt; &lt;span class="nc"&gt;Message&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;MessageHeaders&lt;/span&gt; &lt;span class="nf"&gt;getHeaders&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="nf"&gt;getPayload&lt;/span&gt;&lt;span class="o"&gt;();&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It is rarely necessary to create your own message implementation,
+apart from the build-ins with the framework.
+&lt;/li&gt;
+&lt;li&gt;The &lt;b&gt;MessageHeaders&lt;/b&gt; are &lt;b&gt;Map&lt;/b&gt; with some additional behaviour
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;final&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MessageHeaders&lt;/span&gt; &lt;span class="kd"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;Map&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Object&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;,&lt;/span&gt; &lt;span class="n"&gt;Serializable&lt;/span&gt; &lt;span class="o"&gt;{}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Message&lt;/b&gt; and &lt;b&gt;MessageHeaders&lt;/b&gt; are immutable objects, and can be
+build with &lt;b&gt;MessageBuilder&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Channels aren't just information transfer components, they play an
+&lt;b&gt;active&lt;/b&gt; role in defining the overall application behavior.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;different from other enterprise integration framework.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;The &lt;b&gt;MessageChannel&lt;/b&gt; interface
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;interface&lt;/span&gt; &lt;span class="nc"&gt;MessageChannel&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;boolean&lt;/span&gt; &lt;span class="nf"&gt;send&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Message&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;?&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+    &lt;span class="kt"&gt;boolean&lt;/span&gt; &lt;span class="nf"&gt;send&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Msssage&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;?&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;message&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;long&lt;/span&gt; &lt;span class="n"&gt;timeout&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;To receiving message, two mechanism through which messages are
+handed over to the next endpoint:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;SubscribableChannel extends MessageChannel&lt;/b&gt; interface
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;boolean subscribe(MessageHandler handler)&lt;/b&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;boolean unsubscribe(MessageHandler handler)&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;PollableChannel extends MessageChannel&lt;/b&gt; interface
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;Message&amp;lt;?&amp;gt; receive()&lt;/b&gt;;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Message&amp;lt;?&amp;gt; receive(long timeout)&lt;/b&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Spring Integration offers a number of channel implements. The type
+of channel you select has significant implications for your
+application, including
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;transactional boundaries,
+&lt;/li&gt;
+&lt;li&gt;lagency
+&lt;/li&gt;
+&lt;li&gt;overall throughput
+&lt;/li&gt;
+&lt;li&gt;The default channel used is &lt;b&gt;SubscribableChannel&lt;/b&gt;, and the message
+transmission is synchronous.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Type of channels:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;QueueChannel&lt;/b&gt;
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;PriorityChannel&lt;/b&gt; with a priority queue.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;PUblishSubscribeChannel&lt;/b&gt; for more than one consumer.
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;It doesn't support queueing,
+&lt;/li&gt;
+&lt;li&gt;but does support asynchronous operation if provided with a task
+executor that delivers messages to each of the subscribers in
+separate threads.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;bridge&lt;/b&gt; is an enterprise integration pattern that supports the
+connection of two channels.
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Channel collaborators:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;b&gt;MessageDispatcher&lt;/b&gt; controls how messages sent to a channel are
+passed to any registered handlers.
+&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;ChannelInterceptor&lt;/b&gt; allows interception at key points like
+channel send and receive operations
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;</description><category>java</category><category>spring</category><guid>https://example.com/posts/reading/spring-integration-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functional Programming in Scala | Warren Liu</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="https://example.com/posts/reading/functional-programming-in-scala/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Warren Liu">
+<link rel="prev" href="../go-in-action/" title="Go In Action" type="text/html">
+<link rel="next" href="../enterprise-integration-patterns/" title="Enterprise Integration Patterns" type="text/html">
+<meta property="og:site_name" content="Warren Liu">
+<meta property="og:title" content="Functional Programming in Scala">
+<meta property="og:url" content="https://example.com/posts/reading/functional-programming-in-scala/">
+<meta property="og:description" content="Table of Contents
+
+
+Some Basic Ideas
+
+(Pure) function
+Loop without mutating a loop variable
+ADT(algebraic data type)
+
+
+Handling Errors
+
+Partial function
+Option, Either and Try
+
+
+Strictness and Lazines">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-07-15T00:00:00+01:00">
+<meta property="article:tag" content="functional programming">
+<meta property="article:tag" content="scala">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://example.com/">
+
+                <span id="blog-title">Warren Liu</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Functional Programming in Scala</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Warren Liu
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" itemprop="datePublished" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li>
+<a href="#sec-1">Some Basic Ideas</a>
+<ul>
+<li><a href="#sec-1-1">(Pure) function</a></li>
+<li><a href="#sec-1-2">Loop without mutating a loop variable</a></li>
+<li><a href="#sec-1-3">ADT(algebraic data type)</a></li>
+</ul>
+</li>
+<li>
+<a href="#sec-2">Handling Errors</a>
+<ul>
+<li><a href="#sec-2-1">Partial function</a></li>
+<li><a href="#sec-2-2"><code>Option</code>, <code>Either</code> and <code>Try</code></a></li>
+</ul>
+</li>
+<li><a href="#sec-3">Strictness and Laziness</a></li>
+<li><a href="#sec-4">Purely functional state</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Some Basic Ideas</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>FP is based on a simple premise that to construct programs using
+only <b>pure functions</b>. Functions that have <i>no side effects</i>.
+</li>
+<li>Side effect examples
+<ul class="org-ul">
+<li>Reading or Writing to a file
+</li>
+<li>Printing to the console or reading user input
+</li>
+<li>Drawing on the screen
+</li>
+<li>Throwing an excepion or halting with an error
+</li>
+</ul>
+</li>
+<li>Functional programming is a restriction on <i>how</i> to write programs,
+but not on <i>what</i> programs we can express.
+</li>
+<li>Functional programmers often speak of implementing programs with a
+<b>pure core</b> and a thin layer on the outside that handles effects.
+</li>
+<li>Finding ways to structure code so that effects occur but aren't
+<b>observable</b>.
+<ul class="org-ul">
+<li>mutate data that's declared locally in the body of some function,
+if we ensure that it can't be referenced outside the function.
+</li>
+<li>write to a file as long as no enclosing function can observe this
+occurring.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">(Pure) function</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>A function <code>f: (A)=&gt;B</code> is a computation that relates every value <code>a</code>
+  of type <code>A</code> to exactly one value <code>b</code> of type <code>B</code>.
+</li>
+<li>Such that <code>b</code> is determined solely by the value of <code>a</code>.
+</li>
+<li>Any changing state of an internal or external process is irrelevant
+to computing the result.
+</li>
+<li>If it really is a <code>function</code>, it will do nothing else.
+</li>
+<li>a function has no <i>observable effect</i> on the execution of the
+program other than to compute the result given its inputs.
+</li>
+<li>Function vs Procedure : whether to have side effects.
+</li>
+<li>
+<b>Referentially Transparent</b> : the expression can be replaced by its
+result without changing the meaning of the program.
+<ul class="org-ul">
+<li>It forces the invariant that everything a function does is
+represented by the value that it returns.
+</li>
+<li>This constrains enables a simple and natural mode of reasoning
+about program evaluation : <b>substitution model</b>.
+</li>
+</ul>
+</li>
+<li>Functional programs are often more modular due to this.
+<ul class="org-ul">
+<li>Modular programs consist of components that can be understood and
+reused <b>independently</b> of the whole.
+</li>
+<li>Such that the meaning of the whole depends only on the meaning of
+the components and the rules governing their composition.
+</li>
+<li>That is, they are <b>composable</b>.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Loop without mutating a loop variable</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>An example for looping with recursion:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">factorial</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">={</span>
+  <span class="k">def</span> <span class="n">go</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">acc</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">0</span><span class="o">)</span> <span class="n">acc</span>
+    <span class="k">else</span> <span class="n">go</span><span class="o">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="n">n</span><span class="o">*</span><span class="n">acc</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="n">go</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>The argument to <code>go</code> are the state for the loop. In this case, it is
+the remaining value <code>n</code>, and the current accumulated factorial <code>acc</code>.
+</li>
+<li>To advanced to the next iteration, simply call the <code>go</code> recursively
+with the <i>new loop state</i>.
+</li>
+<li>And to exist the loop, return a value without a recursive call.
+</li>
+<li>Scala detects this sort of <b>self-recursion</b> and compiles it to the
+same sort of bytecode as would be emitted for a <code>while</code> loop, as
+long as the recursive call is in <b>tail position</b>.
+<ul class="org-ul">
+<li>This optimization is called tail call elimination.
+</li>
+<li>applied when there is no additional work left to do after the
+recursive call returns.
+</li>
+<li>annotation <code>@tailrec</code> can be used to tell Scala compiler about
+this assumption.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">ADT(algebraic data type)</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>An ADT is a data type defined by one or more data constructors, each
+of which may contain zero or more arguments.
+</li>
+<li>The data type is the <b>sum</b>, or <b>union</b> of its data constructors
+</li>
+<li>And each data constructor is the <b>product</b> of its arguments.
+</li>
+<li>Hence the name <b>algebraic data type</b>
+<ul class="org-ul">
+<li>The naming is not coincidental.
+</li>
+<li>There is a deep connection between the "addition" and
+"multiplication" of types to form an ADT and addition and
+multiplication of numbers.
+</li>
+</ul>
+</li>
+<li>Algebraic data types can be used to define other data structures.
+</li>
+<li>One might object that algebraic data types violate encapsulation by
+making public the internal representation of type.
+</li>
+<li>However in FP, the approach to encapsulation is different, it
+doesn't typically have delicate mutable state which could lead to
+bugs or violation of invariants if exposed publicly.
+</li>
+<li>ADTs is typically used for situations where the set of cases is
+closed(known to be fixed)
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Handling Errors</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Two major problem with exceptions:
+<ul class="org-ul">
+<li>Exceptions break referential transparent.
+</li>
+<li>Exceptions are not type-safe.
+</li>
+</ul>
+</li>
+<li>Instead of throwing an exception, we can return a value indicating
+that an exceptional condition has occurred.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Partial function</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>It is not defined for some input.
+</li>
+<li>An example:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">mean</span><span class="o">(</span><span class="n">xs</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Double</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">xs</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">ArithmeticException</span><span class="o">(</span><span class="s">"mean of empty list!"</span><span class="o">)</span>
+  <span class="k">else</span> <span class="n">xs</span><span class="o">.</span><span class="n">sum</span> <span class="o">/</span> <span class="n">xs</span><span class="o">.</span><span class="n">length</span>
+
+<span class="k">def</span> <span class="n">mean2</span><span class="o">(</span><span class="n">xs</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Doubl</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span> <span class="k">=</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">xs</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span> <span class="nc">None</span>
+  <span class="k">else</span> <span class="nc">Some</span><span class="o">(</span><span class="n">xs</span><span class="o">.</span><span class="n">sum</span> <span class="o">/</span> <span class="n">xs</span><span class="o">.</span><span class="n">length</span><span class="o">)</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">
+<code>Option</code>, <code>Either</code> and <code>Try</code>
+</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>
+<code>filter(f: A=&gt;Boolean): Option[A]</code> : can convert successes into
+failure if the successful value doesn't match the given predicate.
+</li>
+<li>
+<code>getOrElse(default: =&gt;B) : B</code> : return <code>defulat</code> if undefined.
+</li>
+<li>
+<code>orElse(ob: =&gt;Option[B]) : Option[B]</code> : return another Option if the
+first is undefined. This is often useful when we need to chain
+together possibly failing computations, trying the second if the
+first hasn't succeeded.
+</li>
+<li>A common idiom is to do <code>o.getOrElse(throw new Exception("FAIL"))</code>
+    to convert the <code>None</code> case of an Option back to an exception.
+<ul class="org-ul">
+<li>use it only if no reasonable program would ever catch the
+exception.
+</li>
+</ul>
+</li>
+<li>Convert existed function to be Option-aware
+<ul class="org-ul">
+<li>
+<code>lift</code> of ordinary functions to operate on <code>Option</code>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">lift</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">f</span> <span class="k">:</span> <span class="kt">A</span><span class="o">=&gt;</span><span class="n">B</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">B</span><span class="o">]</span> <span class="k">=</span> <span class="k">_</span> <span class="n">map</span> <span class="n">f</span>
+<span class="k">def</span> <span class="n">map2</span><span class="o">[</span><span class="kt">A</span>,<span class="kt">B</span>,<span class="kt">C</span><span class="o">](</span><span class="n">a</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">B</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">,</span> <span class="kt">B</span><span class="o">)</span><span class="k">=&gt;</span> <span class="n">C</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">C</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="c1">//TODO.</span>
+<span class="o">}</span>
+<span class="k">val</span> <span class="n">absO</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span> <span class="k">=</span> <span class="n">lift</span><span class="o">(</span><span class="n">math</span><span class="o">.</span><span class="n">abs</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>
+<code>Try</code> : a general-purpose function to convert from an
+exception-based API to an Option-oriented API:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nc">Try</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">a</span><span class="k">:</span> <span class="o">=&gt;</span><span class="n">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span>
+  <span class="k">try</span> <span class="nc">Some</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+  <span class="k">catch</span> <span class="o">{</span> <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">Exception</span> <span class="o">=&gt;</span> <span class="nc">None</span> <span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>
+<code>Either</code> data type: sometimes just knowing whether a failure
+occurred is insufficient when more information about failure is
+wanted. the <code>Either</code> data type is designed for the purpose.
+<div class="highlight"><pre><span></span><span class="n">seal</span> <span class="k">trait</span> <span class="nc">Either</span><span class="o">[</span><span class="kt">+E</span>, <span class="kt">+A</span><span class="o">]</span>
+<span class="nc">case</span> <span class="k">class</span> <span class="nc">Left</span><span class="o">[</span><span class="kt">+E</span><span class="o">](</span><span class="n">value</span><span class="k">:</span> <span class="kt">E</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Either</span><span class="o">[</span><span class="kt">E</span>, <span class="kt">Nothing</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Right</span><span class="o">[</span><span class="kt">+A</span><span class="o">](</span><span class="n">value</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Either</span><span class="o">[</span><span class="kt">Nothing</span>, <span class="kt">A</span><span class="o">]</span>
+</pre></div>
+<ul class="org-ul">
+<li>Both cases carry a value.
+</li>
+</ul>
+</li>
+<li>A common use of <code>Either</code> is as an alternative to <code>Option</code> for
+dealing with possibly missing values.
+<ul class="org-ul">
+<li>In this usage, <code>None</code> is replaced with a <code>Left</code> which can
+contain useful information. <code>Right</code> takes the place of <code>Some</code>.
+</li>
+<li>Convention dictates that <code>Left</code> is used for failure and <code>Right</code>
+    is used for success.
+</li>
+</ul>
+</li>
+<li>
+<code>Try</code> represents a computation that may either result in an
+exception, or return a successful computed value.
+<ul class="org-ul">
+<li>Similar to <code>Either</code>, but semantically different.
+</li>
+<li>Instance of <code>Try[T]</code>, are either an <code>Success[T]</code> or a <code>Failure[t]</code>
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.io.StdIn</span>
+<span class="k">import</span> <span class="nn">scala.util.</span><span class="o">{</span><span class="nc">Try</span><span class="o">,</span> <span class="nc">Success</span><span class="o">,</span> <span class="nc">Failure</span><span class="o">}</span>
+
+<span class="k">def</span> <span class="n">divide</span><span class="k">:</span> <span class="kt">Try</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">dividend</span> <span class="k">=</span> <span class="nc">Try</span><span class="o">(</span><span class="nc">StdIn</span><span class="o">.</span><span class="n">readLine</span><span class="o">(</span><span class="s">"Enter an Int that you'd like to divide:\n"</span><span class="o">).</span><span class="n">toInt</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">divisor</span> <span class="k">=</span> <span class="nc">Try</span><span class="o">(</span><span class="nc">StdIn</span><span class="o">.</span><span class="n">readLine</span><span class="o">(</span><span class="s">"Enter an Int that you'd like to divide by:\n"</span><span class="o">).</span><span class="n">toInt</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">problem</span> <span class="k">=</span> <span class="n">dividend</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">divisor</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">y</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="o">))</span>
+  <span class="n">problem</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">Success</span><span class="o">(</span><span class="n">v</span><span class="o">)</span> <span class="k">=&gt;</span>
+      <span class="n">println</span><span class="o">(</span><span class="s">"Result of "</span> <span class="o">+</span> <span class="n">dividend</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span> <span class="s">"/"</span><span class="o">+</span> <span class="n">divisor</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span><span class="s">" is: "</span> <span class="o">+</span> <span class="n">v</span><span class="o">)</span>
+      <span class="nc">Success</span><span class="o">(</span><span class="n">v</span><span class="o">)</span>
+    <span class="k">case</span> <span class="nc">Failure</span><span class="o">(</span><span class="n">e</span><span class="o">)</span> <span class="k">=&gt;</span>
+      <span class="n">println</span><span class="o">(</span><span class="s">"You must've divided by zero or entered something that's not an Int. Try again!"</span><span class="o">)</span>
+      <span class="n">println</span><span class="o">(</span><span class="s">"Info from the exception: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">getMessage</span><span class="o">)</span>
+      <span class="n">divide</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>An important property of <b>Try</b> shown in the above example is its
+ability to pipeline, or chain, operations, catching exceptions
+along the way.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Strictness and Laziness</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Scala collection function like <code>map</code>, <code>filter</code> are <b>strict functions</b>
+  that produce intermediate temporary collections when called in chain.
+</li>
+<li>a non-strict function may choose <b>not</b> to evaluate one, or more of
+its arguments, while a strict function will always evaluates its
+arguments.
+</li>
+<li>
+<code>if</code> can be think as a function accepting three parameters. This
+function would be non-strict, since it won't evaluate all of its
+arguments.
+</li>
+<li>In scala, we can write non-strict functions by accepting some of our
+arguments un-evaluated, for example:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">if2</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">cond</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">,</span> <span class="n">onTrue</span><span class="k">:</span> <span class="o">()=&gt;</span><span class="n">A</span><span class="o">,</span> <span class="n">onFalse</span><span class="k">:</span> <span class="o">()=&gt;</span><span class="n">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="n">onTrue</span><span class="o">()</span> <span class="k">else</span> <span class="n">onFalse</span><span class="o">()</span>
+</pre></div>
+<p>
+Or with pass-by-reference:
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">if2</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">cond</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">,</span> <span class="n">onTrue</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">,</span> <span class="n">onFalse</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">)</span> <span class="k">:</span><span class="kt">A</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="n">onTrue</span> <span class="k">else</span> <span class="n">onFalse</span>
+</pre></div>
+</li>
+<li>Adding the <code>lazy</code> keyword to a <code>val</code> declaration will cause Scala to
+delay evaluation of the right-hand side of the declaration, until it
+is first referenced. It will also cache the result so that
+subsequent references to it don't trigger repeated evaluation.
+</li>
+<li>A major theme in FP is <i>separation of concerns</i>. We want to separate
+the description of computations from actually running them.
+<ul class="org-ul">
+<li>Laizness lets us separate the description of an expression from
+the evaluation of that expression.
+</li>
+<li>We may choose to describe a <i>larger</i> expression than we need, and
+then evaluate only a portion of it.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">exists</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">A</span><span class="o">=&gt;</span><span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="k">this</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">t</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">p</span><span class="o">(</span><span class="n">h</span><span class="o">())</span> <span class="o">||</span> <span class="n">t</span><span class="o">().</span><span class="n">exists</span><span class="o">(</span><span class="n">p</span><span class="o">)</span>
+    <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">false</span>
+<span class="o">}</span>
+</pre></div>
+<p>
+Note that <code>||</code> is non-strict in its second argument.
+</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Purely functional state</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>The key to recovering referential transparency is to <b>make the state
+updates explicit</b>. Don't update the state as a side effect, but
+simply <b>return the new state</b> along with the value that we are return.
+</li>
+<li>An example for a random number generator:
+<div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">RNG</span> <span class="o">{</span>
+     <span class="k">def</span> <span class="n">nextInt</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">RNG</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+<ul class="org-ul">
+<li>Rather than returning only the generated random number, and
+updating some internal state by <i>mmutating</i> it in place, we return
+the random number <b>and</b> the new state, leaving the old state
+unmodified.
+</li>
+<li>It separating the concern of <b>computing</b> what the next state is
+from the concern of <b>communicating</b> the new state to the rest of
+the program.
+</li>
+</ul>
+</li>
+<li>The function has a type of the form <code>RNG =&gt; (A, RNG)</code>. Functions of
+this type are called <b>state actions</b> or <b>state transitions</b> because
+they transform <b>RNG</b> states from one to the next.
+<ul class="org-ul">
+<li>It will be quite tedious and repetitive to passing the state.
+</li>
+</ul>
+</li>
+<li>This state actions can be combined using <b>combinators</b>, which are
+higher-order functions. The combinators will pass the state from one
+action to the next automatically.
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/functional-programming/" rel="tag">functional programming</a></li>
+            <li><a class="tag p-category" href="../../../categories/scala/" rel="tag">scala</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../go-in-action/" rel="prev" title="Go In Action">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../enterprise-integration-patterns/" rel="next" title="Enterprise Integration Patterns">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:n.tesla@example.com">Warren Liu</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

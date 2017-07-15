@@ -1,0 +1,270 @@
+#+BEGIN_COMMENT
+.. title: Lean Python
+.. slug: lean-python
+.. date: 2017-07-15
+.. tags: python
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Getting Started
+- Variables
+  - The first character must be a letter or underscore.
+    - Don't start a variable with a underscore, which is usually used
+      for special identifiers.
+  - Additional characters may be alphanumeric or underscore.
+  - Names are case sensitive.
+- Assignment
+  #+BEGIN_SRC python
+    text = 'Some Text'
+    Name = 'Mr' + ' ' + 'Fred'
+    # list.
+    shoppingList = ['ham', 'eggs', 'mushrooms']
+    # multiple assignment.
+    a, b, c = 1, 2, 3
+    p, q, r = myFunc() # when myFunc() returns three values
+  #+END_SRC
+- Special identifiers, the name will be of the form: \
+  =_xxx=, =__xxx__=, =__xxx=
+- =__name__= special variable specified how the module is called, it
+  will be:
+  - The name of the module if imported,
+  - The string =__main__= if executed directly.
+  - The following code let the interpreter loads your program and runs
+    it if necessary
+  #+BEGIN_SRC python
+    if __name__ == '__main__' :
+        main()
+  #+END_SRC
+
+* Python Objects
+  :LOGBOOK:
+  CLOCK: [2017-07-03 Mon 22:10]--[2017-07-03 Mon 22:55] =>  0:45
+  :END:
+- All variables have a type which can be seen using the build-in
+  =type()= function.
+  #+BEGIN_SRC python
+  type(23)  # <type 'int'>
+  type('some more text')  # <type 'str'>
+  type([1,2,'some'])  # <type list'>
+  #+END_SRC
+- Other types are =class=, =module=, =function=, =file=, =bool=,
+  =NoneType= and =long=
+- The special constants =True= and =False= are =bool= type, special
+  constant =None= is a =NoneType=
+- Function =str()= is used to see a textual definition of any object
+- Factory functions are a serials of functions that create variable
+  types directly
+  - =int(4.0)= create integer =4=
+  - =str(4)= create string ='4'=
+  - =list(1,2,3,4,5)= create =list [1,2,3,4,5]=
+  - =tuple(1,2,3,4)= create tuple =(1,2,3,4)=
+  - ~dict(one=1,two=2)~ create dictionary ={'one': 1, 'two': 2}=
+- Exponentiation operator: =4 ** 3=
+- Boolean are actually held as integers but have a value of either
+  =True= or =False=
+  - =bool(23)=  : =True=, all nonzero integers
+  - =bool(0)=  : =False=
+  - =bool('any')= : =True=, any string
+  - =bool('')= : =False=, zero length string
+  - =bool([])= : =False=, empty lists
+- Sequences: Strings, Lists, and Tuples.
+- Tuples value much like a list, but the entries in a tuple are *immutable*
+- Membership test in sequence:
+  #+BEGIN_SRC python
+    'a' in 'track'    # True
+    9 in [1,2,3,4,5]  # False
+    'x' not in 'next'  # False
+    'red' not in ['tan', 'pink']  # True
+  #+END_SRC
+- Two or more sequences can be added together using =+=
+- Or Using string's =join()= method to join a list of strings, or tuple
+  #+BEGIN_SRC python
+  '-'.join(('a', 'b', 'c'))  # 'a-b-c'
+  #+END_SRC
+- A slice is a convenient way to select a subset of elements in sequence
+  - =[startIndex:endIndex]= : not including =endIndex=
+  - index of minus value : counting from end. =-1= index refer to the
+    last element of the sequence.
+  - either =startIndex= or =endIndex= can be omitted.
+- Built-in Sequence Functions: =len()=, =max()=, =min()=， =sum()=,
+  =sorted()=, =reversed()=
+- String can be delimt with either single (') or double (")
+  quotes. You can embed either quote inside the other.
+- Access substring with slices.
+- Strings can be compared with =>=, =<=, ~==~.
+- String can be searched using the membership test of sequence.
+- Longer pieces of text with embedded new lines can be assigned using
+  the triple quotes.
+- String formatting can be done using the =%= operator
+  #+BEGIN_SRC python
+    ntoys  = 4
+    myname = 'Fred'
+    '%s has %d toys' % (myname, ntoys)
+  #+END_SRC
+  - =%c= Single character/string of length 1
+  - =%s= String
+  - =%d= Signed decimal integer
+  - =%f= Floating point number
+  - =%%= Percent character
+- Updating Lists with =append()= and =del= statement
+  #+BEGIN_SRC python
+    myList = []
+    myList.append('Tom')
+    myList.append('Dick')
+    myList[1]='Bill'
+    del myList[1]
+  #+END_SRC
+- Using =index()= method to find an entry and returns the offset of
+  that entry.
+  - If the entry cannot be found, it returns an Error.
+- Dictionary
+  #+BEGIN_SRC python
+    wdays={'M': 'Monday', 'T': 'Tuesday'}
+    wdays['M']=='Monday'
+    wdays['W']='Wednesday'
+    del wdays['W']
+    len(wdays)
+  #+END_SRC
+
+* Program Structure
+- =pass= statment is a /do nothing/ statement, is often useful to show
+  explicitly that the program is doing nothing.
+- List comprehensions is a way of dynamically creating a list of
+  elements in an elegant shorthand.
+  #+BEGIN_SRC python
+    squares = []
+    for i in range(1,11):
+        squares.append(i*i)
+    squares = [i*i for i in range(1,11)]
+    evens = [i for i in range(1,100) if not i % 2]
+  #+END_SRC
+  - The syntax is =[expr for element in iterable if condition]=
+- A python function can return more than one result: \\
+  =return r1, r2, r3=.
+- and it can be assigned to multiple value at same time: \\
+  =max, min, average = analyse(numlist)=
+- Named arguments and default value:
+  #+BEGIN_SRC python
+    def fn(a,b,c=1.0):
+        return a*b*c
+    fn(1,2,3)
+    fn(1,2)
+    fn(1, b=2)
+  #+END_SRC
+- Variables defined in module are visible to the functions in the
+  module
+
+* Input and Output
+- Stdin/Stdout
+  - =print()= function takes format of:
+    #+BEGIN_SRC python
+    print(arg1, arg2, arg3..., sep=' ', end='\n')
+    #+END_SRC
+  - Note that in python 2, =print= is a statement, not a function.
+  - The trailing newline can be suppressed by setting the end argument
+    to an empty string.
+  - It is common to use the string formatting feature:
+    #+BEGIN_SRC python
+    print('%d plus %d makes %d' % (3,7,10))
+    #+END_SRC
+  - Use =input()= function to get data into the program:
+    #+BEGIN_SRC python
+      youName = input('Enter your name: ')
+      print('You name is', yourName)
+    #+END_SRC
+  - If you ask the user for an integer number, you should check the
+    text:
+    - Use =len(text)= to verify text has been entered.
+    - Use =text.isdigit()= to check the text is a number.
+    - Use =int(text)= to convert the text to an integer.
+- Files
+  - Opening file with: =fileobj = open(filename, mode)=
+  - Closing file with: =fileobj.close()=
+  - Reading file:
+    - =read()= : read the entire contents of the file into a string
+      - The content can then be split into lines using =split('\n')=
+    - Or using =readlines()=, which returns a list containing each
+      line.
+    - A good way of cleaning up the newline at the end:
+      #+BEGIN_SRC python
+        lines = [line.rstrip() for line in fp.readlines()]
+      #+END_SRC
+    - the file object itself is an iterator which can be used:
+      #+BEGIN_SRC python
+        fp = open(fname, 'r')
+        for eachLine in fp:
+            # process each line
+            print(eachLine, end='')
+        fp.close()
+      #+END_SRC
+  - Writing a file:
+    - using =write()=
+    - using =writelines()=
+    - both methods do not append trailing newline (='\n'=)
+  - Accessing File System using the =os= module, which must be imported.
+- Command-Ling arguments can be obtained from =sys= module's
+  =sys.argv=. The first argument (element 0) is the name of the
+  program itself.
+
+* Using Modules
+- The =import= statement has format:  \\
+  =import modulename [as name]= \\
+  =from module import name1, name2= \\
+  =from module import *= \\
+- Modules come from the python path (=sys.path=), which is a list of
+  directories that is set up by the Python installation process.
+
+* Object Orientation
+  :LOGBOOK:
+  CLOCK: [2017-07-05 Wed 16:01]--[2017-07-05 Wed 16:06] =>  0:05
+  :END:
+- Python doesn't need a =new= method: when the object is created,
+  Python looks for an =__init__()= method to initialize the object.
+- The arguments passed through the =__init__()= call are used to
+  initialize the object attributes.
+- The first argument to all the methods in the class is =self=, the
+  object itself. This argument is used internally in the class and
+  is not exposed to the code that calls these method.
+- The =self.= attributes are public.
+* Exception and Error Handling
+  :LOGBOOK:
+  CLOCK: [2017-07-05 Wed 16:06]--[2017-07-05 Wed 16:12] =>  0:06
+  :END:
+  - =try/except= to catch exception
+    #+BEGIN_SRC python
+      print("input two numbers, the first will be devided by the second")
+
+      afirst = input('1st number: ')
+      asecond = input('2nd number: ')
+
+      try:
+          first=float(afirst)
+          second=float(asecond)
+          quotient = first / second
+          print('Quotient 1st/2nd = %f' % quotient )
+      except Exception as diag:
+          print(diag.__class__.__name__, ':', diag)
+    #+END_SRC
+  - It is possible to trap multiple exception types by: \\
+    =except (ValueError, ZeroDivisionError) [as e]:=
+* Databases
+    :LOGBOOK:
+    CLOCK: [2017-07-05 Wed 16:14]
+    :END:
+- SQLLite can be used for development or prototyping.
+- Database Functions
+  #+BEGIN_SRC python
+    # Open (or create) a database file
+    conn  = sqlite3.connect(filename)
+    # executes a SQL statement
+    conn.executescript(sql)
+    # return a cursor
+    cursor = conn.cursor()
+    # execute the SQL query that returns rows of data
+    cursor.execute(sql)
+    # return the data as list of rows
+    rows = cursor.fetchall()
+  #+END_SRC

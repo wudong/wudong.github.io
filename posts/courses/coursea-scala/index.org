@@ -1,0 +1,24 @@
+#+BEGIN_COMMENT
+.. title: Coursea Scala
+.. slug: coursea-scala
+.. date: 2017-07-15
+.. tags: scala
+.. category: Courses
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* Currying
+- Multiple Parameter Lists
+  The definition of functions that return functions is so useful in
+  functional programming that there is a special syntax for it in Scala.
+  #+BEGIN_SRC scala
+    def sum(f: Int => Int)(a: Int, b: Int) : Int =
+      if (a > b) 0 else f(a) + sum(f)(a+1, b)
+  #+END_SRC
+  - ~sum~'s type will be: ~(Int => Int) => (Int, Int) => Int~, namely,
+    it takes a function of type ~(Int => Int)~ and return a function
+    of type ~(Int, Int) => Int~
+  - Note that the *functional types associated to the right*. So that:
+    ~Int => Int => Int~ is equivalent to ~Int => (Int => Int)~

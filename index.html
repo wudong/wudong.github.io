@@ -10,8 +10,8 @@
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://example.com/">
-<link rel="next" href="index-2.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/agile-notes/" type="text/html">
+<link rel="next" href="index-4.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/reading/akka-in-action/" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -64,396 +64,105 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/agile-notes/" class="u-url">Agile Note</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/akka-in-action/" class="u-url">Akka In Action</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Warren Liu
             </span></p>
-            <p class="dateline"><a href="posts/agile-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+            <p class="dateline"><a href="posts/reading/akka-in-action/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Practices of an Agile Developer</h2>
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/akka-in-action/#sec-1">Actors: a quick overview</a></li>
+<li><a href="posts/reading/akka-in-action/#sec-2">The reactive Manifesto</a></li>
+<li><a href="posts/reading/akka-in-action/#sec-3">Scaling with AKKA</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Actors: a quick overview</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>In the beginning of the development, it will be good to have a hotfix
-policy in place to make it easy to do hotfix.
+<li>Actors are a lot like message queues without the configuration and
+message broker installation overhead.
 </li>
-<li>Integration is one of the biggest risk in software development. It
-will be best to integrate a few times a day.
+<li>Actors don't "Do" anything unless they are sent a message.
 </li>
-<li>To integrate as early and as often as possible to avoid problems of
-integration later.
+<li>Messages are immutable.
 </li>
-<li>Automate deployment early as well. <i>Deploy hotfix in the production
-environment should be made easy</i>.
+<li>Actors receive messages one at a time and execute some behavior
+whenever a message is received.
 </li>
-<li>Agility is all about <b>managing change</b> and the code is one of things
-that change the most.
+<li>Everything a actor does is executed asynchronously.
 </li>
-<li>Thinking of unit test results same as compiler result. If it doesn't
-pass the test, or even, no test at all for a piece of code, it
-should be treated equivalent to not compiling.
+<li>Actors aren't like threads, but messages sent to them are pushed
+through on a thread at some point in time.
 </li>
-<li>Unit test may not be appropriate for prototyping or
-experimenting. In the rare cases that prototypes go into production,
-unit test need to be added for them.
+<li>How actors are connected to threads is configurable.
 </li>
-<li>Estimate the time needed for a task, and when finish a task, keep
-track of how long it really took.
-</li>
-<li>Keep a solution log, maintain a log of problems faced and solutions
-found. <span class="underline">Even better than maintaining a log is sharing it with others</span>.
-</li>
-<li>Warnings are really errors.
-<ul class="org-ul">
-<li>If your compiler allows you to fine-tune warning reporting levels,
-turn that all the way up so warnings are not ignored.
-</li>
-<li>You can usually instruct the compiler to specifically suppress
-unavoidable warnings.
-</li>
-<li>Deprecated methods have been deprecated for a reason.
-</li>
-</ul>
-</li>
-<li>Provide useful error messages to the user. Allow user to see error
-<b>details</b> with <i>additional click</i> could be very useful for debug.
-</li>
-<li>Information logged may contain not only the details about what went
-wrong but also a snapshot of the state of the system (for example,
-the session state in a web application)
-</li>
-<li>Type of errors, by keeping track of what kind of error you are
-reporting, you can provide more appropriate advice to your audience.
-<ul class="org-ul">
-<li>Program defects, bugs: NullPointerException, missing key values,
-etc. The user, or system administrator can do nothing about it.
-</li>
-<li>Environment problem: failure to connect to a database or remote
-service, insufficient permissions, etc. The program can do nothing
-about it.
-</li>
-<li>User error.
-</li>
-</ul>
-</li>
-<li>Practice collective ownership
-</li>
-<li>Architect must write code
+<li>A message could be processed locally on some available thread, or
+remotely on another server.
 </li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Restrospective</h2>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/angular-notes/" class="u-url">Angular 2 Note</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Warren Liu
-            </span></p>
-            <p class="dateline"><a href="posts/angular-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Modules (NgModule)</h2>
-<div class="outline-text-2" id="text-1">
-<ul class="org-ul">
-<li>An angular module is a class decorated with <code>@NgModule</code> metadata:
-<ul class="org-ul">
-<li>declare the <b>components</b>, <b>directives</b> and <b>pipes</b> of the module
-</li>
-<li>export some of those classes
-</li>
-<li>import other <b>modules</b> needed by <i>this</i> module
-</li>
-<li>provide services at the application level that any application
-component can use
-</li>
-</ul>
-</li>
-<li>Every Angular app has at least one module class, the <b>root module</b>,
-which is bootstrapped to launch the application.
-</li>
-<li>
-<b>BrowserModule</b> need to be imported by every browser app. It
-includes common directives like <code>NgIf</code>, <code>NgFor</code>.
-</li>
-<li>There are two ways to bootstrap a root module:
-<ul class="org-ul">
-<li>static bootstrapping with Ahead-Of-time (AOT) compiler
-<div class="highlight"><pre><span></span><span class="kr">import</span> <span class="p">{</span> <span class="nx">platformBrowser</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'@angular/platform-browser'</span><span class="p">;</span>
-<span class="c1">// The app module factory produced by the static offline compiler</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">AppModuleNgFactory</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'./app.module.ngfactory'</span><span class="p">;</span>
-<span class="c1">// Launch with the app module factory.</span>
-<span class="nx">platformBrowser</span><span class="p">().</span><span class="nx">bootstrapModuleFactory</span><span class="p">(</span><span class="nx">AppModuleNgFactory</span><span class="p">);</span>
-</pre></div>
-</li>
-<li>Dynamic bootstrapping with Just-in-time (JIT) compiler
-<div class="highlight"><pre><span></span><span class="c1">// The browser platform with a compiler</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">platformBrowserDynamic</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'@angular/platform-browser-dynamic'</span><span class="p">;</span>
-<span class="c1">// The app module</span>
-<span class="kr">import</span> <span class="p">{</span> <span class="nx">AppModule</span> <span class="p">}</span> <span class="nx">from</span> <span class="s1">'./app.module'</span><span class="p">;</span>
-<span class="c1">// Compile and launch the module</span>
-<span class="nx">platformBrowserDynamic</span><span class="p">().</span><span class="nx">bootstrapModule</span><span class="p">(</span><span class="nx">AppModule</span><span class="p">);</span>
-</pre></div>
-</li>
-<li>Both way the bootstrap will end up with bootstrapping a
-<code>ModuleFactory</code> but the JIT will compile the ModuleFactory on the fly.
-</li>
-</ul>
-</li>
-<li>
-<b>Service Providers</b>
-<ul class="org-ul">
-<li>A module can add providers to the application's <b>root</b> injector:
-<div class="highlight"><pre><span></span><span class="nx">providers</span><span class="o">:</span> <span class="p">[</span><span class="nx">UserService</span><span class="p">]</span>
-</pre></div>
-<p>
-by adding this <code>providers</code> property in the module metadata, it
-provide it for all components in the module.
-</p>
-</li>
-<li>Angular module instances, unlike components, <b>do not</b> have their
-own injectors so they can't have their own provider scopes. This
-means that anything <code>provided</code> in a module are <b>application-scoped</b>.
-</li>
-<li>As a general rule, import modules with providers <b>exactly once</b>,
-preferably in the <code>root module</code>.
-</li>
-</ul>
-</li>
-<li>Lazy loading modules with the Router
-<ul class="org-ul">
-<li>TODO NEED TO READ MORE. TODO
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Testing</h2>
+<h2 id="sec-2">The reactive Manifesto</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>The <b>TestBed</b> creates an Angular testing module - an <code>@NgModule</code>
-    class - that you configure with the <b>configureTestingModule</b>
-    method to produce the module environment for the class you want to test.
+<li>Blocking I/O limits opportunities for parallelism, so nonblocking
+I/O is preferred.
 </li>
-<li>After configuring the <b>TestBed</b>, use <b>TestBed.createComponent</b> to
-create an component instance and return a <b>ComponentFixture</b>. The
-fixture provides access to the component instance and to the
-<b>DebugElement</b> which is a handle on the compoment's DOM element.
+<li>Synchronous interaction limits opportunities for parallelism, so
+asynchornous interaction is preferred.
 </li>
-<li>Each test tells Angular when to perform change detection by
-calling <b>fixture.detectChanges()</b>
+<li>Polling reduce opportunity to use fewer resources, so an
+event-driven style is preferred.
 </li>
-<li>Use <b>async()</b> function call to passing asynchronous execution body
-to <b>beforeEach</b>. Internally, <b>async()</b> arranges for the body of
-the <b>beforeEach</b> to run in a special async test zone that hides
-the mechanics of asynchronous execution.
+<li>If one node can bring down all other nodes, that's a waste of
+resources. So you need isolation of errors (resilience) to avoid
+losing all your work.
 </li>
-<li>
-<b>TestBed.compileComponents</b> method asynchronously compiles all the
-components configured in the testing module. When it completes,
-the external templates and css files have been 'inlined' and
-<b>Test.createComponent</b> can create new instance of component
-synchronously.
-</li>
-<li>In general, tests should not make calls to remote services. They
-should emulate such calls, for example, with <b>Jasmine</b> spy:
-<div class="highlight"><pre><span></span><span class="nx">spy</span> <span class="o">=</span> <span class="nx">spyOn</span><span class="p">(</span><span class="nx">service</span><span class="p">,</span> <span class="s1">'getQuote'</span><span class="p">).</span><span class="nx">and</span><span class="p">.</span><span class="nx">returnValue</span><span class="p">(</span><span class="nb">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="s1">'value'</span><span class="p">));</span>
-</pre></div>
-</li>
-<li>Testing async:
-<ul class="org-ul">
-<li>using async()
-</li>
-<li>using fakeAsync() and tick():
-<div class="highlight"><pre><span></span><span class="nx">it</span><span class="p">(</span><span class="s1">'should show quote after getQuote promise (fakeAsync)'</span><span class="p">,</span> <span class="nx">fakeAsync</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span>
-  <span class="nx">tick</span><span class="p">();</span>                  <span class="c1">// wait for async getQuote</span>
-  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span> <span class="c1">// update view with quote</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="nx">testQuote</span><span class="p">);</span>
-<span class="p">}));</span>
-</pre></div>
-</li>
-<li>using jasmine.done:
-<div class="highlight"><pre><span></span>  <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span>
-  <span class="c1">// get the spy promise and wait for it to resolve</span>
-  <span class="nx">spy</span><span class="p">.</span><span class="nx">calls</span><span class="p">.</span><span class="nx">mostRecent</span><span class="p">().</span><span class="nx">returnValue</span><span class="p">.</span><span class="nx">then</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="p">{</span>
-    <span class="nx">fixture</span><span class="p">.</span><span class="nx">detectChanges</span><span class="p">();</span> <span class="c1">// update view with quote</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="nx">testQuote</span><span class="p">);</span>
-    <span class="nx">done</span><span class="p">();</span>
-  <span class="p">});</span>
-<span class="p">});</span>
-</pre></div>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/Bash-notes/" class="u-url">Bash Note</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Warren Liu
-            </span></p>
-            <p class="dateline"><a href="posts/Bash-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Bash array and its loop</h2>
-<div class="outline-text-2" id="text-1">
-<ul class="org-ul">
-<li>declare an array
-<div class="highlight"><pre><span></span><span class="nv">files</span><span class="o">=(</span> <span class="s2">"/etc/passwd"</span> <span class="s2">"/etc/group"</span> <span class="s2">"/etc/hosts"</span> <span class="o">)</span>
-<span class="nv">limits</span><span class="o">=(</span> <span class="m">10</span>, <span class="m">20</span>, <span class="m">26</span>, <span class="m">39</span>, <span class="m">48</span><span class="o">)</span>
-</pre></div>
-</li>
-<li>array can also be created automatically when a variable is used in
-the format like:
-<div class="highlight"><pre><span></span>name<span class="o">[</span>index<span class="o">]=</span>value
-</pre></div>
-</li>
-<li>loop through array values
-<div class="highlight"><pre><span></span><span class="k">for</span> i in <span class="s2">"</span><span class="si">${</span><span class="nv">arrayName</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">do</span>
-   <span class="nb">echo</span> <span class="nv">$i</span>
-<span class="k">done</span>
-</pre></div>
-<p>
-the syntax for array with [@] print out the whole array.
-</p>
-</li>
-<li>get the length of an array with <code>${#array[@]}</code>
-<div class="highlight"><pre><span></span><span class="nb">declare</span> -a <span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span> <span class="s1">'Suse'</span> <span class="s1">'Fedora'</span><span class="o">)</span><span class="p">;</span>
-<span class="nb">echo</span> <span class="si">${#</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span> <span class="c1">#Number of elements in the array</span>
-<span class="nb">echo</span> <span class="si">${#</span><span class="nv">Unix</span><span class="si">}</span>  <span class="c1">#Number of characters in the first element of the array.i.e Debian</span>
-</pre></div>
-</li>
-<li>get a subarray with <code>${array[@]:3:2}</code>
-<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Ubuntu'</span> <span class="s1">'Fedora'</span> <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
-<span class="nb">echo</span> <span class="si">${</span><span class="nv">Unix</span><span class="p">[@]:</span><span class="nv">3</span><span class="p">:</span><span class="nv">2</span><span class="si">}</span>
-</pre></div>
-</li>
-<li>add an element to an existing array:
-<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span>  <span class="s1">'Fedora'</span> <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
-<span class="nv">Unix</span><span class="o">=(</span><span class="s2">"</span><span class="si">${</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span> <span class="s2">"AIX"</span> <span class="s2">"HP-UX"</span><span class="o">)</span>
-</pre></div>
-</li>
-<li>contact two arrays:
-<div class="highlight"><pre><span></span><span class="nv">Unix</span><span class="o">=(</span><span class="s1">'Debian'</span> <span class="s1">'Red hat'</span> <span class="s1">'Ubuntu'</span>  <span class="s1">'UTS'</span> <span class="s1">'OpenLinux'</span><span class="o">)</span><span class="p">;</span>
-<span class="nv">Shell</span><span class="o">=(</span><span class="s1">'bash'</span> <span class="s1">'csh'</span> <span class="s1">'jsh'</span> <span class="s1">'rc'</span> <span class="s1">'tcsh'</span><span class="o">)</span><span class="p">;</span>
-<span class="nv">UnixShell</span><span class="o">=(</span><span class="s2">"</span><span class="si">${</span><span class="nv">Unix</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span> <span class="s2">"</span><span class="si">${</span><span class="nv">Shell</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="o">)</span>
-<span class="c1"># alternatively, to append the second array to the first</span>
-<span class="nv">Unix</span><span class="o">+=</span>Shell
-</pre></div>
-</li>
-<li>remove an element from an array using subarray and contact
-</li>
-<li>unset can be used to delete an entire array
-</li>
-<li>bash also support <b>associated arrays</b>:
-<div class="highlight"><pre><span></span><span class="nb">declare</span> -A ARRAY <span class="c1"># declar an associate array.</span>
-ARRAY<span class="o">[</span>STRING<span class="o">]=</span>VALUE
-</pre></div>
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Using <code>trap</code>
-</h2>
-<div class="outline-text-2" id="text-2">
-<ul class="org-ul">
-<li>
-<b>trap [COMMANDS] [SIGNALS]</b>: this instructs the <b>trap</b> command to
-catch the listed <i>SIGNALS</i>, which my be signal names with or without
-the <i>SIG</i> prefix, or signal numbers.
-</li>
-<li>0, or <i>EXIT</i>, the commands are executed when the shell exists.
-</li>
-<li>
-<i>DEBUG</i>, the list of commands is executed after every simple
-command.
-</li>
-<li>
-<i>ERR</i>, the commands is executed each time a simple command exists
-with a non-zero status.
-</li>
-<li>Example:
-<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-<span class="c1"># traptest.sh</span>
-
-<span class="nb">trap</span> <span class="s2">"echo Booh!"</span> SIGINT SIGTERM
-<span class="nb">echo</span> <span class="s2">"pid is </span><span class="nv">$$</span><span class="s2">"</span>
-
-<span class="k">while</span> :                 <span class="c1"># This is the same as "while true".</span>
-<span class="k">do</span>
-	sleep <span class="m">60</span>        <span class="c1"># This script is not really doing anything.</span>
-<span class="k">done</span>
-</pre></div>
-<ul class="org-ul">
-<li>In this example, Ctrl+C, or kill with the PID without specifying
-the <i>KILL</i> signal, will not terminate the script, cause the
-signals is trapped.
-</li>
-</ul>
-</li>
-<li>
-<b>trap</b> can be used to clean up resource in shell script.
+<li>System need to be elastic: if there are less demand, you want to use
+fewer resources. If there is more demand, use more resources, but
+never more than required.
 </li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">SIGTERM vs. SIGKILL</h2>
+<h2 id="sec-3">Scaling with AKKA</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
-<li>Sending signals to processes using <code>kill</code>
+<li>The current state of the Converstaion can be rebuilt by <b>replaying</b>
+the events that occurred to the im-momory Conversation, so it can
+continue where it left off.
 </li>
-<li>Anytime you use <code>kill</code> on a process, you are actually sending the
-process a signal.
+<li>This type of database is often called a <b>journal</b>, and the technique
+is known as <b>event sourcing</b>.
 </li>
-<li>The full list of signals can be found with <code>kill -l</code>.
+<li>The journal become a uniform service. All it needs to do is store
+all events in sequence, and make it possible to retrieve the events
+in the same sequence as they were written to the journal.
 </li>
-<li>Without any parameters, <code>kill pid</code> would send a <i>SIGTERM</i> signal,
+<li>It is hard to imagine how we could keep the conversations consistent
+across many servers. and what would happen if there were too many
+conversations to fit in one server?
 <ul class="org-ul">
-<li>in which case:
-<ul class="org-ul">
-<li>The process may stop immediately.
+<li>divide the conversations over the servers in a predictable way, or
+keep track of where every conversation lives.
 </li>
-<li>The process may stop after a short delay after cleaning up resources.
+<li>This is called <b>sharding</b>, or <b>partitioning</b>.
 </li>
-<li>The process may keep running indefinitely.
-</li>
-</ul>
-</li>
-<li>The application can determine what it want to do once a <i>SIGTERM</i> is
-received.
-</li>
-<li>Also, if the application is in a bad state, such as waiting for disk
-I/O, it may not be able to act on the signal that was sent.
-</li>
-</ul>
-</li>
-<li>
-<code>kill -9 pid</code>: will send a <i>SIGKILL</i>, which cannot be ignored by the
-process.
-<ul class="org-ul">
-<li>The process isn't made aware of the <i>SIGKILL</i> signal since the
-signal goes straight to <code>init</code>, which will stop the process.
-</li>
-<li>The process never gets the opportunity to catch the signal and act
-on it.
+<li>We can keep using the simple in-memory model of Conversations if
+we have a generic event-sourced journal and a way to indicate how
+Conversations should be partitioned.
 </li>
 </ul>
 </li>
@@ -463,165 +172,105 @@ on it.
 </div>
 </div>
     </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/coding-questions/" class="u-url">Coding Questions</a></h1>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/courses/coursea-scala/" class="u-url">Coursea Scala</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Warren Liu
             </span></p>
-            <p class="dateline"><a href="posts/coding-questions/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+            <p class="dateline"><a href="posts/courses/coursea-scala/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <ul class="org-ul">
-<li>String rotation: <br>
-  Use <b>substring()</b> only to determine if a string is a rotation
-of the other.
-</li>
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/courses/coursea-scala/#sec-1">Currying</a></li>
+</ul>
+</div>
+</div>
 
-<li>Return k-th to last element (last k element) of a singlely linked list
-</li>
-
-<li>Delete middle node in a singely linke list, given only access to
-that node.
-</li>
-
-<li>Partition a linked list around a value <code>x</code>, so that the node that
-has value smaller than <code>x</code> comes before the those larger than <code>x</code>.
-</li>
-
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Currying</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Multiple Parameter Lists
+The definition of functions that return functions is so useful in
+functional programming that there is a special syntax for it in Scala.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">sum</span><span class="o">(</span><span class="n">f</span><span class="k">:</span> <span class="kt">Int</span> <span class="o">=&gt;</span> <span class="nc">Int</span><span class="o">)(</span><span class="n">a</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span><span class="o">)</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">f</span><span class="o">(</span><span class="n">a</span><span class="o">)</span> <span class="o">+</span> <span class="n">sum</span><span class="o">(</span><span class="n">f</span><span class="o">)(</span><span class="n">a</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">b</span><span class="o">)</span>
+</pre></div>
+<ul class="org-ul">
 <li>
+<code>sum</code>'s type will be: <code>(Int =&gt; Int) =&gt; (Int, Int) =&gt; Int</code>, namely,
+it takes a function of type <code>(Int =&gt; Int)</code> and return a function
+of type <code>(Int, Int) =&gt; Int</code>
+</li>
+<li>Note that the <b>functional types associated to the right</b>. So that:
+<code>Int =&gt; Int =&gt; Int</code> is equivalent to <code>Int =&gt; (Int =&gt; Int)</code>
+</li>
+</ul>
 </li>
 </ul>
 </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/solr-notes/" class="u-url">Solr Note</a></h1>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/courses/deep-learning/" class="u-url">Deap Learning in Udacity</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Warren Liu
             </span></p>
-            <p class="dateline"><a href="posts/solr-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+            <p class="dateline"><a href="posts/courses/deep-learning/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">ZooKeepers used for SolrCloud</h2>
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/courses/deep-learning/#sec-1">Deep Learning in udacity.com</a></li>
+<li><a href="posts/courses/deep-learning/#sec-2">Logistic Classifier</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Deep Learning in udacity.com</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>The main principle for a ZooKeeper ensemble is maintaining a
-majority of servers to serve request. This majority is also called a
-<b>quorum</b>.
-<ul class="org-ul">
-<li>If you only have two ZooKeeper nodes and one goes down, 50% of
-available servers is not a majority, so ZooKeeper will no longer
-server request.
+<li>Classification for Detection:
+<b>To change a detection problem to a classification problem</b>.
+For example, to detect pedestrian from an image, use a classifier to
+classify small patches of image into two classes: pedestrain and
+non-pedestrain. Then run the classifier over the images's patches.
 </li>
-</ul>
-</li>
-<li>For a ZooKeeper service to be active, there must be a <b>majority</b> of
-non-failing machines that can communicate with each other.
-</li>
-<li>To create a deployment that can tolerate the failure of <code>F</code>
-  machines, you should count on deploying <code>2xF+1</code> machines.
-</li>
-<li>For this reason, ZooKeeper deployments are usually made up of an <b>odd</b>
-  number of machines.
-</li>
-<li>Whereas with Solr you need to create entirely new directories to run
-multiple instances, to run a new ZooKeeper instance will only
-require a new configurationfile in
-<code>&lt;ZOOKEEPER_HOME&gt;/conf/zoo?.cfg</code>. Although they will require a
-distinct <code>dataDir</code>.
-<ul class="org-ul">
-<li>The configuration file is passed to <code>zkServer.sh</code> for start the
-instance.
-</li>
-</ul>
-</li>
-<li>The configuration files of SolrCloud are kept in ZooKeeper.
-<ul class="org-ul">
-<li>They are uploaded when Solr start or collection created, or can
-be explicitly uploaded.
-</li>
-</ul>
-</li>
-<li>To manage SolrCloud configuration files with ZooKeeper
-<ul class="org-ul">
-<li>Keep in mind that the configuration need to pushed t back to
-ZooKeeper when the changes.
-</li>
-<li>And reload the collection.
-</li>
-</ul>
+<li>Classification for Ranking:
+Use a classifier that ranks the pair (query, webpage) as input and
+classify the pair as relevant/not levant. Search Engine can use the
+classifier for only promising candidate webpages.
 </li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">SolrCloud Concepts</h2>
+<h2 id="sec-2">Logistic Classifier</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>
-<b>Core</b> has multiple meaning:
+<li>A logistic classifier called linear classifier. It applies an linear
+function to the input to generate its predictions.
+</li>
+<li>Using <b>SOFTMAX</b> function to turn the output score to probabilities, in which
+the correct class will hve a probablitity close to 1 and otherwise
+close to 0.
 <ul class="org-ul">
-<li>In stand-alone Solr instance, a core corresponds to a
-logical/physical index.
+<li>Also called normalized exponential function, it "squashes" a
+arbitrary k-dimensinal vector of real values to a k-dimensinal
+vector of real values in the range of (0,1) that add up to 1.
 </li>
-<li>In SolrCloud, a <b>collection</b> defines a logical index, where a <b>core</b>
-corresponds to a physical index residing in a node, which is a
-<b>portion</b> of the logical index.
-</li>
-</ul>
-</li>
-<li>SolrCloud has a <b>leader</b> in every shard but the leader is largely the
-same as any other <b>replica</b>:
-<ul class="org-ul">
-<li>The <b>leader</b> is elected dynamically. Any replica, on any node in
-the cluster, can be appointed as the leader.
-</li>
-<li>Both indexing documents and serving queries.
-</li>
-<li>The only additional responsibility of the leader is to
-<b>distribute</b> documents to be <i>indexed to all other replicas</i> in the
-shard, and to then <b>report</b> that all replicas have confirmed
-receiving a given document.
-</li>
-<li>Any document sent into SolrCloud is <i><b>re-routed</b> to the leader</i> of
-the appropriate shard, who then performs this responsibility.
-</li>
-<li>Once a document has been added to the <i>transaction logs</i>, it is
-available via a <b>RealTimeGet</b>, but is <i><b>not available</b> via search
-until a soft commit or hard commit with <code>openSearcher=true</code></i> has
-been executed.
-</li>
-<li>When a new replica join/rejoins the cluster it will simply replays
-the transaction log to bring itself up to date with other nodes in
-the shard.
-</li>
-</ul>
-</li>
-<li>Distributed searching is handled automatically by the nodes in the cloud.
-<ul class="org-ul">
-<li>Querying any node will cause that node to send the query out to
-one node in all other shards, returning a response only when it
-has aggregated the results from all shards.
-</li>
-<li>Zookeeper and all replicas are aware of any non-responding nodes,
-and won't direct queries to nodes that are considered dead.
-</li>
-<li>Solrj will use a simple round robin load balancer, distributing
-queries evently to all nodes in SolrCloud.
-</li>
-<li>Solrj is Zookeeper aware and thus will never send a query to a
-node that is known as down.
-</li>
-</ul>
-</li>
-<li>When ZooKeeper detects a leader has gone down
-<ul class="org-ul">
-<li>It will initiate the leader election process to select a new
-leader.
-</li>
-<li>Transaction log ensures that all nodes in the shard are in sync,
-and all updates are durable and never lost when a leader goes
-down.
+<li>The function:
+\begin{equation}
+\sigma(\mathbf{z})_j = \frac{e^{z_j}}{\sum_{k=1}^K e^{z_k}}  \text{for } j=1..k
+\end{equation}
 </li>
 </ul>
 </li>
@@ -629,441 +278,1047 @@ down.
 </div>
 </div>
     </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/zookeeper-notes/" class="u-url">ZooKeeper Note</a></h1>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/courses/domain-driven-design/" class="u-url">Domain Driven Design in Practise</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Warren Liu
             </span></p>
-            <p class="dateline"><a href="posts/zookeeper-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T16:28:48+01:00" title="2017-07-14 16:28">2017-07-14 16:28</time></a></p>
+            <p class="dateline"><a href="posts/courses/domain-driven-design/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Note on ZooKeeper</h2>
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/courses/domain-driven-design/#sec-1">Domain Driven Design</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Domain Driven Design</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Types of equality
+<ul class="org-ul">
+<li>Reference: same address in memory
+</li>
+<li>Structural: all of their members match
+</li>
+<li>Identifier: id field
+</li>
+</ul>
+</li>
+<li>Entity vs Value Object
+<ul class="org-ul">
+<li>Entity : Identifier and Reference equality
+</li>
+<li>Value Object: Structural and Reference equality
+</li>
+<li>Entity: each has its own identity, while value object doesn't have
+a id field.
+</li>
+<li>Value object can be treated interchangeably.
+</li>
+<li>Value object should be immutable, Entity are almost always
+mutable.
+</li>
+<li>Lifespan
+<ul class="org-ul">
+<li>Value object should always belong to Entity object.
+</li>
+<li>There should be at lease one entity that owns a value object.
+</li>
+<li>Value object doesn't have their own table in the database.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>An concept can be a value object in one domain model but an entity
+in another domain.
+</li>
+<li>Prefer value objects to entities
+<ul class="org-ul">
+<li>Value objects are light-weight, easy to work with.
+</li>
+<li>
+<b>Most</b> of the business logic should be <i>captured in value object</i>,
+</li>
+<li>Entity are acts as <b>wrapper</b> for value object and provider
+high level business logic.
+</li>
+</ul>
+</li>
+<li>Entity Base class
+<ul class="org-ul">
+<li>Having an interface as an entity base class is most of time a bad idea.
+</li>
+<li>Interface cannot have logic, which will introduce code
+duplication.
+</li>
+<li>Interface introduce a <b>can-do</b> relationship while class
+inheritance introduce a <b>is-a</b>  relationship.
+</li>
+<li>Using abstract base class for entity base class and implements
+some common function for id and equality.
+</li>
+</ul>
+</li>
+<li>Value object base class
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/enterprise-integration-patterns/" class="u-url">Enterprise Integration Patterns</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/enterprise-integration-patterns/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li>
+<a href="posts/reading/enterprise-integration-patterns/#sec-1">The challenges and approaches:</a>
+<ul>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-1-1">Integration solutions's challenges:</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-1-2">Approaches to overcome these challenges:</a></li>
+</ul>
+</li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-2">The main concepts</a></li>
+<li>
+<a href="posts/reading/enterprise-integration-patterns/#sec-3">Messaging System</a>
+<ul>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-3-1">The challenges of asynchronous messaging</a></li>
+</ul>
+</li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-4">Distributed Applications vs Integration</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-5">Six Type of Integrations</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-6">Loose coupling</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-7">Messaging Concetps</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-8">Message Channel</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-9">Message</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-10">Pipes-and-Filters</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-11">Message Router</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-12">Message Translator</a></li>
+<li><a href="posts/reading/enterprise-integration-patterns/#sec-13">Message Endpoint</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">The challenges and approaches:</h2>
 <div class="outline-text-2" id="text-1">
 </div>
 <div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">Concepts</h3>
+<h3 id="sec-1-1">Integration solutions's challenges:</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>ZooKeeper is a high-performance <b>coordination service</b> for distributed
-applications.
+<li>Networks are unreliable.
 </li>
-<li>Allows distributed processes to coordinate with each other through a
-<i>shared <b>hierarchal namespace</b></i>, which is organized similarly to a
-standard file system.
+<li>Networks are slow.
 </li>
-<li>ZooKeeper's data is kept in-memory, which means ZooKeeper can
-achieve high throughput and low latency numbers.
+<li>Any two applications are different.
 </li>
-<li>ZooKeeper itself is intended to be <b>replicated</b> over a sets of hosts
-called an <b>ensembl</b>.
-<ul class="org-ul">
-<li>The servers that make up the ZooKeeper service must all know about
-each other.
-</li>
-<li>They maintain an <i>in-memory</i> image of state, along with a
-<b>transaction logs</b> and <b>snapshots</b> in a persistent store.
-</li>
-<li>As long as a majority of the servers are available, the ZooKeeper
-service will be available.
-</li>
-<li>Clients connect to a <b>single</b> ZooKeeper server. The client maintains
-<b>a TCP connection</b> through which it sends request, get responses,
-gets <b>watch events</b> and sends <b>heart beats</b>.
-</li>
-<li>If the TCP connection to the server breaks, the client will
-connect to a different server.
-</li>
-</ul>
-</li>
-<li>ZooKeeper is ordered in the sense that, ZooKeeper stamps each update
-with a number that reflects the order of all ZooKeeper transactions.
-<ul class="org-ul">
-<li>Subsequent operations can use the order to implement higher-level
-abstractions, such as <b>synchronization primitives</b>.
-</li>
-</ul>
-</li>
-<li>ZooKeeper is fast in <b>read-dominant</b> workloads, it performs best
-where reads are more common than writes, at ratios of around 10:1.
-</li>
-<li>ZooKeeper data nodes are called <b>znode</b>. Unlike standard file
-system, each node in a ZooKeeper namespace can have data associated
-with it, <b>as well as</b> children.
-</li>
-<li>Znodes maintain a <b>stat</b> structure that includes <b>version numbers</b> for
-data changes, ACL changes, and <b>timestamps</b>. Whenever a client
-retrieves data it also receives the version of the data.
-</li>
-<li>The data stored at each znode in a namespace is read and written
-atomically. Each node has an Access Control List (ACL) that
-restricts who can do that.
-</li>
-<li>ZooKeeper also has the notion of <b>ephemeral nodes</b>. These znodes
-exists as long as the session that created the znode is active. When
-the session ends the znode is deleted.
-</li>
-<li>Clients can <b>set a watch</b> on a znodes. A watch will be triggered and
-removed when the znode changes.
+<li>Change is inevitable.
 </li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">Simple API</h3>
+<h3 id="sec-1-2">Approaches to overcome these challenges:</h3>
 <div class="outline-text-3" id="text-1-2">
-<p>
-One of the design goals of ZooKeeper is provide a very simple
-programming interface:
-</p>
+<ul class="org-ul">
+<li>File Transfer: One application writes a file that another later reads.
+</li>
+<li>Shared Database
+</li>
+<li>Remote Procedure Invocation
+</li>
+<li>Messaging: One application publishes a message to a common message
+channel. Other applications can read the message from the channel at
+a later time.
+<ul class="org-ul">
+<li>The applications must agree on a channel as well as the format of
+the message.
+</li>
+<li>The communication is <b>asynchronous</b>.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">The main concepts</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>
+<b>Messaging</b> is a technology that enables <b>high-speed</b>,
+<b>asynchronous</b>, program-to-program communication with <b>reliable
+delivery</b>.
+</li>
+<li>
+<b>Channels</b>, also known as queues, are logical pathways that connect
+the programs and convey messages.
+</li>
+<li>
+<b>Sender</b> or <b>producer</b> is programs that send message by writing the
+message to a channel.
+</li>
+<li>
+<b>Receiver</b> or <b>consumer</b> is programs that receive messages by
+reading (and deleting) from a channel.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Messaging System</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Messaging capabilities are typically provided by a separate software
+system called <b>messaging system</b> or <b>message-oriented
+middleware(MOM)</b>.
+</li>
+<li>A messaging system is configured with the channels that define the
+paths of communication between the applications. The messaging
+system then coordinates tha messages the sending the receiving of messages.
+</li>
+<li>Two important messaging concetps:
 <dl class="org-dl">
-<dt> create </dt>
-<dd>create a node at a location in the tree
+<dt> Send and forget </dt>
+<dd>The sender sends the message to the message
+channel and once that is complete, the sender can go on while
+the messaging system transmits the message in the
+background. The sender doesn't have to wait for the receiver to
+receive and process the message.
 </dd>
-<dt> delete </dt>
-<dd>deletes a node
+<dt> Store and forward </dt>
+<dd>When the sender sends a message, the
+messaging system <b>store</b> the message. It then delivers the
+message by forwording it to the receiver, where it is stored
+again.
 </dd>
-<dt> exists </dt>
-<dd>tests if a node exists at a location
+</dl>
+</li>
+<li>By wrapping the data as a message and storeing it in the messaging
+system, the applications <b>delegate</b> to the messaging system the
+<b>responsibility</b> of delivering the data.
+</li>
+<li>The messaging system can act as a <b>mediator</b> - as in the Mediator
+pattern - between all of the programs that can send and receive
+messages. An application can use it as a <b>directory</b> of other
+applications or services available to integrate with.
+<ul class="org-ul">
+<li>The messaging system can be used to provide a high number of
+distributed connections to a shared resouce, such as a database.
+</li>
+<li>The messaging system can employ <b>redundant resources</b> to provide
+high-availability, balance load, reroute around failed network
+connections, and tune performance and quality of service.
+</li>
+</ul>
+</li>
+<li>Messaging system can enable <b>asynchronous communications</b> and <b>call
+back</b>.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">The challenges of asynchronous messaging</h3>
+<div class="outline-text-3" id="text-3-1">
+<dl class="org-dl">
+<dt> Complex programming model </dt>
+<dd>application logic can no longer be
+coded ina single method that invokes other methods, but the logic
+is now split up into a number of event handlers that respond to
+incoming messages.
 </dd>
-<dt> get data </dt>
-<dd>reads the data from a node
+<dt> Sequence issue </dt>
+<dd>message channels guarantee message delivery, but
+not when the message will be delivered. This can
+cause messages that are send in sequence to get
+out of sequence.
 </dd>
-<dt> set data </dt>
-<dd>writes data to a node
+<dt> Synchronous scenario </dt>
+<dd>not all application can operate in a
+send-and-forget mode. Thus many messaging systems need to bridge
+the gap between synchronous and asynchronous solutions.
 </dd>
-<dt> get children </dt>
-<dd>retrieves a list of children of a node
+<dt> Performance </dt>
+<dd>Messaging systems do add some overhead to communication.
 </dd>
-<dt> sync </dt>
-<dd>waits for data to be propagated.
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Distributed Applications vs Integration</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>An enterprise application often incorporates an n-tier architecture
+enabling it to be distributed across several computers.
+</li>
+<li>Even through this results in processes on different machines
+communicating with each other, this is application distribution, not
+application integration.
+<ul class="org-ul">
+<li>The communicating parts are tightly coupled.
+</li>
+<li>Communication between tiers tends to be synchronous.
+</li>
+<li>An application (n-tier or atomic) tends to have human users that
+will only accept rapid system response.
+</li>
+</ul>
+</li>
+<li>Integrated applications are independent applications that can each
+run by itself, but coordinate with each other in a loosely coupled way.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Six Type of Integrations</h2>
+<div class="outline-text-2" id="text-5">
+<dl class="org-dl">
+<dt> Information Portal </dt>
+<dd>many business users have to access more than
+one system to answer a specific question or to perform a single
+business function. Information portal <b>aggregate</b> information
+from multiple sources into a single display to avoid having the
+user access multiple system for information.
+</dd>
+<dt> Data Replication </dt>
+<dd>many business systems require access to the same
+data. and many of these system are going to have their own data
+stores.
+</dd>
+<dt> Shared Business Function </dt>
+<dd>many business applications tend to
+implement redundant functionality.
+</dd>
+<dt> Service-Oriented Architecture </dt>
+<dd>shared business functions are often
+referred to as services.
+<ul class="org-ul">
+<li>Managing the services:
+<ul class="org-ul">
+<li>service directory
+</li>
+<li>service description/negotiation
+</li>
+</ul>
+</li>
+<li>SOA blur the line between integration and distributed application.
+</li>
+<li>Because services are available in a consistent manner, SOAs are
+sometimes referred to as "<sub>service</sub> bus architectures_"
+</li>
+</ul>
+</dd>
+<dt> Disbributed Business Process </dt>
+<dd>A single business transaction is
+often spread across many different systems.
+<ul class="org-ul">
+<li>In most cases, all relevant functions are incorporated inside
+existing applications.
+</li>
+<li>What is missing is the <b>coordination</b> between the applications.
+</li>
+<li>A <b>business process management</b> component can be added to manage the
+execution of a business function across multiple existing systems.
+</li>
+</ul>
+</dd>
+<dt> Business-to-Business Integration </dt>
+<dd>business functions may be
+available from outside suppliers or business partners.
+<ul class="org-ul">
+<li>Communication across the Internet or some other network usually
+raises new issues related to transport protocols and security.
+</li>
+</ul>
 </dd>
 </dl>
 </div>
 </div>
 
-<div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">Implementation</h3>
-<div class="outline-text-3" id="text-1-3">
-
-<div class="figure">
-<p><img src="https://zookeeper.apache.org/doc/r3.3.3/images/zkcomponents.jpg" alt="zkcomponents.jpg"></p>
-</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Loose coupling</h2>
+<div class="outline-text-2" id="text-6">
 <ul class="org-ul">
-<li>The replicated database is an *in-memory( database containing the
-entire data tree. Updates are logged to disk for recoverability, and
-writes are serialized to disk <b>before</b> thay are applied to the
-in-memory database.
+<li>The core principle behind loose coupling is to <b>reduce the
+assumptions</b> two parties (components, applications, services,
+programs, users) make about each other when they exchange
+information.
 </li>
-<li>Client connect to exactly one server to submit request:
-<ul class="org-ul">
-<li>Read requests are serviced from the local replica.
+<li>A great example of tight coupling is a local method invocation.
 </li>
-<li>Write requests are processed by an agreement protocol.
-<ul class="org-ul">
-<li>All write requests are forwarded to a single server, called the
-<b>leader</b>. The rest of the ZooKeeper servers, called <b>followers</b>,
-receive message proposals from the leader and agree upon message delivery.
+<li>
+<b>RPC</b> or <b>RMI</b> is also considered to be <span class="underline">tightly coupled</span>.
 </li>
-<li>The messaging layer take care of replacing leaders on failures and
-syncing followers with leaders.
-</li>
-</ul>
-</li>
-</ul>
+<li>Trying to portray remote communication as a variant of a local
+method invocation is <i>asking for trouble</i>. Such architectures
+typically result in <i>brittle, hard to maintain and poorly scalable
+solutions</i>.
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4">
-<span class="todo TODO">TODO</span> Programmer's Guide</h3>
-<div class="outline-text-3" id="text-1-4">
-<p>
-<a href="https://zookeeper.apache.org/doc/r3.3.3/zookeeperProgrammers.html">https://zookeeper.apache.org/doc/r3.3.3/zookeeperProgrammers.html</a>
-</p>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Messaging Concetps</h2>
+<div class="outline-text-2" id="text-7">
+<dl class="org-dl">
+<dt> Channels </dt>
+<dd>Messaing applications transmit data through a Message
+Channel, a virtual pipe that connects a sender to a receiver.
+</dd>
+<dt> Messages </dt>
+<dd>An <b>atomic</b> packet of data that can be transmitted on a channel.
+</dd>
+<dt> Multi-step delivery </dt>
+<dd>In the simplest case, the message system
+delivers a message directly from the sender to the
+reciever. However, actions often need to be performed on the
+message after it is sent and before it is received by the final
+receiver. A <b>Pipes and Filters</b> architecture describes how
+multiple processing steps can be <b>chained</b> together using channels.
+</dd>
+<dt> Routing </dt>
+<dd>A message may have to go through several channels to
+reach its final destination. When message is send to a
+<b>Message Router</b>, it will determine how to nagivate the
+channel topology and direct the message to the final
+receiver, or at least to the next router.
+</dd>
+<dt> Transformation </dt>
+<dd>Variaous applications may not agree on the format
+for the same conceptual data. To reconcile this,
+the message must go through an intermediate
+filter, a <b>Message Translator</b>.
+</dd>
+<dt> Endpoints </dt>
+<dd>An application doesn't have some build-in capability to
+interface with the messaging system. The <b>Message
+Endpoint</b> is the bridge code that enable the
+application to send and receive messages.
+</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Message Channel</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>Channels are logical addresses in the messaging system; how they are
+actually implemented depends on the messaging system product and its
+implementation.
+</li>
+<li>Channels are configured by the system administrator so that
+applications can use.
+</li>
+<li>Channels are cheap, but they are not free. Each channel requires
+memory to represent the messages, persistent channels require disk space.
+</li>
+<li>Two kinds of message channels:
+<ul class="org-ul">
+<li>Point-to-point channel
+</li>
+<li>Publish-Subscribe channel
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Message</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>A message consists of two basic parts:
+<dl class="org-dl">
+<dt> Header </dt>
+<dd>information used by the messaging system that describes
+the data being transmitted, its origin, its destination, and so on;
+</dd>
+<dt> Body </dt>
+<dd>The data being transmitted;
+</dd>
+</dl>
+</li>
+<li>Messages concpets:
+<dl class="org-dl">
+<dt> Command Message </dt>
+<dd>to invoke a procdure in another application;
+</dd>
+<dt> Document Message </dt>
+<dd>to pass a set of data to another application;
+</dd>
+<dt> Event Message </dt>
+<dd>to notify another application of a change in the
+application;
+</dd>
+<dt> Request-Reply </dt>
+<dd>if other application should send a reply back;
+</dd>
+<dt> Message Sequence </dt>
+<dd>if one application wish to send more
+information than one message can hold;
+</dd>
+<dt> Message Expiration </dt>
+<dd>specify the data is only useful for a
+limited amount of time;
+</dd>
+</dl>
+</li>
+</ul>
 </div>
 </div>
 
 
-<div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5">
-<span class="todo TODO">TODO</span> Java API</h3>
-<div class="outline-text-3" id="text-1-5">
-<p>
-<a href="https://zookeeper.apache.org/doc/r3.3.3/api/index.html">https://zookeeper.apache.org/doc/r3.3.3/api/index.html</a>
-</p>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10">Pipes-and-Filters</h2>
+<div class="outline-text-2" id="text-10">
+<ul class="org-ul">
+<li>The pipes and Filters style use abstract pipes to decouple
+components from each other. The pipe allows one component to send a
+message into the pipe so that it can be consumed later by another
+process that is unkown to the component.
+<ul class="org-ul">
+<li>The obvious implementation for such a pipe is the <b>Message Channel</b>
+</li>
+<li>Most Message Channels provide language, platform and location
+independence between the filters.
+</li>
+<li>This affords us the flexibility to move a processing step to a
+different machine for dependency, maintenance or performance reasons.
+</li>
+</ul>
+</li>
+<li>One potential downsides of a Pipe and Filters architecture is the
+large number of required channels.
+</li>
+<li id="Pipeline Processing">Connecting components with asynchronous
+Message Channels allow each unit in the chain to operate in its
+own thread or process. This is called <b>processing pipeline</b>
+because messages flow through the filters. When compared to
+strictly sequential processing, a processing pipeline can
+<i><b>significantly</b> increase system throughput</i>. <br><img src="https://www.codeproject.com/KB/architecture/PipesAndFilters/image002.jpg" alt="image002.jpg">
+</li>
+<li id="Parallel processing">With the pipeline processing, the overall
+system throughput is limited by the slowest process in the
+chain. To improve throughput we can deploy multiple parallel
+instance of that process to improve throughput.
+</li>
+<li>Pipes and Filters share some similarities with the concept of
+Communicating Sequential Processes(CSPs)
+<ul class="org-ul">
+<li>The basic mechanism underlying CSPs is the synchronization of two
+processes via input-output(I/O).
+</li>
+<li>I/O occurs when process A indicates that it is ready to output to
+process B and process B states that it is ready to input from
+process A.
+</li>
+<li>If one of these happens without the other being true, the process
+is put on a wait queue until the other process is ready.
+</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
+
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11">Message Router</h2>
+<div class="outline-text-2" id="text-11">
+<ul class="org-ul">
+<li>Message based integration solutions deals with individual messages
+which are not necessarily associated with a single, larger
+dataset. <b>As a result</b>, individual messages are more likely to
+require <b>different</b> series of processing steps.
+</li>
+<li>Message Channel decouples the sender and the recevier of a
+Message. <b>As a result</b>, a message channel can contain messages from
+different sources that may have to be treated differently based on
+the type of message, or other criteria.
+</li>
+<li>Decouple individual processing steps so that messages can be passed
+to different filters depending on a set of condition.
+</li>
+<li>Message Fouter differs from mthe most basic notion of Pipes and
+Filters in that it connects to multiple outpue channels.
+<ul class="org-ul">
+<li>The components surrounding the Message Router are completely
+unaware of the existence of a Message Router.
+</li>
+<li>A key property of the Message Router is that it does not modify
+the message content.
+</li>
+<li>Only conerns itself with the destination of the message.
+</li>
+</ul>
+</li>
+<li>While the intent of a Message Router is to decouple filters, it can
+actually cause the opposite effect.
+<ul class="org-ul">
+<li>Message Router needs to have knowledge of all possible message
+destination in order to send the message to the correct channel.
+</li>
+<li>If the destination change frequently, it turn the Message Router
+into a <b>maintaince bottleneck</b>.
+</li>
+<li>In this case it would be better to let the individual recipients
+to decide which message they are interested in.
+</li>
+</ul>
+</li>
+<li>Message Router requires the insertion of an additional processing
+step, it can degrade performance.
+<ul class="org-ul">
+<li>Can cause computational overhead if the message itself doesn't
+really change.
+</li>
+<li>Could turn a Message Router into a <b>performance bottleneck</b>.
+</li>
+</ul>
+</li>
+<li>Deliberate use of Message Routers can turn the advantage of loose
+coupling into a disavantage.
+<ul class="org-ul">
+<li>Make it difficul to understand the big picture of the solution.
+</li>
+<li>This is common problem with messaging solutions and the use of
+routers can exacerbate the problem.
+</li>
+<li>It is difficult to understand which way messages actually flow.
+</li>
+<li>Using <b>Message History</b> to inspect messages at runtime which
+components they traversed.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12">Message Translator</h2>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13">Message Endpoint</h2>
 </div>
     </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/algorithms-notes/" class="u-url">Algorithms Note</a></h1>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/functional-programming-in-scala/" class="u-url">Functional Programming in Scala</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Warren Liu
             </span></p>
-            <p class="dateline"><a href="posts/algorithms-notes/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+            <p class="dateline"><a href="posts/reading/functional-programming-in-scala/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
         </div>
     </header><div class="e-content entry-content">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">KdTree</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-<a href="http://pointclouds.org/documentation/tutorials/kdtree_search.php">http://pointclouds.org/documentation/tutorials/kdtree_search.php</a>
-</p>
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li>
+<a href="posts/reading/functional-programming-in-scala/#sec-1">Some Basic Ideas</a>
+<ul>
+<li><a href="posts/reading/functional-programming-in-scala/#sec-1-1">(Pure) function</a></li>
+<li><a href="posts/reading/functional-programming-in-scala/#sec-1-2">Loop without mutating a loop variable</a></li>
+<li><a href="posts/reading/functional-programming-in-scala/#sec-1-3">ADT(algebraic data type)</a></li>
+</ul>
+</li>
+<li>
+<a href="posts/reading/functional-programming-in-scala/#sec-2">Handling Errors</a>
+<ul>
+<li><a href="posts/reading/functional-programming-in-scala/#sec-2-1">Partial function</a></li>
+<li><a href="posts/reading/functional-programming-in-scala/#sec-2-2"><code>Option</code>, <code>Either</code> and <code>Try</code></a></li>
+</ul>
+</li>
+<li><a href="posts/reading/functional-programming-in-scala/#sec-3">Strictness and Laziness</a></li>
+<li><a href="posts/reading/functional-programming-in-scala/#sec-4">Purely functional state</a></li>
+</ul>
+</div>
+</div>
 
-<p>
-A k-d tree, or k-dimensional tree, is a data structure used for
-organizing some number of points in a space with k-dimensions. It is a
-<b>binary tree</b> with some other constraints. K-d trees are very useful
-for <b>range and nearest neighbor searches</b>.
-</p>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Some Basic Ideas</h2>
+<div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>Every node in the binary tree is a k-dimensional point.
+<li>FP is based on a simple premise that to construct programs using
+only <b>pure functions</b>. Functions that have <i>no side effects</i>.
 </li>
-<li>Each level of a k-d tree splits all children along a specific dimension.
+<li>Side effect examples
+<ul class="org-ul">
+<li>Reading or Writing to a file
 </li>
-<li>Every non-leaf node can be thought of implicily generating a
-splitting hyperplane that divides the space into two parts.
+<li>Printing to the console or reading user input
+</li>
+<li>Drawing on the screen
+</li>
+<li>Throwing an excepion or halting with an error
+</li>
+</ul>
+</li>
+<li>Functional programming is a restriction on <i>how</i> to write programs,
+but not on <i>what</i> programs we can express.
+</li>
+<li>Functional programmers often speak of implementing programs with a
+<b>pure core</b> and a thin layer on the outside that handles effects.
+</li>
+<li>Finding ways to structure code so that effects occur but aren't
+<b>observable</b>.
+<ul class="org-ul">
+<li>mutate data that's declared locally in the body of some function,
+if we ensure that it can't be referenced outside the function.
+</li>
+<li>write to a file as long as no enclosing function can observe this
+occurring.
+</li>
+</ul>
 </li>
 </ul>
 </div>
 
 <div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">Construction</h3>
+<h3 id="sec-1-1">(Pure) function</h3>
 <div class="outline-text-3" id="text-1-1">
-<p>
-The pesduo code to construct a <code>balanced</code> k-d tree, in which each leaf
-node is approximately the same distance from the root.
-</p>
-
-<p class="verse">
-function kdtree (list pointList, int depth)<br>
-{<br>
-    // Select axis based on depth so that axis cycles through all valid values<br>
-    int axis := depth mod k;<br><br>
-    // Sort point list and choose median as pivot element<br>
-    select median by axis from pointList;<br><br>
-    // Create node and construct subtrees<br>
-    var tree<sub>node</sub> node;<br>
-    node.location := median;<br>
-    node.leftChild := kdtree(points in pointList before median, depth+1);<br>
-    node.rightChild := kdtree(points in pointList after median, depth+1);<br>
-    return node;<br>
-}<br></p>
-
-<p>
-It is not required to select the median point for the
-construction. When not, there is no gurantee the tree will be
-balanced. To avoid a complex O(n) median-finding algorithms, on all n
-points, a popular practice is to sort a <code>fixed number</code> of randomly
-selected points, and use the median of those point to server as the
-splitting plane.
-</p>
+<ul class="org-ul">
+<li>A function <code>f: (A)=&gt;B</code> is a computation that relates every value <code>a</code>
+  of type <code>A</code> to exactly one value <code>b</code> of type <code>B</code>.
+</li>
+<li>Such that <code>b</code> is determined solely by the value of <code>a</code>.
+</li>
+<li>Any changing state of an internal or external process is irrelevant
+to computing the result.
+</li>
+<li>If it really is a <code>function</code>, it will do nothing else.
+</li>
+<li>a function has no <i>observable effect</i> on the execution of the
+program other than to compute the result given its inputs.
+</li>
+<li>Function vs Procedure : whether to have side effects.
+</li>
+<li>
+<b>Referentially Transparent</b> : the expression can be replaced by its
+result without changing the meaning of the program.
+<ul class="org-ul">
+<li>It forces the invariant that everything a function does is
+represented by the value that it returns.
+</li>
+<li>This constrains enables a simple and natural mode of reasoning
+about program evaluation : <b>substitution model</b>.
+</li>
+</ul>
+</li>
+<li>Functional programs are often more modular due to this.
+<ul class="org-ul">
+<li>Modular programs consist of components that can be understood and
+reused <b>independently</b> of the whole.
+</li>
+<li>Such that the meaning of the whole depends only on the meaning of
+the components and the rules governing their composition.
+</li>
+<li>That is, they are <b>composable</b>.
+</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 
 <div id="outline-container-sec-1-2" class="outline-3">
-<h3 id="sec-1-2">Adding elements</h3>
+<h3 id="sec-1-2">Loop without mutating a loop variable</h3>
 <div class="outline-text-3" id="text-1-2">
-<p>
-Same way as adding element to another search tree. Traverse the tree
-to find the correct node under which to insert the node.
-</p>
+<ul class="org-ul">
+<li>An example for looping with recursion:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">factorial</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Int</span> <span class="o">={</span>
+  <span class="k">def</span> <span class="n">go</span><span class="o">(</span><span class="n">n</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">acc</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span>  <span class="k">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">n</span><span class="o">&lt;=</span><span class="mi">0</span><span class="o">)</span> <span class="n">acc</span>
+    <span class="k">else</span> <span class="n">go</span><span class="o">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="n">n</span><span class="o">*</span><span class="n">acc</span><span class="o">)</span>
+  <span class="o">}</span>
+  <span class="n">go</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="mi">1</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>The argument to <code>go</code> are the state for the loop. In this case, it is
+the remaining value <code>n</code>, and the current accumulated factorial <code>acc</code>.
+</li>
+<li>To advanced to the next iteration, simply call the <code>go</code> recursively
+with the <i>new loop state</i>.
+</li>
+<li>And to exist the loop, return a value without a recursive call.
+</li>
+<li>Scala detects this sort of <b>self-recursion</b> and compiles it to the
+same sort of bytecode as would be emitted for a <code>while</code> loop, as
+long as the recursive call is in <b>tail position</b>.
+<ul class="org-ul">
+<li>This optimization is called tail call elimination.
+</li>
+<li>applied when there is no additional work left to do after the
+recursive call returns.
+</li>
+<li>annotation <code>@tailrec</code> can be used to tell Scala compiler about
+this assumption.
+</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 
 <div id="outline-container-sec-1-3" class="outline-3">
-<h3 id="sec-1-3">Removing elements</h3>
+<h3 id="sec-1-3">ADT(algebraic data type)</h3>
 <div class="outline-text-3" id="text-1-3">
-<p>
-The easiest way is to form the set of all nodes and leaves from the
-children of the target node, and recreate that part of the tree.
-</p>
-
-<p>
-Another way is to find a replacement for the node removed. And then
-recursively remove the replacement.
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-1-4" class="outline-3">
-<h3 id="sec-1-4">Nearest neighbour search with k-d tree</h3>
-<div class="outline-text-3" id="text-1-4">
-<ol class="org-ol">
-<li>With the search point, finding the node that will be the insertion
-node if it is to insert the search point into the tree, and save
-the node as <code>current best</code>.
+<ul class="org-ul">
+<li>An ADT is a data type defined by one or more data constructors, each
+of which may contain zero or more arguments.
 </li>
-<li>Unwinds the recursion of the tree, performing the following steps
-at each node:
-<ol class="org-ol">
-<li>If the current noe is closer than the <code>current best</code>, it become
-the <code>current best</code>.
+<li>The data type is the <b>sum</b>, or <b>union</b> of its data constructors
 </li>
-<li>The algorithm checks whether there could be any points on the
-other side of the splitting plane that are closer to the search
-point than the <code>current best</code>.
+<li>And each data constructor is the <b>product</b> of its arguments.
 </li>
-</ol>
+<li>Hence the name <b>algebraic data type</b>
+<ul class="org-ul">
+<li>The naming is not coincidental.
 </li>
-</ol>
+<li>There is a deep connection between the "addition" and
+"multiplication" of types to form an ADT and addition and
+multiplication of numbers.
+</li>
+</ul>
+</li>
+<li>Algebraic data types can be used to define other data structures.
+</li>
+<li>One might object that algebraic data types violate encapsulation by
+making public the internal representation of type.
+</li>
+<li>However in FP, the approach to encapsulation is different, it
+doesn't typically have delicate mutable state which could lead to
+bugs or violation of invariants if exposed publicly.
+</li>
+<li>ADTs is typically used for situations where the set of cases is
+closed(known to be fixed)
+</li>
+</ul>
 </div>
 </div>
 </div>
 
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Selection algorithm</h2>
+<h2 id="sec-2">Handling Errors</h2>
 <div class="outline-text-2" id="text-2">
-<p>
-A selection algorithm is to find the k-th smallest number in a
-list. This includes the cases of finding minimum, maxmum and median
-elements. There are O(n) selection algorithms and sublinear
-performance for structured data.
-</p>
-
-<p>
-The best-known selection algorithm is <b>quickselect</b>, related to
-<b>quicksort</b>. Like quicksort, <span class="underline">it has optimal average performance, but
-poor worst-case performance</span>.
-</p>
+<ul class="org-ul">
+<li>Two major problem with exceptions:
+<ul class="org-ul">
+<li>Exceptions break referential transparent.
+</li>
+<li>Exceptions are not type-safe.
+</li>
+</ul>
+</li>
+<li>Instead of throwing an exception, we can return a value indicating
+that an exceptional condition has occurred.
+</li>
+</ul>
 </div>
-
 <div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">Selection by sorting.</h3>
+<h3 id="sec-2-1">Partial function</h3>
 <div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
-<li>This method is inefficient for selecting a single element, but is
-efficient when many selections need to be made.
+<li>It is not defined for some input.
 </li>
-<li>Partial sorting only for the k.
-</li>
-<li>Partial selection sort.
+<li>An example:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">mean</span><span class="o">(</span><span class="n">xs</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Double</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">xs</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span> <span class="k">throw</span> <span class="k">new</span> <span class="nc">ArithmeticException</span><span class="o">(</span><span class="s">"mean of empty list!"</span><span class="o">)</span>
+  <span class="k">else</span> <span class="n">xs</span><span class="o">.</span><span class="n">sum</span> <span class="o">/</span> <span class="n">xs</span><span class="o">.</span><span class="n">length</span>
+
+<span class="k">def</span> <span class="n">mean2</span><span class="o">(</span><span class="n">xs</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">Doubl</span><span class="o">])</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span> <span class="k">=</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">xs</span><span class="o">.</span><span class="n">isEmpty</span><span class="o">)</span> <span class="nc">None</span>
+  <span class="k">else</span> <span class="nc">Some</span><span class="o">(</span><span class="n">xs</span><span class="o">.</span><span class="n">sum</span> <span class="o">/</span> <span class="n">xs</span><span class="o">.</span><span class="n">length</span><span class="o">)</span>
+</pre></div>
 </li>
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2">Partition based selection</h3>
+<h3 id="sec-2-2">
+<code>Option</code>, <code>Either</code> and <code>Try</code>
+</h3>
 <div class="outline-text-3" id="text-2-2">
 <ul class="org-ul">
-<li>Quickselect is a variant of quicksort: in both one chooses a pivot
-and then partitions the data by it, but while quicksort recurses on
-both sides of the partition, <span class="underline">quickselect only recurses on one side</span>,
-namely the side on which the desired kth element is.
+<li>
+<code>filter(f: A=&gt;Boolean): Option[A]</code> : can convert successes into
+failure if the successful value doesn't match the given predicate.
+</li>
+<li>
+<code>getOrElse(default: =&gt;B) : B</code> : return <code>defulat</code> if undefined.
+</li>
+<li>
+<code>orElse(ob: =&gt;Option[B]) : Option[B]</code> : return another Option if the
+first is undefined. This is often useful when we need to chain
+together possibly failing computations, trying the second if the
+first hasn't succeeded.
+</li>
+<li>A common idiom is to do <code>o.getOrElse(throw new Exception("FAIL"))</code>
+    to convert the <code>None</code> case of an Option back to an exception.
+<ul class="org-ul">
+<li>use it only if no reasonable program would ever catch the
+exception.
+</li>
+</ul>
+</li>
+<li>Convert existed function to be Option-aware
+<ul class="org-ul">
+<li>
+<code>lift</code> of ordinary functions to operate on <code>Option</code>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">lift</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">](</span><span class="n">f</span> <span class="k">:</span> <span class="kt">A</span><span class="o">=&gt;</span><span class="n">B</span><span class="o">)</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">B</span><span class="o">]</span> <span class="k">=</span> <span class="k">_</span> <span class="n">map</span> <span class="n">f</span>
+<span class="k">def</span> <span class="n">map2</span><span class="o">[</span><span class="kt">A</span>,<span class="kt">B</span>,<span class="kt">C</span><span class="o">](</span><span class="n">a</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">],</span> <span class="n">b</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">B</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="o">(</span><span class="kt">A</span><span class="o">,</span> <span class="kt">B</span><span class="o">)</span><span class="k">=&gt;</span> <span class="n">C</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">C</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="c1">//TODO.</span>
+<span class="o">}</span>
+<span class="k">val</span> <span class="n">absO</span> <span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span> <span class="k">=&gt;</span> <span class="nc">Option</span><span class="o">[</span><span class="kt">Double</span><span class="o">]</span> <span class="k">=</span> <span class="n">lift</span><span class="o">(</span><span class="n">math</span><span class="o">.</span><span class="n">abs</span><span class="o">)</span>
+</pre></div>
+</li>
+<li>
+<code>Try</code> : a general-purpose function to convert from an
+exception-based API to an Option-oriented API:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nc">Try</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">a</span><span class="k">:</span> <span class="o">=&gt;</span><span class="n">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span>
+  <span class="k">try</span> <span class="nc">Some</span><span class="o">(</span><span class="n">a</span><span class="o">)</span>
+  <span class="k">catch</span> <span class="o">{</span> <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">Exception</span> <span class="o">=&gt;</span> <span class="nc">None</span> <span class="o">}</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>
+<code>Either</code> data type: sometimes just knowing whether a failure
+occurred is insufficient when more information about failure is
+wanted. the <code>Either</code> data type is designed for the purpose.
+<div class="highlight"><pre><span></span><span class="n">seal</span> <span class="k">trait</span> <span class="nc">Either</span><span class="o">[</span><span class="kt">+E</span>, <span class="kt">+A</span><span class="o">]</span>
+<span class="nc">case</span> <span class="k">class</span> <span class="nc">Left</span><span class="o">[</span><span class="kt">+E</span><span class="o">](</span><span class="n">value</span><span class="k">:</span> <span class="kt">E</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Either</span><span class="o">[</span><span class="kt">E</span>, <span class="kt">Nothing</span><span class="o">]</span>
+<span class="k">case</span> <span class="k">class</span> <span class="nc">Right</span><span class="o">[</span><span class="kt">+A</span><span class="o">](</span><span class="n">value</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">Either</span><span class="o">[</span><span class="kt">Nothing</span>, <span class="kt">A</span><span class="o">]</span>
+</pre></div>
+<ul class="org-ul">
+<li>Both cases carry a value.
+</li>
+</ul>
+</li>
+<li>A common use of <code>Either</code> is as an alternative to <code>Option</code> for
+dealing with possibly missing values.
+<ul class="org-ul">
+<li>In this usage, <code>None</code> is replaced with a <code>Left</code> which can
+contain useful information. <code>Right</code> takes the place of <code>Some</code>.
+</li>
+<li>Convention dictates that <code>Left</code> is used for failure and <code>Right</code>
+    is used for success.
+</li>
+</ul>
+</li>
+<li>
+<code>Try</code> represents a computation that may either result in an
+exception, or return a successful computed value.
+<ul class="org-ul">
+<li>Similar to <code>Either</code>, but semantically different.
+</li>
+<li>Instance of <code>Try[T]</code>, are either an <code>Success[T]</code> or a <code>Failure[t]</code>
+</li>
+<li>Example:
+<div class="highlight"><pre><span></span><span class="k">import</span> <span class="nn">scala.io.StdIn</span>
+<span class="k">import</span> <span class="nn">scala.util.</span><span class="o">{</span><span class="nc">Try</span><span class="o">,</span> <span class="nc">Success</span><span class="o">,</span> <span class="nc">Failure</span><span class="o">}</span>
+
+<span class="k">def</span> <span class="n">divide</span><span class="k">:</span> <span class="kt">Try</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="o">{</span>
+  <span class="k">val</span> <span class="n">dividend</span> <span class="k">=</span> <span class="nc">Try</span><span class="o">(</span><span class="nc">StdIn</span><span class="o">.</span><span class="n">readLine</span><span class="o">(</span><span class="s">"Enter an Int that you'd like to divide:\n"</span><span class="o">).</span><span class="n">toInt</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">divisor</span> <span class="k">=</span> <span class="nc">Try</span><span class="o">(</span><span class="nc">StdIn</span><span class="o">.</span><span class="n">readLine</span><span class="o">(</span><span class="s">"Enter an Int that you'd like to divide by:\n"</span><span class="o">).</span><span class="n">toInt</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">problem</span> <span class="k">=</span> <span class="n">dividend</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">divisor</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="n">y</span> <span class="k">=&gt;</span> <span class="n">x</span><span class="o">/</span><span class="n">y</span><span class="o">))</span>
+  <span class="n">problem</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">Success</span><span class="o">(</span><span class="n">v</span><span class="o">)</span> <span class="k">=&gt;</span>
+      <span class="n">println</span><span class="o">(</span><span class="s">"Result of "</span> <span class="o">+</span> <span class="n">dividend</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span> <span class="s">"/"</span><span class="o">+</span> <span class="n">divisor</span><span class="o">.</span><span class="n">get</span> <span class="o">+</span><span class="s">" is: "</span> <span class="o">+</span> <span class="n">v</span><span class="o">)</span>
+      <span class="nc">Success</span><span class="o">(</span><span class="n">v</span><span class="o">)</span>
+    <span class="k">case</span> <span class="nc">Failure</span><span class="o">(</span><span class="n">e</span><span class="o">)</span> <span class="k">=&gt;</span>
+      <span class="n">println</span><span class="o">(</span><span class="s">"You must've divided by zero or entered something that's not an Int. Try again!"</span><span class="o">)</span>
+      <span class="n">println</span><span class="o">(</span><span class="s">"Info from the exception: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">.</span><span class="n">getMessage</span><span class="o">)</span>
+      <span class="n">divide</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</li>
+<li>An important property of <b>Try</b> shown in the above example is its
+ability to pipeline, or chain, operations, catching exceptions
+along the way.
+</li>
+</ul>
 </li>
 </ul>
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Dynamic Programming</h2>
+<h2 id="sec-3">Strictness and Laziness</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
-<li>Dynamic Programming is not an algorithm or data-structure. It is a
-technique and it is applied to a certain class of problem.
+<li>Scala collection function like <code>map</code>, <code>filter</code> are <b>strict functions</b>
+  that produce intermediate temporary collections when called in chain.
+</li>
+<li>a non-strict function may choose <b>not</b> to evaluate one, or more of
+its arguments, while a strict function will always evaluates its
+arguments.
 </li>
 <li>
-<b>Divide</b> a problem into smaller sub-problems and if there are some
-<b>overlapping</b> sub-problems, then it is a dynamic programming problem.
+<code>if</code> can be think as a function accepting three parameters. This
+function would be non-strict, since it won't evaluate all of its
+arguments.
 </li>
-<li>The core idea of DP is to <i>avoid repeated work</i> by remembering <b>partial</b>
-  results. It is basically <b>recursion along with memorisation</b>.
+<li>In scala, we can write non-strict functions by accepting some of our
+arguments un-evaluated, for example:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">if2</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">cond</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">,</span> <span class="n">onTrue</span><span class="k">:</span> <span class="o">()=&gt;</span><span class="n">A</span><span class="o">,</span> <span class="n">onFalse</span><span class="k">:</span> <span class="o">()=&gt;</span><span class="n">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="n">onTrue</span><span class="o">()</span> <span class="k">else</span> <span class="n">onFalse</span><span class="o">()</span>
+</pre></div>
+<p>
+Or with pass-by-reference:
+</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">if2</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">cond</span><span class="k">:</span> <span class="kt">Boolean</span><span class="o">,</span> <span class="n">onTrue</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">,</span> <span class="n">onFalse</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">A</span><span class="o">)</span> <span class="k">:</span><span class="kt">A</span> <span class="o">=</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">cond</span><span class="o">)</span> <span class="n">onTrue</span> <span class="k">else</span> <span class="n">onFalse</span>
+</pre></div>
+</li>
+<li>Adding the <code>lazy</code> keyword to a <code>val</code> declaration will cause Scala to
+delay evaluation of the right-hand side of the declaration, until it
+is first referenced. It will also cache the result so that
+subsequent references to it don't trigger repeated evaluation.
+</li>
+<li>A major theme in FP is <i>separation of concerns</i>. We want to separate
+the description of computations from actually running them.
 <ul class="org-ul">
-<li>Recursion allows expressing the value of a function in terms of
-other values of that function.
+<li>Laizness lets us separate the description of an expression from
+the evaluation of that expression.
 </li>
-<li>Memorisation tells that if the recursive calls were done in
-advanced, and stored for access, it will make the program faster.
-</li>
-<li>The intuition behind is to trade space for time.
-</li>
-</ul>
-</li>
-<li>DP is a powerful technique that allows one to solver different types
-of problems in time \(O(n^2)\) or \(O(n^3)\) while a naive approach would
-take exponential time.
-</li>
-<li>An example for Fibonacci function.
-<ul class="org-ul">
-<li>With pure recursive:
-<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">fib</span> <span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
-      <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span>
-<span class="p">}</span>
+<li>We may choose to describe a <i>larger</i> expression than we need, and
+then evaluate only a portion of it.
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">exists</span><span class="o">(</span><span class="n">p</span><span class="k">:</span> <span class="kt">A</span><span class="o">=&gt;</span><span class="nc">Boolean</span><span class="o">)</span><span class="k">:</span> <span class="kt">Boolean</span> <span class="o">=</span> <span class="k">this</span> <span class="k">match</span> <span class="o">{</span>
+    <span class="k">case</span> <span class="nc">Cons</span><span class="o">(</span><span class="n">h</span><span class="o">,</span> <span class="n">t</span><span class="o">)</span> <span class="k">=&gt;</span> <span class="n">p</span><span class="o">(</span><span class="n">h</span><span class="o">())</span> <span class="o">||</span> <span class="n">t</span><span class="o">().</span><span class="n">exists</span><span class="o">(</span><span class="n">p</span><span class="o">)</span>
+    <span class="k">case</span> <span class="k">_</span> <span class="k">=&gt;</span> <span class="kc">false</span>
+<span class="o">}</span>
 </pre></div>
-</li>
-<li>Bottom-up iterative approach:
-<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">fib</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="n">fibresult</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">fibresult</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-       <span class="n">fibresult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fibresult</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">fibresult</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">];</span>
-<span class="p">}</span>
-</pre></div>
-</li>
-<li>With DP, recursive approach with memorisation:
-<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="n">fib</span><span class="p">[</span><span class="n">maxn</span><span class="p">];</span>
-<span class="n">memset</span><span class="p">(</span><span class="n">fib</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">fib</span><span class="p">));</span>
-<span class="kt">int</span> <span class="nf">solve</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>    <span class="c1">// base conditions</span>
-	<span class="k">return</span> <span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>    <span class="c1">// if memoized then return the value</span>
-	<span class="k">return</span> <span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">];</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">fib</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">solve</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">);</span>    <span class="c1">// recursive definition</span>
-<span class="p">}</span>
-</pre></div>
-</li>
-</ul>
-</li>
-<li>Solve <code>Edit Distance</code> using DP:
-<ul class="org-ul">
-<li>
-<code>Edit Distance</code> is a way of quantifying how dissimilar two strings
-are, i.e. how many operations(add, delete, or replace a single
-character) it would take to transform one string to the other.
-</li>
-<li>Solving using DP, using a matrix to save the partial result:
-<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">editDistance</span><span class="p">(</span><span class="n">string</span> <span class="n">s1</span><span class="p">,</span> <span class="n">string</span> <span class="n">s2</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">int</span> <span class="n">m</span> <span class="o">=</span> <span class="n">s1</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">s2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
-    <span class="c1">// for all i, j, dp[i][j] will hold the edit distance between the first</span>
-    <span class="c1">// i characters of source string and first j characters of target string</span>
-    <span class="kt">int</span> <span class="n">dp</span><span class="p">[</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
-    <span class="n">memset</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">dp</span><span class="p">));</span>
-    <span class="c1">// source can be transformed into target prefix by inserting</span>
-    <span class="c1">// all of the characters in the prefix</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">dp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="c1">// source prefixes can be transformed into empty string by</span>
-    <span class="c1">// by deleting all of the characters</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">m</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-	    <span class="k">if</span> <span class="p">(</span><span class="n">s1</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="p">{</span>
-		<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">];</span> <span class="c1">// no operation required as characters are the same</span>
-	    <span class="p">}</span>
-	    <span class="k">else</span> <span class="p">{</span>
-		<span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>    <span class="c1">// substitution</span>
-			       <span class="n">min</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>     <span class="c1">// insertion</span>
-				    <span class="n">dp</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">][</span><span class="n">j</span><span class="p">]));</span>    <span class="c1">// deletion</span>
-	    <span class="p">}</span>
-	<span class="p">}</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">m</span><span class="p">][</span><span class="n">n</span><span class="p">];</span>
-<span class="p">}</span>
-</pre></div>
+<p>
+Note that <code>||</code> is non-strict in its second argument.
+</p>
 </li>
 </ul>
 </li>
@@ -1072,401 +1327,1286 @@ character) it would take to transform one string to the other.
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">Backtracking</h2>
+<h2 id="sec-4">Purely functional state</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
-<li>Backtracking incrementally builds candidates to the solutions, and
-abandon each partial candidate as soon as it cannot possibly be
-completed to a valid solution.
+<li>The key to recovering referential transparency is to <b>make the state
+updates explicit</b>. Don't update the state as a side effect, but
+simply <b>return the new state</b> along with the value that we are return.
 </li>
-<li>Backtracking can be applied only for problems which admit the
-concept of a <b>partial candidate solution</b> and a relatively quick
-test of whether it can possibly be completed to a valid solution.
-</li>
-<li>When it applicable, it often much faster than brute force
-enumeration of all complete candidates, since it eliminate a large
-number of candidates with a single test.
-</li>
-</ul>
-</div>
-
-<div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1">Description of the method</h3>
-<div class="outline-text-3" id="text-4-1">
+<li>An example for a random number generator:
+<div class="highlight"><pre><span></span><span class="k">trait</span> <span class="nc">RNG</span> <span class="o">{</span>
+     <span class="k">def</span> <span class="n">nextInt</span><span class="k">:</span> <span class="o">(</span><span class="kt">Int</span><span class="o">,</span> <span class="kt">RNG</span><span class="o">)</span>
+<span class="o">}</span>
+</pre></div>
 <ul class="org-ul">
-<li>Conceptually, the partial candidates are represented as the <b>nodes</b> of
-a <b>tree</b> structure, <i>the potential search tree</i>.
+<li>Rather than returning only the generated random number, and
+updating some internal state by <i>mmutating</i> it in place, we return
+the random number <b>and</b> the new state, leaving the old state
+unmodified.
 </li>
-<li>Each partial candidate is the parent of the candidates that <i>differ
-from it by a <b>single extension step</b></i>;
+<li>It separating the concern of <b>computing</b> what the next state is
+from the concern of <b>communicating</b> the new state to the rest of
+the program.
 </li>
-<li>The <b>leaves</b> of the tree are the partial candidates that cannot be
-extended any further, i.e, a possible solution.
+</ul>
 </li>
-<li>The backtracking algorithm traverses this search tree recursively,
-from the root down, in <b>depth-first</b> order.
+<li>The function has a type of the form <code>RNG =&gt; (A, RNG)</code>. Functions of
+this type are called <b>state actions</b> or <b>state transitions</b> because
+they transform <b>RNG</b> states from one to the next.
+<ul class="org-ul">
+<li>It will be quite tedious and repetitive to passing the state.
+</li>
+</ul>
+</li>
+<li>This state actions can be combined using <b>combinators</b>, which are
+higher-order functions. The combinators will pass the state from one
+action to the next automatically.
 </li>
 </ul>
 </div>
 </div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/go-in-action/" class="u-url">Go In Action</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/go-in-action/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/go-in-action/#sec-1">Introducing Go</a></li>
+<li><a href="posts/reading/go-in-action/#sec-2">Go quick-start</a></li>
+<li><a href="posts/reading/go-in-action/#sec-3">Package and tooling</a></li>
+<li><a href="posts/reading/go-in-action/#sec-4">Arrays, slices, and maps</a></li>
+</ul>
+</div>
+</div>
 
-<div id="outline-container-sec-4-2" class="outline-3">
-<h3 id="sec-4-2">The algorithm:</h3>
-<div class="outline-text-3" id="text-4-2">
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Introducing Go</h2>
+<div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>
-<a href="https://www.cis.upenn.edu/~matuszek/cit594-2012/Pages/backtracking.html">The tutorial</a>
+<b>Goroutines</b> are functions that run concurrently with other
+goroutines, including the entry point of your program. In other
+languages, you 'd use threads to accomplish the same thing, but in
+Go, <span class="underline">many goroutines execute on <b>single thread</b></span>.
 </li>
-<li>Recursive code:
-<div class="highlight"><pre><span></span><span class="kt">boolean</span> <span class="nf">solve</span><span class="o">(</span><span class="n">Node</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
-  <span class="k">if</span> <span class="o">(</span><span class="n">is_leaf</span><span class="o">(</span><span class="n">n</span><span class="o">))</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">is_goal</span><span class="o">(</span><span class="n">n</span><span class="o">))</span> <span class="o">{</span>
-      <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="k">else</span> <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
-  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-    <span class="k">for</span> <span class="o">(</span><span class="n">c</span> <span class="o">:</span> <span class="n">child</span><span class="o">(</span><span class="n">n</span><span class="o">))</span> <span class="o">{</span>
-	<span class="k">if</span> <span class="o">(</span> <span class="n">solve</span><span class="o">(</span><span class="n">c</span><span class="o">)</span> <span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-    <span class="o">}</span>
-    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<li>In Go, the net/http library has concurrentcy build in using
+goroutings. Each inbound request automatically runs on its own
+goroute.
+</li>
+<li>Goroutines use less memory that threads and Go runtime will
+automatically schedule the execution of goroutines against a set of
+configured logical processors. <span class="underline">Each <b>logical processor</b> is bound to a
+single OS thread</span>.
+</li>
+<li>
+<b>Channels</b> are data structures that enable safe data communication
+between goroutines.
+</li>
+<li>
+<b>Channels</b> help to enforce the pattern that only one goroutine
+should modify the data at any time.
+</li>
+<li>It is imortant tonote that channels don't provide data access
+protection between goroutines. If copies of data are exchanged
+through a channel, each goroutine has its own copy and can make any
+changes to that data safely. When pointers to the data are being
+exchanged, each goroutine still need to be synchronized if reads and
+writes will be performed by different goroutines.
+</li>
+<li>Go developers embed types to reuse functionality in a design pattern
+called <b>composition</b>. Other languages use composition, but it is
+often deeply tired to inheritance, which make it complicated and
+difficult to use.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Go quick-start</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>If you <code>main</code> function doesn't exist in package <code>main</code>, the build
+tools won't produce an executable.
+</li>
+<li>All code files in a folder must use the same package name, and it is
+common practise to name the package after the folder. A <span class="underline">package
+defines a unit of compiled code</span>, and each unit of code represents a package.
+</li>
+<li>The Go compiler won't let you declare a package to be imported if it
+is not used. The <b>blank identifier</b> allow the compiler to accept the
+import and call any <code>init</code> functions that can be found in the
+different code files within that package.
+</li>
+<li>All <code>init</code> functions in any code file that are part of the program
+will get called before the <code>main</code> function.
+</li>
+<li>By default the logger is set to write to stderr device, however this
+can be changed with:
+<div class="highlight"><pre><span></span>log.SetOutput(os.Stdout)
+</pre></div>
+</li>
+<li>The compiler will always look for the packages you import at the
+locations referenced by the <code>GOROOT</code> and <code>GOPATH</code> environment
+variables.
+</li>
+<li>Variables located outside the scope of any function are considered
+package-level variable.
+</li>
+<li>Identifiers start with a captial letter are exported, while
+identifiers start with a lowercase letter are unexported.
+</li>
+<li>In Go, all variables are initialized to their zero value. For
+pointers, the zero value is <code>nil</code>. For reference types, their
+underlying data structures are initialized to their zero values.
+</li>
+<li>The short variable declaration operator <code>:=</code> is used to both declare
+and initialize variables at the same time. The type of each value
+being returned is used by the compiler to determine the type of each
+variable, respectively.
+</li>
+<li>A good rule of thumb when declaring variables is to use keyword
+<code>var</code> when declaring variables that will be initialized to their
+zero value, and to use the short variable declaration operator when
+providing extra initialization or making a function call.
+</li>
+<li>In Go, once the <code>main</code> function returns, the program terminates. Any
+goroutines that are still running at this time will also be
+terminated by the Go runtime.
+</li>
+<li>
+<code>WaitGroup</code> from the <code>sync</code> package is a great way to track when a
+goroutine is finished performing its work. A <code>WaitGroup</code> is a
+counting semaphore.
+</li>
+<li>The keyword <code>range</code> can be used with arrays, strings, slices, maps
+and channels.
+</li>
+<li>When use <code>for range</code> to iterate over a slice, we get two values back
+on each iteration, the first is the index position, and the second
+is a <b>copy</b> of the value in that element.
+</li>
+<li>When you have function that returns multiple values, and you don't
+have a need for one, the blank identifier can be used to ignore
+those values:
+<div class="highlight"><pre><span></span>for _, feed := range feeds {}
+</pre></div>
+</li>
+<li>When a key doesn't exist, the map will return the zero value for the
+type of value being stored in the map. When the key does exist, the
+map will return a <b>copy</b> of the value for that key.
+</li>
+<li>Go supports closures. The <code>anonymous</code> function isn't given a copy of
+these variables; it has direct access to the same variables declared
+in the scope of outer functon.
+</li>
+<li>Tag can be used to add meta data for struct fields:
+<div class="highlight"><pre><span></span>type Feed struct {
+	Name string `json: "site"`
+	URI string `json: "link"`
+	Type string `json: "type"`
+}
+</pre></div>
+<p>
+The above example use tag to map a struct with a JSON document.
+</p>
+</li>
+<li>The keyword <code>defer</code> lets us write statement close to where the
+open occurs, which helps with readability and reducing bugs.
+</li>
+<li>Empty interface:
+<div class="highlight"><pre><span></span>func (dec *Decoder) Decode (v interface{}) error
+</pre></div>
+<p>
+This is a special type in Go, which allow <code>Decode</code> method to accept
+any type of value.
+</p>
+</li>
+<li>A name conventionin Go for interfaces: if the interface type
+contains only one method, the name of the interface ends with the
+<code>er</code> suffix.
+</li>
+<li>The use of a receiver with any function declaration declares a
+method that is bound to the specified reciever type.
+</li>
+<li>Whether we use a value or pointer of the receiver type to make the
+method call, the compiler will reference or deference the value if
+necessary to support the call.
+</li>
+<li>It is best practice to declare methods using pointer receivers,
+since many of the methods you implements need to manipulate the
+state of the value being used to make the method call.
+</li>
+<li>Interface type bcan be assigned to either value or pointer:
+<div class="highlight"><pre><span></span>var dm defaultMatcher
+//Assign value to interface type Matcher
+var matcher1 Matcher = dm
+//Can also assign the interface type to a pointer
+var matcher2 Matcher = &amp;dm
+</pre></div>
+</li>
+<li>Methods declared with pointer receivers can only be called by
+interface type values that contain pointers. Methods declared with
+value receivers can be called by interface type that contain both
+values and points.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Package and tooling</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Go programs are organized into groups of files called packages, so
+that <b>code</b> has the abitity to be included into other projects as
+<span class="underline">smaller resuable pieces</span>.
+</li>
+<li>You cannot have multiple packages in the same directory, nor split a
+package across multiple directories.
+</li>
+<li>Unique package name is not required, because package is imported
+using its full path. The package name is used as the default name
+when it is imported, but it can be overridden:
+<div class="highlight"><pre><span></span>import (
+	"fmt"
+	myfmt "mylib/fmt"
+)
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Arrays, slices, and maps</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>When an array is initialized, each individual element that belongs
+to the array is initialized to its zero value.
+</li>
+<li>Array literal:
+<div class="highlight"><pre><span></span>array := [5]int {1,2,3,4,5}
+</pre></div>
+</li>
+<li>Declaring an array with Go calculating size:
+<div class="highlight"><pre><span></span>array := [...]int{1,2,3,4,5}
+</pre></div>
+</li>
+<li>Declaring an array initializing specific elements:
+<div class="highlight"><pre><span></span>array := [5]int{1: 1, 2: 2}
+</pre></div>
+</li>
+<li>An array is a value in Gl. This means you can use it in an
+assignment operation. The variable name denotes the entire array,
+and can be assigned to other arrays of the same type:
+<div class="highlight"><pre><span></span>var array1 [5]string
+array2 :=[5]string{"a", "b", "c", "d", "e"}
+//copy the values from array2 into array1.
+array1=array2
+//after the copy the two array is identical.
+</pre></div>
+</li>
+<li>The type of an array variable includes both the length and the type
+of data. Only arrays of the same type can be assigned.
+</li>
+<li>Arrays are <b>always</b> one-dimensional, but they can be composed to
+create multidimensinal arrays.
+</li>
+<li>Passing an array between functions can be expensive because array is
+a value and the whole array will be copied.
+</li>
+<li>An idiomatic way of creating a slice is to use a slice
+literal. Similar to creating an array, excpet don't specify a value
+inside of the [] operator. Remember: <span class="underline">If a value is specified inside
+the [] operator, an array is created, otherwise, a slice is created</span>.
+</li>
+<li>A <code>nil</code> slice represent a slice that doesn't exist:
+<div class="highlight"><pre><span></span>//create a nil slice of integres.
+var slice []int
+</pre></div>
+</li>
+<li>An empty slice is different from <code>nil</code> slice in that its array
+pointer is an empty array, instead of a <code>nil</code>. It is used to
+represents an empty collection.
+</li>
+<li>Taking the slice of a slice:
+<div class="highlight"><pre><span></span>slice := []int{1,2,3,4,5}
+//create a new slice
+newSlice := slice[1:3]
+</pre></div>
+</li>
+<li>A slice can only access indexes up to its length. Accessing outside
+its length will cause a runtime exception.
+</li>
+<li>By set the capacity of a new slice to be the same as the length, you
+can force the first append operation to detach the new slice from
+the underlying array, which make it safe to change.
+</li>
+<li>The <code>append</code> is a variadic function. This means you can pass
+multiple values to be appended. If you use the <code>...</code> operator, you
+can append all the elements of one slice into another:
+<div class="highlight"><pre><span></span>s1 := []int{1,2}
+s2 := []int{3,4}
+//s3 : [1,2,3,4]
+s3 := append(s1, s2...)
+</pre></div>
+</li>
+<li>It is important to know that <code>range</code> is making a copy of the value,
+not a reference.
+</li>
+<li>Passing a slice between two functions requires nothing more than
+passing the slice by value.
+</li>
+<li>Maps are collections and can be iterated. But maps are unordered
+collections. There is no way to predict the order in which the
+key/value pairs will be returned. <span class="underline">Every iteration over a map could
+return a different order</span>.
+</li>
+<li>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/gradle-in-action/" class="u-url">Gradle In Action</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/gradle-in-action/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/gradle-in-action/#sec-1">Getting started</a></li>
+<li><a href="posts/reading/gradle-in-action/#sec-2">Using the command line</a></li>
+<li><a href="posts/reading/gradle-in-action/#sec-3">Using the java plugin</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Getting started</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>An hello world example:
+<div class="highlight"><pre><span></span><span class="n">task</span> <span class="n">helloWorld</span> <span class="o">{</span>
+  <span class="n">doLast</span> <span class="o">{</span>
+    <span class="n">println</span> <span class="s1">'Hello world!'</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
-<p>
-The reasoning:
-</p>
 <ul class="org-ul">
-<li>If any of the children of n is solvable, n is solvable
+<li>Execute the build script with <code>gradle -q helloWorld</code>, the <code>-q</code>
+    tell Gradle only ouptut the task's output.
 </li>
-<li>If non of the children of n is solvable, n is non-solvable
+<li>Tasks and actions are important elements of the language.
+</li>
+<li>An <code>Action</code> doLast specify it is the last action that's executed
+for a task.
+</li>
+<li>In a more concise way of same logic using <code>&lt;&lt;</code>
+<div class="highlight"><pre><span></span><span class="n">task</span> <span class="n">helloWorld</span> <span class="o">&lt;&lt;</span> <span class="o">{</span>
+   <span class="n">println</span> <span class="s1">'Hello world!'</span>
+<span class="o">}</span>
+</pre></div>
 </li>
 </ul>
 </li>
-<li>Non-Recursive code:
-<div class="highlight"><pre><span></span><span class="kt">boolean</span> <span class="nf">solve</span><span class="o">(</span><span class="n">Node</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
-  <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">n</span><span class="o">);</span>
-  <span class="k">while</span> <span class="o">(!</span><span class="n">stack</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
-    <span class="n">Node</span> <span class="n">node</span><span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="na">peek</span><span class="o">();</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">is_leaf</span><span class="o">(</span><span class="n">node</span><span class="o">)){</span>
-	<span class="k">if</span> <span class="o">(</span><span class="n">is_goal</span><span class="o">(</span><span class="n">node</span><span class="o">)){</span>
-	    <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-	<span class="o">}</span><span class="k">else</span><span class="o">{</span>
-	    <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
-	<span class="o">}</span>
-    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-	<span class="k">if</span> <span class="o">(</span><span class="n">node</span><span class="o">.</span><span class="na">hasMoreChildToTry</span><span class="o">()){</span>
-	    <span class="n">Node</span> <span class="n">childNode</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">nextChild</span><span class="o">();</span>
-	    <span class="n">stack</span><span class="o">.</span><span class="na">push</span><span class="o">(</span><span class="n">childNode</span><span class="o">);</span>
-	<span class="o">}</span><span class="k">else</span><span class="o">{</span>
-	    <span class="n">stack</span><span class="o">.</span><span class="na">pop</span><span class="o">();</span>
-	<span class="o">}</span>
-    <span class="o">};</span>
-    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<li>Dynamic task definition and task chaining
+<div class="highlight"><pre><span></span><span class="n">task</span> <span class="n">startSession</span> <span class="o">&lt;&lt;</span> <span class="o">{</span>
+  <span class="n">chant</span><span class="o">()</span>
 <span class="o">}</span>
+
+<span class="kt">def</span> <span class="nf">chant</span><span class="o">()</span> <span class="o">{</span>
+   <span class="n">ant</span><span class="o">.</span><span class="na">echo</span><span class="o">(</span><span class="nl">message:</span> <span class="s1">'Repeat after me...'</span><span class="o">)</span>
+<span class="o">}</span>
+
+<span class="mi">3</span><span class="o">.</span><span class="na">times</span> <span class="o">{</span>
+   <span class="n">task</span> <span class="s2">"YayGradle$it"</span> <span class="o">&lt;&lt;</span> <span class="o">{</span>
+      <span class="n">println</span> <span class="s1">'Gradle rocks'</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">yayGradle0</span><span class="o">.</span><span class="na">dependsOn</span> <span class="n">startSession</span>
+<span class="n">yayGradle2</span><span class="o">.</span><span class="na">dependsOn</span> <span class="n">yayGradle1</span><span class="o">,</span> <span class="n">yayGradle0</span>
+
+<span class="n">task</span> <span class="nf">groupTherapy</span><span class="o">(</span><span class="nl">dependsOn:</span> <span class="n">yaygradle2</span><span class="o">)</span>
 </pre></div>
-<p>
-When the stack algorithm terminates successfully, the nodes on the
-stack form (in reverse order) a path from the root to a goal node.
-</p>
+<ul class="org-ul">
+<li>
+<code>task</code> can be used to dynamically define tasks
+</li>
+<li>
+<code>dependsOn</code> defines dependencies between tasks
+</li>
+<li>Gradle is tight integrated with Ant. Every script is equipped with
+a property call <code>ant</code> that grants direct access to Ant tasks
+</li>
+</ul>
 </li>
 </ul>
 </div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Using the command line</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>list available tasks of a project: <br><code>gradle -q tasks</code>
+</li>
+<li>list all available properties: <br><code>gradle properties</code>
+</li>
+<li>task execution: can execute multiple tasks in a single build run <br><code>gradle yayGradle0 groupTherapy</code>
+<ul class="org-ul">
+<li>will execute the task <code>yayGradle0</code> first then task <code>groupTherapy</code> second.
+</li>
+<li>Tasks are always executed just <b>once</b>.
+</li>
+<li>Gradle can abbreviate camel-cased task name on the command
+line. So the command below is same as above <br><code>gradle yG0 gT</code>
+</li>
+<li>However, the abbreviation has to be unique
+</li>
+</ul>
+</li>
+<li>
+<b>exclude</b> a task and its dependent tasks: <br><code>gradle groupTherapy -x yayGradle0</code>
+</li>
+<li>specify a <b>build file</b> with <code>-b, --build-file</code>
+</li>
+<li>
+<b>build offline</b> with <code>offline</code> to only check the local dependency
+cache for dependencies.
+</li>
+<li>set property option:
+<ul class="org-ul">
+<li>
+<code>-D, --system-prop</code> : set jvm system property
+</li>
+<li>
+<code>-P, --project-prop</code> : set project properties, which are variables
+available in your build script.
+</li>
+</ul>
+</li>
+<li>logging: <code>-i, --info</code>, <code>-s --stacktrace</code>, <code>-q, --quite</code>
+</li>
+<li>Gradle daemon: <code>--daemon</code>
+<ul class="org-ul">
+<li>subsequent invocations of the <code>gradle</code> command will now reuse the
+daemon process.
+</li>
+<li>The daemon process will automatically expire after a three-hour
+idle time.
+</li>
+<li>At any time you can choose to build without using the daemon with
+<code>--no-daemon</code>
+</li>
+<li>To stop the daemon <code>gradle --stop</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Using the java plugin</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Tell your project to use the Java plugin: <br>
+  ~apply plugin: 'java'~
+</li>
+<li>Using <code>build</code> task to compile, run test and assembles the Jar.
+</li>
+<li>
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/introducing-go/" class="u-url">Introducing Go</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                Warren Liu
+            </span></p>
+            <p class="dateline"><a href="posts/reading/introducing-go/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/reading/introducing-go/#sec-1">Chapter 1. Getting started</a></li>
+<li><a href="posts/reading/introducing-go/#sec-2">Chapter 2. Types</a></li>
+<li><a href="posts/reading/introducing-go/#sec-3">Chapter 3. Variables</a></li>
+<li><a href="posts/reading/introducing-go/#sec-4">Chapter 4. Control Structures</a></li>
+<li><a href="posts/reading/introducing-go/#sec-5">Chapter 5. Arrays, Slices, and Maps</a></li>
+<li><a href="posts/reading/introducing-go/#sec-6">Chapter 6: Functions</a></li>
+<li><a href="posts/reading/introducing-go/#sec-7">Chapter 7: Structs and Interfaces</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Chapter 1. Getting started</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>The Go toolset uses an environment variable called <code>GOPATH</code> to find
+Go source code.
+</li>
+<li>Find document for certain function using <code>godoc</code>:
+<div class="highlight"><pre><span></span>godoc fmt Println
+</pre></div>
+</li>
+</ul>
+<p>
+w  will get document for function <code>Println</code> in package <code>fmt</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Chapter 2. Types</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Go is a statically typed language. Variables have specific types and
+type cannot change.
+</li>
+<li>Number Types
+<ul class="org-ul">
+<li>Go’s integer types are <code>uint8</code>, <code>uint16</code>, <code>uint32</code>, <code>uint64</code>,
+<code>int8</code>, <code>int16</code>, <code>int32</code>, and <code>int64</code>.
+</li>
+<li>There are also three machine dependent integer types: <code>uint</code>, <code>int</code>,
+and <code>uintptr</code>. They are machine dependent because their size depends
+on the type of architecture you are using.
+</li>
+<li>Go has two floating-point types: <code>float32</code> and <code>float64</code> (also often
+referred to as single precision and double precision,
+respectively).
+</li>
+<li>For complex numbers, it has: <code>complex64</code> and <code>complex128</code>.
+</li>
+</ul>
+</li>
+<li>String
+<ul class="org-ul">
+<li>String literals can double quotes "Hello, World" or backticks
+`Hello, World`. Double-quoted strings <b>cannot</b> contain newlines and
+they allow special escape sequences.
+</li>
+<li>Common String operations:
+<ul class="org-ul">
+<li>Length: <code>len("Hello World")</code>
+</li>
+<li>Index: ~"Hello World"[​1]~
+</li>
+<li>Concat: ~"Hello " + "World"~
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Boolean type
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Chapter 3. Variables</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>constant: ~const x string = "Hello, World"~
+</li>
+<li>Define multiple variables:
+<div class="highlight"><pre><span></span>var (
+  a = 5
+  b = 10
+  c = 11
+)
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Chapter 4. Control Structures</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>for loop:
+<div class="highlight"><pre><span></span>i = 0
+for i&lt;=10 {}
+</pre></div>
+
+<div class="highlight"><pre><span></span>for i=0;i&lt;=10;i++ {}
+</pre></div>
+</li>
+<li>switch:
+<div class="highlight"><pre><span></span>switch i {
+    case 0: ...
+    case 1: ...
+    default: ...
+}
+</pre></div>
+</li>
+</ul>
 </div>
 </div>
 
 <div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">Binary Tree</h2>
-</div>
+<h2 id="sec-5">Chapter 5. Arrays, Slices, and Maps</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Define and using array:
+<div class="highlight"><pre><span></span>func main() {
+	var x [5]int
+	x[40]=10
+	var total int = 0;
+	for i=0; i&lt;5; i++{
+		total+=x[i]
+	}
+	fmt.Println(total / len(x))
+}
+</pre></div>
+</li>
+<li>A special form of for loop allow:
+<div class="highlight"><pre><span></span>for _, value:=range x {
+	total +=value
+}
+</pre></div>
+<p>
+A single underscore (_) is used to tell the compiler it(the iterator variable)
+is not needed in the loop
+</p>
+</li>
+<li>Shortcut to define array:
+<div class="highlight"><pre><span></span>x:=[3]float64{98, 99, 199}
+</pre></div>
+<p>
+or in multiple lines:
+</p>
+<div class="highlight"><pre><span></span>x := [4]float64 {
+	98,
+	99,
+	100,
+	102,
+}
+</pre></div>
+<p>
+Note that the extra trailing ',' in the last line is required by Go.
+</p>
+</li>
+<li>Array in Go is fix length, and is actually in the type declaration. Usually
+slice is used, which is a type built on top of an array.
+</li>
+<li>A slice is a segment of an array. Its length is allowed to change.
+<div class="highlight"><pre><span></span>var x []float64
+</pre></div>
+</li>
+<li>To create a slice, using the <code>make</code> function:
+<div class="highlight"><pre><span></span>x := make([]float64, 5)
+</pre></div>
+<p>
+This creates a slice that is associated with an underlying float64 array of
+length 5. Slices are always associated with some array, they can be smaller
+but not longer than the associated array.
+</p>
+</li>
+<li>Slice can also be created using <code>[low : high]</code> expression:
+<div class="highlight"><pre><span></span>arr := [5]float64 {1,2,3,4,5}
+x := arr[0:5]
+</pre></div>
+<p>
+In this expression, both 'low' and 'high' can be omitted.
+</p>
+</li>
+<li>Map
+<div class="highlight"><pre><span></span>var x map[string]int
+x := make(map[string]int)
 
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">Threaded Binary Tree</h2>
-<div class="outline-text-2" id="text-6">
+x["key"] = 10
+fmt.Println(x)
+</pre></div>
 <ul class="org-ul">
-<li>A binary tree is threaded by :
-<ul class="org-ul">
-<li>all right child pointers that would normally be <b>null</b> point to
-the <b>inorder</b> successor of the node (if it exists).
+<li>length of map can change as adding new item to it.
 </li>
-<li>all left child pointers that would normally be <b>null</b> point to
-the inorder <b>predecessor</b> of the node.
+<li>maps are not sequential.
 </li>
-<li>Need to know if a pointer is a link or a thread, so a boolean is
-needed for each pointer.
+<li>can be deleted with <code>delete</code> function: <code>delete(x,1)</code>
+</li>
+<li>a map returns the zero value for the value type when the key doesn't exist.
+</li>
+<li>It can also return two values like:
+<div class="highlight"><pre><span></span>name, ok := elements["Un"]
+</pre></div>
+<p>
+in which, the <code>name</code> is the value returned, and <code>ok</code> tells whether the
+lookup is successful.
+</p>
+</li>
+<li>A common pattern in go looks like:
+<div class="highlight"><pre><span></span>if name, ok := elements["Un"]; ok{
+	fmt.Println(name, ok)
+}
+</pre></div>
 </li>
 </ul>
 </li>
-<li>Binary tree have a lot of wasted space. the null pointers can be
-used to help <b>inorder</b> traversals.
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Chapter 6: Functions</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Function's return type can be named:
+<div class="highlight"><pre><span></span>func f2() (r int){
+	r=1
+	return
+}
+</pre></div>
 </li>
-<li>Threaded binary tree makes tree traversal faster since no stack or
-recursion is needed.
+<li>Function can return multiple value:
+<div class="highlight"><pre><span></span>func f() (int, int) {
+	return 5, 6
+}
+func main() {
+	x,y:=f()
+}
+</pre></div>
+<p>
+Multiple values are often used to return an error value along with the
+result <code>(x, err := f())</code>, or a boolean to indicate success <code>(x, ok := f())</code>.
+</p>
+</li>
+<li>Variadic Functions:
+<div class="highlight"><pre><span></span>func add(args ...int) int {
+	total := 0
+	for _, v := range args {
+		total += v
+	}
+	return total
+}
+</pre></div>
+<p>
+in this example <code>add</code> is allowed to be called with multiple
+integers, this parameter is known as a <b>variadic</b> parameter.
+</p>
+</li>
+<li>It is possible to create functions inside function, which creates
+<b>Closure</b>:
+<div class="highlight"><pre><span></span>func main() {
+	add := func(x, y int) int {
+		  return x+y
+		}
+	fmt.Println(add(1,1))
+}
+</pre></div>
+<p>
+When you create a local function like this, it also has access to
+other local variables.
+</p>
+</li>
+<li>
+<code>defer</code>: a special statement that schedules a function call to be run
+after the function completes. It basically moves the call to the end
+of the function. It is often used when some resource need to be
+cleaned in some way:
+<div class="highlight"><pre><span></span>f, _ := os.Open(filename)
+defer f.Close()
+</pre></div>
+<ul class="org-ul">
+<li>It keeps the Close() call to Open() so it is easier to understand.
+</li>
+<li>If there are multiple return statement, the Close() will happen
+before both of them.
+</li>
+<li>Deferred function will run even if a run-time panic occurs.
+</li>
+</ul>
+</li>
+<li>
+<code>panic</code> function is used to create a run-time error; we can handle a
+run-time panic with the build-in <code>recover</code> function.
+</li>
+<li>recover stops the panic and returns the value that was passed to the
+call to panic.
+</li>
+<li>Here is the example to use <code>recover</code> when having <code>panic</code>:
+<div class="highlight"><pre><span></span>func main() {
+	defer func() {
+		str := recover()
+		fmt.Println(str)
+	}()
+	panic("PANIC")
+}
+</pre></div>
+</li>
+<li>
+<code>new</code> takes a type as an argument, allocates enough memory to fit a
+value of that type, and returns a pointer to it. Go is
+garbage-collected so no need to <code>free</code> explicitly.
 </li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7">Tires</h2>
-<div class="outline-text-2" id="text-7">
-</div>
-<div id="outline-container-sec-7-1" class="outline-3">
-<h3 id="sec-7-1">The Problem</h3>
-<div class="outline-text-3" id="text-7-1">
-<ul class="org-ul">
-<li>Determine if a word appears in a large dictionary. How to store the
-large set of words in the dictionary effectively.
-</li>
-<li>Google auto complete can also be implemented with a trie.
-</li>
-<li>We can use <b>Trie</b> and <b>Min Heap</b> to get the <code>k</code> most frequent words
-efficiently.
-<ul class="org-ul">
-<li>The idea is to use <b>Trie</b> for searching existing words
-adding new words efficiently.
-</li>
-<li>Trie also stores count of occurrences of words.
-</li>
-<li>A <b>Min Heap</b> of size <code>k</code> is used to keep track of <code>k</code> most frequent
-words at any point of time(Use of Min Heap is same as we used it
-to find <code>k</code> largest elements in this post).
-</li>
-</ul>
-</li>
-<li>Can be used for many other cases for example, to store a large set
-of <b>Integer</b>, <b>ByteArray</b>, etc.
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-7-2" class="outline-3">
-<h3 id="sec-7-2">What is a Trie</h3>
-<div class="outline-text-3" id="text-7-2">
-<ul class="org-ul">
-<li>The trie is a tree where each vertex represents a single word or a
-prefix.
-</li>
-<li>The root represents an empty string (“”), the vertexes that are
-direct sons of the root represent prefixes of length <code>1</code>. A vertex
-that are <code>k</code> edges of distance of the root have an associated prefix
-of length <code>k</code>.
-</li>
-<li>Let <code>v</code> and <code>w</code> be two vertexes of the trie, and assume that <code>v</code> is a
-direct father of <code>w</code>, then <code>v</code> must have an associated prefix of <code>w</code>.
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-7-3" class="outline-3">
-<h3 id="sec-7-3">Complexity</h3>
-<div class="outline-text-3" id="text-7-3">
-<ul class="org-ul">
-<li>Insert/Finding of a word in tire can be done in <code>O(L)</code> time, where L
-is the length of the word.
-</li>
-<li>The memory used in the tries depends on the methods to store the
-edges and how many words have prefixes in common.
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-7-4" class="outline-3">
-<h3 id="sec-7-4">Example</h3>
-<div class="outline-text-3" id="text-7-4">
-<ul class="org-ul">
-<li>The next figure shows a trie with the words “tree”, “trie”, “algo”,
-“assoc”, “all”, and “also.”
-<img src="http://community.topcoder.com/i/education/alg_tries.png" alt="alg_tries.png">
-</li>
-<li>
-</li>
-</ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8">SkipList</h2>
-<div class="outline-text-2" id="text-8">
-<ul class="org-ul">
-<li>SkipList is a data structure that allows fast search within an ordered
-sequence of elements.
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Skip_list.svg/400px-Skip_list.svg.png" alt="400px-Skip_list.svg.png"><ul class="org-ul">
-<li>By maintaining a linked hierarchy of subsequences, with each
-successive subsequences skipping over fewer elements than the
-previous one.
-</li>
-</ul>
-</li>
-<li>Search/Insert/Delete average on <code>O(log n)</code>.
-</li>
-<li>A skip list is built in layers:
-<ul class="org-ul">
-<li>The bottom layer is an ordinary ordered linked list.
-</li>
-<li>Each higher layer acts as an "express lane" for the lists below,
-where an element in layer <code>i</code> appears in layer <code>i+1</code> with some fixed
-probability <code>p</code> (two commonly used values for p are 1/2 or 1/4).
-</li>
-</ul>
-</li>
-<li>A search for a target element begins at the head element in the top
-list, and proceeds horizontally until the current element is greater
-than or equal to the target.
-<ul class="org-ul">
-<li>if equal, it is found.
-</li>
-<li>if greater, or search reaches the end of the linked list, the
-procedure is repeated after returning to the previous element and
-dropping down vertically to the next lower list.
-</li>
-</ul>
-</li>
-</ul>
-</div>
+<h2 id="sec-7">Chapter 7: Structs and Interfaces</h2>
 </div>
     </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/design-pattern/" class="u-url">Design Pattern Note</a></h1>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/reading/lean-python/" class="u-url">Lean Python</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 Warren Liu
             </span></p>
-            <p class="dateline"><a href="posts/design-pattern/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+            <p class="dateline"><a href="posts/reading/lean-python/" rel="bookmark"><time class="published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
         </div>
     </header><div class="e-content entry-content">
     <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Concurrency Design Pattern</h2>
+<h2 id="sec-1">Getting Started</h2>
 <div class="outline-text-2" id="text-1">
-</div>
-<div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">Active Object</h3>
-<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>The active object design pattern decouples method execution from
-method invocation for objects that each reside in their own thread
-of control.
-</li>
-<li>The goal is to introduce concurrency, by using asynchronous method
-invocation and a scheduler for handling requests.
+<li>Variables
+<ul class="org-ul">
+<li>The first character must be a letter or underscore.
+<ul class="org-ul">
+<li>Don't start a variable with a underscore, which is usually used
+for special identifiers.
 </li>
 </ul>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Architectural Pattern</h2>
-<div class="outline-text-2" id="text-2">
-</div>
-<div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">Naked objects</h3>
-</div>
-</div>
-
-
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Architectural Style</h2>
-<div class="outline-text-2" id="text-3">
-</div>
-<div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1">Layered Architecture</h3>
-</div>
-
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2">Hexagonal Architecture.</h3>
-</div>
-
-<div id="outline-container-sec-3-3" class="outline-3">
-<h3 id="sec-3-3">Onion Architecture</h3>
-<div class="outline-text-3" id="text-3-3">
-<p>
-<a href="http://jeffreypalermo.com/blog/the-onion-architecture-part-1/">http://jeffreypalermo.com/blog/the-onion-architecture-part-1/</a>
-</p>
-</div>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/emacs-note/" class="u-url">Emacs Note</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Warren Liu
-            </span></p>
-            <p class="dateline"><a href="posts/emacs-note/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Emacs Notes</h2>
-<div class="outline-text-2" id="text-1">
-<ul class="org-ul">
+</li>
+<li>Additional characters may be alphanumeric or underscore.
+</li>
+<li>Names are case sensitive.
+</li>
+</ul>
+</li>
+<li>Assignment
+<div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s1">'Some Text'</span>
+<span class="n">Name</span> <span class="o">=</span> <span class="s1">'Mr'</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="s1">'Fred'</span>
+<span class="c1"># list.</span>
+<span class="n">shoppingList</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ham'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">,</span> <span class="s1">'mushrooms'</span><span class="p">]</span>
+<span class="c1"># multiple assignment.</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
+<span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">myFunc</span><span class="p">()</span> <span class="c1"># when myFunc() returns three values</span>
+</pre></div>
+</li>
+<li>Special identifiers, the name will be of the form: \
+<code>_xxx</code>, <code>__xxx__</code>, <code>__xxx</code>
+</li>
 <li>
-<code>expend-region</code>: require the module to be able to expand/shrink selections.
+<code>__name__</code> special variable specified how the module is called, it
+will be:
 <ul class="org-ul">
-<li>expend: C-=
+<li>The name of the module if imported,
 </li>
-<li>shrink: M– C-= <i>Note</i>: M– is a negative prefix argument normally means -1.
-this allow the <code>er/expand-region</code> function to do a shrink.
+<li>The string <code>__main__</code> if executed directly.
 </li>
-</ul>
-</li>
-
-<li>repeat previous command: C-x z
-</li>
-
-<li>open ssh remote file:
-<p class="verse">
-C-x C-f /ssh:user@192.168.1.5:/usr/share/nginx/html/index.html<br></p>
-<p>
-Note the leading slash before ssh.
-It support server defined in .ssh/config.
-</p>
-</li>
-
-<li>This can also be used to Open file with sudo:
-<p class="verse">
-C-x C-f /sudo::/etc/fstab<br></p>
-</li>
-
-<li>Fill paragraph: with ~fill-paragraph~(M-q) to organize paragraph
-with desired right margin.
+<li>The following code let the interpreter loads your program and runs
+it if necessary
 </li>
 </ul>
-<ul class="org-ul">
-<li>indent multiple line: <br>
-  Select multiply lines, then type <code>C-u 8 C-x Tab</code>, it will indent the
-region by 8 spaces.  <code>C-u -4</code> C-x Tab will <i>un-indent</i> by 4 spaces
-</li>
-
-<li>To input unicode characters:
-<p class="verse">
-C-x 8 RET unicode<br></p>
-</li>
-</ul>
-</div>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/git-note/" class="u-url">Git Note</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                Warren Liu
-            </span></p>
-            <p class="dateline"><a href="posts/git-note/" rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <ul class="org-ul">
-<li>remove a file from the index
-<div class="highlight"><pre><span></span>git rm --cached <span class="o">[</span>file<span class="o">]</span>
+<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span> <span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 </li>
 </ul>
 </div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Python Objects</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>All variables have a type which can be seen using the build-in
+<code>type()</code> function.
+<div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># &lt;type 'int'&gt;</span>
+<span class="nb">type</span><span class="p">(</span><span class="s1">'some more text'</span><span class="p">)</span>  <span class="c1"># &lt;type 'str'&gt;</span>
+<span class="nb">type</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">'some'</span><span class="p">])</span>  <span class="c1"># &lt;type list'&gt;</span>
+</pre></div>
+</li>
+<li>Other types are <code>class</code>, <code>module</code>, <code>function</code>, <code>file</code>, <code>bool</code>,
+<code>NoneType</code> and <code>long</code>
+</li>
+<li>The special constants <code>True</code> and <code>False</code> are <code>bool</code> type, special
+constant <code>None</code> is a <code>NoneType</code>
+</li>
+<li>Function <code>str()</code> is used to see a textual definition of any object
+</li>
+<li>Factory functions are a serials of functions that create variable
+types directly
+<ul class="org-ul">
+<li>
+<code>int(4.0)</code> create integer <code>4</code>
+</li>
+<li>
+<code>str(4)</code> create string ='4'=
+</li>
+<li>
+<code>list(1,2,3,4,5)</code> create <code>list [1,2,3,4,5]</code>
+</li>
+<li>
+<code>tuple(1,2,3,4)</code> create tuple <code>(1,2,3,4)</code>
+</li>
+<li>
+<code>dict(one=1,two=2)</code> create dictionary <code>{'one': 1, 'two': 2}</code>
+</li>
+</ul>
+</li>
+<li>Exponentiation operator: <code>4 ** 3</code>
+</li>
+<li>Boolean are actually held as integers but have a value of either
+<code>True</code> or <code>False</code>
+<ul class="org-ul">
+<li>
+<code>bool(23)</code>  : <code>True</code>, all nonzero integers
+</li>
+<li>
+<code>bool(0)</code>  : <code>False</code>
+</li>
+<li>
+<code>bool('any')</code> : <code>True</code>, any string
+</li>
+<li>
+<code>bool('')</code> : <code>False</code>, zero length string
+</li>
+<li>
+<code>bool([])</code> : <code>False</code>, empty lists
+</li>
+</ul>
+</li>
+<li>Sequences: Strings, Lists, and Tuples.
+</li>
+<li>Tuples value much like a list, but the entries in a tuple are <b>immutable</b>
+</li>
+<li>Membership test in sequence:
+<div class="highlight"><pre><span></span><span class="s1">'a'</span> <span class="ow">in</span> <span class="s1">'track'</span>    <span class="c1"># True</span>
+<span class="mi">9</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># False</span>
+<span class="s1">'x'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s1">'next'</span>  <span class="c1"># False</span>
+<span class="s1">'red'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'tan'</span><span class="p">,</span> <span class="s1">'pink'</span><span class="p">]</span>  <span class="c1"># True</span>
+</pre></div>
+</li>
+<li>Two or more sequences can be added together using <code>+</code>
+</li>
+<li>Or Using string's <code>join()</code> method to join a list of strings, or tuple
+<div class="highlight"><pre><span></span><span class="s1">'-'</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">))</span>  <span class="c1"># 'a-b-c'</span>
+</pre></div>
+</li>
+<li>A slice is a convenient way to select a subset of elements in sequence
+<ul class="org-ul">
+<li>
+<code>[startIndex:endIndex]</code> : not including <code>endIndex</code>
+</li>
+<li>index of minus value : counting from end. <code>-1</code> index refer to the
+last element of the sequence.
+</li>
+<li>either <code>startIndex</code> or <code>endIndex</code> can be omitted.
+</li>
+</ul>
+</li>
+<li>Built-in Sequence Functions: <code>len()</code>, <code>max()</code>, <code>min()=， =sum()</code>,
+<code>sorted()</code>, <code>reversed()</code>
+</li>
+<li>String can be delimt with either single (') or double (")
+quotes. You can embed either quote inside the other.
+</li>
+<li>Access substring with slices.
+</li>
+<li>Strings can be compared with <code>&gt;</code>, <code>&lt;</code>, <code>==</code>.
+</li>
+<li>String can be searched using the membership test of sequence.
+</li>
+<li>Longer pieces of text with embedded new lines can be assigned using
+the triple quotes.
+</li>
+<li>String formatting can be done using the <code>%</code> operator
+<div class="highlight"><pre><span></span><span class="n">ntoys</span>  <span class="o">=</span> <span class="mi">4</span>
+<span class="n">myname</span> <span class="o">=</span> <span class="s1">'Fred'</span>
+<span class="s1">'</span><span class="si">%s</span><span class="s1"> has </span><span class="si">%d</span><span class="s1"> toys'</span> <span class="o">%</span> <span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">ntoys</span><span class="p">)</span>
+</pre></div>
+<ul class="org-ul">
+<li>
+<code>%c</code> Single character/string of length 1
+</li>
+<li>
+<code>%s</code> String
+</li>
+<li>
+<code>%d</code> Signed decimal integer
+</li>
+<li>
+<code>%f</code> Floating point number
+</li>
+<li>
+<code>%%</code> Percent character
+</li>
+</ul>
+</li>
+<li>Updating Lists with <code>append()</code> and <code>del</code> statement
+<div class="highlight"><pre><span></span><span class="n">myList</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">myList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="n">myList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Dick'</span><span class="p">)</span>
+<span class="n">myList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s1">'Bill'</span>
+<span class="k">del</span> <span class="n">myList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</li>
+<li>Using <code>index()</code> method to find an entry and returns the offset of
+that entry.
+<ul class="org-ul">
+<li>If the entry cannot be found, it returns an Error.
+</li>
+</ul>
+</li>
+<li>Dictionary
+<div class="highlight"><pre><span></span><span class="n">wdays</span><span class="o">=</span><span class="p">{</span><span class="s1">'M'</span><span class="p">:</span> <span class="s1">'Monday'</span><span class="p">,</span> <span class="s1">'T'</span><span class="p">:</span> <span class="s1">'Tuesday'</span><span class="p">}</span>
+<span class="n">wdays</span><span class="p">[</span><span class="s1">'M'</span><span class="p">]</span><span class="o">==</span><span class="s1">'Monday'</span>
+<span class="n">wdays</span><span class="p">[</span><span class="s1">'W'</span><span class="p">]</span><span class="o">=</span><span class="s1">'Wednesday'</span>
+<span class="k">del</span> <span class="n">wdays</span><span class="p">[</span><span class="s1">'W'</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">wdays</span><span class="p">)</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Program Structure</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>
+<code>pass</code> statment is a <i>do nothing</i> statement, is often useful to show
+explicitly that the program is doing nothing.
+</li>
+<li>List comprehensions is a way of dynamically creating a list of
+elements in an elegant shorthand.
+<div class="highlight"><pre><span></span><span class="n">squares</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+    <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="p">)</span>
+<span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)]</span>
+<span class="n">evens</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+<ul class="org-ul">
+<li>The syntax is <code>[expr for element in iterable if condition]</code>
+</li>
+</ul>
+</li>
+<li>A python function can return more than one result: <br><code>return r1, r2, r3</code>.
+</li>
+<li>and it can be assigned to multiple value at same time: <br><code>max, min, average = analyse(numlist)</code>
+</li>
+<li>Named arguments and default value:
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">c</span>
+<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>Variables defined in module are visible to the functions in the
+module
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Input and Output</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Stdin/Stdout
+<ul class="org-ul">
+<li>
+<code>print()</code> function takes format of:
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="o">...</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>Note that in python 2, <code>print</code> is a statement, not a function.
+</li>
+<li>The trailing newline can be suppressed by setting the end argument
+to an empty string.
+</li>
+<li>It is common to use the string formatting feature:
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">'</span><span class="si">%d</span><span class="s1"> plus </span><span class="si">%d</span><span class="s1"> makes </span><span class="si">%d</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</li>
+<li>Use <code>input()</code> function to get data into the program:
+<div class="highlight"><pre><span></span><span class="n">youName</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'Enter your name: '</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">'You name is'</span><span class="p">,</span> <span class="n">yourName</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>If you ask the user for an integer number, you should check the
+text:
+<ul class="org-ul">
+<li>Use <code>len(text)</code> to verify text has been entered.
+</li>
+<li>Use <code>text.isdigit()</code> to check the text is a number.
+</li>
+<li>Use <code>int(text)</code> to convert the text to an integer.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Files
+<ul class="org-ul">
+<li>Opening file with: <code>fileobj = open(filename, mode)</code>
+</li>
+<li>Closing file with: <code>fileobj.close()</code>
+</li>
+<li>Reading file:
+<ul class="org-ul">
+<li>
+<code>read()</code> : read the entire contents of the file into a string
+<ul class="org-ul">
+<li>The content can then be split into lines using <code>split('\n')</code>
+</li>
+</ul>
+</li>
+<li>Or using <code>readlines()</code>, which returns a list containing each
+line.
+</li>
+<li>A good way of cleaning up the newline at the end:
+<div class="highlight"><pre><span></span><span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
+</pre></div>
+</li>
+<li>the file object itself is an iterator which can be used:
+<div class="highlight"><pre><span></span><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">eachLine</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="c1"># process each line</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">eachLine</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
+<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</li>
+</ul>
+</li>
+<li>Writing a file:
+<ul class="org-ul">
+<li>using <code>write()</code>
+</li>
+<li>using <code>writelines()</code>
+</li>
+<li>both methods do not append trailing newline (='\n'=)
+</li>
+</ul>
+</li>
+<li>Accessing File System using the <code>os</code> module, which must be imported.
+</li>
+</ul>
+</li>
+<li>Command-Ling arguments can be obtained from <code>sys</code> module's
+<code>sys.argv</code>. The first argument (element 0) is the name of the
+program itself.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Using Modules</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>The <code>import</code> statement has format:  <br><code>import modulename [as name]</code> <br><code>from module import name1, name2</code> <br><code>from module import *</code> <br>
+</li>
+<li>Modules come from the python path (<code>sys.path</code>), which is a list of
+directories that is set up by the Python installation process.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Object Orientation</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Python doesn't need a <code>new</code> method: when the object is created,
+Python looks for an <code>__init__()</code> method to initialize the object.
+</li>
+<li>The arguments passed through the <code>__init__()</code> call are used to
+initialize the object attributes.
+</li>
+<li>The first argument to all the methods in the class is <code>self</code>, the
+object itself. This argument is used internally in the class and
+is not exposed to the code that calls these method.
+</li>
+<li>The <code>self.</code> attributes are public.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Exception and Error Handling</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>
+<code>try/except</code> to catch exception
+<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"input two numbers, the first will be devided by the second"</span><span class="p">)</span>
+
+<span class="n">afirst</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'1st number: '</span><span class="p">)</span>
+<span class="n">asecond</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'2nd number: '</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">first</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">afirst</span><span class="p">)</span>
+    <span class="n">second</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">asecond</span><span class="p">)</span>
+    <span class="n">quotient</span> <span class="o">=</span> <span class="n">first</span> <span class="o">/</span> <span class="n">second</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">'Quotient 1st/2nd = </span><span class="si">%f</span><span class="s1">'</span> <span class="o">%</span> <span class="n">quotient</span> <span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">diag</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">diag</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">':'</span><span class="p">,</span> <span class="n">diag</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>It is possible to trap multiple exception types by: <br><code>except (ValueError, ZeroDivisionError) [as e]:</code>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Databases</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>SQLLite can be used for development or prototyping.
+</li>
+<li>Database Functions
+<div class="highlight"><pre><span></span><span class="c1"># Open (or create) a database file</span>
+<span class="n">conn</span>  <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="c1"># executes a SQL statement</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="c1"># return a cursor</span>
+<span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="c1"># execute the SQL query that returns rows of data</span>
+<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="c1"># return the data as list of rows</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+</pre></div>
+</li>
+</ul>
+</div>
+</div>
+    </div>
     </article>
 </div>
 
         <nav class="postindexpager"><ul class="pager">
 <li class="next">
-                <a href="index-2.html" rel="next">Older posts</a>
+                <a href="index-4.html" rel="next">Older posts</a>
             </li>
         </ul></nav>
 </div>

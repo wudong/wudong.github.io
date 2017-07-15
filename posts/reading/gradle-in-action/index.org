@@ -1,0 +1,95 @@
+#+BEGIN_COMMENT
+.. title: Gradle In Action
+.. slug: gradle-in-action
+.. date: 2017-07-15
+.. tags: java, gradle
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Getting started
+- An hello world example:
+  #+BEGIN_SRC groovy
+  task helloWorld {
+    doLast {
+      println 'Hello world!'
+    }
+  }
+  #+END_SRC
+  - Execute the build script with ~gradle -q helloWorld~, the ~-q~
+    tell Gradle only ouptut the task's output.
+  - Tasks and actions are important elements of the language.
+  - An ~Action~ doLast specify it is the last action that's executed
+    for a task.
+  - In a more concise way of same logic using ~<<~
+    #+BEGIN_SRC groovy
+    task helloWorld << {
+       println 'Hello world!'
+    }
+    #+END_SRC
+- Dynamic task definition and task chaining
+  #+BEGIN_SRC groovy
+  task startSession << {
+    chant()
+  }
+
+  def chant() {
+     ant.echo(message: 'Repeat after me...')
+  }
+
+  3.times {
+     task "YayGradle$it" << {
+        println 'Gradle rocks'
+     }
+  }
+
+  yayGradle0.dependsOn startSession
+  yayGradle2.dependsOn yayGradle1, yayGradle0
+
+  task groupTherapy(dependsOn: yaygradle2)
+  #+END_SRC
+  - ~task~ can be used to dynamically define tasks
+  - ~dependsOn~ defines dependencies between tasks
+  - Gradle is tight integrated with Ant. Every script is equipped with
+    a property call ~ant~ that grants direct access to Ant tasks
+
+* Using the command line
+- list available tasks of a project: \\
+  ~gradle -q tasks~
+- list all available properties: \\
+  ~gradle properties~
+- task execution: can execute multiple tasks in a single build run \\
+  ~gradle yayGradle0 groupTherapy~
+  - will execute the task ~yayGradle0~ first then task ~groupTherapy~ second.
+  - Tasks are always executed just *once*.
+  - Gradle can abbreviate camel-cased task name on the command
+    line. So the command below is same as above \\
+    ~gradle yG0 gT~
+  - However, the abbreviation has to be unique
+- *exclude* a task and its dependent tasks: \\
+  ~gradle groupTherapy -x yayGradle0~
+- specify a *build file* with ~-b, --build-file~
+- *build offline* with ~offline~ to only check the local dependency
+  cache for dependencies.
+- set property option:
+  - ~-D, --system-prop~ : set jvm system property
+  - ~-P, --project-prop~ : set project properties, which are variables
+    available in your build script.
+- logging: ~-i, --info~, ~-s --stacktrace~, ~-q, --quite~
+- Gradle daemon: ~--daemon~
+  - subsequent invocations of the ~gradle~ command will now reuse the
+    daemon process.
+  - The daemon process will automatically expire after a three-hour
+    idle time.
+  - At any time you can choose to build without using the daemon with
+    ~--no-daemon~
+  - To stop the daemon ~gradle --stop~
+
+* Using the java plugin
+- Tell your project to use the Java plugin: \\
+  ~apply plugin: 'java'~
+- Using ~build~ task to compile, run test and assembles the Jar.
+-

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Programming Notes | Warren Liu</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../../rss.xml">
+<link rel="canonical" href="https://example.com/posts/notes/programming-note/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Warren Liu">
+<link rel="prev" href="../reactive-stream/" title="Reactive Streams" type="text/html">
+<link rel="next" href="../php-note/" title="PHP Note" type="text/html">
+<meta property="og:site_name" content="Warren Liu">
+<meta property="og:title" content="Programming Notes">
+<meta property="og:url" content="https://example.com/posts/notes/programming-note/">
+<meta property="og:description" content="Table of Contents
+
+
+How does a concurrent garbage collector work
+
+Overview of the steps
+Some benchmarks
+Takeaway
+
+
+Zero-copy
+
+What Is Zero-Copy.
+Java implementation.
+
+
+Memory Mapped Files
+
+The page si">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-07-14T00:00:00+01:00">
+<meta property="article:tag" content="programming">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://example.com/">
+
+                <span id="blog-title">Warren Liu</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../../categories/">Tags</a>
+                </li>
+<li>
+<a href="../../../rss.xml">RSS feed</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.org" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Programming Notes</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    Warren Liu
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-07-14T00:00:00+01:00" itemprop="datePublished" title="2017-07-14 00:00">2017-07-14 00:00</time></a></p>
+            
+        <p class="sourceline"><a href="index.org" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li>
+<a href="#sec-1">How does a concurrent garbage collector work</a>
+<ul>
+<li><a href="#sec-1-1">Overview of the steps</a></li>
+<li><a href="#sec-1-2">Some benchmarks</a></li>
+<li><a href="#sec-1-3">Takeaway</a></li>
+</ul>
+</li>
+<li>
+<a href="#sec-2">Zero-copy</a>
+<ul>
+<li><a href="#sec-2-1">What Is Zero-Copy.</a></li>
+<li><a href="#sec-2-2">Java implementation.</a></li>
+</ul>
+</li>
+<li>
+<a href="#sec-3">Memory Mapped Files</a>
+<ul>
+<li><a href="#sec-3-1">The page size</a></li>
+<li><a href="#sec-3-2">system calls relating to memory mapped files.</a></li>
+<li><a href="#sec-3-3">Advantages</a></li>
+<li><a href="#sec-3-4">Some discussion</a></li>
+</ul>
+</li>
+<li>
+<a href="#sec-4">Write-Ahead Logging</a>
+<ul>
+<li><a href="#sec-4-1">Logs in Databases</a></li>
+<li><a href="#sec-4-2">Logs in distributed systems</a></li>
+</ul>
+</li>
+<li>
+<a href="#sec-5"><span class="todo TODO">TODO</span> finishing reading blog</a>
+<ul>
+<li><a href="#sec-5-1">File system journaling</a></li>
+</ul>
+</li>
+<li>
+<a href="#sec-6">Programming Tips</a>
+<ul>
+<li><a href="#sec-6-1">A simple state machine implementation</a></li>
+<li><a href="#sec-6-2">Scala call by value vs call by name</a></li>
+<li><a href="#sec-6-3">Scala's inner classes</a></li>
+<li><a href="#sec-6-4">Java's FileLock</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">How does a concurrent garbage collector work</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="https://blog.pusher.com/golangs-real-time-gc-in-theory-and-practice/">https://blog.pusher.com/golangs-real-time-gc-in-theory-and-practice/</a>
+</p>
+
+<p>
+In golang, its collector runs concurrently with the program. It is called
+<i>tricolor mark-and-sweep</i> algorithm.
+</p>
+
+<p>
+It enables the GC to run concurrently with the program; and means that the pause
+times become a <b>scheduling</b> problem. The scheduler can be configured to only run
+GC for short periods of time, <i><b>interleaved</b></i> with the program.
+</p>
+
+<p>
+The details of the algorithm is illustrated in link above.
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Overview of the steps</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>The garbage collector assigns objects to three sets: <b>black</b>, <b>grey</b>,
+and <b>white</b>. At the beginning of a GC cycle, all objects are put in white set;
+</li>
+<li>Any newly created object are put in the grey set; The rule is: when a pointer
+field is changed, the pointed-to object is coloured;
+</li>
+<li>At the start of a GC cycle, the root objects are moved to the grey set;
+</li>
+<li>To scan an object, the collector colours it black, and its children grey;
+At any stage, we can count the number of moves the GC has left to do:
+<code>2*|white| + |grey|</code>. The collector finished when it reach zero;
+</li>
+<li>When there is no more grey objects to scan, the white objects are unreachable,
+and available for free;
+</li>
+<li>Swap white and black set for the next GC cycle;
+</li>
+<li>The GC still has to stop-the-world while scanning for root objects; however in
+practice the pause time is &lt;1ms for very large heaps.
+</li>
+</ul>
+<p>
+Low latency has costs, the most important cost is reduced <i>throughput</i>.
+Concurrency requires extra work for synchronisation and duplication, which eats
+into the time program can do useful work.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Some benchmarks</h3>
+<div class="outline-text-3" id="text-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="left">
+<col class="right">
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Benchmark</td>
+<td class="right">Longest pause (ms)</td>
+</tr>
+<tr>
+<td class="left">OCaml</td>
+<td class="right">2.21</td>
+</tr>
+<tr>
+<td class="left">Golang</td>
+<td class="right">7.01</td>
+</tr>
+<tr>
+<td class="left">Java 1.8</td>
+<td class="right">161</td>
+</tr>
+<tr>
+<td class="left">Java 1.8 G1</td>
+<td class="right">153</td>
+</tr>
+</tbody>
+</table>
+<p>
+Java perform very poorly compared.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Takeaway</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+GC are either optimised for low latency or high throughput. It is important to
+understand the underlying GC algorithm in order to decide whether it is
+appropriate  for your use-case.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Zero-copy</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+<a href="http://www.linuxjournal.com/article/6345">http://www.linuxjournal.com/article/6345</a>
+</p>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">What Is Zero-Copy.</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Each time data traverses the user-kernel boundary, it must be copied,
+which consumes CPU cycles and memory bandwidth.
+</p>
+
+<p>
+To serve a file over a network socket, some sample code would looks
+like:
+</p>
+
+<div class="highlight"><pre><span></span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">tmp_buf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+<span class="n">write</span><span class="p">(</span><span class="n">socket</span><span class="p">,</span> <span class="n">tmp_buf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</pre></div>
+
+
+<div class="figure">
+<p><img src="http://www.ibm.com/developerworks/library/j-zerocopy/figure1.gif" alt="figure1.gif"></p>
+</div>
+
+<p>
+Behind those two calls, the data has been copied at least four times,
+and almost as many user/kernel context switches have been performed.
+</p>
+
+<p>
+File is copied from hard drive (DMA copy) to kernel buffer, then from
+kernel buffer to user buffer, then from user buffer to socket buffer,
+and DMA copy to the protocol engine.
+</p>
+
+<p>
+One way to eliminate a copy is to skip calling <b>read</b>, and instead
+call <b>mmap</b>:
+</p>
+<div class="highlight"><pre><span></span><span class="n">tem_buf</span> <span class="o">=</span> <span class="n">mmap</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+<span class="n">write</span><span class="p">(</span><span class="n">socket</span><span class="p">,</span> <span class="n">tem_buf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</pre></div>
+
+<p>
+In this case, the context switch remain same. After the file is copied
+by DMA copy into kernel buffer, the user space buffer is shared with
+the kernel buffer.
+</p>
+
+<p>
+Another way is to use <b>sendfile</b> system call.
+</p>
+<div class="highlight"><pre><span></span><span class="n">sendfile</span><span class="p">(</span><span class="n">socket</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</pre></div>
+<p>
+This cause the file contents to be copied into a kernel buffer, then
+the data is copied by the kernel into the kernel buffer associated
+with sockets.
+</p>
+
+<p>
+To avoid having the kernel do all the copy, <b>zero-copy</b> is supported by
+certain hardware that supports <b>gather</b> operations. This simply means
+data data awaiting transmission doesn't need to be in consecutive
+memory.
+</p>
+
+<p>
+With the same <b>sendfile</b> system call, supporint hardware can now avoid
+copying data from the kernel buffer to the socket buffer. Instead,
+only the descriptors with the information about the wherabouts and
+length of the data are appended to the socket buffer. And the DMA
+engine passes data directly from the kernel buffer to the protocol
+engine, thus eliminating the remaining final copy.
+</p>
+
+<p>
+When using zero copy, other performance benefits can be had besides
+copy avoidance, such as fewer <b>context switches</b>, less CPU data cache
+pollution and no CPU checksum calculations.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Java implementation.</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Java input streams can support zero-copy through the
+java.nio.channels. <b>FileChannel</b>'s <code>transferTo()</code> method if the underlying
+operating system also supports zero copy.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Memory Mapped Files</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+As an alternative to standard file I/O, the kernel provides an
+interface that allows an application to map a file into memory,
+meaning that there is a one-to-one correspondence between a memory
+address and a word in the file. The programmer can then access the
+file directly through memory, identically to any other chunk of
+memory-resident data—it is even possible to allow writes to the memory
+region to transparently map back to the file on disk.
+</p>
+
+
+<div class="figure">
+<p><img src="https://www.safaribooksonline.com/library/view/linux-system-programming/0596009585/httpatomoreillycomsourceoreillyimages47949.png" alt="httpatomoreillycomsourceoreillyimages47949.png"></p>
+</div>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">The page size</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+The page is the smallest unit of memory that can have distinct
+permissions and behavior. Consequently, the page is the building block
+of memory mappings, which in turn are the building blocks of the
+process address space.
+</p>
+
+<p>
+The <b>mmap()</b> system call operates on pages. Both the <code>addr</code> and
+<code>offset</code> parameters must be aligned on a <b>page-sized boundary</b>. That
+is, they must be integer multiples of the page size. Mappings are,
+therefore, integer multiples of pages.
+</p>
+
+<p>
+If the len parameter provided by the caller is not aligned on a page
+boundary, the mapping is rounded up to the <b>next full page</b>.
+</p>
+
+<p>
+The bytes inside this added memory, between the last valid byte and
+the end of the mapping, are <b>zero-filled</b>.
+</p>
+<ul class="org-ul">
+<li>Any read from that region will return zeros.
+</li>
+<li>Any writes to that memory will not affect the backing file, even if
+it is mapped as MAP<sub>SHARED</sub>. Only the original len bytes are ever
+written back to the file.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">system calls relating to memory mapped files.</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>The standard POSIX method of obtaining the page size is with
+<b>sysconf()</b>
+</li>
+<li>Linux provides the <b>munmap()</b> system call for removing a mapping
+created with *mmap()
+</li>
+<li>
+<b>mremap()</b> system call can be used to expanding or shrinking the
+size of a given mapping.
+</li>
+<li>Synchronizing a File with a mapping, <b>msync()</b> is the equivalent of
+the <b>fsync()</b>. A call to <b>msync()</b> flushes back to disk any changes
+made to a file mapped via <b>mmap()</b>.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Advantages</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>Reading from and writing to a memory-mapped file avoids the
+extraneous copy that occurs when using the read( ) or write( )
+system calls, where the data must be copied to and from a user-space
+buffer.
+</li>
+<li>Aside from any potential page faults, reading from and writing to a
+memory-mapped file does not incur any system call or context switch
+overhead. It is as simple as accessing memory.
+</li>
+<li>When multiple processes map the same object into memory, the data is
+shared among all the processes. Read-only and shared writable
+mappings are shared in their entirety; private writable mappings
+have their not-yet-COW (copy-on-write) pages shared.
+</li>
+<li>Seeking around the mapping involves trivial pointer
+manipulations. There is no need for the lseek( ) system call.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4">Some discussion</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+<a href="https://ayende.com/blog/162791/on-memory-mapped-files">https://ayende.com/blog/162791/on-memory-mapped-files</a>
+</p>
+
+<p>
+So the OS already knows how to evict pages from memory and store them
+on the file system, because it needs to do that for the page file.
+</p>
+
+<p>
+The next step is to make use of that for more than just the page
+file. So you can <b>map any file into your memory space</b>. Once that is
+done, you can access <i>the part of the memory you have mapped</i> and the OS
+will load the relevant parts of the file to memory.
+</p>
+
+<p>
+The reason you want to do this sort of thing is that it gives you the
+ability to work with files as if it was memory.
+</p>
+
+<p>
+Probably the most important is that you don’t have to do <b>manual file
+I/O</b>. That can drastically reduce the amount of work you have to do,
+and it can also give you a pretty significant perf boost. Because the
+I/O is actually being managed by the operation system, you gain a lot
+of experience in optimizing
+</p>
+
+<p>
+It also make it drastically easier to do parallel I/O safely, since
+you can read/write from “memory” concurrently without having to deal
+with complex API.
+</p>
+
+<p>
+Disadvantages: data structures that are good in memory might not
+result in good performance if they are stored on disk.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Write-Ahead Logging</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+<a href="https://sqlite.org/wal.html">https://sqlite.org/wal.html</a>
+<a href="https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying">https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying</a>
+</p>
+<ul class="org-ul">
+<li>Sometime also called <b>commit logs</b> or <b>transaction logs</b>
+</li>
+<li>Providing atomicity and durability (two of the ACID properties) in
+database systems.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Logs in Databases</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>The traditional <b>rollback journal</b> works by writing a copy of the
+original unchanged database content into a separate rollback journal
+file and then writing changes directly into the database file.
+<ul class="org-ul">
+<li>In event of a crash or <b>ROLLBACK</b>, the original content contained
+in the rollback journal is played back to the database file to
+revert the file to its original state.
+</li>
+<li>
+<b>COMMIT</b> occurs when the rollback journal is deleted
+</li>
+</ul>
+</li>
+<li>The <b>WAL</b> approach inverts the <b>rollback journal</b>'s approach.
+<ul class="org-ul">
+<li>The original content is preserved in the database file and the
+changes are appended into a <b>separated</b> WAL file.
+</li>
+<li>A <b>COMMIT</b> occurs when a special record indicating a commit is
+appended to the WAL.
+</li>
+<li>A <b>COMMIT</b> can happen without ever writing to the original
+database, which allows reader to continue operating from the
+original unaltered database, while changes are simultaneously
+being committed into the WAL.
+</li>
+<li>Multiple transactions can be appended to the end of a single WAL
+file.
+</li>
+</ul>
+</li>
+<li>Moving the WAL file transactions back into the database is called a
+<b>checkpoint</b>.
+<ul class="org-ul">
+<li>By default, SQLite does a checkpoint automatically when the <b>WAL</b>
+    file reaches a threadshold size.
+</li>
+<li>Application can adjust the threshold, or
+</li>
+<li>Turns off the automatic checkpoints and run checkpointing
+manually.
+</li>
+</ul>
+</li>
+<li>The sequence of changes that happened on the database is exactly
+what is needed to keep a remote replica database in sync.
+<ul class="org-ul">
+<li>Oracle, MySQL, and PostgreSQL include log shipping protocols to
+transmit portions of log to replica databases which act as slaves
+</li>
+<li>Oracle has productized the logs as a general data subscription
+mechanism for no-oracle data subscribers with <b>XStreams</b> and <b>GoldenGate</b>
+</li>
+<li>Similar facilities in MySQL and PostgreSQL are key components of
+many data architectures.
+</li>
+</ul>
+</li>
+<li>Logical and Physical Logs:
+<dl class="org-dl">
+<dt> Logical </dt>
+<dd>logging the SQL commands that lead to the row changes
+(insert/update/delete statements)
+</dd>
+<dt> Physical </dt>
+<dd>logging the contents of each row that is changed.
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Logs in distributed systems</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>The log-centric approach to distributed systems arises from a simple
+observation that I will call the State Machine Replication
+Principle
+<blockquote>
+<p>
+If two identical, deterministic processes begin in the same state
+and get the same inputs in the same order, they will produce the
+same output and end in the same state.
+</p>
+</blockquote>
+</li>
+<li>You can reduce the problem of making multiple machines all do the
+same thing to the problem of implementing a distributed consistent
+log to feed these processes input.
+</li>
+<li>The timestamps that index the log now act as the clock for the state of the
+replicas
+<ul class="org-ul">
+<li>you can describe <i>each replica by a single number</i>, the timestamp
+for the maximum log entry it has processed.
+</li>
+<li>This timestamp combined with the log uniquely captures the entire
+<b>state of the replica</b>.
+</li>
+</ul>
+</li>
+<li>There are <b>two broad approaches</b> to processing and replication:
+<img src="https://content.linkedin.com/content/dam/engineering/en-us/blog/migrated/active_and_passive_arch.png" alt="active_and_passive_arch.png"><dl class="org-dl">
+<dt> state machine model </dt>
+<dd>
+<b>active-active</b> model where we keep a log
+of the incoming requests and <b>each replica</b> processes each
+request.
+</dd>
+<dt> primary-backup model </dt>
+<dd>to elect one replica as the leader
+<ul class="org-ul">
+<li>Allow this <b>leader</b> to <b>process</b> requests in the order they
+arrive and <i>log out the changes</i> to its state from processing
+the requests.
+</li>
+<li>The other replicas apply in order the state changes the leader
+makes so that they will be in sync and ready to take over as
+leader should the leader fail.
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>You can see tables and events as dual: tables support <b>data at rest</b>
+  and logs <b>capture change</b>.
+<ul class="org-ul">
+<li>The log, if it is a complete log of changes, holds not only the
+contents of the <b>final version of the table</b>, but also allows
+recreating all other versions that might have existed.
+</li>
+<li>It is, effectively, a sort of backup of every previous
+state of the table.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">
+<span class="todo TODO">TODO</span> finishing reading blog</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">File system journaling</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>File systems typically use a variant of <b>WAL</b> for at least file system
+<b>metadata</b> called journaling.
+</li>
+<li>Updating file systems to reflect changes to files and directories
+usually requires many separate write operations. For example,
+to deleting a file on a Unix file system:
+<ol class="org-ol">
+<li>Removing its directory entry.
+</li>
+<li>Releasing the inode to the pool of free inodes.
+</li>
+<li>Returning any blocks used to the pool of free disk blocks
+</li>
+</ol>
+</li>
+<li>If there is crash between the steps, there will inconsistencies in
+the file system.
+<ul class="org-ul">
+<li>tools such as <b>fsck</b> is used to detect/recovering such erros.
+</li>
+<li>normally requires a complete working of its data structures.
+</li>
+</ul>
+</li>
+<li>To prevent this, a journaled file system allocates a special
+area—the journal—in which it records the changes it will make ahead
+of time.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Programming Tips</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">A simple state machine implementation</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Using Java enum. Enum's ordinal value default to start with 0.
+</p>
+
+<div class="highlight"><pre><span></span><span class="kd">private</span> <span class="kd">volatile</span> <span class="n">State</span> <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="o">.</span><span class="na">CREATED</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">enum</span> <span class="n">State</span> <span class="o">{</span>
+    <span class="n">CREATED</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span> <span class="n">RUNNING</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span> <span class="n">REBALANCING</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span> <span class="n">PENDING_SHUTDOWN</span><span class="o">(</span><span class="mi">4</span><span class="o">),</span> <span class="n">NOT_RUNNING</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">validTransitions</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;();</span>
+
+    <span class="n">State</span><span class="o">(</span><span class="kd">final</span> <span class="n">Integer</span><span class="o">...</span> <span class="n">validTransitions</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">this</span><span class="o">.</span><span class="na">validTransitions</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">validTransitions</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="n">equals</span><span class="o">(</span><span class="n">RUNNING</span><span class="o">)</span> <span class="o">||</span> <span class="n">equals</span><span class="o">(</span><span class="n">REBALANCING</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isCreatedOrRunning</span><span class="o">()</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="n">isRunning</span><span class="o">()</span> <span class="o">||</span> <span class="n">equals</span><span class="o">(</span><span class="n">CREATED</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValidTransition</span><span class="o">(</span><span class="kd">final</span> <span class="n">State</span> <span class="n">newState</span><span class="o">)</span> <span class="o">{</span>
+	<span class="k">return</span> <span class="n">validTransitions</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">newState</span><span class="o">.</span><span class="na">ordinal</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+
+<ul class="org-ul">
+<li>JDK has a <code>java.util.UUID</code> for generating UUID.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2">Scala call by value vs call by name</h3>
+<div class="outline-text-3" id="text-6-2">
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="kt">R</span><span class="o">)</span>   <span class="c1">// call-by-value</span>
+<span class="k">def</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="k">:</span> <span class="o">=&gt;</span> <span class="n">R</span><span class="o">)</span>  <span class="c1">// call-by-name (lazy parameters)</span>
+</pre></div>
+
+<ul class="org-ul">
+<li>Call-by-value functions compute the passed-in expression's value
+before calling the function, thus the same value is accessed every
+time.
+</li>
+<li>However, call-by-name functions recompute the passed-in expression's
+value <b>every time</b> it is accessed inside the function.
+</li>
+<li>
+<code>=&gt; Int</code> is a different type from <code>Int</code>; it's <i><b>function of no
+arguments</b> that will generate an Int</i> vs <i>just Int</i>.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3">Scala's inner classes</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+<a href="http://docs.scala-lang.org/tutorials/tour/inner-classes.html">http://docs.scala-lang.org/tutorials/tour/inner-classes.html</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6-4" class="outline-3">
+<h3 id="sec-6-4">Java's FileLock</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+<code>java.nio.channels.FileLock</code> provides lock based on a file.
+<b>FileLock</b> is a token representing a lock on a region of a file. A
+file lock is either <b>exclusive</b> or <b>shared</b>.
+</p>
+
+<div class="highlight"><pre><span></span><span class="k">private</span> <span class="k">val</span> <span class="n">channel</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">RandomAccessFile</span><span class="o">(</span><span class="n">file</span><span class="o">,</span> <span class="s">"rw"</span><span class="o">).</span><span class="n">getChannel</span><span class="o">()</span>
+<span class="k">val</span> <span class="n">flock</span> <span class="k">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">lock</span><span class="o">()</span>
+<span class="c1">// or</span>
+<span class="k">val</span> <span class="n">flock</span> <span class="k">=</span> <span class="n">channel</span><span class="o">.</span><span class="n">tryLock</span><span class="o">()</span>
+<span class="c1">// or to lock a region</span>
+<span class="k">val</span> <span class="n">flock</span> <span class="k">=</span> <span class="n">lock</span><span class="o">(</span><span class="n">position</span><span class="o">,</span> <span class="n">size</span><span class="o">,</span> <span class="n">shared</span><span class="o">)</span>
+<span class="c1">//to unlock:</span>
+<span class="n">flock</span><span class="o">.</span><span class="n">release</span><span class="o">()</span>
+</pre></div>
+
+<p>
+Directory can be locked using some lock file, for example a file
+postfixed with <i>.lock</i> of the <i>directory name</i>.
+</p>
+</div>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../../categories/programming/" rel="tag">programming</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../reactive-stream/" rel="prev" title="Reactive Streams">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../php-note/" rel="next" title="PHP Note">Next post</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:n.tesla@example.com">Warren Liu</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>

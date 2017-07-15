@@ -1,0 +1,186 @@
+#+BEGIN_COMMENT
+.. title:  Spring Integration in Action
+.. slug: spring-integration-in-action
+.. date: 2017-07-15
+.. tags: spring, java
+.. category: Books
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+
+* Introduction
+- Spring Integration consists of two parts:
+  - At its core, a /messaging framework/ that supports lightweight,
+    event-driven interactions *within* an application.
+    - The components in it would exist within the scope of a single
+      Spring application context.
+    - They would exchange messages in a lightweight manner because
+      they are running in the same instance of a JVM.
+    - No serialization is needed, most messages will contain POJO
+      instances as their payloads.
+  - On top of the core, an adapter-based platform that support
+    flexible integration of application across the enterprise.
+    - Adapters are used to map the content from outbound messages into
+      the format that some external system expectes.
+    - map inbound content from those external systems into messages.
+    - In Spring Integration 2.0, following adapters are supported:
+      - Filesystem, FTP, or SFTP
+      - UDP, TCP
+      - HTTP (REST)
+      - Web services (SOAP)
+      - Main (POP3, IMAP, SMTP)
+      - Java Message Service (JMS)
+      - Java Database Connectivity (JDBC)
+      - Java Management Extension (JMX)
+      - Remote Method Invocation (RMI)
+      - Really Simple Syndication (RSS) feeds
+      - Twitter
+      - Extensible Messaging and Presence Protocol (XMPP)
+    - In Spring Integration:
+      - Channel Adapter :: any unidirectional inbound *OR* outbound adapter.
+      - Messaging Gateway :: bidirectional, or request-reply adapter.
+- Message Channels
+  - Although the most important characteristic of any channel is that
+    it /logically/ decouples producers from consumers, there are a
+    number of /practical/ implementation options
+    - A channel implementation might dispatch messages directly to
+      *passive* consumers within the /*same* thread of control/.
+    - A channel might buffer messages in a queue whose
+      reference is shared by producer and an *active* consumer such
+      that the send and receive operations each occur within /*different*
+      threads of control/.
+    - Channels might be classified according to whether messages are
+      delivered to a single endpoint (point-to-point), or to any
+      endpoint that is listening to the channel (publish-subscribe).
+  - Channels can be categorized based on two dimension
+    - type of handoff : synchronous, or asynchronous
+    - type of delivery
+      - Point-to-point
+        - Each single message is received by exactly *one* consumer.
+        - *Competing Consumers*: Multiple comsumers can compete for
+          messages from a single channel.
+      - Publish-subscribe: delivers the same message to zero or more
+        subscribers.
+        - The drawback of it is tha tthe sender isn't informed about
+          message delivery or failure to the same extent as in
+          point-to-point configurations.
+        - Often require failure-handling patterns such as *Idempotent
+          Receiver* or *Compensating Transactions*
+- Message Endpoints
+  - Channel Adapter
+  - Message Gateway
+  - Service Activator :: is a component that invokes a service based
+       on an incoming message and sends an outbound message based on
+       the return value of this service invocation.
+    - In Spring Integration, it is constrained to local method calls.
+    - Can be think of as a method-invoking outbound gateway.
+  - Router :: determines the next channel a message should be send to
+              based on the incomming message.
+  - Splitter :: receives one message and splits it into multiple
+                messages that are send to its output channels.
+    - Useful whenever the act of processing message content can be
+      split into multiple steps and executed by different consumers at
+      the same time.
+  - Aggregator :: waits for a group of correlated messages and merges
+                  them together when the group is completed.
+    - The correlation of the messages typically is based on a
+      *correlation ID*.
+    - A splitter and an aggregator are often used in a symmetric setup.
+
+* Enterprise integration fundamentals
+- Identifying highly coupled system
+  - One measure could be how many user types a class references. When
+    a class is referencing /many user types/, it is considered _highly coupled_.
+  - A general way of defining coupling is as a measure of how
+    connected the parts of a system are or how many assumptions the
+    components of the system make about each other.
+- Event-driven architecture
+  - Staged event-driven architecture (SEDA) :: events are communicated via
+    channels that can act as buffers in periods of high throughput.
+    - generally respond better to significant /spikes in load/.
+- Synchronous and asynchronous communication
+  - In Spring Integration, simple configuration option allow you
+    switch between the two without channing the overall logical design
+    of the application.
+  - With an increased load, the synchronous communication has few alternatives:
+    - Trying to accomodate all requests as they arrive, which will
+      crash the system.
+    - Throttling some of the requests to bring the load to a bearable level.
+    - The application will eventually fail, when the load increases.
+  - Unlike synchronous calls when the load of the system is controlled
+    by the *requesting side*, in asynchronous model, the load of the
+    system is controllered by the *service provider's side*.
+  - Asynchronous communication has the obvious advantages in terms of
+    /scalabiity/ and /robustness/, but it brings in *complexity*.
+  - In Spring Integration, the two interaction model is determined by
+    the type of channel that is used for transferring the messages
+    between then endpoints
+    - *DirectChannel* for synchronous
+    - *QueueChannel* for asynchronous
+    - The interaction model doesn't affect the logical design of the
+      system on how many channels, what endpoints, and how they are connected.
+
+* Messages and Channels
+- Three types of messages based on the role they fulfill:
+  - Document messages that contain only information
+  - Command messages that instruct the recipient to perform various operations
+  - Event messages that indicate notable occurrences in the system and
+    to which the recipient may react.
+- The *Message<T>* interface
+  #+BEGIN_SRC java
+    public interface Message<T> {
+        MessageHeaders getHeaders();
+        T getPayload();
+    }
+  #+END_SRC
+  - It is rarely necessary to create your own message implementation,
+    apart from the build-ins with the framework.
+  - The *MessageHeaders* are *Map* with some additional behaviour
+    #+BEGIN_SRC java
+    public final class MessageHeaders implements Map<String, Object>, Serializable {}
+    #+END_SRC
+  - *Message* and *MessageHeaders* are immutable objects, and can be
+    build with *MessageBuilder*
+- Channels aren't just information transfer components, they play an
+  *active* role in defining the overall application behavior.
+  - different from other enterprise integration framework.
+- The *MessageChannel* interface
+  #+BEGIN_SRC java
+    public interface MessageChannel {
+        boolean send(Message<?> message);
+        boolean send(Msssage<?> message, long timeout);
+    }
+  #+END_SRC
+- To receiving message, two mechanism through which messages are
+  handed over to the next endpoint:
+  - *SubscribableChannel extends MessageChannel* interface
+    - *boolean subscribe(MessageHandler handler)*
+    - *boolean unsubscribe(MessageHandler handler)*
+  - *PollableChannel extends MessageChannel* interface
+    - *Message<?> receive()*;
+    - *Message<?> receive(long timeout)*
+- Spring Integration offers a number of channel implements. The type
+  of channel you select has significant implications for your
+  application, including
+  - transactional boundaries,
+  - lagency
+  - overall throughput
+  - The default channel used is *SubscribableChannel*, and the message
+    transmission is synchronous.
+- Type of channels:
+  - *QueueChannel*
+    - *PriorityChannel* with a priority queue.
+  - *PUblishSubscribeChannel* for more than one consumer.
+    - It doesn't support queueing,
+    - but does support asynchronous operation if provided with a task
+      executor that delivers messages to each of the subscribers in
+      separate threads.
+  - *bridge* is an enterprise integration pattern that supports the
+    connection of two channels.
+- Channel collaborators:
+  - *MessageDispatcher* controls how messages sent to a channel are
+    passed to any registered handlers.
+  - *ChannelInterceptor* allows interception at key points like
+    channel send and receive operations
