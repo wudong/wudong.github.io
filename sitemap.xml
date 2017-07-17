@@ -6,479 +6,363 @@
     xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
-  <loc>https://example.com/</loc>
+  <loc>https://wudong.graceliu.uk/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/2017/</loc>
+  <loc>https://wudong.graceliu.uk/2017/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/archive.html</loc>
+  <loc>https://wudong.graceliu.uk/archive.html</loc>
+  <lastmod>2017-07-17T07:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://wudong.graceliu.uk/categories/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/</loc>
+  <loc>https://wudong.graceliu.uk/categories/agile/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/agile-study/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/categories/agile/</loc>
-  <lastmod>2017-07-15T11:32:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/categories/akka/</loc>
+  <loc>https://wudong.graceliu.uk/categories/akka/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/algorithm/</loc>
+  <loc>https://wudong.graceliu.uk/categories/algorithm/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/algorithms/</loc>
-  <lastmod>2017-07-15T11:19:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/categories/angular/</loc>
+  <loc>https://wudong.graceliu.uk/categories/angular/</loc>
   <lastmod>2017-07-14T20:57:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/bash/</loc>
+  <loc>https://wudong.graceliu.uk/categories/bash/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/cat_books/</loc>
+  <loc>https://wudong.graceliu.uk/categories/cat_books/</loc>
   <lastmod>2017-07-15T10:40:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/cat_courses/</loc>
+  <loc>https://wudong.graceliu.uk/categories/cat_courses/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/cat_notes/</loc>
+  <loc>https://wudong.graceliu.uk/categories/cat_notes/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/coding-algorithm/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/categories/coding/</loc>
+  <loc>https://wudong.graceliu.uk/categories/coding/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/concurrency/</loc>
+  <loc>https://wudong.graceliu.uk/categories/concurrency/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/database/</loc>
+  <loc>https://wudong.graceliu.uk/categories/database/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/ddd/</loc>
+  <loc>https://wudong.graceliu.uk/categories/ddd/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/deep-learning/</loc>
+  <loc>https://wudong.graceliu.uk/categories/deep-learning/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/design/</loc>
+  <loc>https://wudong.graceliu.uk/categories/design/</loc>
   <lastmod>2017-07-14T20:57:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/emacs/</loc>
+  <loc>https://wudong.graceliu.uk/categories/emacs/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/functional-programming/</loc>
+  <loc>https://wudong.graceliu.uk/categories/functional-programming/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/gc/</loc>
+  <loc>https://wudong.graceliu.uk/categories/gc/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/git/</loc>
+  <loc>https://wudong.graceliu.uk/categories/git/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/go/</loc>
+  <loc>https://wudong.graceliu.uk/categories/go/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/gradle/</loc>
+  <loc>https://wudong.graceliu.uk/categories/gradle/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/java-concurrency/</loc>
+  <loc>https://wudong.graceliu.uk/categories/java/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/java-gc/</loc>
+  <loc>https://wudong.graceliu.uk/categories/javascript/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/java/</loc>
+  <loc>https://wudong.graceliu.uk/categories/linux/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/javascript/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/categories/linux/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/categories/machine-learning/</loc>
+  <loc>https://wudong.graceliu.uk/categories/machine-learning/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/microservice/</loc>
+  <loc>https://wudong.graceliu.uk/categories/microservice/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/os/</loc>
+  <loc>https://wudong.graceliu.uk/categories/os/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/pattern/</loc>
+  <loc>https://wudong.graceliu.uk/categories/pattern/</loc>
   <lastmod>2017-07-14T20:57:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/patterns/</loc>
+  <loc>https://wudong.graceliu.uk/categories/patterns/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/php/</loc>
+  <loc>https://wudong.graceliu.uk/categories/php/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/play/</loc>
+  <loc>https://wudong.graceliu.uk/categories/play/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/programming/</loc>
+  <loc>https://wudong.graceliu.uk/categories/programming/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/python/</loc>
+  <loc>https://wudong.graceliu.uk/categories/python/</loc>
   <lastmod>2017-07-15T10:40:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/reactive-stream/</loc>
+  <loc>https://wudong.graceliu.uk/categories/reactive-stream/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/redis/</loc>
+  <loc>https://wudong.graceliu.uk/categories/redis/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/scala/</loc>
+  <loc>https://wudong.graceliu.uk/categories/scala/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/soa/</loc>
+  <loc>https://wudong.graceliu.uk/categories/soa/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/solr/</loc>
+  <loc>https://wudong.graceliu.uk/categories/solr/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/spring/</loc>
+  <loc>https://wudong.graceliu.uk/categories/spring/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/categories/zookeeper/</loc>
+  <loc>https://wudong.graceliu.uk/categories/zookeeper/</loc>
   <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/galleries/</loc>
+  <loc>https://wudong.graceliu.uk/galleries/</loc>
   <lastmod>2017-07-14T15:52:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/index-1.html</loc>
-  <lastmod>2017-07-15T11:32:00Z</lastmod>
+  <loc>https://wudong.graceliu.uk/index-1.html</loc>
+  <lastmod>2017-07-17T07:12:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/index-2.html</loc>
-  <lastmod>2017-07-15T11:32:00Z</lastmod>
+  <loc>https://wudong.graceliu.uk/index-2.html</loc>
+  <lastmod>2017-07-17T07:12:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/index-3.html</loc>
-  <lastmod>2017-07-15T11:32:00Z</lastmod>
+  <loc>https://wudong.graceliu.uk/index-3.html</loc>
+  <lastmod>2017-07-17T07:12:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/index-4.html</loc>
-  <lastmod>2017-07-15T11:32:00Z</lastmod>
+  <loc>https://wudong.graceliu.uk/index-4.html</loc>
+  <lastmod>2017-07-17T07:12:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/listings/</loc>
+  <loc>https://wudong.graceliu.uk/listings/</loc>
   <lastmod>2017-07-14T15:52:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/Bash-notes/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/agile-notes/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/algorithms-notes/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/angular-notes/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/coding-questions/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/courses/coursea-scala/</loc>
+  <loc>https://wudong.graceliu.uk/posts/courses/coursea-scala/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/courses/deep-learning/</loc>
+  <loc>https://wudong.graceliu.uk/posts/courses/deep-learning/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/courses/domain-driven-design/</loc>
+  <loc>https://wudong.graceliu.uk/posts/courses/domain-driven-design/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/design-pattern/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/emacs-note/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/git-note/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/java-8-topics/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/java-concurrency/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/java-hotspot-gc/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/java-interview-questions/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/java-problems/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/java-troubleshooting/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/javascript-note/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/linux-notes/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/microservices-note/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/notes/Bash-notes/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/Bash-notes/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/agile-notes/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/agile-notes/</loc>
   <lastmod>2017-07-15T10:50:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/algorithms-notes/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/algorithms-notes/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/angular-notes/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/angular-notes/</loc>
   <lastmod>2017-07-15T10:50:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/coding-questions/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/coding-questions/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/design-pattern/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/design-pattern/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/emacs-note/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/emacs-note/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/git-note/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/git-note/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/java-8-topics/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/java-8-topics/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/java-concurrency/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/java-concurrency/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/java-hotspot-gc/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/java-hotspot-gc/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/java-interview-questions/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/java-interview-questions/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/java-problems/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/java-problems/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/java-troubleshooting/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/java-troubleshooting/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/javascript-note/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/javascript-note/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/linux-notes/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/linux-notes/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/microservices-note/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/microservices-note/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/php-note/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/php-note/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/programming-note/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/programming-note/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/reactive-stream/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/reactive-stream/</loc>
   <lastmod>2017-07-15T10:50:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/scala-note/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/scala-note/</loc>
   <lastmod>2017-07-15T10:50:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/solr-notes/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/solr-notes/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/notes/zookeeper-notes/</loc>
+  <loc>https://wudong.graceliu.uk/posts/notes/zookeeper-notes/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/php-note/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/programming-note/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/reactive-stream/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/reading/akka-in-action/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/akka-in-action/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/deep-learning/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/enterprise-integration-patterns/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/enterprise-integration-patterns/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/functional-programming-in-scala/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/functional-programming-in-scala/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/go-in-action/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/go-in-action/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/gradle-in-action/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/gradle-in-action/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/introducing-go/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/introducing-go/</loc>
-  <lastmod>2017-07-15T11:19:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/reading/lean-python/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/lean-python/</loc>
   <lastmod>2017-07-15T10:40:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/patterns-enterprise-application-architecture/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/patterns-enterprise-application-architecture/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/play-for-scala/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/play-for-scala/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/programming-in-scala/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/programming-in-scala/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/redis-in-action/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/redis-in-action/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/service-design-patterns/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/service-design-patterns/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/soa-patterns/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/soa-patterns/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/spring-integration-in-action/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/spring-integration-in-action/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
  </url>
  <url>
-  <loc>https://example.com/posts/reading/thoughtful-machine-learning/</loc>
+  <loc>https://wudong.graceliu.uk/posts/reading/thoughtful-machine-learning/</loc>
   <lastmod>2017-07-15T11:19:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/scala-note/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/solr-notes/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
- </url>
- <url>
-  <loc>https://example.com/posts/zookeeper-notes/</loc>
-  <lastmod>2017-07-14T20:53:00Z</lastmod>
  </url>
 </urlset>

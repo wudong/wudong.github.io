@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about database)</title><link>https://example.com/</link><description></description><atom:link href="https://example.com/categories/database.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:n.tesla@example.com"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Sat, 15 Jul 2017 11:19:51 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Redis in Action</title><link>https://example.com/posts/reading/redis-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about database)</title><link>https://wudong.graceliu.uk/</link><description></description><atom:link href="https://wudong.graceliu.uk/categories/database.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:wudong@graceliu.uk"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Mon, 17 Jul 2017 07:12:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Redis in Action</title><link>https://wudong.graceliu.uk/posts/reading/redis-in-action/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
 &lt;h2&gt;Table of Contents&lt;/h2&gt;
 &lt;div id="text-table-of-contents"&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-1"&gt;Getting to know Redis&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-2"&gt;Anatomy of Redis web application&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-1"&gt;Getting to know Redis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-2"&gt;Anatomy of Redis web application&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-2-1"&gt;Login Cookies and Shopping cart&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-2-2"&gt;Web page caching&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-2-3"&gt;Database row caching&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-2-1"&gt;Login Cookies and Shopping cart&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-2-2"&gt;Web page caching&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-2-3"&gt;Database row caching&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3"&gt;Commands in Redis&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3"&gt;Commands in Redis&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-1"&gt;String&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-2"&gt;Lists&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-3"&gt;Sets&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-4"&gt;Hashes&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-5"&gt;ZSets&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-6"&gt;Publish/Subscribe&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-7"&gt;Basic Transaction in Redis&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-3-8"&gt;Expiring keys&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3-1"&gt;String&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3-2"&gt;Lists&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3-3"&gt;Sets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3-4"&gt;Hashes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3-5"&gt;ZSets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3-6"&gt;Publish/Subscribe&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3-7"&gt;Basic Transaction in Redis&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-3-8"&gt;Expiring keys&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-4"&gt;Keeping data safe and ensuring performance&lt;/a&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-4"&gt;Keeping data safe and ensuring performance&lt;/a&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="https://example.com/posts/reading/redis-in-action/#sec-4-1"&gt;Persistence options&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wudong.graceliu.uk/posts/reading/redis-in-action/#sec-4-1"&gt;Persistence options&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -401,4 +401,4 @@ they happen.
 &lt;/li&gt;&lt;/ul&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;</description><category>database</category><category>redis</category><guid>https://example.com/posts/reading/redis-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>
+&lt;/div&gt;</description><category>database</category><category>redis</category><guid>https://wudong.graceliu.uk/posts/reading/redis-in-action/</guid><pubDate>Fri, 14 Jul 2017 23:00:00 GMT</pubDate></item></channel></rss>
