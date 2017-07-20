@@ -1105,9 +1105,9 @@ invocation and a scheduler for handling requests.
 <li>
 <code>expend-region</code>: require the module to be able to expand/shrink selections.
 <ul class="org-ul">
-<li>expend: C-=
+<li>expend: <code>C-=</code>
 </li>
-<li>shrink: M– C-= <i>Note</i>: M– is a negative prefix argument normally means -1.
+<li>shrink: <code>M-- C-=</code>: <code>M--</code> is a negative prefix argument normally means -1.
 this allow the <code>er/expand-region</code> function to do a shrink.
 </li>
 </ul>
@@ -1130,19 +1130,47 @@ It support server defined in .ssh/config.
 C-x C-f /sudo::/etc/fstab<br></p>
 </li>
 
-<li>Fill paragraph: with ~fill-paragraph~(M-q) to organize paragraph
+<li>Fill paragraph: with <code>fill-paragraph~(M-q)</code> to organize paragraph
 with desired right margin.
 </li>
-</ul>
-<ul class="org-ul">
+
 <li>indent multiple line: <br>
   Select multiply lines, then type <code>C-u 8 C-x Tab</code>, it will indent the
-region by 8 spaces.  <code>C-u -4</code> C-x Tab will <i>un-indent</i> by 4 spaces
+region by 8 spaces.  <code>C-u -4 C-x Tab</code> will <i>un-indent</i> by 4 spaces
 </li>
 
 <li>To input unicode characters:
 <p class="verse">
 C-x 8 RET unicode<br></p>
+</li>
+
+<li>Dired mode executing command:
+<ul class="org-ul">
+<li>
+<code>!</code>: runs command synchronously.
+</li>
+<li>
+<code>&amp;</code>: runs command asynchronously.
+</li>
+<li>When more than one files are marked:
+<ul class="org-ul">
+<li>
+<code>?</code> : runs command on each of the file substitute the <code>?</code> in the
+command line.
+</li>
+<li>
+<code>*</code> : runs command on all files.
+</li>
+<li>No <code>?</code> or <code>*</code> will run command on each file, put the file name
+at the command end.
+</li>
+<li>More complicated case, use explicit shell loop:
+<div class="highlight"><pre><span></span><span class="k">for</span> file in *<span class="p">;</span> <span class="k">do</span> unencoded <span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span> &gt; <span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span>.uu<span class="p">;</span> <span class="k">done</span>
+</pre></div>
+</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </div>

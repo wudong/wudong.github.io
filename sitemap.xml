@@ -15,7 +15,7 @@
  </url>
  <url>
   <loc>https://wudong.graceliu.uk/archive.html</loc>
-  <lastmod>2017-07-17T07:12:00Z</lastmod>
+  <lastmod>2017-07-20T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://wudong.graceliu.uk/categories/</loc>
@@ -187,7 +187,7 @@
  </url>
  <url>
   <loc>https://wudong.graceliu.uk/index-2.html</loc>
-  <lastmod>2017-07-17T07:12:00Z</lastmod>
+  <lastmod>2017-07-20T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://wudong.graceliu.uk/index-3.html</loc>
@@ -195,7 +195,7 @@
  </url>
  <url>
   <loc>https://wudong.graceliu.uk/index-4.html</loc>
-  <lastmod>2017-07-17T07:12:00Z</lastmod>
+  <lastmod>2017-07-20T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://wudong.graceliu.uk/listings/</loc>
@@ -204,6 +204,10 @@
  <url>
   <loc>https://wudong.graceliu.uk/posts/courses/coursea-scala/</loc>
   <lastmod>2017-07-15T11:32:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://wudong.graceliu.uk/posts/courses/deep-learning-in-python/</loc>
+  <lastmod>2017-07-20T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://wudong.graceliu.uk/posts/courses/deep-learning/</loc>
@@ -240,6 +244,10 @@
  <url>
   <loc>https://wudong.graceliu.uk/posts/notes/emacs-note/</loc>
   <lastmod>2017-07-15T10:51:00Z</lastmod>
+ </url>
+ <url>
+  <loc>https://wudong.graceliu.uk/posts/notes/functional-programming-notes/</loc>
+  <lastmod>2017-07-20T21:01:00Z</lastmod>
  </url>
  <url>
   <loc>https://wudong.graceliu.uk/posts/notes/git-note/</loc>

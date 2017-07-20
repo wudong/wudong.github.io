@@ -14,7 +14,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="https://wudong.graceliu.uk/">
 <link rel="next" href="index-4.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/reading/akka-in-action/" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/notes/functional-programming-notes/" type="text/html">
 </head>
 <body>
     <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -51,7 +51,187 @@
         
 
 <div class="posts">
-    <article class="post h-entry post-text"><header><h1 class="post-title p-name"><a href="posts/reading/akka-in-action/" class="u-url">Akka In Action</a></h1>
+    <article class="post h-entry post-text"><header><h1 class="post-title p-name"><a href="posts/notes/functional-programming-notes/" class="u-url">Functional Programming Note</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">Warren Liu</span></p>
+            <p class="dateline"><a href="posts/notes/functional-programming-notes/" rel="bookmark"><time class="post-date published dt-published" datetime="2017-07-20T00:00:00+01:00" title="2017-07-20 00:00">2017-07-20 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li>
+<a href="posts/notes/functional-programming-notes/#sec-1">What's a combinator?</a>
+<ul>
+<li><a href="posts/notes/functional-programming-notes/#sec-1-1">Parser Combinator</a></li>
+<li><a href="posts/notes/functional-programming-notes/#sec-1-2">Parser Combinator Implementations</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">What's a combinator?</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Any functions that only depends on its input, or function with no
+free variables.
+</li>
+<li>A combinator library is a library designed around combining things
+to get more complex value of the same type.
+</li>
+<li>Combinator pattern, a style of organizing libraries centered
+around the idea of combining things.
+</li>
+<li>Usually there is some type <code>T</code>, some <b>functions</b> for constructing
+<i>primitive</i> values of type <code>T</code>, and some <b>combinators</b> which can
+combine values of type <code>T</code> in various ways to build up more complex
+values of type <code>T</code>.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Parser Combinator</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>A parser combinator is a high-order function that accepts several
+parser as input and returns a new parser as its output.
+</li>
+<li>In this context, a parser is a function accepting strings as input
+and return some structure (typically a parse tree) as output.
+</li>
+<li>Parser combinators enable a <i>recursive descent parsing</i> strategy.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Parser Combinator Implementations</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+<a href="https://fsharpforfunandprofit.com/posts/understanding-parser-combinators/">https://fsharpforfunandprofit.com/posts/understanding-parser-combinators/</a>
+</p>
+<ul class="org-ul">
+<li>Sequence: <b>and<sub>then</sub></b> combinator
+</li>
+<li>Choice: <b>or<sub>else</sub></b> combinator
+</li>
+<li>ZeroOrMore: matches a parser zero or more times
+<ul class="org-ul">
+<li>Run the parser
+</li>
+<li>If the parser return <code>Failure</code>, just return an empty list.
+</li>
+<li>If the parser succeeds:
+<ul class="org-ul">
+<li>Call the function <b>recursively</b> to get the <i>remaining values</i>
+      (which could be also be an empty list)
+</li>
+<li>
+<b>Combine</b> the first value and the remaining value.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Opt: matches a parser zero or one time
+<ul class="org-ul">
+<li>Create a parser that always return <code>None</code>.
+</li>
+<li>Change thee result of a parser to an <code>Some</code>.
+</li>
+<li>Use <i>choice</i> to combine the two.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="post h-entry post-text"><header><h1 class="post-title p-name"><a href="posts/courses/deep-learning-in-python/" class="u-url">Deep Learning in Python</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">Warren Liu</span></p>
+            <p class="dateline"><a href="posts/courses/deep-learning-in-python/" rel="bookmark"><time class="post-date published dt-published" datetime="2017-07-18T00:00:00+01:00" title="2017-07-18 00:00">2017-07-18 00:00</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="posts/courses/deep-learning-in-python/#sec-1">Data Pre-processing</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Data Pre-processing</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Logistic regression / neural networks work on numerical vectors, not
+categories.
+</li>
+<li>One-hot encoding, to change a categories to  numerical values:
+For example, Time of day is a category of 4: 0, 1, 2, 3, it can be
+encoded as:
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup>
+<col class="right">
+<col class="right">
+<col class="right">
+<col class="right">
+</colgroup>
+<thead><tr>
+<th scope="col" class="right">12am-6am</th>
+<th scope="col" class="right">6am-12pm</th>
+<th scope="col" class="right">12pm-6pm</th>
+<th scope="col" class="right">6pm-12am</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="right">0</td>
+<td class="right">0</td>
+<td class="right">0</td>
+</tr>
+<tr>
+<td class="right">0</td>
+<td class="right">1</td>
+<td class="right">0</td>
+<td class="right">0</td>
+</tr>
+<tr>
+<td class="right">0</td>
+<td class="right">0</td>
+<td class="right">1</td>
+<td class="right">0</td>
+</tr>
+<tr>
+<td class="right">0</td>
+<td class="right">0</td>
+<td class="right">0</td>
+<td class="right">1</td>
+</tr>
+</tbody>
+</table>
+<p>
+Having a 1 for each column.
+</p>
+</li>
+<li>Binary categories don't need 2 columns for "true" and "false". Just
+absorb the "false" into the bias term.
+</li>
+<li>Numerical columns: <br>
+  Simple way to normalization (0 mean, 1 standard deviation): minus
+the mean and devided by the deviation.
+</li>
+</ul>
+</div>
+</div>
+    </div>
+    </article><article class="post h-entry post-text"><header><h1 class="post-title p-name"><a href="posts/reading/akka-in-action/" class="u-url">Akka In Action</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Warren Liu</span></p>
             <p class="dateline"><a href="posts/reading/akka-in-action/" rel="bookmark"><time class="post-date published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
@@ -1805,764 +1985,6 @@ idle time.
 <li>Using <code>build</code> task to compile, run test and assembles the Jar.
 </li>
 <li>
-</li>
-</ul>
-</div>
-</div>
-    </div>
-    </article><article class="post h-entry post-text"><header><h1 class="post-title p-name"><a href="posts/reading/introducing-go/" class="u-url">Introducing Go</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">Warren Liu</span></p>
-            <p class="dateline"><a href="posts/reading/introducing-go/" rel="bookmark"><time class="post-date published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="posts/reading/introducing-go/#sec-1">Chapter 1. Getting started</a></li>
-<li><a href="posts/reading/introducing-go/#sec-2">Chapter 2. Types</a></li>
-<li><a href="posts/reading/introducing-go/#sec-3">Chapter 3. Variables</a></li>
-<li><a href="posts/reading/introducing-go/#sec-4">Chapter 4. Control Structures</a></li>
-<li><a href="posts/reading/introducing-go/#sec-5">Chapter 5. Arrays, Slices, and Maps</a></li>
-<li><a href="posts/reading/introducing-go/#sec-6">Chapter 6: Functions</a></li>
-<li><a href="posts/reading/introducing-go/#sec-7">Chapter 7: Structs and Interfaces</a></li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Chapter 1. Getting started</h2>
-<div class="outline-text-2" id="text-1">
-<ul class="org-ul">
-<li>The Go toolset uses an environment variable called <code>GOPATH</code> to find
-Go source code.
-</li>
-<li>Find document for certain function using <code>godoc</code>:
-<div class="highlight"><pre><span></span>godoc fmt Println
-</pre></div>
-</li>
-</ul>
-<p>
-w  will get document for function <code>Println</code> in package <code>fmt</code>.
-</p>
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Chapter 2. Types</h2>
-<div class="outline-text-2" id="text-2">
-<ul class="org-ul">
-<li>Go is a statically typed language. Variables have specific types and
-type cannot change.
-</li>
-<li>Number Types
-<ul class="org-ul">
-<li>Go’s integer types are <code>uint8</code>, <code>uint16</code>, <code>uint32</code>, <code>uint64</code>,
-<code>int8</code>, <code>int16</code>, <code>int32</code>, and <code>int64</code>.
-</li>
-<li>There are also three machine dependent integer types: <code>uint</code>, <code>int</code>,
-and <code>uintptr</code>. They are machine dependent because their size depends
-on the type of architecture you are using.
-</li>
-<li>Go has two floating-point types: <code>float32</code> and <code>float64</code> (also often
-referred to as single precision and double precision,
-respectively).
-</li>
-<li>For complex numbers, it has: <code>complex64</code> and <code>complex128</code>.
-</li>
-</ul>
-</li>
-<li>String
-<ul class="org-ul">
-<li>String literals can double quotes "Hello, World" or backticks
-`Hello, World`. Double-quoted strings <b>cannot</b> contain newlines and
-they allow special escape sequences.
-</li>
-<li>Common String operations:
-<ul class="org-ul">
-<li>Length: <code>len("Hello World")</code>
-</li>
-<li>Index: ~"Hello World"[​1]~
-</li>
-<li>Concat: ~"Hello " + "World"~
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Boolean type
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Chapter 3. Variables</h2>
-<div class="outline-text-2" id="text-3">
-<ul class="org-ul">
-<li>constant: ~const x string = "Hello, World"~
-</li>
-<li>Define multiple variables:
-<div class="highlight"><pre><span></span>var (
-  a = 5
-  b = 10
-  c = 11
-)
-</pre></div>
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">Chapter 4. Control Structures</h2>
-<div class="outline-text-2" id="text-4">
-<ul class="org-ul">
-<li>for loop:
-<div class="highlight"><pre><span></span>i = 0
-for i&lt;=10 {}
-</pre></div>
-
-<div class="highlight"><pre><span></span>for i=0;i&lt;=10;i++ {}
-</pre></div>
-</li>
-<li>switch:
-<div class="highlight"><pre><span></span>switch i {
-    case 0: ...
-    case 1: ...
-    default: ...
-}
-</pre></div>
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">Chapter 5. Arrays, Slices, and Maps</h2>
-<div class="outline-text-2" id="text-5">
-<ul class="org-ul">
-<li>Define and using array:
-<div class="highlight"><pre><span></span>func main() {
-	var x [5]int
-	x[40]=10
-	var total int = 0;
-	for i=0; i&lt;5; i++{
-		total+=x[i]
-	}
-	fmt.Println(total / len(x))
-}
-</pre></div>
-</li>
-<li>A special form of for loop allow:
-<div class="highlight"><pre><span></span>for _, value:=range x {
-	total +=value
-}
-</pre></div>
-<p>
-A single underscore (_) is used to tell the compiler it(the iterator variable)
-is not needed in the loop
-</p>
-</li>
-<li>Shortcut to define array:
-<div class="highlight"><pre><span></span>x:=[3]float64{98, 99, 199}
-</pre></div>
-<p>
-or in multiple lines:
-</p>
-<div class="highlight"><pre><span></span>x := [4]float64 {
-	98,
-	99,
-	100,
-	102,
-}
-</pre></div>
-<p>
-Note that the extra trailing ',' in the last line is required by Go.
-</p>
-</li>
-<li>Array in Go is fix length, and is actually in the type declaration. Usually
-slice is used, which is a type built on top of an array.
-</li>
-<li>A slice is a segment of an array. Its length is allowed to change.
-<div class="highlight"><pre><span></span>var x []float64
-</pre></div>
-</li>
-<li>To create a slice, using the <code>make</code> function:
-<div class="highlight"><pre><span></span>x := make([]float64, 5)
-</pre></div>
-<p>
-This creates a slice that is associated with an underlying float64 array of
-length 5. Slices are always associated with some array, they can be smaller
-but not longer than the associated array.
-</p>
-</li>
-<li>Slice can also be created using <code>[low : high]</code> expression:
-<div class="highlight"><pre><span></span>arr := [5]float64 {1,2,3,4,5}
-x := arr[0:5]
-</pre></div>
-<p>
-In this expression, both 'low' and 'high' can be omitted.
-</p>
-</li>
-<li>Map
-<div class="highlight"><pre><span></span>var x map[string]int
-x := make(map[string]int)
-
-x["key"] = 10
-fmt.Println(x)
-</pre></div>
-<ul class="org-ul">
-<li>length of map can change as adding new item to it.
-</li>
-<li>maps are not sequential.
-</li>
-<li>can be deleted with <code>delete</code> function: <code>delete(x,1)</code>
-</li>
-<li>a map returns the zero value for the value type when the key doesn't exist.
-</li>
-<li>It can also return two values like:
-<div class="highlight"><pre><span></span>name, ok := elements["Un"]
-</pre></div>
-<p>
-in which, the <code>name</code> is the value returned, and <code>ok</code> tells whether the
-lookup is successful.
-</p>
-</li>
-<li>A common pattern in go looks like:
-<div class="highlight"><pre><span></span>if name, ok := elements["Un"]; ok{
-	fmt.Println(name, ok)
-}
-</pre></div>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-
-
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">Chapter 6: Functions</h2>
-<div class="outline-text-2" id="text-6">
-<ul class="org-ul">
-<li>Function's return type can be named:
-<div class="highlight"><pre><span></span>func f2() (r int){
-	r=1
-	return
-}
-</pre></div>
-</li>
-<li>Function can return multiple value:
-<div class="highlight"><pre><span></span>func f() (int, int) {
-	return 5, 6
-}
-func main() {
-	x,y:=f()
-}
-</pre></div>
-<p>
-Multiple values are often used to return an error value along with the
-result <code>(x, err := f())</code>, or a boolean to indicate success <code>(x, ok := f())</code>.
-</p>
-</li>
-<li>Variadic Functions:
-<div class="highlight"><pre><span></span>func add(args ...int) int {
-	total := 0
-	for _, v := range args {
-		total += v
-	}
-	return total
-}
-</pre></div>
-<p>
-in this example <code>add</code> is allowed to be called with multiple
-integers, this parameter is known as a <b>variadic</b> parameter.
-</p>
-</li>
-<li>It is possible to create functions inside function, which creates
-<b>Closure</b>:
-<div class="highlight"><pre><span></span>func main() {
-	add := func(x, y int) int {
-		  return x+y
-		}
-	fmt.Println(add(1,1))
-}
-</pre></div>
-<p>
-When you create a local function like this, it also has access to
-other local variables.
-</p>
-</li>
-<li>
-<code>defer</code>: a special statement that schedules a function call to be run
-after the function completes. It basically moves the call to the end
-of the function. It is often used when some resource need to be
-cleaned in some way:
-<div class="highlight"><pre><span></span>f, _ := os.Open(filename)
-defer f.Close()
-</pre></div>
-<ul class="org-ul">
-<li>It keeps the Close() call to Open() so it is easier to understand.
-</li>
-<li>If there are multiple return statement, the Close() will happen
-before both of them.
-</li>
-<li>Deferred function will run even if a run-time panic occurs.
-</li>
-</ul>
-</li>
-<li>
-<code>panic</code> function is used to create a run-time error; we can handle a
-run-time panic with the build-in <code>recover</code> function.
-</li>
-<li>recover stops the panic and returns the value that was passed to the
-call to panic.
-</li>
-<li>Here is the example to use <code>recover</code> when having <code>panic</code>:
-<div class="highlight"><pre><span></span>func main() {
-	defer func() {
-		str := recover()
-		fmt.Println(str)
-	}()
-	panic("PANIC")
-}
-</pre></div>
-</li>
-<li>
-<code>new</code> takes a type as an argument, allocates enough memory to fit a
-value of that type, and returns a pointer to it. Go is
-garbage-collected so no need to <code>free</code> explicitly.
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7">Chapter 7: Structs and Interfaces</h2>
-</div>
-    </div>
-    </article><article class="post h-entry post-text"><header><h1 class="post-title p-name"><a href="posts/reading/lean-python/" class="u-url">Lean Python</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">Warren Liu</span></p>
-            <p class="dateline"><a href="posts/reading/lean-python/" rel="bookmark"><time class="post-date published dt-published" datetime="2017-07-15T00:00:00+01:00" title="2017-07-15 00:00">2017-07-15 00:00</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Getting Started</h2>
-<div class="outline-text-2" id="text-1">
-<ul class="org-ul">
-<li>Variables
-<ul class="org-ul">
-<li>The first character must be a letter or underscore.
-<ul class="org-ul">
-<li>Don't start a variable with a underscore, which is usually used
-for special identifiers.
-</li>
-</ul>
-</li>
-<li>Additional characters may be alphanumeric or underscore.
-</li>
-<li>Names are case sensitive.
-</li>
-</ul>
-</li>
-<li>Assignment
-<div class="highlight"><pre><span></span><span class="n">text</span> <span class="o">=</span> <span class="s1">'Some Text'</span>
-<span class="n">Name</span> <span class="o">=</span> <span class="s1">'Mr'</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="s1">'Fred'</span>
-<span class="c1"># list.</span>
-<span class="n">shoppingList</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ham'</span><span class="p">,</span> <span class="s1">'eggs'</span><span class="p">,</span> <span class="s1">'mushrooms'</span><span class="p">]</span>
-<span class="c1"># multiple assignment.</span>
-<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span>
-<span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">myFunc</span><span class="p">()</span> <span class="c1"># when myFunc() returns three values</span>
-</pre></div>
-</li>
-<li>Special identifiers, the name will be of the form: \
-<code>_xxx</code>, <code>__xxx__</code>, <code>__xxx</code>
-</li>
-<li>
-<code>__name__</code> special variable specified how the module is called, it
-will be:
-<ul class="org-ul">
-<li>The name of the module if imported,
-</li>
-<li>The string <code>__main__</code> if executed directly.
-</li>
-<li>The following code let the interpreter loads your program and runs
-it if necessary
-</li>
-</ul>
-<div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span> <span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
-</pre></div>
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">Python Objects</h2>
-<div class="outline-text-2" id="text-2">
-<ul class="org-ul">
-<li>All variables have a type which can be seen using the build-in
-<code>type()</code> function.
-<div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="mi">23</span><span class="p">)</span>  <span class="c1"># &lt;type 'int'&gt;</span>
-<span class="nb">type</span><span class="p">(</span><span class="s1">'some more text'</span><span class="p">)</span>  <span class="c1"># &lt;type 'str'&gt;</span>
-<span class="nb">type</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">'some'</span><span class="p">])</span>  <span class="c1"># &lt;type list'&gt;</span>
-</pre></div>
-</li>
-<li>Other types are <code>class</code>, <code>module</code>, <code>function</code>, <code>file</code>, <code>bool</code>,
-<code>NoneType</code> and <code>long</code>
-</li>
-<li>The special constants <code>True</code> and <code>False</code> are <code>bool</code> type, special
-constant <code>None</code> is a <code>NoneType</code>
-</li>
-<li>Function <code>str()</code> is used to see a textual definition of any object
-</li>
-<li>Factory functions are a serials of functions that create variable
-types directly
-<ul class="org-ul">
-<li>
-<code>int(4.0)</code> create integer <code>4</code>
-</li>
-<li>
-<code>str(4)</code> create string ='4'=
-</li>
-<li>
-<code>list(1,2,3,4,5)</code> create <code>list [1,2,3,4,5]</code>
-</li>
-<li>
-<code>tuple(1,2,3,4)</code> create tuple <code>(1,2,3,4)</code>
-</li>
-<li>
-<code>dict(one=1,two=2)</code> create dictionary <code>{'one': 1, 'two': 2}</code>
-</li>
-</ul>
-</li>
-<li>Exponentiation operator: <code>4 ** 3</code>
-</li>
-<li>Boolean are actually held as integers but have a value of either
-<code>True</code> or <code>False</code>
-<ul class="org-ul">
-<li>
-<code>bool(23)</code>  : <code>True</code>, all nonzero integers
-</li>
-<li>
-<code>bool(0)</code>  : <code>False</code>
-</li>
-<li>
-<code>bool('any')</code> : <code>True</code>, any string
-</li>
-<li>
-<code>bool('')</code> : <code>False</code>, zero length string
-</li>
-<li>
-<code>bool([])</code> : <code>False</code>, empty lists
-</li>
-</ul>
-</li>
-<li>Sequences: Strings, Lists, and Tuples.
-</li>
-<li>Tuples value much like a list, but the entries in a tuple are <b>immutable</b>
-</li>
-<li>Membership test in sequence:
-<div class="highlight"><pre><span></span><span class="s1">'a'</span> <span class="ow">in</span> <span class="s1">'track'</span>    <span class="c1"># True</span>
-<span class="mi">9</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>  <span class="c1"># False</span>
-<span class="s1">'x'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="s1">'next'</span>  <span class="c1"># False</span>
-<span class="s1">'red'</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'tan'</span><span class="p">,</span> <span class="s1">'pink'</span><span class="p">]</span>  <span class="c1"># True</span>
-</pre></div>
-</li>
-<li>Two or more sequences can be added together using <code>+</code>
-</li>
-<li>Or Using string's <code>join()</code> method to join a list of strings, or tuple
-<div class="highlight"><pre><span></span><span class="s1">'-'</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'c'</span><span class="p">))</span>  <span class="c1"># 'a-b-c'</span>
-</pre></div>
-</li>
-<li>A slice is a convenient way to select a subset of elements in sequence
-<ul class="org-ul">
-<li>
-<code>[startIndex:endIndex]</code> : not including <code>endIndex</code>
-</li>
-<li>index of minus value : counting from end. <code>-1</code> index refer to the
-last element of the sequence.
-</li>
-<li>either <code>startIndex</code> or <code>endIndex</code> can be omitted.
-</li>
-</ul>
-</li>
-<li>Built-in Sequence Functions: <code>len()</code>, <code>max()</code>, <code>min()=， =sum()</code>,
-<code>sorted()</code>, <code>reversed()</code>
-</li>
-<li>String can be delimt with either single (') or double (")
-quotes. You can embed either quote inside the other.
-</li>
-<li>Access substring with slices.
-</li>
-<li>Strings can be compared with <code>&gt;</code>, <code>&lt;</code>, <code>==</code>.
-</li>
-<li>String can be searched using the membership test of sequence.
-</li>
-<li>Longer pieces of text with embedded new lines can be assigned using
-the triple quotes.
-</li>
-<li>String formatting can be done using the <code>%</code> operator
-<div class="highlight"><pre><span></span><span class="n">ntoys</span>  <span class="o">=</span> <span class="mi">4</span>
-<span class="n">myname</span> <span class="o">=</span> <span class="s1">'Fred'</span>
-<span class="s1">'</span><span class="si">%s</span><span class="s1"> has </span><span class="si">%d</span><span class="s1"> toys'</span> <span class="o">%</span> <span class="p">(</span><span class="n">myname</span><span class="p">,</span> <span class="n">ntoys</span><span class="p">)</span>
-</pre></div>
-<ul class="org-ul">
-<li>
-<code>%c</code> Single character/string of length 1
-</li>
-<li>
-<code>%s</code> String
-</li>
-<li>
-<code>%d</code> Signed decimal integer
-</li>
-<li>
-<code>%f</code> Floating point number
-</li>
-<li>
-<code>%%</code> Percent character
-</li>
-</ul>
-</li>
-<li>Updating Lists with <code>append()</code> and <code>del</code> statement
-<div class="highlight"><pre><span></span><span class="n">myList</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">myList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
-<span class="n">myList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'Dick'</span><span class="p">)</span>
-<span class="n">myList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s1">'Bill'</span>
-<span class="k">del</span> <span class="n">myList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</pre></div>
-</li>
-<li>Using <code>index()</code> method to find an entry and returns the offset of
-that entry.
-<ul class="org-ul">
-<li>If the entry cannot be found, it returns an Error.
-</li>
-</ul>
-</li>
-<li>Dictionary
-<div class="highlight"><pre><span></span><span class="n">wdays</span><span class="o">=</span><span class="p">{</span><span class="s1">'M'</span><span class="p">:</span> <span class="s1">'Monday'</span><span class="p">,</span> <span class="s1">'T'</span><span class="p">:</span> <span class="s1">'Tuesday'</span><span class="p">}</span>
-<span class="n">wdays</span><span class="p">[</span><span class="s1">'M'</span><span class="p">]</span><span class="o">==</span><span class="s1">'Monday'</span>
-<span class="n">wdays</span><span class="p">[</span><span class="s1">'W'</span><span class="p">]</span><span class="o">=</span><span class="s1">'Wednesday'</span>
-<span class="k">del</span> <span class="n">wdays</span><span class="p">[</span><span class="s1">'W'</span><span class="p">]</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">wdays</span><span class="p">)</span>
-</pre></div>
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">Program Structure</h2>
-<div class="outline-text-2" id="text-3">
-<ul class="org-ul">
-<li>
-<code>pass</code> statment is a <i>do nothing</i> statement, is often useful to show
-explicitly that the program is doing nothing.
-</li>
-<li>List comprehensions is a way of dynamically creating a list of
-elements in an elegant shorthand.
-<div class="highlight"><pre><span></span><span class="n">squares</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
-    <span class="n">squares</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">i</span><span class="p">)</span>
-<span class="n">squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)]</span>
-<span class="n">evens</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">]</span>
-</pre></div>
-<ul class="org-ul">
-<li>The syntax is <code>[expr for element in iterable if condition]</code>
-</li>
-</ul>
-</li>
-<li>A python function can return more than one result: <br><code>return r1, r2, r3</code>.
-</li>
-<li>and it can be assigned to multiple value at same time: <br><code>max, min, average = analyse(numlist)</code>
-</li>
-<li>Named arguments and default value:
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">b</span><span class="o">*</span><span class="n">c</span>
-<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">fn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</li>
-<li>Variables defined in module are visible to the functions in the
-module
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">Input and Output</h2>
-<div class="outline-text-2" id="text-4">
-<ul class="org-ul">
-<li>Stdin/Stdout
-<ul class="org-ul">
-<li>
-<code>print()</code> function takes format of:
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">,</span> <span class="n">arg3</span><span class="o">...</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">' '</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
-</pre></div>
-</li>
-<li>Note that in python 2, <code>print</code> is a statement, not a function.
-</li>
-<li>The trailing newline can be suppressed by setting the end argument
-to an empty string.
-</li>
-<li>It is common to use the string formatting feature:
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">'</span><span class="si">%d</span><span class="s1"> plus </span><span class="si">%d</span><span class="s1"> makes </span><span class="si">%d</span><span class="s1">'</span> <span class="o">%</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
-</pre></div>
-</li>
-<li>Use <code>input()</code> function to get data into the program:
-<div class="highlight"><pre><span></span><span class="n">youName</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'Enter your name: '</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">'You name is'</span><span class="p">,</span> <span class="n">yourName</span><span class="p">)</span>
-</pre></div>
-</li>
-<li>If you ask the user for an integer number, you should check the
-text:
-<ul class="org-ul">
-<li>Use <code>len(text)</code> to verify text has been entered.
-</li>
-<li>Use <code>text.isdigit()</code> to check the text is a number.
-</li>
-<li>Use <code>int(text)</code> to convert the text to an integer.
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Files
-<ul class="org-ul">
-<li>Opening file with: <code>fileobj = open(filename, mode)</code>
-</li>
-<li>Closing file with: <code>fileobj.close()</code>
-</li>
-<li>Reading file:
-<ul class="org-ul">
-<li>
-<code>read()</code> : read the entire contents of the file into a string
-<ul class="org-ul">
-<li>The content can then be split into lines using <code>split('\n')</code>
-</li>
-</ul>
-</li>
-<li>Or using <code>readlines()</code>, which returns a list containing each
-line.
-</li>
-<li>A good way of cleaning up the newline at the end:
-<div class="highlight"><pre><span></span><span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
-</pre></div>
-</li>
-<li>the file object itself is an iterator which can be used:
-<div class="highlight"><pre><span></span><span class="n">fp</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">eachLine</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
-    <span class="c1"># process each line</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">eachLine</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">''</span><span class="p">)</span>
-<span class="n">fp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
-</li>
-</ul>
-</li>
-<li>Writing a file:
-<ul class="org-ul">
-<li>using <code>write()</code>
-</li>
-<li>using <code>writelines()</code>
-</li>
-<li>both methods do not append trailing newline (='\n'=)
-</li>
-</ul>
-</li>
-<li>Accessing File System using the <code>os</code> module, which must be imported.
-</li>
-</ul>
-</li>
-<li>Command-Ling arguments can be obtained from <code>sys</code> module's
-<code>sys.argv</code>. The first argument (element 0) is the name of the
-program itself.
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">Using Modules</h2>
-<div class="outline-text-2" id="text-5">
-<ul class="org-ul">
-<li>The <code>import</code> statement has format:  <br><code>import modulename [as name]</code> <br><code>from module import name1, name2</code> <br><code>from module import *</code> <br>
-</li>
-<li>Modules come from the python path (<code>sys.path</code>), which is a list of
-directories that is set up by the Python installation process.
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">Object Orientation</h2>
-<div class="outline-text-2" id="text-6">
-<ul class="org-ul">
-<li>Python doesn't need a <code>new</code> method: when the object is created,
-Python looks for an <code>__init__()</code> method to initialize the object.
-</li>
-<li>The arguments passed through the <code>__init__()</code> call are used to
-initialize the object attributes.
-</li>
-<li>The first argument to all the methods in the class is <code>self</code>, the
-object itself. This argument is used internally in the class and
-is not exposed to the code that calls these method.
-</li>
-<li>The <code>self.</code> attributes are public.
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7">Exception and Error Handling</h2>
-<div class="outline-text-2" id="text-7">
-<ul class="org-ul">
-<li>
-<code>try/except</code> to catch exception
-<div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">"input two numbers, the first will be devided by the second"</span><span class="p">)</span>
-
-<span class="n">afirst</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'1st number: '</span><span class="p">)</span>
-<span class="n">asecond</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">'2nd number: '</span><span class="p">)</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">first</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">afirst</span><span class="p">)</span>
-    <span class="n">second</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">asecond</span><span class="p">)</span>
-    <span class="n">quotient</span> <span class="o">=</span> <span class="n">first</span> <span class="o">/</span> <span class="n">second</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">'Quotient 1st/2nd = </span><span class="si">%f</span><span class="s1">'</span> <span class="o">%</span> <span class="n">quotient</span> <span class="p">)</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">diag</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">diag</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="s1">':'</span><span class="p">,</span> <span class="n">diag</span><span class="p">)</span>
-</pre></div>
-</li>
-<li>It is possible to trap multiple exception types by: <br><code>except (ValueError, ZeroDivisionError) [as e]:</code>
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8">Databases</h2>
-<div class="outline-text-2" id="text-8">
-<ul class="org-ul">
-<li>SQLLite can be used for development or prototyping.
-</li>
-<li>Database Functions
-<div class="highlight"><pre><span></span><span class="c1"># Open (or create) a database file</span>
-<span class="n">conn</span>  <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="c1"># executes a SQL statement</span>
-<span class="n">conn</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
-<span class="c1"># return a cursor</span>
-<span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-<span class="c1"># execute the SQL query that returns rows of data</span>
-<span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
-<span class="c1"># return the data as list of rows</span>
-<span class="n">rows</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-</pre></div>
 </li>
 </ul>
 </div>

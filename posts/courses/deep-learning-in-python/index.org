@@ -1,0 +1,29 @@
+#+BEGIN_COMMENT
+.. title: Deep Learning in Python
+.. slug: deep-learning-in-python
+.. date: 2017-07-18
+.. tags: algorithm, python, deep learning
+.. category: Courses
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+** Data Pre-processing
+- Logistic regression / neural networks work on numerical vectors, not
+  categories.
+- One-hot encoding, to change a categories to  numerical values:
+  For example, Time of day is a category of 4: 0, 1, 2, 3, it can be
+  encoded as:
+  | 12am-6am | 6am-12pm | 12pm-6pm | 6pm-12am |
+  |----------+----------+----------+----------|
+  |        1 |        0 |        0 |        0 |
+  |        0 |        1 |        0 |        0 |
+  |        0 |        0 |        1 |        0 |
+  |        0 |        0 |        0 |        1 |
+  Having a 1 for each column.
+- Binary categories don't need 2 columns for "true" and "false". Just
+  absorb the "false" into the bias term.
+- Numerical columns: \\
+  Simple way to normalization (0 mean, 1 standard deviation): minus
+  the mean and devided by the deviation.

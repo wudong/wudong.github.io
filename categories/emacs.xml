@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about emacs)</title><link>https://wudong.graceliu.uk/</link><description></description><atom:link href="https://wudong.graceliu.uk/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:wudong@graceliu.uk"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Mon, 17 Jul 2017 07:12:09 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs Note</title><link>https://wudong.graceliu.uk/posts/notes/emacs-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Warren Liu (Posts about emacs)</title><link>https://wudong.graceliu.uk/</link><description></description><atom:link href="https://wudong.graceliu.uk/categories/emacs.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2017 &lt;a href="mailto:wudong@graceliu.uk"&gt;Warren Liu&lt;/a&gt; </copyright><lastBuildDate>Thu, 20 Jul 2017 21:01:23 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Emacs Note</title><link>https://wudong.graceliu.uk/posts/notes/emacs-note/</link><dc:creator>Warren Liu</dc:creator><description>&lt;div id="table-of-contents"&gt;
 &lt;h2&gt;Table of Contents&lt;/h2&gt;
 &lt;div id="text-table-of-contents"&gt;
 &lt;ul&gt;
@@ -15,9 +15,9 @@
 &lt;ul class="org-ul"&gt;
 &lt;li&gt;&lt;code&gt;expend-region&lt;/code&gt;: require the module to be able to expand/shrink selections.
 &lt;ul class="org-ul"&gt;
-&lt;li&gt;expend: C-=
+&lt;li&gt;expend: &lt;code&gt;C-=&lt;/code&gt;
 &lt;/li&gt;
-&lt;li&gt;shrink: M– C-= &lt;i&gt;Note&lt;/i&gt;: M– is a negative prefix argument normally means -1.
+&lt;li&gt;shrink: &lt;code&gt;M-- C-=&lt;/code&gt;: &lt;code&gt;M--&lt;/code&gt; is a negative prefix argument normally means -1.
 this allow the &lt;code&gt;er/expand-region&lt;/code&gt; function to do a shrink.
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -42,22 +42,44 @@ C-x C-f /sudo::/etc/fstab&lt;br&gt;
 &lt;/p&gt;
 &lt;/li&gt;
 
-&lt;li&gt;Fill paragraph: with ~fill-paragraph~(M-q) to organize paragraph
+&lt;li&gt;Fill paragraph: with &lt;code&gt;fill-paragraph~(M-q)&lt;/code&gt; to organize paragraph
 with desired right margin.
 &lt;/li&gt;
-&lt;/ul&gt;
 
-
-&lt;ul class="org-ul"&gt;
 &lt;li&gt;indent multiple line: &lt;br&gt;
   Select multiply lines, then type &lt;code&gt;C-u 8 C-x Tab&lt;/code&gt;, it will indent the
-region by 8 spaces.  &lt;code&gt;C-u -4&lt;/code&gt; C-x Tab will &lt;i&gt;un-indent&lt;/i&gt; by 4 spaces
+region by 8 spaces.  &lt;code&gt;C-u -4 C-x Tab&lt;/code&gt; will &lt;i&gt;un-indent&lt;/i&gt; by 4 spaces
 &lt;/li&gt;
 
 &lt;li&gt;To input unicode characters:
 &lt;p class="verse"&gt;
 C-x 8 RET unicode&lt;br&gt;
 &lt;/p&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Dired mode executing command:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;!&lt;/code&gt;: runs command synchronously.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;&amp;amp;&lt;/code&gt;: runs command asynchronously.
+&lt;/li&gt;
+&lt;li&gt;When more than one files are marked:
+&lt;ul class="org-ul"&gt;
+&lt;li&gt;&lt;code&gt;?&lt;/code&gt; : runs command on each of the file substitute the &lt;code&gt;?&lt;/code&gt; in the
+command line.
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;*&lt;/code&gt; : runs command on all files.
+&lt;/li&gt;
+&lt;li&gt;No &lt;code&gt;?&lt;/code&gt; or &lt;code&gt;*&lt;/code&gt; will run command on each file, put the file name
+at the command end.
+&lt;/li&gt;
+&lt;li&gt;More complicated case, use explicit shell loop:
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; file in *&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; unencoded &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$file&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt; &amp;gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="nv"&gt;$file&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;.uu&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
