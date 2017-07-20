@@ -1,0 +1,43 @@
+#+BEGIN_COMMENT
+.. title: Functional Programming Note
+.. slug: functional-programming-notes
+.. date: 2017-07-20
+.. tags: functional programming
+.. category: Notes
+.. link:
+.. description:
+.. type: text
+#+END_COMMENT
+
+* What's a combinator?
+  - Any functions that only depends on its input, or function with no
+    free variables.
+  - A combinator library is a library designed around combining things
+    to get more complex value of the same type.
+  - Combinator pattern, a style of organizing libraries centered
+    around the idea of combining things.
+  - Usually there is some type ~T~, some *functions* for constructing
+    /primitive/ values of type ~T~, and some *combinators* which can
+    combine values of type ~T~ in various ways to build up more complex
+    values of type ~T~.
+** Parser Combinator
+- A parser combinator is a high-order function that accepts several
+  parser as input and returns a new parser as its output.
+- In this context, a parser is a function accepting strings as input
+  and return some structure (typically a parse tree) as output.
+- Parser combinators enable a /recursive descent parsing/ strategy.
+** Parser Combinator Implementations
+[[https://fsharpforfunandprofit.com/posts/understanding-parser-combinators/]]
+- Sequence: *and_then* combinator
+- Choice: *or_else* combinator
+- ZeroOrMore: matches a parser zero or more times
+  - Run the parser
+  - If the parser return ~Failure~, just return an empty list.
+  - If the parser succeeds:
+    - Call the function *recursively* to get the /remaining values/
+      (which could be also be an empty list)
+    - *Combine* the first value and the remaining value.
+- Opt: matches a parser zero or one time
+  - Create a parser that always return ~None~.
+  - Change thee result of a parser to an ~Some~.
+  - Use /choice/ to combine the two.

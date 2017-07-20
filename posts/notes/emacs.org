@@ -13,8 +13,8 @@
 * Emacs Notes
 
 - ~expend-region~: require the module to be able to expand/shrink selections.
-  - expend: C-=
-  - shrink: M-- C-= /Note/: M-- is a negative prefix argument normally means -1.
+  - expend: ~C-=~
+  - shrink: ~M-- C-=~: ~M--~ is a negative prefix argument normally means -1.
     this allow the ~er/expand-region~ function to do a shrink.
 
 - repeat previous command: C-x z
@@ -31,15 +31,28 @@
   C-x C-f /sudo::/etc/fstab
   #+END_VERSE
 
-- Fill paragraph: with ~fill-paragraph~(M-q) to organize paragraph
+- Fill paragraph: with ~fill-paragraph~(M-q)~ to organize paragraph
   with desired right margin.
-
 
 - indent multiple line: \\
   Select multiply lines, then type ~C-u 8 C-x Tab~, it will indent the
-  region by 8 spaces.  ~C-u -4~ C-x Tab will /un-indent/ by 4 spaces
+  region by 8 spaces.  ~C-u -4 C-x Tab~ will /un-indent/ by 4 spaces
 
 - To input unicode characters:
   #+BEGIN_VERSE
   C-x 8 RET unicode
   #+END_VERSE
+
+- Dired mode executing command:
+  - ~!~: runs command synchronously.
+  - ~&~: runs command asynchronously.
+  - When more than one files are marked:
+    - ~?~ : runs command on each of the file substitute the ~?~ in the
+      command line.
+    - ~*~ : runs command on all files.
+    - No ~?~ or ~*~ will run command on each file, put the file name
+      at the command end.
+    - More complicated case, use explicit shell loop:
+      #+BEGIN_SRC sh
+      for file in *; do unencoded "$file" > "$file".uu; done
+      #+END_SRC
